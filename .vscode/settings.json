@@ -8,6 +8,22 @@
     {
       "folderPath": "humblFINANCE-frontend\\.vscode\\",
       "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\.cz-config.js\\",
+      "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\menv\\",
+      "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\.gitignore\\",
+      "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\.pre-commit-config.yaml\\",
+      "color": "foldercolorizer.red"
     }
   ]
 }
