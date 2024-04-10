@@ -1,0 +1,13 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "folder-color.pathColors": [
+    {
+      "folderPath": "humblFINANCE-frontend\\.npmrc\\",
+      "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\.vscode\\",
+      "color": "foldercolorizer.red"
+    }
+  ]
+}
