@@ -24,6 +24,13 @@
     {
       "folderPath": "humblFINANCE-frontend\\.pre-commit-config.yaml\\",
       "color": "foldercolorizer.red"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\frontend\\app\\(landing-page)\\login\\",
+      "badge": "🫠"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend\\frontend\\app\\(landing-page)\\login\\page.tsx\\"
     }
   ]
 }

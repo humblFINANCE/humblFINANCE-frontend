@@ -93,9 +93,11 @@ export default function Component(props: NavbarProps) {
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           <Button
+            as={ Link }
             className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
             radius="full"
             variant="light"
+            href="/login"
           >
             Login
           </Button>
