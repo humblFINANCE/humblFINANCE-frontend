@@ -1,4 +1,4 @@
-import HumblFinanceHeading from "@/components/HomePage/HumblFinanceHeading";
+import HumblFinanceHeading from "@/components/LandingPage/HumblFinanceHeading";
 import { title } from "@/components/Primitives";
 import { Divider } from "@nextui-org/divider";
 

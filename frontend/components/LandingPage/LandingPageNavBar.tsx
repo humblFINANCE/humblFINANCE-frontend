@@ -1,9 +1,10 @@
 "use client";
 
-import type { NavbarProps } from "@nextui-org/navbar";
-
+import { AcmeIcon } from "@/components/icons/Brands";
+import { cn } from "@/utils/nextui/cn";
 import Button from "@nextui-org/button";
 import Link from "@nextui-org/link";
+import type { NavbarProps } from "@nextui-org/navbar";
 import {
   Navbar,
   NavbarBrand,
@@ -14,10 +15,6 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import React from "react";
-
-
-import { cn } from "@/utils/nextui/cn";
-import { AcmeIcon } from "./social";
 
 const menuItems = [
   "About",
