@@ -2,8 +2,8 @@
 
 import { AcmeIcon } from "@/components/icons/Brands";
 import { cn } from "@/utils/nextui/cn";
-import Button from "@nextui-org/button";
-import Link from "@nextui-org/link";
+import { Button } from "@nextui-org/button";
+import { Link } from "@nextui-org/link";
 import type { NavbarProps } from "@nextui-org/navbar";
 import {
   Navbar,
@@ -14,22 +14,21 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const menuItems = [
-  "About",
-  "Blog",
-  "Customers",
-  "Pricing",
-  "Enterprise",
-  "Changelog",
-  "Documentation",
-  "Contact Us",
+  "Home",
+  "Features",
+  "About Us",
+  "Investing Framework",
+
 ];
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
+  const pathname = usePathname();
+  
   return (
     <Navbar
       {...props}
@@ -39,7 +38,20 @@ export default function Component(props: NavbarProps) {
           "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
         }),
         wrapper: "w-full justify-center bg-transparent",
-        item: "hidden md:flex",
+        item: [
+          "flex",
+          "relative",
+          "h-full",
+          "items-center",
+          "data-[active=true]:after:content-['']",
+          "data-[active=true]:after:absolute",
+          "data-[active=true]:after:bottom-0",
+          "data-[active=true]:after:left-0",
+          "data-[active=true]:after:right-0",
+          "data-[active=true]:after:h-[2px]",
+          "data-[active=true]:after:rounded-[2px]",
+          "data-[active=true]:after:bg-secondary",
+        ],
       }}
       height="60px"
       isMenuOpen={isMenuOpen}
@@ -51,35 +63,30 @@ export default function Component(props: NavbarProps) {
         <div className="rounded-full bg-foreground text-background">
           <AcmeIcon size={34} />
         </div>
-        <span className="ml-2 font-medium">ACME</span>
+        <span className="ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">humblFINANCE</span>
       </NavbarBrand>
       <NavbarContent
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
       >
         <NavbarItem>
-          <Link className="text-default-500" href="#" size="sm">
+          <Link className="text-default-500" href="/" size="sm">
             Home
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-default-500" href="#" size="sm">
+          <Link className="text-default-500" href="/features" size="sm">
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link aria-current="page" color="foreground" href="#" size="sm">
-            Customers
-          </Link>
-        </NavbarItem>
         <NavbarItem>
-          <Link className="text-default-500" href="#" size="sm">
+          <Link className="text-default-500" href="/about-us" size="sm">
             About Us
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-default-500" href="#" size="sm">
-            Integrations
+          <Link className="text-default-500" href="/investing-framework" size="sm">
+            Investing Framework
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -101,7 +108,7 @@ export default function Component(props: NavbarProps) {
             }}
             variant="flat"
           >
-            Start Free Trial
+            Get Started
           </Button>
         </NavbarItem>
       </NavbarContent>
