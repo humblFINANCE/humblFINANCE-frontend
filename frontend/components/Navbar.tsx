@@ -18,16 +18,17 @@ import { siteConfig } from "@/config/site";
 import clsx from "clsx";
 import NextLink from "next/link";
 
+import { ThemeSwitch } from "@/components/ThemeSwitch";
 import {
+	AcmeIcon,
 	DiscordIcon,
 	GithubIcon,
+	TwitterIcon
+} from "@/components/icons/Brands";
+import {
 	HeartFilledIcon,
 	SearchIcon,
-	TwitterIcon,
-} from "@/components/Icons";
-import { ThemeSwitch } from "@/components/ThemeSwitch";
-
-import { Logo } from "@/components/Icons";
+} from "@/components/icons/Icons";
 
 export const Navbar = () => {
 	const searchInput = (
@@ -56,7 +57,7 @@ export const Navbar = () => {
 			<NavbarContent className="basis-1/5 sm:basis-full" justify="start">
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
 					<NextLink className="flex justify-start items-center gap-1" href="/">
-						<Logo />
+						<AcmeIcon />
 						<p className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">humblFINANCE</p>
 					</NextLink>
 				</NavbarBrand>
