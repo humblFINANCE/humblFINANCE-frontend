@@ -11,7 +11,7 @@ import { Link } from "@nextui-org/link";
 import { signIn, signInWithGithub } from './action'
 import React from "react";
 
-export default function Component() {
+export default function LoginPage() {
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
