@@ -8,6 +8,7 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
+import { signIn } from './action'
 import React from "react";
 
 export default function Component() {
@@ -26,7 +27,7 @@ export default function Component() {
     <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
         <p className="pb-2 text-xl font-medium">Log In</p>
-        <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
+        <form className="flex flex-col gap-3">
           <Input
             classNames={inputClasses}
             label="Email Address"
@@ -72,7 +73,7 @@ export default function Component() {
               Forgot password?
             </Link>
           </div>
-          <Button className={buttonClasses} type="submit">
+          <Button formAction={signIn} className={buttonClasses} type="submit">
             Log In
           </Button>
         </form>
