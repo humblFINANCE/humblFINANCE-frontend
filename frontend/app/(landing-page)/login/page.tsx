@@ -8,7 +8,7 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { signIn } from './action'
+import { signIn, signInWithGithub } from './action'
 import React from "react";
 
 export default function Component() {
@@ -82,14 +82,14 @@ export default function Component() {
           <p className="shrink-0 text-tiny text-default-500">OR</p>
           <Divider className="flex-1" />
         </div>
-        <div className="flex flex-col gap-2">
+        <form className="flex flex-col gap-2">
           <Button className={buttonClasses} startContent={<Icon icon="fe:google" width={24} />}>
             Continue with Google
           </Button>
-          <Button className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
+          <Button type="submit" formAction={signInWithGithub} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
             Continue with Github
           </Button>
-        </div>
+        </form>
         <p className="text-center text-small text-foreground/50">
           Need to create an account?&nbsp;
           <Link color="foreground" href="#" size="sm">
