@@ -3,17 +3,17 @@
 import React from "react";
 import Avatar from "@nextui-org/avatar";
 import Button from "@nextui-org/button";
-import ScrollShadow from "@nextui-org/scroll-shadow";
-import Spacer from "@nextui-org/spacer";
-import Tooltip from "@nextui-org/tooltip";
+import {ScrollShadow} from "@nextui-org/scroll-shadow";
+import {Spacer} from "@nextui-org/spacer";
+import {Tooltip} from "@nextui-org/tooltip";
 
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
 
-import { sectionItemsWithTeams } from "../../../components/(dashboard)/sidebar-items";
-import { cn } from "./cn";
+import { sectionItemsWithTeams } from "@/components/(dashboard)/sidebar-items";
+import { cn } from "@/utils/nextui/cn";
 
-import Sidebar from "./sidebar";
+import Sidebar from "@/components/(dashboard)/sidebar";
 
 /**
  *  This example requires installing the `usehooks-ts` package:

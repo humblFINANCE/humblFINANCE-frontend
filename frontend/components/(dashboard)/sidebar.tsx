@@ -1,17 +1,13 @@
 "use client";
 
-import {
-    Accordion,
-    AccordionItem,
-    type ListboxProps,
-    type ListboxSectionProps,
-    type Selection,
-} from "@nextui-org/react";
 import React from "react";
-import { Listbox, Tooltip, ListboxItem, ListboxSection } from "@nextui-org/react";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { type Selection } from "@nextui-org/table";
+import { Listbox, ListboxItem, ListboxSection, type ListboxProps, type ListboxSectionProps } from "@nextui-org/listbox";
+import { Tooltip } from "@nextui-org/tooltip";
 import { Icon } from "@iconify/react";
 
-import { cn } from "./cn";
+import { cn } from "@/utils/nextui/cn";
 
 export enum SidebarItemType {
     Nest = "nest",
