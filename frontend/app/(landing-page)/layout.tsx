@@ -1,4 +1,4 @@
-import LandingPageNavbar from "@/components/landing-page/LandingPageNavBar";
+import LandingPageNavbar from "@/components/(landing-page)/LandingPageNavBar";
 import { fontSans } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
 import "@/styles/globals.css";
