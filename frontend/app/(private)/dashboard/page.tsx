@@ -13,3 +13,4 @@ export default async function PrivateTestPage() {
 
   return <p>Hello {data.user.email}</p>
 }
+

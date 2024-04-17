@@ -1,178 +1,69 @@
-"use client";
+import DashboardSidebar from "@/components/(dashboard)/sidebar/DashboardSidebar";
+import { fontSans } from "@/config/fonts";
+import { siteConfig } from "@/config/site";
+import "@/styles/globals.css";
+import { Link } from "@nextui-org/link";
+import clsx from "clsx";
+import type { Viewport } from "next";
+import { Metadata } from "next";
+import { Providers } from "@/app/providers";
 
-import React from "react";
-import Avatar from "@nextui-org/avatar";
-import Button from "@nextui-org/button";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
-import {Spacer} from "@nextui-org/spacer";
-import {Tooltip} from "@nextui-org/tooltip";
+export const metadata: Metadata = {
+	title: {
+		default: siteConfig.name,
+		template: `%s - ${siteConfig.name}`,
+	},
+	description: siteConfig.description,
 
-import { Icon } from "@iconify/react";
-import { useMediaQuery } from "usehooks-ts";
+	icons: {
+		icon: "/favicon.ico",
+		shortcut: "/favicon-16x16.png",
+		apple: "/apple-touch-icon.png",
+	},
+};
 
-import { sectionItemsWithTeams } from "@/components/(dashboard)/sidebar-items";
-import { cn } from "@/utils/nextui/cn";
+export const viewport: Viewport = {
+		themeColor: [
+		{ media: "(prefers-color-scheme: light)", color: "white" },
+		{ media: "(prefers-color-scheme: dark)", color: "black" },
+	],
+};
 
-import Sidebar from "@/components/(dashboard)/sidebar";
 
-/**
- *  This example requires installing the `usehooks-ts` package:
- * `npm install usehooks-ts`
- *
- * import {useMediaQuery} from "usehooks-ts";
- *
- * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
- * and use it as the active key for the Sidebar component.
- *
- * ```tsx
- * import {usePathname} from "next/navigation";
- *
- * const pathname = usePathname();
- * const currentPath = pathname.split("/")?.[1]
- *
- * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
- * ```
- */
-export default function DashboardRootLayout() {
-    const [isCollapsed, setIsCollapsed] = React.useState(false);
-    const isMobile = useMediaQuery("(max-width: 768px)");
-
-    const isCompact = isCollapsed || isMobile;
-
-    const onToggle = React.useCallback(() => {
-        setIsCollapsed((prev) => !prev);
-    }, []);
-
-    return (
-        <div className="flex h-dvh w-full">
-            <div
-                className={cn(
-                    "relative flex h-full w-72 flex-col !border-r-small border-divider p-6 transition-width",
-                    {
-                        "w-16 items-center px-2 py-6": isCompact,
-                    },
-                )}
-            >
-                <div
-                    className={cn(
-                        "flex items-center gap-3 px-3",
-
-                        {
-                            "justify-center gap-0": isCompact,
-                        },
-                    )}
-                >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-                        {/* <AcmeLogo className="text-background" /> */}
-                    </div>
-                    <span
-                        className={cn("text-small font-bold uppercase opacity-100", {
-                            "w-0 opacity-0": isCompact,
-                        })}
-                    >
-                        Acme
-                    </span>
-                </div>
-                <Spacer y={8} />
-                <div className="flex items-center gap-3 px-3">
-                    <Avatar
-                        isBordered
-                        className="flex-none"
-                        size="sm"
-                        src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-                    />
-                    <div className={cn("flex max-w-full flex-col", { hidden: isCompact })}>
-                        <p className="truncate text-small font-medium text-default-600">John Doe</p>
-                        <p className="truncate text-tiny text-default-400">Product Designer</p>
-                    </div>
-                </div>
-                <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-                    <Sidebar defaultSelectedKey="home" isCompact={isCompact} items={sectionItemsWithTeams} />
-                </ScrollShadow>
-                <Spacer y={2} />
-                <div
-                    className={cn("mt-auto flex flex-col", {
-                        "items-center": isCompact,
-                    })}
-                >
-                    <Tooltip content="Help & Feedback" isDisabled={!isCompact} placement="right">
-                        <Button
-                            fullWidth
-                            className={cn(
-                                "justify-start truncate text-default-500 data-[hover=true]:text-foreground",
-                                {
-                                    "justify-center": isCompact,
-                                },
-                            )}
-                            isIconOnly={isCompact}
-                            startContent={
-                                isCompact ? null : (
-                                    <Icon
-                                        className="flex-none text-default-500"
-                                        icon="solar:info-circle-line-duotone"
-                                        width={24}
-                                    />
-                                )
-                            }
-                            variant="light"
-                        >
-                            {isCompact ? (
-                                <Icon
-                                    className="text-default-500"
-                                    icon="solar:info-circle-line-duotone"
-                                    width={24}
-                                />
-                            ) : (
-                                "Help & Information"
-                            )}
-                        </Button>
-                    </Tooltip>
-                    <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
-                        <Button
-                            className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
-                                "justify-center": isCompact,
-                            })}
-                            isIconOnly={isCompact}
-                            startContent={
-                                isCompact ? null : (
-                                    <Icon
-                                        className="flex-none rotate-180 text-default-500"
-                                        icon="solar:minus-circle-line-duotone"
-                                        width={24}
-                                    />
-                                )
-                            }
-                            variant="light"
-                        >
-                            {isCompact ? (
-                                <Icon
-                                    className="rotate-180 text-default-500"
-                                    icon="solar:minus-circle-line-duotone"
-                                    width={24}
-                                />
-                            ) : (
-                                "Log Out"
-                            )}
-                        </Button>
-                    </Tooltip>
-                </div>
-            </div>
-            <div className="w-full flex-1 flex-col p-4">
-                <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-                    <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
-                        <Icon
-                            className="text-default-500"
-                            height={24}
-                            icon="solar:sidebar-minimalistic-outline"
-                            width={24}
-                        />
-                    </Button>
-                    <h2 className="text-medium font-medium text-default-700">Overview</h2>
-                </header>
-                <main className="mt-4 h-full w-full overflow-visible">
-                    <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider" />
-                </main>
-            </div>
-        </div>
-    );
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<head />
+			<body
+				className={clsx(
+					"min-h-screen bg-background font-sans antialiased",
+					fontSans.variable
+				)}
+			>
+				<Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+					<div className="relative flex flex-col h-screen">
+						<DashboardSidebar />
+						<main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+							{children}
+						</main>
+						<footer className="w-full flex items-center justify-center py-3">
+							<Link
+								isExternal
+								className="flex items-center gap-1 text-current"
+								href="https://humblfinance.github.io/humblDATA/"
+								title="humblDATA homepage"
+							>
+								<span className="text-default-600">Powered by</span>
+								<p className="text-primary">humblDATA</p>
+							</Link>
+						</footer>
+					</div>
+				</Providers>
+			</body>
+		</html>
+	);
 }

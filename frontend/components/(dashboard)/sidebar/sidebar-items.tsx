@@ -1,8 +1,8 @@
 import { Chip } from "@nextui-org/chip";
 import { Icon } from "@iconify/react";
 
-import { type SidebarItem, SidebarItemType } from "./sidebar";
-import TeamAvatar from "./team-avatar";
+import { type SidebarItem, SidebarItemType } from "@/components/(dashboard)/sidebar/Sidebar";
+import AbbreviatedAvatar from "@/components/AbbreviatedAvatar";
 
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration
@@ -199,19 +199,19 @@ export const sectionItemsWithTeams: SidebarItem[] = [
                 key: "nextui",
                 href: "#",
                 title: "NextUI",
-                startContent: <TeamAvatar name="Next UI" />,
+                startContent: <AbbreviatedAvatar name="Next UI" />,
             },
             {
                 key: "tailwind-variants",
                 href: "#",
                 title: "Tailwind Variants",
-                startContent: <TeamAvatar name="Tailwind Variants" />,
+                startContent: <AbbreviatedAvatar name="Tailwind Variants" />,
             },
             {
                 key: "nextui-pro",
                 href: "#",
                 title: "NextUI Pro",
-                startContent: <TeamAvatar name="NextUI Pro" />,
+                startContent: <AbbreviatedAvatar name="NextUI Pro" />,
             },
         ],
     },
@@ -282,7 +282,7 @@ export const brandItems: SidebarItem[] = [
                 href: "#",
                 title: "NextUI",
                 startContent: (
-                    <TeamAvatar
+                    <AbbreviatedAvatar
                         classNames={{
                             base: "border-1 border-primary-foreground/20",
                             name: "text-primary-foreground/80",
@@ -296,7 +296,7 @@ export const brandItems: SidebarItem[] = [
                 href: "#",
                 title: "Tailwind Variants",
                 startContent: (
-                    <TeamAvatar
+                    <AbbreviatedAvatar
                         classNames={{
                             base: "border-1 border-primary-foreground/20",
                             name: "text-primary-foreground/80",
@@ -310,7 +310,7 @@ export const brandItems: SidebarItem[] = [
                 href: "#",
                 title: "NextUI Pro",
                 startContent: (
-                    <TeamAvatar
+                    <AbbreviatedAvatar
                         classNames={{
                             base: "border-1 border-primary-foreground/20",
                             name: "text-primary-foreground/80",
@@ -369,19 +369,19 @@ export const sectionLongList: SidebarItem[] = [
                 key: "nextui",
                 href: "#",
                 title: "NextUI",
-                startContent: <TeamAvatar name="Next UI" />,
+                startContent: <AbbreviatedAvatar name="Next UI" />,
             },
             {
                 key: "tailwind-variants",
                 href: "#",
                 title: "Tailwind Variants",
-                startContent: <TeamAvatar name="Tailwind Variants" />,
+                startContent: <AbbreviatedAvatar name="Tailwind Variants" />,
             },
             {
                 key: "nextui-pro",
                 href: "#",
                 title: "NextUI Pro",
-                startContent: <TeamAvatar name="NextUI Pro" />,
+                startContent: <AbbreviatedAvatar name="NextUI Pro" />,
             },
         ],
     },

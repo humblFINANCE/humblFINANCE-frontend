@@ -1,10 +1,14 @@
 "use client";
 
-import React from "react";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import {
+    type ListboxProps,
+    type ListboxSectionProps,
+} from "@nextui-org/listbox";
 import { type Selection } from "@nextui-org/table";
-import { Listbox, ListboxItem, ListboxSection, type ListboxProps, type ListboxSectionProps } from "@nextui-org/listbox";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import React from "react";
 import { Tooltip } from "@nextui-org/tooltip";
+import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/listbox";
 import { Icon } from "@iconify/react";
 
 import { cn } from "@/utils/nextui/cn";
