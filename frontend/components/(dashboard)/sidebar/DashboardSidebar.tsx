@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import {Avatar} from "@nextui-org/avatar";  
-import {Button} from "@nextui-org/button";
-import {ScrollShadow} from "@nextui-org/scroll-shadow";
-import {Spacer} from "@nextui-org/spacer";
-import {Tooltip} from "@nextui-org/tooltip";
+import { Avatar } from "@nextui-org/avatar";
+import { Button } from "@nextui-org/button";
+import { ScrollShadow } from "@nextui-org/scroll-shadow";
+import { Spacer } from "@nextui-org/spacer";
+import { Tooltip } from "@nextui-org/tooltip";
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // import { AcmeLogo } from "./acme";
 import { sectionItemsWithTeams } from "./sidebar-items";
@@ -117,7 +117,7 @@ export default function DashboardSidebar() {
                     </Tooltip>
                     <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
                         <Button
-                            className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
+                            className={cn("justify-start text-default-500 data-[hover=true]:bg-red-500 data-[hover=true]:text-red-100", {
                                 "justify-center": isCompact,
                             })}
                             isIconOnly={isCompact}
