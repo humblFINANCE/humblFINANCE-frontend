@@ -8,6 +8,7 @@ import {Spacer} from "@nextui-org/spacer";
 import {Tooltip} from "@nextui-org/tooltip";
 import { Icon } from "@iconify/react";
 import { useMediaQuery } from "usehooks-ts";
+import {usePathname} from "next/navigation";
 
 // import { AcmeLogo } from "./acme";
 import { sectionItemsWithTeams } from "./sidebar-items";
@@ -15,27 +16,14 @@ import { cn } from "@/utils/nextui/cn";
 
 import Sidebar from "@/components/(dashboard)/sidebar/Sidebar";
 
-/**
- *  This example requires installing the `usehooks-ts` package:
- * `npm install usehooks-ts`
- *
- * import {useMediaQuery} from "usehooks-ts";
- *
- * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
- * and use it as the active key for the Sidebar component.
- *
- * ```tsx
- * import {usePathname} from "next/navigation";
- *
- * const pathname = usePathname();
- * const currentPath = pathname.split("/")?.[1]
- *
- * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
- * ```
- */
+
+
+
 export default function DashboardSidebar() {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
+    const pathname = usePathname();
+    const currentPath = pathname.split("/")?.[1]
 
     const isCompact = isCollapsed || isMobile;
 
@@ -87,7 +75,7 @@ export default function DashboardSidebar() {
                     </div>
                 </div>
                 <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-                    <Sidebar defaultSelectedKey="home" isCompact={isCompact} items={sectionItemsWithTeams} />
+                    <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} isCompact={isCompact} items={sectionItemsWithTeams} />
                 </ScrollShadow>
                 <Spacer y={2} />
                 <div
