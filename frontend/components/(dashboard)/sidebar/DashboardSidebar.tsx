@@ -19,7 +19,11 @@ import Sidebar from "@/components/(dashboard)/sidebar/Sidebar";
 
 
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
     const pathname = usePathname();
@@ -155,10 +159,12 @@ export default function DashboardSidebar() {
                             width={24}
                         />
                     </Button>
-                    <h2 className="text-medium font-medium text-default-700">Overview</h2>
+                    <h2 className="text-medium font-medium text-default-700">{currentPath}</h2>
                 </header>
-                <main className="mt-4 h-full w-full overflow-visible">
-                    <div className="flex h-[90%] w-full flex-col gap-4 rounded-medium border-small border-divider" />
+                <main className="mt-4 h-[90%] w-full overflow-visible">
+                    <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider">
+                    {children}
+                    </div>
                 </main>
             </div>
         </div>
