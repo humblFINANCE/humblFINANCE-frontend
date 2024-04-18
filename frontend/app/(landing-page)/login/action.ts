@@ -17,7 +17,7 @@ export const signIn = async (formData: FormData) => {
 		return redirect("/login?message=could not authenticate user");
 	}
 
-	return redirect("/dashboard");
+	return redirect("/dashboard/home");
 };
 
 export const signInWithGithub = async () => {
