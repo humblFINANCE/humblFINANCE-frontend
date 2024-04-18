@@ -27,7 +27,9 @@ export default function DashboardSidebar({
     const [isCollapsed, setIsCollapsed] = React.useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
     const pathname = usePathname();
-    const currentPath = pathname.split("/")?.[1]
+    const currentTab = pathname.split("/")?.[1]
+    const currentPath = pathname.split("/")[pathname.split("/").length - 1];
+    const capitalizedCurrentPath = currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
 
     const isCompact = isCollapsed || isMobile;
 
@@ -62,7 +64,7 @@ export default function DashboardSidebar({
                             "w-0 opacity-0": isCompact,
                         })}
                     >
-                        Acme
+                        humblFINANCE
                     </span>
                 </div>
                 <Spacer y={8} />
@@ -79,7 +81,7 @@ export default function DashboardSidebar({
                     </div>
                 </div>
                 <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-                    <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} isCompact={isCompact} items={sectionItemsWithTeams} />
+                    <Sidebar defaultSelectedKey="home" selectedKeys={[currentTab]} isCompact={isCompact} items={sectionItemsWithTeams} />
                 </ScrollShadow>
                 <Spacer y={2} />
                 <div
@@ -159,7 +161,7 @@ export default function DashboardSidebar({
                             width={24}
                         />
                     </Button>
-                    <h2 className="text-medium font-medium text-default-700">{currentPath}</h2>
+                    <h2 className="text-medium font-medium text-default-700">{capitalizedCurrentPath}</h2>
                 </header>
                 <main className="mt-4 h-[90%] w-full overflow-visible">
                     <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider">

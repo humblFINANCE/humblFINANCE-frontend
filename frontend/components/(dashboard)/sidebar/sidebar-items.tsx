@@ -11,15 +11,15 @@ import AbbreviatedAvatar from "@/components/AbbreviatedAvatar";
 export const items: SidebarItem[] = [
     {
         key: "home",
-        href: "#",
+        href: "/dashboard/home",
         icon: "solar:home-2-linear",
         title: "Home",
     },
     {
-        key: "projects",
-        href: "#",
+        key: "portfolio",
+        href: "/dashboard/portfolio",
         icon: "solar:widget-2-outline",
-        title: "Projects",
+        title: "Portfolio",
         endContent: (
             <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
         ),
@@ -88,15 +88,15 @@ export const sectionItems: SidebarItem[] = [
         items: [
             {
                 key: "home",
-                href: "#",
+                href: "/dashboard/home",
                 icon: "solar:home-2-linear",
                 title: "Home",
             },
             {
-                key: "projects",
-                href: "#",
+                key: "portfolio",
+                href: "/dashboard/portfolio",
                 icon: "solar:widget-2-outline",
-                title: "Projects",
+                title: "Portfolio",
                 endContent: (
                     <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
                 ),
@@ -192,8 +192,8 @@ export const sectionItems: SidebarItem[] = [
 export const sectionItemsWithTeams: SidebarItem[] = [
     ...sectionItems,
     {
-        key: "your-teams",
-        title: "Your Teams",
+        key: "your-dashboards",
+        title: "Your Dashboards",
         items: [
             {
                 key: "nextui",
