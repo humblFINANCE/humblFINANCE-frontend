@@ -47,7 +47,7 @@ export const signUp = async (formData: FormData) => {
 		email,
 		password,
 		options: {
-			emailRedirectTo: `${origin}/auth/confirm`,
+			emailRedirectTo: `${origin}/auth/callback/confirm`,
 		},
 	});
 

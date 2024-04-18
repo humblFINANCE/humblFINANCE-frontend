@@ -1,4 +1,4 @@
-
+"use client";
 import React from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import {Button} from "@nextui-org/button"
