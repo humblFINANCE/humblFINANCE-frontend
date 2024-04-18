@@ -20,6 +20,7 @@
     "@nextui-org/kbd": "2.0.25",
     "@nextui-org/link": "2.0.26",
     "@nextui-org/listbox": "^2.1.17",
+    "@nextui-org/modal": "^2.0.32",
     "@nextui-org/navbar": "2.0.27",
     "@nextui-org/scroll-shadow": "^2.1.14",
     "@nextui-org/select": "^2.1.22",
