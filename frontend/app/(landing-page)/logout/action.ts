@@ -14,6 +14,9 @@ export const signOut = async (scope: "global" | "local" | "others") => {
 	if (data?.user) {
 		const { error: signOutError } = await supabase.auth.signOut({ scope });
 		revalidatePath("/dashboard", "layout");
-		redirect("/");
+
+		if (scope !== "others") {
+			redirect("/");
+		}
 	}
 };

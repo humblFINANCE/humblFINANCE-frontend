@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/dropdown";
 import React from "react";
 
-export default function LogoutButton() {
+export default function LogoutButton({ onClose }) {
 	const [selectedOption, setSelectedOption] = React.useState(
 		new Set(["global"])
 	);
@@ -31,12 +31,13 @@ export default function LogoutButton() {
 	const selectedOptionValue = Array.from(selectedOption)[0] as OptionKeys;
 
 	return (
-		<ButtonGroup
-			variant="ghost"
-			color="succ
-    ess"
-		>
-			<Button onClick={() => signOut(selectedOptionValue)}>
+		<ButtonGroup variant="ghost" color="success">
+			<Button
+				onPress={() => {
+					signOut(selectedOptionValue);
+					onClose();
+				}}
+			>
 				{labelsMap[selectedOptionValue]}
 			</Button>
 			<Dropdown placement="bottom-end">

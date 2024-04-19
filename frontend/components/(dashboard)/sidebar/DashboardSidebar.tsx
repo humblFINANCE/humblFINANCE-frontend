@@ -202,6 +202,7 @@ export default function DashboardSidebar({
 					<h2 className="text-medium font-medium text-default-700">
 						{capitalizedCurrentPath}
 					</h2>
+					{/* UserAvatar goes here, justify-right */}
 				</header>
 				<main className="mt-4 h-[90%] w-full overflow-visible">
 					<div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider">

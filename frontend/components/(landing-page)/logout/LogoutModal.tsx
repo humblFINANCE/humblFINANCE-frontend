@@ -51,7 +51,7 @@ export default function LogoutModal({
 								>
 									Close
 								</Button>
-								<LogoutButton />
+								<LogoutButton onClose={onClose} />
 							</ModalFooter>
 						</>
 					)}
