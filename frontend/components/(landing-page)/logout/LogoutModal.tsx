@@ -1,5 +1,5 @@
 "use client";
-import LogoutButton from "@/components/(landing-page)/logout/LogoutButton";
+import LogoutModalButton from "@/components/(landing-page)/logout/LogoutModalButton";
 import { Button } from "@nextui-org/button";
 import {
 	Modal,
@@ -51,7 +51,7 @@ export default function LogoutModal({
 								>
 									Close
 								</Button>
-								<LogoutButton onClose={onClose} />
+								<LogoutModalButton onClose={onClose} />
 							</ModalFooter>
 						</>
 					)}

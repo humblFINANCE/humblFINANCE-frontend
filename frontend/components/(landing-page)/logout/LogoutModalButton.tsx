@@ -9,7 +9,11 @@ import {
 } from "@nextui-org/dropdown";
 import React from "react";
 
-export default function LogoutButton({ onClose }) {
+export default function LogoutModalButton({
+	onClose,
+}: {
+	onClose: () => void;
+}) {
 	const [selectedOption, setSelectedOption] = React.useState(
 		new Set(["global"])
 	);
