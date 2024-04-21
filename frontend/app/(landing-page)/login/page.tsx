@@ -1,119 +1,102 @@
-import { SubmitButton } from "@/components/landing-page/login/SubmitButton";
-import { createClient } from "@/utils/supabase/server";
-import { headers } from "next/headers";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+"use client";
 
-export default function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
-  const signIn = async (formData: FormData) => {
-    "use server";
+import type { InputProps } from "@nextui-org/input";
 
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
+import { Icon } from "@iconify/react";
+import { Button } from "@nextui-org/button";
+import { Checkbox } from "@nextui-org/checkbox";
+import { Divider } from "@nextui-org/divider";
+import { Input } from "@nextui-org/input";
+import { Link } from "@nextui-org/link";
+import { signIn, signInWithGithub } from './action'
+import React from "react";
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+export default function LoginPage() {
+  const [isVisible, setIsVisible] = React.useState(false);
 
-    if (error) {
-      return redirect("/login?message=could not authenticate user");
-    }
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
-    return redirect("/dashboard");
+  const inputClasses: InputProps["classNames"] = {
+    inputWrapper:
+      "border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20",
   };
 
-  const signUp = async (formData: FormData) => {
-    "use server";
-
-    const origin = headers().get("origin");
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/confirm`,
-      },
-    });
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
-    }
-
-    return redirect("/login?message=Check email to continue sign in process");
-  };
+  const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <Link
-        href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>{" "}
-        Back
-      </Link>
-
-      <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
-        <label className="text-md" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
-        <label className="text-md" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="rounded-md px-4 py-2 bg-inherit border mb-6"
-          type="password"
-          name="password"
-          placeholder="••••••••"
-          required
-        />
-        <SubmitButton
-          formAction={signIn}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing In..."
-        >
-          Sign In
-        </SubmitButton>
-        <SubmitButton
-          formAction={signUp}
-          className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing Up..."
-        >
-          Sign Up
-        </SubmitButton>
-        {searchParams?.message && (
-          <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
-            {searchParams.message}
-          </p>
-        )}
-      </form>
+    <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
+        <p className="pb-2 text-xl font-medium">Log In</p>
+        <form className="flex flex-col gap-3">
+          <Input
+            classNames={inputClasses}
+            label="Email Address"
+            name="email"
+            placeholder="Enter your email"
+            type="email"
+            variant="bordered"
+          />
+          <Input
+            classNames={inputClasses}
+            endContent={
+              <button type="button" onClick={toggleVisibility}>
+                {isVisible ? (
+                  <Icon
+                    className="pointer-events-none text-2xl text-foreground/50"
+                    icon="solar:eye-closed-linear"
+                  />
+                ) : (
+                  <Icon
+                    className="pointer-events-none text-2xl text-foreground/50"
+                    icon="solar:eye-bold"
+                  />
+                )}
+              </button>
+            }
+            label="Password"
+            name="password"
+            placeholder="Enter your password"
+            type={isVisible ? "text" : "password"}
+            variant="bordered"
+          />
+          <div className="flex items-center justify-between px-1 py-2">
+            <Checkbox
+              classNames={{
+                wrapper: "before:border-foreground/50",
+              }}
+              name="remember"
+              size="sm"
+            >
+              Remember me
+            </Checkbox>
+            <Link className="text-foreground/50" href="#" size="sm">
+              Forgot password?
+            </Link>
+          </div>
+          <Button formAction={signIn} className={buttonClasses} type="submit">
+            Log In
+          </Button>
+        </form>
+        <div className="flex items-center gap-4 py-2">
+          <Divider className="flex-1" />
+          <p className="shrink-0 text-tiny text-default-500">OR</p>
+          <Divider className="flex-1" />
+        </div>
+        <form className="flex flex-col gap-2">
+          <Button className={buttonClasses} startContent={<Icon icon="fe:google" width={24} />}>
+            Continue with Google
+          </Button>
+          <Button type="submit" formAction={signInWithGithub} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
+            Continue with Github
+          </Button>
+        </form>
+        <p className="text-center text-small text-foreground/50">
+          Need to create an account?&nbsp;
+          <Link color="foreground" href="#" size="sm">
+            Sign Up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
