@@ -1,4 +1,4 @@
-import HumblFinanceHeading from "@/components/landing-page/HumblFinanceHeading";
+import HumblFinanceHeading from "@/components/(landing-page)/HumblFinanceHeading";
 import { title } from "@/components/Primitives";
 
 export default function HomePage() {
