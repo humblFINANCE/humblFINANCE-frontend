@@ -8,10 +8,13 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { signIn, signInWithGithub } from './action'
-import React from "react";
+import { useRouter } from 'next/navigation'
+import { signIn } from './action'
+import { createClient } from '@/utils/supabase/client'
+import React, { useCallback } from "react";
 
 export default function LoginPage() {
+  const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -22,6 +25,23 @@ export default function LoginPage() {
   };
 
   const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
+
+  const handleLoginWithOauth = useCallback( (provider: "google" | "github") => {
+    return async function() {
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: window.origin + '/auth/callback/social-login'
+        }
+      })
+
+      if (error) {
+        router.replace("/login?message=" + "menyala")
+      }
+    }
+  }, [router])
+
 
   return (
     <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
@@ -83,10 +103,10 @@ export default function LoginPage() {
           <Divider className="flex-1" />
         </div>
         <form className="flex flex-col gap-2">
-          <Button className={buttonClasses} startContent={<Icon icon="fe:google" width={24} />}>
+          <Button className={buttonClasses} onClick={handleLoginWithOauth('google')} startContent={<Icon icon="fe:google" width={24} />}>
             Continue with Google
           </Button>
-          <Button type="submit" formAction={signInWithGithub} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
+          <Button type="submit" onClick={handleLoginWithOauth('github')} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
             Continue with Github
           </Button>
         </form>
