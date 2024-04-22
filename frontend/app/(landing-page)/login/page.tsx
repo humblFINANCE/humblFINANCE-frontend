@@ -11,16 +11,19 @@ import { signIn } from './action'
 import React, { useRef, useCallback } from "react";
 import { Tooltip } from "@nextui-org/tooltip";
 import CaptchaModal from '@/components/(landing-page)/login/CaptchaModal'
-import { useDisclosure } from '@nextui-org/modal'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
+import { useDisclosure } from "@nextui-org/modal";
+import PasswordLessLoginModal from "@/components/(landing-page)/login/PasswordlessModal";
 
 export default function LoginPage() {
-  const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
+  const captchaModal = useDisclosure()
+  const passwordLessModal = useDisclosure()
   const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false);
   const formRef = useRef(null)
   const captchaInputRef = useRef(null);
+  const [passwordLessModalType, setPasswordLessModalType ] = React.useState<"magicLink" | "phoneNumber">("magicLink")
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -31,7 +34,7 @@ export default function LoginPage() {
 
   const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
 
-  const handleLoginWithOauth = useCallback( (provider: "google" | "github" | "twitter" | "discord") => {
+  const handleLoginWithOauth = useCallback((provider: "google" | "github" | "twitter" | "discord") => {
     return async function() {
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithOAuth({
@@ -41,12 +44,20 @@ export default function LoginPage() {
         }
       })
 
+
       if (error) {
         router.replace("/login?message=" + "menyala")
       }
     }
   }, [router])
 
+  const handlePasswordLessLogin = useCallback((type: "magicLink" | "phoneNumber") => {
+    return function() {
+      setPasswordLessModalType(type)
+      passwordLessModal.onOpen()
+    }
+
+  }, [passwordLessModal])
 
   return (
     <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
@@ -100,17 +111,17 @@ export default function LoginPage() {
             </Link>
           </div>
           <Tooltip content="If signing in for the first time, your initial password will be set as your account password">
-            <Button onClick={onOpenChange}  className={buttonClasses}>
+            <Button onClick={captchaModal.onOpenChange}  className={buttonClasses}>
               Log In
             </Button>
           </Tooltip>
           <CaptchaModal 
             formRef={formRef} 
             captchaInputRef={captchaInputRef} 
-            isOpen={isOpen} 
-            onOpenChange={onOpenChange} 
-            onOpen={onOpen}
-            onClose={onClose}
+            isOpen={captchaModal.isOpen} 
+            onOpenChange={captchaModal.onOpenChange} 
+            onOpen={captchaModal.onOpen}
+            onClose={captchaModal.onClose}
           />
         </form>
         <div className="flex items-center gap-4 py-2">
@@ -126,12 +137,25 @@ export default function LoginPage() {
             Continue with Github
           </Button>
           <Button type="submit" onClick={handleLoginWithOauth('twitter')} className={buttonClasses} startContent={<Icon icon="fe:twitter" width={24} />}>
-            Continue with Twitter 
+            Continue with Twitter
           </Button>
           <Button type="submit" onClick={handleLoginWithOauth('discord')} className={buttonClasses} startContent={<Icon icon="ic:baseline-discord" width={24} />}>
-            Continue with Discord 
+            Continue with Discord
           </Button>
         </form>
+        <div className="flex items-center gap-4 py-2">
+          <Divider className="flex-1" />
+          <p className="shrink-0 text-tiny text-default-500">OR</p>
+          <Divider className="flex-1" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Button onClick={handlePasswordLessLogin('magicLink')} className={buttonClasses} startContent={<Icon icon="fe:link" width={24} />}>
+            Continue with Link
+          </Button>
+          <Button type="submit" onClick={handlePasswordLessLogin('phoneNumber')} className={buttonClasses} startContent={<Icon icon="fe:phone" width={24} />}>
+            Continue with Phone
+          </Button>
+        </div>
         <p className="text-center text-small text-foreground/50">
           Need to create an account?&nbsp;
           <Link color="foreground" href="#" size="sm">
@@ -139,6 +163,8 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
+      <PasswordLessLoginModal type={passwordLessModalType} onOpenChange={passwordLessModal.onOpenChange} isOpen={passwordLessModal.isOpen} />
     </div>
   );
 }
+
