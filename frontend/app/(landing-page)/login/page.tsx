@@ -47,7 +47,23 @@ export default function LoginPage() {
     }
   }, [router])
 
-  const handlePasswordLessLogin = useCallback((type: "magicLink" | "phoneNumber") => {
+  const handleLoginPasswordLess = useCallback(async (type: "magicLink" | "phoneNumber", value: string) => {
+    const supabase = createClient()
+    const target = type === 'magicLink' ? { email: value } : { phone: value }
+    const { error } = await supabase.auth.signInWithOtp({
+      ...target,
+      options: {
+        emailRedirectTo: window.origin + '/auth/callback/social-login',
+        shouldCreateUser: true,
+      },
+    })
+
+    if (error) {
+      throw new Error(error?.message)
+    }
+  }, [])
+
+  const handleOpenPasswordLessModal = useCallback((type: "magicLink" | "phoneNumber") => {
     return function() {
       setPasswordLessModalType(type)
       onOpen()
@@ -134,10 +150,10 @@ export default function LoginPage() {
           <Divider className="flex-1" />
         </div>
         <div className="flex flex-col gap-2">
-          <Button onClick={handlePasswordLessLogin('magicLink')} className={buttonClasses} startContent={<Icon icon="fe:link" width={24} />}>
+          <Button onClick={handleOpenPasswordLessModal('magicLink')} className={buttonClasses} startContent={<Icon icon="fe:link" width={24} />}>
             Continue with Link
           </Button>
-          <Button type="submit" onClick={handlePasswordLessLogin('phoneNumber')} className={buttonClasses} startContent={<Icon icon="fe:phone" width={24} />}>
+          <Button type="submit" onClick={handleOpenPasswordLessModal('phoneNumber')} className={buttonClasses} startContent={<Icon icon="fe:phone" width={24} />}>
             Continue with Phone
           </Button>
         </div>
@@ -148,7 +164,7 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
-      <PasswordLessLoginModal type={passwordLessModalType} onOpenChange={onOpenChange} isOpen={isOpen} />
+      <PasswordLessLoginModal onSignIn={handleLoginPasswordLess} type={passwordLessModalType} onOpenChange={onOpenChange} isOpen={isOpen} />
     </div>
   );
 }
