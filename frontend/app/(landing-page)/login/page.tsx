@@ -31,7 +31,7 @@ export default function LoginPage() {
 
   const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
 
-  const handleLoginWithOauth = useCallback( (provider: "google" | "github") => {
+  const handleLoginWithOauth = useCallback( (provider: "google" | "github" | "twitter" | "discord") => {
     return async function() {
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithOAuth({
@@ -124,6 +124,12 @@ export default function LoginPage() {
           </Button>
           <Button type="submit" onClick={handleLoginWithOauth('github')} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
             Continue with Github
+          </Button>
+          <Button type="submit" onClick={handleLoginWithOauth('twitter')} className={buttonClasses} startContent={<Icon icon="fe:twitter" width={24} />}>
+            Continue with Twitter 
+          </Button>
+          <Button type="submit" onClick={handleLoginWithOauth('discord')} className={buttonClasses} startContent={<Icon icon="ic:baseline-discord" width={24} />}>
+            Continue with Discord 
           </Button>
         </form>
         <p className="text-center text-small text-foreground/50">
