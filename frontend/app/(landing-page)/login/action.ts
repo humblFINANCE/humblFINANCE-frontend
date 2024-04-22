@@ -44,23 +44,6 @@ export const signIn = async (formData: FormData) => {
 	return redirect("/dashboard/home");
 };
 
-export const signInWithGithub = async () => {
-	const origin = headers().get("origin");
-	const supabase = createClient();
-	const { error, data } = await supabase.auth.signInWithOAuth({
-		provider: "github",
-		options: {
-			redirectTo: `${origin}/auth/callback/github`,
-		},
-	});
-
-	if (error) {
-		return redirect("/login?message=" + error.cause);
-	}
-
-	return redirect(data.url);
-};
-
 export const signUp = async (formData: FormData) => {
 	const origin = headers().get("origin");
 	const email = formData.get("email") as string;

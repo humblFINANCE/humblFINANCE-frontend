@@ -1,22 +1,23 @@
 "use client";
 
 import type { InputProps } from "@nextui-org/input";
-
 import { Icon } from "@iconify/react";
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { signIn, signInWithGithub } from './action'
-import React, { useRef } from "react";
+import { signIn } from './action'
+import React, { useRef, useCallback } from "react";
 import { Tooltip } from "@nextui-org/tooltip";
 import CaptchaModal from '@/components/(landing-page)/login/CaptchaModal'
 import { useDisclosure } from '@nextui-org/modal'
-
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/utils/supabase/client'
 
 export default function LoginPage() {
   const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
+  const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false);
   const formRef = useRef(null)
   const captchaInputRef = useRef(null);
@@ -29,6 +30,23 @@ export default function LoginPage() {
   };
 
   const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
+
+  const handleLoginWithOauth = useCallback( (provider: "google" | "github") => {
+    return async function() {
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options: {
+          redirectTo: window.origin + '/auth/callback/social-login'
+        }
+      })
+
+      if (error) {
+        router.replace("/login?message=" + "menyala")
+      }
+    }
+  }, [router])
+
 
   return (
     <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
@@ -101,10 +119,10 @@ export default function LoginPage() {
           <Divider className="flex-1" />
         </div>
         <form className="flex flex-col gap-2">
-          <Button className={buttonClasses} startContent={<Icon icon="fe:google" width={24} />}>
+          <Button className={buttonClasses} onClick={handleLoginWithOauth('google')} startContent={<Icon icon="fe:google" width={24} />}>
             Continue with Google
           </Button>
-          <Button type="submit" formAction={signInWithGithub} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
+          <Button type="submit" onClick={handleLoginWithOauth('github')} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
             Continue with Github
           </Button>
         </form>
