@@ -18,7 +18,6 @@ export const signIn = async (formData: FormData) => {
 	});
 
 	if (checkUserError) {
-		console.log("error heck user", checkUserError);
 		return redirect("/login?message=could not authenticate user");
 	}
 
@@ -35,8 +34,7 @@ export const signIn = async (formData: FormData) => {
 	});
 
 	if (error) {
-		console.log("error login", error);
-		return redirect("/login?message=could not authenticate user");
+		return redirect("/login?message=" + error.message);
 	}
 
 	return redirect("/dashboard/home");
