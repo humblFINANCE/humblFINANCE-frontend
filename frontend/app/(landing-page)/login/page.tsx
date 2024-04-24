@@ -9,11 +9,15 @@ import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { signIn, signInWithGithub } from './action'
-import React from "react";
+import React, { useRef } from "react";
 import { Tooltip } from "@nextui-org/tooltip";
 
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+
 export default function LoginPage() {
+  const [captchaToken, setCaptchaToken ] = React.useState("");
   const [isVisible, setIsVisible] = React.useState(false);
+  const captchaRef = useRef()
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -29,6 +33,7 @@ export default function LoginPage() {
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
         <p className="pb-2 text-xl font-medium">Log In</p>
         <form className="flex flex-col gap-3">
+          <input name="captchaToken" type="hidden" value={captchaToken}/>
           <Input
             classNames={inputClasses}
             label="Email Address"
@@ -59,6 +64,11 @@ export default function LoginPage() {
             placeholder="Enter your password"
             type={isVisible ? "text" : "password"}
             variant="bordered"
+          />
+          <HCaptcha
+            ref={captchaRef as any}
+            onVerify={(token) => setCaptchaToken(token)}
+            sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
           />
           <div className="flex items-center justify-between px-1 py-2">
             <Checkbox

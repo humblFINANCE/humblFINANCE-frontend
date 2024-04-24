@@ -7,6 +7,7 @@ export const signIn = async (formData: FormData) => {
 	const origin = headers().get("origin");
 	const email = formData.get("email") as string;
 	const password = formData.get("password") as string;
+	const captchaToken = formData.get('captchaToken') as string
 	const supabase = createClient();
 
 	const { data, error: checkUserError } = await supabase.auth.signUp({
@@ -31,6 +32,9 @@ export const signIn = async (formData: FormData) => {
 	const { error } = await supabase.auth.signInWithPassword({
 		email,
 		password,
+		options: {
+			captchaToken 
+		}
 	});
 
 	if (error) {
