@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
 
-  const handleLoginWithOauth = useCallback((provider: "google" | "github" | "twitter" | "discord") => {
+  const handleLoginWithOauth = useCallback((provider: "google" | "github" | "twitter" | "discord" | "linkedin_oidc" | "apple") => {
     return async function() {
       const supabase = createClient()
       const { error } = await supabase.auth.signInWithOAuth({
@@ -42,7 +42,7 @@ export default function LoginPage() {
 
 
       if (error) {
-        router.replace("/login?message=" + "menyala")
+        router.replace("/login?message=" + error.message)
       }
     }
   }, [router])
@@ -142,6 +142,12 @@ export default function LoginPage() {
           </Button>
           <Button type="submit" onClick={handleLoginWithOauth('discord')} className={buttonClasses} startContent={<Icon icon="ic:baseline-discord" width={24} />}>
             Continue with Discord
+          </Button>
+          <Button type="submit" onClick={handleLoginWithOauth('linkedin_oidc')} className={buttonClasses} startContent={<Icon icon="mdi:linkedin" width={24} />}>
+            Continue with LinkedIn 
+          </Button>
+          <Button type="submit" onClick={handleLoginWithOauth('apple')} className={buttonClasses} startContent={<Icon icon="ic:baseline-apple" width={24} />}>
+            Continue with Apple 
           </Button>
         </form>
         <div className="flex items-center gap-4 py-2">
