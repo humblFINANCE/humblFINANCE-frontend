@@ -44,6 +44,7 @@ export default function PasswordLessLoginModal({
                     setCaptchaToken(token)
                   }}
                   sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  theme={"dark"}
                 />
               </ModalBody>
               <ModalFooter>
