@@ -10,6 +10,7 @@ import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { signIn, signInWithGithub } from './action'
 import React from "react";
+import { Tooltip } from "@nextui-org/tooltip";
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -73,9 +74,11 @@ export default function LoginPage() {
               Forgot password?
             </Link>
           </div>
-          <Button formAction={signIn} className={buttonClasses} type="submit">
-            Log In
-          </Button>
+          <Tooltip content="If signing in for the first time, your initial password will be set as your account password">
+            <Button formAction={signIn} className={buttonClasses} type="submit">
+              Log In
+            </Button>
+          </Tooltip>
         </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
