@@ -11,14 +11,18 @@ import type { InputProps } from "@nextui-org/input";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { useDisclosure } from "@nextui-org/modal";
+import { forgotPassword, signIn  } from './action'
 import { Tooltip } from "@nextui-org/tooltip";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useRef } from "react";
-import { signIn } from "./action";
+import ForgotPassword from "@/components/(landing-page)/login/ForgotPasswordModal";
+
 
 export default function LoginPage() {
 	const captchaModal = useDisclosure();
 	const passwordLessModal = useDisclosure();
+	const signInModal = useDisclosure();
+	const forgotPasswordModal = useDisclosure()
 	const router = useRouter();
 	const [isVisible, setIsVisible] = React.useState(false);
 	const [passwordLessModalType, setPasswordLessModalType] = React.useState<
@@ -146,12 +150,17 @@ export default function LoginPage() {
 								wrapper: "before:border-foreground/50",
 							}}
 							name="remember"
-							size="sm"
+						size="sm"
 						>
 							Remember me
 						</Checkbox>
-						<Link className="text-foreground/50" href="#" size="sm">
-							Forgot password?
+						<Link
+							onClick={forgotPasswordModal.onOpenChange}
+							className="text-foreground/50"
+							href="#"
+							size="sm"
+						>
+							Forgot Password
 						</Link>
 					</div>
 					<Button
@@ -163,10 +172,7 @@ export default function LoginPage() {
 					<CaptchaModal
 						formRef={formRef}
 						captchaInputRef={captchaInputRef}
-						isOpen={captchaModal.isOpen}
-						onOpenChange={captchaModal.onOpenChange}
-						onOpen={captchaModal.onOpen}
-						onClose={captchaModal.onClose}
+						{...captchaModal}
 					/>
 				</form>
 				<div className="flex items-center gap-4 py-2">
@@ -279,6 +285,7 @@ export default function LoginPage() {
 					</Tooltip>
 				</p>
 			</div>
+			<ForgotPassword action={forgotPassword as any} {...forgotPasswordModal} />
 			<PasswordLessLoginModal
 				onSignIn={handleLoginPasswordLess}
 				type={passwordLessModalType}
