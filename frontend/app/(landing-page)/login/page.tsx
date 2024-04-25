@@ -21,9 +21,9 @@ export default function LoginPage() {
   const passwordLessModal = useDisclosure()
   const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false);
+  const [passwordLessModalType, setPasswordLessModalType ] = React.useState<"magicLink" | "phoneNumber">("magicLink")
   const formRef = useRef(null)
   const captchaInputRef = useRef(null);
-  const [passwordLessModalType, setPasswordLessModalType ] = React.useState<"magicLink" | "phoneNumber">("magicLink")
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -142,28 +142,20 @@ export default function LoginPage() {
         </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
-          <p className="shrink-0 text-tiny text-default-500">OR</p>
+          <p className="shrink-0 text-tiny text-default-500">SOCIAL LOGIN</p>
           <Divider className="flex-1" />
         </div>
         <form className="flex flex-col gap-2">
-          <Button className={buttonClasses} onClick={handleLoginWithOauth('google')} startContent={<Icon icon="fe:google" width={24} />}>
-            Continue with Google
-          </Button>
-          <Button type="submit" onClick={handleLoginWithOauth('github')} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />}>
-            Continue with Github
-          </Button>
-          <Button type="submit" onClick={handleLoginWithOauth('twitter')} className={buttonClasses} startContent={<Icon icon="fe:twitter" width={24} />}>
-            Continue with Twitter
-          </Button>
-          <Button type="submit" onClick={handleLoginWithOauth('discord')} className={buttonClasses} startContent={<Icon icon="ic:baseline-discord" width={24} />}>
-            Continue with Discord
-          </Button>
-          <Button type="submit" onClick={handleLoginWithOauth('linkedin_oidc')} className={buttonClasses} startContent={<Icon icon="mdi:linkedin" width={24} />}>
-            Continue with LinkedIn 
-          </Button>
-          <Button type="submit" onClick={handleLoginWithOauth('apple')} className={buttonClasses} startContent={<Icon icon="ic:baseline-apple" width={24} />}>
-            Continue with Apple 
-          </Button>
+          <div className="flex flex-row gap-3 justify-center">
+            <Button className={buttonClasses} onClick={handleLoginWithOauth('google')} startContent={<Icon icon="fe:google" width={24} />} />
+            <Button type="submit" onClick={handleLoginWithOauth('github')} className={buttonClasses} startContent={<Icon icon="fe:github" width={24} />} />
+            <Button type="submit" onClick={handleLoginWithOauth('twitter')} className={buttonClasses} startContent={<Icon icon="fe:twitter" width={24} />} />
+          </div>
+          <div className="flex flex-row gap-3 justify-center">
+            <Button type="submit" onClick={handleLoginWithOauth('discord')} className={buttonClasses} startContent={<Icon icon="ic:baseline-discord" width={24} />} />
+            <Button type="submit" onClick={handleLoginWithOauth('linkedin_oidc')} className={buttonClasses} startContent={<Icon icon="mdi:linkedin" width={24} />} />
+            <Button type="submit" onClick={handleLoginWithOauth('apple')} className={buttonClasses} startContent={<Icon icon="ic:baseline-apple" width={24} />} />
+          </div>
         </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
