@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.10.1",
     "@nextui-org/accordion": "^2.0.29",
     "@nextui-org/avatar": "^2.0.24",
     "@nextui-org/button": "2.0.26",

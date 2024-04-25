@@ -9,10 +9,17 @@ import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { signIn, signInWithGithub } from './action'
-import React from "react";
+import React, { useRef } from "react";
+import { Tooltip } from "@nextui-org/tooltip";
+import CaptchaModal from '@/components/(landing-page)/login/CaptchaModal'
+import { useDisclosure } from '@nextui-org/modal'
+
 
 export default function LoginPage() {
+  const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
   const [isVisible, setIsVisible] = React.useState(false);
+  const formRef = useRef(null)
+  const captchaInputRef = useRef(null);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -27,7 +34,8 @@ export default function LoginPage() {
     <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
         <p className="pb-2 text-xl font-medium">Log In</p>
-        <form className="flex flex-col gap-3">
+        <form ref={formRef}  action={signIn} className="flex flex-col gap-3">
+          <input type="hidden" ref={captchaInputRef} name="captchaToken"/>
           <Input
             classNames={inputClasses}
             label="Email Address"
@@ -73,9 +81,19 @@ export default function LoginPage() {
               Forgot password?
             </Link>
           </div>
-          <Button formAction={signIn} className={buttonClasses} type="submit">
-            Log In
-          </Button>
+          <Tooltip content="If signing in for the first time, your initial password will be set as your account password">
+            <Button onClick={onOpenChange}  className={buttonClasses}>
+              Log In
+            </Button>
+          </Tooltip>
+          <CaptchaModal 
+            formRef={formRef} 
+            captchaInputRef={captchaInputRef} 
+            isOpen={isOpen} 
+            onOpenChange={onOpenChange} 
+            onOpen={onOpen}
+            onClose={onClose}
+          />
         </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
