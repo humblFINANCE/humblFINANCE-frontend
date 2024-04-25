@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+
+import React, { useCallback, useEffect, useRef } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Button } from "@nextui-org/button"
 import HCaptcha from '@hcaptcha/react-hcaptcha'
@@ -7,24 +8,36 @@ type ModalProps = {
   isOpen: boolean;
   onOpen?: () => void;
   onOpenChange: (open: boolean) => void
+  onClose: () => void
   formRef: React.MutableRefObject<HTMLFormElement | null>
+  captchaInputRef: React.MutableRefObject<HTMLInputElement | null>
 };
 
 export default function PasswordLessLoginModal({
   isOpen,
   onOpenChange,
+  onClose,
   formRef,
+  captchaInputRef
 }: ModalProps) {
 
-  const [captchaToken, setCaptchaToken] = useState("");
   const captchaRef = useRef<HCaptcha | undefined>()
 
-  useEffect(() => {
-    if (captchaToken && formRef.current && captchaRef.current) {
-      captchaRef.current.resetCaptcha()
-      formRef.current?.submit()
+  const onVerify = useCallback((token: string) => {
+    if (formRef.current && captchaRef.current && captchaInputRef.current) {
+      captchaInputRef.current.value = token 
+      formRef.current?.requestSubmit()
+      setTimeout(onClose, 1000)
     }
-  }, [captchaToken, formRef, captchaRef])
+  }, [captchaInputRef, formRef, captchaRef, onClose])
+
+
+  useEffect(() => {
+    if (isOpen) {
+      captchaRef.current?.resetCaptcha()
+    }
+  }, [isOpen])
+
 
   return (
     <>
@@ -40,9 +53,7 @@ export default function PasswordLessLoginModal({
               <ModalBody className="flex flex-row justify-center">
                 <HCaptcha
                   ref={captchaRef as any}
-                  onVerify={(token) => {
-                    setCaptchaToken(token)
-                  }}
+                  onVerify={onVerify}
                   sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
                   theme={"dark"}
                 />
@@ -51,7 +62,6 @@ export default function PasswordLessLoginModal({
                 <Button color="danger" variant="flat" onPress={onClose}>
                   Close
                 </Button>
-
               </ModalFooter>
             </div>
           )}
