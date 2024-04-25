@@ -8,15 +8,17 @@ import { Checkbox } from "@nextui-org/checkbox";
 import { Divider } from "@nextui-org/divider";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
-import { signIn, signInWithGithub } from './action'
+import { forgotPassword, signIn, signInWithGithub } from './action'
 import React, { useRef } from "react";
 import { Tooltip } from "@nextui-org/tooltip";
 import CaptchaModal from '@/components/(landing-page)/login/CaptchaModal'
 import { useDisclosure } from '@nextui-org/modal'
+import ForgotPassword from "@/components/(landing-page)/login/ForgotPasswordModal";
 
 
 export default function LoginPage() {
-  const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure()
+  const signInModal = useDisclosure();
+  const forgotPasswordModal = useDisclosure()
   const [isVisible, setIsVisible] = React.useState(false);
   const formRef = useRef(null)
   const captchaInputRef = useRef(null);
@@ -74,25 +76,24 @@ export default function LoginPage() {
               }}
               name="remember"
               size="sm"
+              defaultSelected={true}
+              isDisabled={true}
             >
               Remember me
             </Checkbox>
-            <Link className="text-foreground/50" href="#" size="sm">
+            <Link onClick={forgotPasswordModal.onOpenChange} className="text-foreground/50" href="#" size="sm">
               Forgot password?
             </Link>
           </div>
           <Tooltip content="If signing in for the first time, your initial password will be set as your account password">
-            <Button onClick={onOpenChange}  className={buttonClasses}>
+            <Button onClick={signInModal.onOpenChange}  className={buttonClasses}>
               Log In
             </Button>
           </Tooltip>
           <CaptchaModal 
             formRef={formRef} 
             captchaInputRef={captchaInputRef} 
-            isOpen={isOpen} 
-            onOpenChange={onOpenChange} 
-            onOpen={onOpen}
-            onClose={onClose}
+            {...signInModal}
           />
         </form>
         <div className="flex items-center gap-4 py-2">
@@ -114,6 +115,7 @@ export default function LoginPage() {
             Sign Up
           </Link>
         </p>
+        <ForgotPassword action={forgotPassword as any} {...forgotPasswordModal}/>
       </div>
     </div>
   );
