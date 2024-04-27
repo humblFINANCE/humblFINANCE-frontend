@@ -216,6 +216,7 @@ export default function LoginPage() {
 							}
 						/>
 						<Button
+							isDisabled
 							type="submit"
 							onClick={handleLoginWithOauth("apple")}
 							className={buttonClasses}
@@ -227,22 +228,31 @@ export default function LoginPage() {
 				</form>
 				<div className="flex items-center gap-4 py-2">
 					<Divider className="flex-1" />
-					<p className="shrink-0 text-tiny text-default-500">OR</p>
+					<p className="shrink-0 text-tiny text-default-500">
+						PASSWORDLESS
+					</p>
 					<Divider className="flex-1" />
 				</div>
 				<div className="flex flex-col gap-2">
 					<Button
 						onClick={handleOpenPasswordLessModal("magicLink")}
 						className={buttonClasses}
-						startContent={<Icon icon="fe:link" width={24} />}
+						startContent={
+							<Icon icon="mdi:email-lock-outline" width={24} />
+						}
 					>
-						Continue with Link
+						Continue with E-Mail
 					</Button>
 					<Button
 						type="submit"
 						onClick={handleOpenPasswordLessModal("phoneNumber")}
 						className={buttonClasses}
-						startContent={<Icon icon="fe:phone" width={24} />}
+						startContent={
+							<Icon
+								icon="fluent:phone-lock-24-regular"
+								width={24}
+							/>
+						}
 					>
 						Continue with Phone
 					</Button>
