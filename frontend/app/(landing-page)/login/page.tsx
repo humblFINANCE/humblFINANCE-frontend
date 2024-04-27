@@ -154,14 +154,12 @@ export default function LoginPage() {
 							Forgot password?
 						</Link>
 					</div>
-					<Tooltip content="If signing in for the first time, your initial password will be set as your account password">
-						<Button
-							onClick={captchaModal.onOpenChange}
-							className={buttonClasses}
-						>
-							Log In
-						</Button>
-					</Tooltip>
+					<Button
+						onClick={captchaModal.onOpenChange}
+						className={buttonClasses}
+					>
+						Log In
+					</Button>
 					<CaptchaModal
 						formRef={formRef}
 						captchaInputRef={captchaInputRef}
@@ -257,11 +255,28 @@ export default function LoginPage() {
 						Continue with Phone
 					</Button>
 				</div>
-				<p className="text-center text-small text-foreground/50">
-					Need to create an account?&nbsp;
-					<Link color="foreground" href="#" size="sm">
-						Sign Up
-					</Link>
+				<p className="text-center text-small">
+					<span className="text-foreground/50">New User?</span>{" "}
+					<Tooltip
+						content={
+							<div className="px-1 py-2">
+								<div className="text-medium font-bold">
+									First Time User?
+								</div>
+								<div className="text-small">
+									If you have not signed up yet, when you sign
+									in for the first time, the password that you
+									enter will be set as your account password.
+								</div>
+							</div>
+						}
+						placement="bottom"
+						color="foreground"
+					>
+						<span className="cursor-pointer text-foreground/50 hover:text-foreground/100">
+							Hover over me for help!
+						</span>
+					</Tooltip>
 				</p>
 			</div>
 			<PasswordLessLoginModal
