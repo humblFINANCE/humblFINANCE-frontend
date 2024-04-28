@@ -145,6 +145,8 @@ export default function LoginPage() {
 					/>
 					<div className="flex items-center justify-between px-1 py-2">
 						<Checkbox
+							defaultSelected
+							isDisabled
 							classNames={{
 								wrapper: "before:border-foreground/50",
 							}}
@@ -155,11 +157,11 @@ export default function LoginPage() {
 						</Checkbox>
 						<Link
 							onClick={forgotPasswordModal.onOpenChange}
-							className="text-foreground/50"
+							className="cursor-pointer text-foreground/50 hover:text-foreground/100"
 							href="#"
 							size="sm"
 						>
-							Forgot Password
+							Forgot Password?
 						</Link>
 					</div>
 					<Button
