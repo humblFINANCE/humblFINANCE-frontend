@@ -1,6 +1,7 @@
 "use client";
 
 import CaptchaModal from "@/components/(landing-page)/login/CaptchaModal";
+import ForgotPassword from "@/components/(landing-page)/login/ForgotPasswordModal";
 import PasswordLessLoginModal from "@/components/(landing-page)/login/PasswordlessModal";
 import { createClient } from "@/utils/supabase/client";
 import { Icon } from "@iconify/react";
@@ -11,18 +12,16 @@ import type { InputProps } from "@nextui-org/input";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { useDisclosure } from "@nextui-org/modal";
-import { forgotPassword, signIn  } from './action'
 import { Tooltip } from "@nextui-org/tooltip";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useRef } from "react";
-import ForgotPassword from "@/components/(landing-page)/login/ForgotPasswordModal";
-
+import { forgotPassword, signIn } from "./action";
 
 export default function LoginPage() {
 	const captchaModal = useDisclosure();
 	const passwordLessModal = useDisclosure();
 	const signInModal = useDisclosure();
-	const forgotPasswordModal = useDisclosure()
+	const forgotPasswordModal = useDisclosure();
 	const router = useRouter();
 	const [isVisible, setIsVisible] = React.useState(false);
 	const [passwordLessModalType, setPasswordLessModalType] = React.useState<
@@ -100,7 +99,7 @@ export default function LoginPage() {
 	);
 
 	return (
-		<div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
+		<div className=" absolute inset-0 flex items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
 			<div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
 				<p className="pb-2 text-xl font-medium">Log In</p>
 				<form
@@ -150,7 +149,7 @@ export default function LoginPage() {
 								wrapper: "before:border-foreground/50",
 							}}
 							name="remember"
-						size="sm"
+							size="sm"
 						>
 							Remember me
 						</Checkbox>
@@ -285,7 +284,10 @@ export default function LoginPage() {
 					</Tooltip>
 				</p>
 			</div>
-			<ForgotPassword action={forgotPassword as any} {...forgotPasswordModal} />
+			<ForgotPassword
+				action={forgotPassword as any}
+				{...forgotPasswordModal}
+			/>
 			<PasswordLessLoginModal
 				onSignIn={handleLoginPasswordLess}
 				type={passwordLessModalType}
