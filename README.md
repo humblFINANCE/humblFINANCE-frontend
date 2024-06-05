@@ -14,3 +14,12 @@ pnpm install
 
 Now your development environment should be good to go!
 
+# Development: Setting Up Supabase
+
+Add a `.env.local` file to the root of the project with the following contents:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
