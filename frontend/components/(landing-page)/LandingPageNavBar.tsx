@@ -17,18 +17,12 @@ import {
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const menuItems = [
-  "Home",
-  "Features",
-  "About Us",
-  "Investing Framework",
-
-];
+const menuItems = ["Home", "Features", "About Us", "Investing Framework"];
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const pathname = usePathname();
-  
+
   return (
     <Navbar
       {...props}
@@ -63,7 +57,9 @@ export default function Component(props: NavbarProps) {
         <div className="rounded-full bg-foreground text-background">
           <AcmeIcon size={34} />
         </div>
-        <span className="ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">humblFINANCE</span>
+        <span className="ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+          humblFINANCE
+        </span>
       </NavbarBrand>
       <NavbarContent
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
@@ -85,22 +81,26 @@ export default function Component(props: NavbarProps) {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className="text-default-500" href="/investing-framework" size="sm">
+          <Link
+            className="text-default-500"
+            href="/investing-framework"
+            size="sm"
+          >
             Investing Framework
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
-          <Button
-            as={ Link }
-            className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
-            radius="full"
-            variant="light"
-            href="/login"
-          >
-            Login
-          </Button>
+          <Link href="/login">
+            <Button
+              className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
+              radius="full"
+              variant="light"
+            >
+              Login
+            </Button>
+          </Link>
           <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
@@ -117,9 +117,9 @@ export default function Component(props: NavbarProps) {
       <NavbarMenu
         className="top-[calc(var(--navbar-height)_-_1px)] max-h-[70vh] bg-default-200/50 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50"
         motionProps={{
-          initial: {opacity: 0, y: -20},
-          animate: {opacity: 1, y: 0},
-          exit: {opacity: 0, y: -20},
+          initial: { opacity: 0, y: -20 },
+          animate: { opacity: 1, y: 0 },
+          exit: { opacity: 0, y: -20 },
           transition: {
             ease: "easeInOut",
             duration: 0.2,
