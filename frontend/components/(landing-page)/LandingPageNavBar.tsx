@@ -17,11 +17,11 @@ import {
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const menuItems = ["Home", "Features", "About Us", "Investing Framework"];
+const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 
 export default function Component(props: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const pathname = usePathname()
 
   return (
     <Navbar
