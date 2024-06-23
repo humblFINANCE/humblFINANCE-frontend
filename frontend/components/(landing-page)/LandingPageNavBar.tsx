@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { AcmeIcon } from "@/components/icons/Brands";
-import { cn } from "@/utils/nextui/cn";
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
-import type { NavbarProps } from "@nextui-org/navbar";
+import { AcmeIcon } from '@/components/icons/Brands'
+import { cn } from '@/utils/nextui/cn'
+import { Button } from '@nextui-org/button'
+import { Link } from '@nextui-org/link'
+import type { NavbarProps } from '@nextui-org/navbar'
 import {
   Navbar,
   NavbarBrand,
@@ -13,38 +13,38 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from "@nextui-org/navbar";
-import { usePathname } from "next/navigation";
-import React from "react";
+} from '@nextui-org/navbar'
+import { usePathname } from 'next/navigation'
+import React from 'react'
 
-const menuItems = ["Home", "Features", "About Us", "Investing Framework"];
+const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 
 export default function Component(props: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const pathname = usePathname()
 
   return (
     <Navbar
       {...props}
       isBordered
       classNames={{
-        base: cn("border-default-100", {
-          "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
+        base: cn('border-default-100', {
+          'bg-default-200/50 dark:bg-default-100/50': isMenuOpen,
         }),
-        wrapper: "w-full justify-center bg-transparent",
+        wrapper: 'w-full justify-center bg-transparent',
         item: [
-          "flex",
-          "relative",
-          "h-full",
-          "items-center",
+          'flex',
+          'relative',
+          'h-full',
+          'items-center',
           "data-[active=true]:after:content-['']",
-          "data-[active=true]:after:absolute",
-          "data-[active=true]:after:bottom-0",
-          "data-[active=true]:after:left-0",
-          "data-[active=true]:after:right-0",
-          "data-[active=true]:after:h-[2px]",
-          "data-[active=true]:after:rounded-[2px]",
-          "data-[active=true]:after:bg-secondary",
+          'data-[active=true]:after:absolute',
+          'data-[active=true]:after:bottom-0',
+          'data-[active=true]:after:left-0',
+          'data-[active=true]:after:right-0',
+          'data-[active=true]:after:h-[2px]',
+          'data-[active=true]:after:rounded-[2px]',
+          'data-[active=true]:after:bg-secondary',
         ],
       }}
       height="60px"
@@ -106,7 +106,7 @@ export default function Component(props: NavbarProps) {
             color="secondary"
             radius="full"
             style={{
-              boxShadow: "inset 0 0 4px #bf97ff70",
+              boxShadow: 'inset 0 0 4px #bf97ff70',
             }}
             variant="flat"
           >
@@ -121,7 +121,7 @@ export default function Component(props: NavbarProps) {
           animate: { opacity: 1, y: 0 },
           exit: { opacity: 0, y: -20 },
           transition: {
-            ease: "easeInOut",
+            ease: 'easeInOut',
             duration: 0.2,
           },
         }}
@@ -135,5 +135,5 @@ export default function Component(props: NavbarProps) {
         ))}
       </NavbarMenu>
     </Navbar>
-  );
+  )
 }
