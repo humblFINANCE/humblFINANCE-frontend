@@ -17,11 +17,11 @@ import {
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
+const menuItems = ["Home", "Features", "About Us", "Investing Framework"];
 
 export default function Component(props: NavbarProps) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const pathname = usePathname();
 
   return (
     <Navbar
@@ -92,15 +92,15 @@ export default function Component(props: NavbarProps) {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
-          <Button
-            as={Link}
-            className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
-            radius="full"
-            variant="light"
-            href="/login"
-          >
-            Login
-          </Button>
+          <Link href="/login">
+            <Button
+              className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
+              radius="full"
+              variant="light"
+            >
+              Login
+            </Button>
+          </Link>
           <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"

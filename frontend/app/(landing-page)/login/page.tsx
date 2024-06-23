@@ -18,82 +18,82 @@ import React, { useCallback, useRef } from 'react'
 import { forgotPassword, signIn } from './action'
 
 export default function LoginPage() {
-  const captchaModal = useDisclosure()
-  const passwordLessModal = useDisclosure()
-  const signInModal = useDisclosure()
-  const forgotPasswordModal = useDisclosure()
-  const router = useRouter()
-  const [isVisible, setIsVisible] = React.useState(false)
+  const captchaModal = useDisclosure();
+  const passwordLessModal = useDisclosure();
+  const signInModal = useDisclosure();
+  const forgotPasswordModal = useDisclosure();
+  const router = useRouter();
+  const [isVisible, setIsVisible] = React.useState(false);
   const [passwordLessModalType, setPasswordLessModalType] = React.useState<
-    'magicLink' | 'phoneNumber'
-  >('magicLink')
-  const formRef = useRef(null)
-  const captchaInputRef = useRef(null)
+    "magicLink" | "phoneNumber"
+  >("magicLink");
+  const formRef = useRef(null);
+  const captchaInputRef = useRef(null);
 
-  const toggleVisibility = () => setIsVisible(!isVisible)
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const inputClasses: InputProps['classNames'] = {
+  const inputClasses: InputProps["classNames"] = {
     inputWrapper:
-      'border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20',
-  }
+      "border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20",
+  };
 
-  const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
+  const buttonClasses = "bg-foreground/10 dark:bg-foreground/20";
 
   const handleLoginWithOauth = useCallback(
     (
       provider:
-        | 'google'
-        | 'github'
-        | 'twitter'
-        | 'discord'
-        | 'linkedin_oidc'
-        | 'apple'
+        | "google"
+        | "github"
+        | "twitter"
+        | "discord"
+        | "linkedin_oidc"
+        | "apple",
     ) => {
       return async function () {
-        const supabase = createClient()
+        const supabase = createClient();
         const { error } = await supabase.auth.signInWithOAuth({
           provider: provider,
           options: {
-            redirectTo: window.origin + '/auth/callback/social-login',
+            redirectTo: window.origin + "/auth/callback/social-login",
           },
-        })
+        });
 
         if (error) {
-          router.replace('/login?message=' + error.message)
+          router.replace("/login?message=" + error.message);
         }
-      }
+      };
     },
-    [router]
-  )
+    [router],
+  );
 
   const handleLoginPasswordLess = useCallback(
-    async (type: 'magicLink' | 'phoneNumber', value: string) => {
-      const supabase = createClient()
-      const target = type === 'magicLink' ? { email: value } : { phone: value }
+    async (type: "magicLink" | "phoneNumber", value: string) => {
+      const supabase = createClient();
+      const target = type === "magicLink" ? { email: value } : { phone: value };
       const { error } = await supabase.auth.signInWithOtp({
         ...target,
         options: {
-          emailRedirectTo: window.origin + '/auth/callback/social-login',
+          emailRedirectTo: window.origin + "/auth/callback/social-login",
           shouldCreateUser: true,
         },
-      })
+      });
 
       if (error) {
-        throw new Error(error?.message)
+        throw new Error(error?.message);
       }
     },
-    []
-  )
+    [],
+  );
 
   const handleOpenPasswordLessModal = useCallback(
-    (type: 'magicLink' | 'phoneNumber') => {
+    (type: "magicLink" | "phoneNumber") => {
       return function () {
-        setPasswordLessModalType(type)
-        passwordLessModal.onOpen()
-      }
+        setPasswordLessModalType(type);
+        passwordLessModal.onOpen();
+      };
     },
-    [passwordLessModal]
-  )
+    [passwordLessModal],
+  );
 
   return (
     <div className=" absolute inset-0 flex items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
@@ -129,21 +129,10 @@ export default function LoginPage() {
             label="Password"
             name="password"
             placeholder="Enter your password"
-            type={isVisible ? 'text' : 'password'}
+            type={isVisible ? "text" : "password"}
             variant="bordered"
           />
           <div className="flex items-center justify-between px-1 py-2">
-            <Checkbox
-              defaultSelected
-              isDisabled
-              classNames={{
-                wrapper: 'before:border-foreground/50',
-              }}
-              name="remember"
-              size="sm"
-            >
-              Remember me
-            </Checkbox>
             <Link
               onClick={forgotPasswordModal.onOpenChange}
               className="cursor-pointer text-foreground/50 hover:text-foreground/100"
@@ -156,11 +145,6 @@ export default function LoginPage() {
           <Button onClick={captchaModal.onOpenChange} className={buttonClasses}>
             Log In
           </Button>
-          <CaptchaModal
-            formRef={formRef}
-            captchaInputRef={captchaInputRef}
-            {...captchaModal}
-          />
         </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
@@ -171,18 +155,18 @@ export default function LoginPage() {
           <div className="flex flex-row gap-3 justify-center">
             <Button
               className={buttonClasses}
-              onClick={handleLoginWithOauth('google')}
+              onClick={handleLoginWithOauth("google")}
               startContent={<Icon icon="fe:google" width={24} />}
             />
             <Button
               type="submit"
-              onClick={handleLoginWithOauth('github')}
+              onClick={handleLoginWithOauth("github")}
               className={buttonClasses}
               startContent={<Icon icon="fe:github" width={24} />}
             />
             <Button
               type="submit"
-              onClick={handleLoginWithOauth('twitter')}
+              onClick={handleLoginWithOauth("twitter")}
               className={buttonClasses}
               startContent={<Icon icon="fe:twitter" width={24} />}
             />
@@ -190,20 +174,20 @@ export default function LoginPage() {
           <div className="flex flex-row gap-3 justify-center">
             <Button
               type="submit"
-              onClick={handleLoginWithOauth('discord')}
+              onClick={handleLoginWithOauth("discord")}
               className={buttonClasses}
               startContent={<Icon icon="ic:baseline-discord" width={24} />}
             />
             <Button
               type="submit"
-              onClick={handleLoginWithOauth('linkedin_oidc')}
+              onClick={handleLoginWithOauth("linkedin_oidc")}
               className={buttonClasses}
               startContent={<Icon icon="mdi:linkedin" width={24} />}
             />
             <Button
               isDisabled
               type="submit"
-              onClick={handleLoginWithOauth('apple')}
+              onClick={handleLoginWithOauth("apple")}
               className={buttonClasses}
               startContent={<Icon icon="ic:baseline-apple" width={24} />}
             />
@@ -216,7 +200,7 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-col gap-2">
           <Button
-            onClick={handleOpenPasswordLessModal('magicLink')}
+            onClick={handleOpenPasswordLessModal("magicLink")}
             className={buttonClasses}
             startContent={<Icon icon="mdi:email-lock-outline" width={24} />}
           >
@@ -224,7 +208,7 @@ export default function LoginPage() {
           </Button>
           <Button
             type="submit"
-            onClick={handleOpenPasswordLessModal('phoneNumber')}
+            onClick={handleOpenPasswordLessModal("phoneNumber")}
             className={buttonClasses}
             startContent={
               <Icon icon="fluent:phone-lock-24-regular" width={24} />
@@ -234,34 +218,9 @@ export default function LoginPage() {
           </Button>
         </div>
         <p className="text-center text-small">
-          <span className="text-foreground/50">New User?</span>{' '}
-          <Tooltip
-            content={
-              <div className="px-1 py-2">
-                <div className="text-medium font-bold">First Time User?</div>
-                <div className="text-small">
-                  If you have not signed up yet, when you sign in for the first
-                  time, the password that you enter will be set as your account
-                  password.
-                </div>
-              </div>
-            }
-            placement="bottom"
-            color="foreground"
-          >
-            <span className="cursor-pointer text-foreground/50 hover:text-foreground/100">
-              Hover over me for help!
-            </span>
-          </Tooltip>
+          <span className="text-foreground/50">New User?</span>{" "}
         </p>
       </div>
-      <ForgotPassword action={forgotPassword as any} {...forgotPasswordModal} />
-      <PasswordLessLoginModal
-        onSignIn={handleLoginPasswordLess}
-        type={passwordLessModalType}
-        onOpenChange={passwordLessModal.onOpenChange}
-        isOpen={passwordLessModal.isOpen}
-      />
     </div>
-  )
+  );
 }
