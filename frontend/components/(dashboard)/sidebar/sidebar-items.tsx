@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Chip } from '@nextui-org/chip'
+import { Chip } from '@nextui-org/react'
 
 import {
   SidebarItemType,

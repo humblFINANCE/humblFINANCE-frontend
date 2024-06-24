@@ -1,13 +1,12 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { Avatar } from '@nextui-org/avatar'
-import {
+import { Avatar ,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown'
+} from '@nextui-org/react'
 
 export const UserDropdown = async () => {
   const supabase = createClient()

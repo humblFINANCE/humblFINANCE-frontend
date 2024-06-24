@@ -5,8 +5,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from '@nextui-org/modal'
-import { Button } from '@nextui-org/button'
+ Button } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 type ModalProps = {

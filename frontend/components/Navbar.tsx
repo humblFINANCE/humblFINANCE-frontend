@@ -1,8 +1,4 @@
-import { Button } from '@nextui-org/button'
-import { Input } from '@nextui-org/input'
-import { Kbd } from '@nextui-org/kbd'
-import { Link } from '@nextui-org/link'
-import {
+import { Button , Input , Kbd , Link ,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
@@ -10,9 +6,8 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Navbar as NextUINavbar,
-} from '@nextui-org/navbar'
+, link as linkStyles } from '@nextui-org/react'
 
-import { link as linkStyles } from '@nextui-org/theme'
 
 import { siteConfig } from '@/config/site'
 import clsx from 'clsx'
