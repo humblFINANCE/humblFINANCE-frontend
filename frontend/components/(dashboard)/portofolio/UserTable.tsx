@@ -1,8 +1,10 @@
 "use client"
 
 
-import { AgGridReact } from "ag-grid-react";
+import { cn } from "@/utils/nextui/cn";
 import * as agGrid from "ag-grid-community";
+import { AgGridReact } from "ag-grid-react";
+import { useTheme } from "next-themes";
 import dataTable from "./data";
 import { IDataWatchList } from "./types";
 
@@ -35,14 +37,13 @@ const defaultColDef: agGrid.ColDef = {
 };
 
 const UserTable = () => {
+     const { theme } = useTheme()
+
   return (
-    <div className="ag-theme-custom h-full p-2">
+    <div className={cn("h-full p-2", theme === "light" ? "ag-theme-custom-light" : "ag-theme-custom-dark")}>
          <AgGridReact
             rowData={dataTable as IDataWatchList[]}
             columnDefs={colDefs}
-            pagination
-            paginationPageSize={20}
-            paginationPageSizeSelector={[20, 50, 100]}
             defaultColDef={defaultColDef}
          />
       </div>
