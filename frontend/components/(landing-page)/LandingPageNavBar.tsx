@@ -12,15 +12,18 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  useDisclosure,
 } from '@nextui-org/react'
 import type { NavbarProps } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import React from 'react'
+import LoginModal from './login/LoginModal'
 
 const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const disclosure = useDisclosure()
   const pathname = usePathname()
 
   return (
@@ -100,6 +103,7 @@ export default function Component(props: NavbarProps) {
               boxShadow: 'inset 0 0 4px #bf97ff70',
             }}
             variant="flat"
+            onClick={disclosure.onOpenChange}
           >
             Dashboard
           </Button>
@@ -125,6 +129,7 @@ export default function Component(props: NavbarProps) {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
+      <LoginModal {...disclosure} />
     </Navbar>
   )
 }
