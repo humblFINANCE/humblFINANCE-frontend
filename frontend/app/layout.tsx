@@ -1,7 +1,3 @@
-'use client'
-import { Tooltip } from '@nextui-org/react'
-import { Button } from '@nextui-org/react'
-
 export default function RootLayout({
   children,
 }: {
@@ -9,11 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Tooltip content="I am a tooltip">
-          <Button>Hover me</Button>
-        </Tooltip>
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

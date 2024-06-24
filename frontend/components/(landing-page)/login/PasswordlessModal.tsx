@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { Button } from '@nextui-org/button'
-import { Input } from '@nextui-org/input'
+import { Button } from '@nextui-org/react'
+import { Input } from '@nextui-org/react'
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from '@nextui-org/modal'
+} from '@nextui-org/react'
 
 type ModalProps = {
   isOpen: boolean

@@ -1,9 +1,9 @@
 'use client'
 
-import type { AvatarProps } from '@nextui-org/avatar'
+import type { AvatarProps } from '@nextui-org/react'
 
 import React from 'react'
-import { Avatar } from '@nextui-org/avatar'
+import { Avatar } from '@nextui-org/react'
 
 import { cn } from '@/utils/nextui/cn'
 

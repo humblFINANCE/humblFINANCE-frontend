@@ -1,13 +1,13 @@
 'use client'
 import LogoutModalButton from '@/components/(landing-page)/logout/LogoutModalButton'
-import { Button } from '@nextui-org/button'
+import { Button } from '@nextui-org/react'
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from '@nextui-org/modal'
+} from '@nextui-org/react'
 
 type LogoutModalProps = {
   isOpen: boolean
