@@ -2,7 +2,9 @@
 
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
-import { Button , Link ,
+import {
+  Button,
+  Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -91,15 +93,6 @@ export default function Component(props: NavbarProps) {
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           <Button
-            as={Link}
-            className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
-            radius="full"
-            variant="light"
-            href="/login"
-          >
-            Login
-          </Button>
-          <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
             radius="full"
@@ -108,7 +101,7 @@ export default function Component(props: NavbarProps) {
             }}
             variant="flat"
           >
-            Get Started
+            Dashboard
           </Button>
         </NavbarItem>
       </NavbarContent>
