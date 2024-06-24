@@ -63,6 +63,7 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
-    "@iconify/react": "^4.1.1"
+    "@iconify/react": "^4.1.1",
+    "prettier": "3.3.2"
   }
 }
