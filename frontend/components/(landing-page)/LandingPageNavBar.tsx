@@ -2,10 +2,7 @@
 
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
-import { Button } from '@nextui-org/react'
-import { Link } from '@nextui-org/react'
-import type { NavbarProps } from '@nextui-org/react'
-import {
+import { Button , Link ,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -14,6 +11,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from '@nextui-org/react'
+import type { NavbarProps } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 

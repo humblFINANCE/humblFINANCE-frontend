@@ -1,7 +1,6 @@
 import { signOut } from '@/app/(landing-page)/logout/action'
 import { Icon } from '@iconify/react'
-import { Button, ButtonGroup } from '@nextui-org/react'
-import {
+import { Button, ButtonGroup ,
   Dropdown,
   DropdownItem,
   DropdownMenu,

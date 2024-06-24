@@ -1,7 +1,6 @@
 'use client'
 import LogoutModalButton from '@/components/(landing-page)/logout/LogoutModalButton'
-import { Button } from '@nextui-org/react'
-import {
+import { Button ,
   Modal,
   ModalBody,
   ModalContent,

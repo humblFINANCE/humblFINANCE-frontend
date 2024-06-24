@@ -2,12 +2,7 @@
 
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
-import { Avatar } from '@nextui-org/react'
-import { Button } from '@nextui-org/react'
-import { useDisclosure } from '@nextui-org/react'
-import { ScrollShadow } from '@nextui-org/react'
-import { Spacer } from '@nextui-org/react'
-import { Tooltip } from '@nextui-org/react'
+import { Avatar , Button , useDisclosure , ScrollShadow , Spacer , Tooltip } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'

@@ -1,7 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button } from '@nextui-org/react'
-import { Input } from '@nextui-org/react'
-import {
+import { Button , Input ,
   Modal,
   ModalContent,
   ModalHeader,

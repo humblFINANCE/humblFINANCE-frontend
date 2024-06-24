@@ -1,8 +1,7 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { Avatar } from '@nextui-org/react'
-import {
+import { Avatar ,
   Dropdown,
   DropdownItem,
   DropdownMenu,

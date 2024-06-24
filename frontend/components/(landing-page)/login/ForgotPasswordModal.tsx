@@ -7,9 +7,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from '@nextui-org/react'
-import { Input } from '@nextui-org/react'
-import { Button } from '@nextui-org/react'
+ Input , Button } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 type ModalProps = {
