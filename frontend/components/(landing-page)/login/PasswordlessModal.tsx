@@ -1,15 +1,19 @@
-import React, { useCallback, useState } from "react";
-import { Button } from "@nextui-org/button"
-import { Input } from "@nextui-org/input"
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import React, { useCallback, useState } from 'react'
+import { Button , Input ,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from '@nextui-org/react'
 
 type ModalProps = {
-  isOpen: boolean;
-  onOpen?: () => void;
+  isOpen: boolean
+  onOpen?: () => void
   onOpenChange: (open: boolean) => void
-  onSignIn: (type: "magicLink" | "phoneNumber", input: string) => Promise<void>
-  type: "magicLink" | "phoneNumber"
-};
+  onSignIn: (type: 'magicLink' | 'phoneNumber', input: string) => Promise<void>
+  type: 'magicLink' | 'phoneNumber'
+}
 
 export default function PasswordLessLoginModal({
   isOpen,
@@ -17,21 +21,22 @@ export default function PasswordLessLoginModal({
   onSignIn,
   type,
 }: ModalProps) {
-
-  const [ value, setValue ] = useState<null | string>()
-  const [ result, setResult ] = useState({
+  const [value, setValue] = useState<null | string>()
+  const [result, setResult] = useState({
     error: '',
     submitted: false,
   })
-  const [ isLoading, setLoading ] = useState(false)
-  const inputProps = type === 'magicLink' ? ({
-    label: "Email",
-    placeHolder: "Enter your email"
-  }) : ({
-    label: "Phone Number",
-    placeHolder: "Enter your phone number"
-  })
-
+  const [isLoading, setLoading] = useState(false)
+  const inputProps =
+    type === 'magicLink'
+      ? {
+          label: 'Email',
+          placeHolder: 'Enter your email',
+        }
+      : {
+          label: 'Phone Number',
+          placeHolder: 'Enter your phone number',
+        }
 
   const handleSignIn = useCallback(async () => {
     setLoading(true)
@@ -49,21 +54,17 @@ export default function PasswordLessLoginModal({
     }
 
     setLoading(false)
-
   }, [onSignIn, type, value])
-
 
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="top-center"
-      >
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose: () => void) => (
-            <form onSubmit={e => e.preventDefault()}> 
-              <ModalHeader className="flex flex-col gap-1">Continue with {type === "magicLink" ? "Magic Link" : "Phone"}</ModalHeader>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <ModalHeader className="flex flex-col gap-1">
+                Continue with {type === 'magicLink' ? 'Magic Link' : 'Phone'}
+              </ModalHeader>
               <ModalBody>
                 <Input
                   name="input"
@@ -74,23 +75,31 @@ export default function PasswordLessLoginModal({
                   value={value as string}
                   {...inputProps}
                 />
-                {
-                  Boolean(result.error) && (
-                    <div className="text-red-500">{result.error}</div>
-                  )
-                }
-                {
-                  result.submitted && !Boolean(result.error) && (
-                    <div className="text-lime-500">Check your {type === 'magicLink' ? 'email' : 'phone'}</div>
-                  )
-                }
+                {Boolean(result.error) && (
+                  <div className="text-red-500">{result.error}</div>
+                )}
+                {result.submitted && !Boolean(result.error) && (
+                  <div className="text-lime-500">
+                    Check your {type === 'magicLink' ? 'email' : 'phone'}
+                  </div>
+                )}
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" disabled={isLoading} onPress={onClose}>
+                <Button
+                  color="danger"
+                  variant="flat"
+                  disabled={isLoading}
+                  onPress={onClose}
+                >
                   Close
                 </Button>
-                <Button color="primary" disabled={isLoading} onClick={handleSignIn} type="submit">
-                  { isLoading ? "..." : "Sign in"}
+                <Button
+                  color="primary"
+                  disabled={isLoading}
+                  onClick={handleSignIn}
+                  type="submit"
+                >
+                  {isLoading ? '...' : 'Sign in'}
                 </Button>
               </ModalFooter>
             </form>
@@ -98,6 +107,5 @@ export default function PasswordLessLoginModal({
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
-

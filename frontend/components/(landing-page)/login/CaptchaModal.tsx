@@ -1,36 +1,41 @@
-
-import React, { useCallback, useEffect, useRef } from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
-import { Button } from "@nextui-org/button"
+import React, { useCallback, useEffect, useRef } from 'react'
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+ Button } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 type ModalProps = {
-  isOpen: boolean;
-  onOpen?: () => void;
+  isOpen: boolean
+  onOpen?: () => void
   onOpenChange: (open: boolean) => void
   onClose: () => void
   formRef: React.MutableRefObject<HTMLFormElement | null>
   captchaInputRef: React.MutableRefObject<HTMLInputElement | null>
-};
+}
 
 export default function PasswordLessLoginModal({
   isOpen,
   onOpenChange,
   onClose,
   formRef,
-  captchaInputRef
+  captchaInputRef,
 }: ModalProps) {
-
   const captchaRef = useRef<HCaptcha | undefined>()
 
-  const onVerify = useCallback((token: string) => {
-    if (formRef.current && captchaRef.current && captchaInputRef.current) {
-      captchaInputRef.current.value = token 
-      formRef.current?.requestSubmit()
-      setTimeout(onClose, 1000)
-    }
-  }, [captchaInputRef, formRef, captchaRef, onClose])
-
+  const onVerify = useCallback(
+    (token: string) => {
+      if (formRef.current && captchaRef.current && captchaInputRef.current) {
+        captchaInputRef.current.value = token
+        formRef.current?.requestSubmit()
+        setTimeout(onClose, 1000)
+      }
+    },
+    [captchaInputRef, formRef, captchaRef, onClose]
+  )
 
   useEffect(() => {
     if (isOpen) {
@@ -38,24 +43,21 @@ export default function PasswordLessLoginModal({
     }
   }, [isOpen])
 
-
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        placement="top-center"
-      >
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose: () => void) => (
             <div>
-              <ModalHeader className="flex flex-col gap-1">Are you human ?</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">
+                Are you human ?
+              </ModalHeader>
               <ModalBody className="flex flex-row justify-center">
                 <HCaptcha
                   ref={captchaRef as any}
                   onVerify={onVerify}
                   sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
-                  theme={"dark"}
+                  theme={'dark'}
                 />
               </ModalBody>
               <ModalFooter>
@@ -68,5 +70,5 @@ export default function PasswordLessLoginModal({
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }
