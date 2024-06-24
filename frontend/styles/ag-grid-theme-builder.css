@@ -50,7 +50,7 @@
 	--ag-modal-overlay-background-color: color-mix(in srgb, transparent, var(--ag-background-color) 66%);
 	--ag-odd-row-background-color: var(--ag-background-color);
 	--ag-border-radius: 20px;
-	--ag-wrapper-border-radius: 0px;
+	--ag-wrapper-border-radius: 8px;
 	--ag-cell-horizontal-padding: calc(var(--ag-grid-size) * 2 * var(--ag-cell-horizontal-padding-scale));
 	--ag-cell-widget-spacing: calc(var(--ag-grid-size) * 1.5);
 	--ag-cell-horizontal-padding-scale: 1;
