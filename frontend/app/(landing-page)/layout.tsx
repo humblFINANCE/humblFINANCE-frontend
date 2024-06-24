@@ -2,11 +2,11 @@ import LandingPageNavbar from '@/components/(landing-page)/LandingPageNavBar'
 import { fontSans } from '@/config/fonts'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
-import { Link } from '@nextui-org/react'
 import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '../providers'
+import LandingFooter from '@/components/(landing-page)/Footer'
 
 export const metadata: Metadata = {
   title: {
@@ -49,17 +49,7 @@ export default function RootLayout({
             <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
               {children}
             </main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://humblfinance.github.io/humblDATA/"
-                title="humblDATA homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">humblDATA</p>
-              </Link>
-            </footer>
+            <LandingFooter />
           </div>
         </Providers>
       </body>
