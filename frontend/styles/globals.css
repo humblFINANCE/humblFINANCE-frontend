@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#hcaptcha-comp {
+  display: flex;
+  justify-content: center;
+}

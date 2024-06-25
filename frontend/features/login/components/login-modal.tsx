@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
   Modal,
   ModalContent,
@@ -21,6 +21,9 @@ import CaptchaModal from './captcha-modal'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import PasswordlessLoginForm from './passwordless-form'
 import { useFormState } from 'react-dom'
+import { useForm } from 'react-hook-form'
+import { sign } from 'crypto'
+import { useSignInState } from '../hooks/use-signIn-state'
 
 export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
   const { onOpenChange, isOpen } = props
@@ -30,6 +33,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
 
   const anonymouseLoginFormRef = useRef(null)
   const captchaInputRef = useRef(null)
+  const signInWithEmailCaptchaRef = useRef(null)
 
   const variants = {
     visible: { opacity: 1, y: 0 },
@@ -40,6 +44,20 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
     signInAnonymously,
     ''
   )
+
+  const { signInWithEmailState, signInAction } = useSignInState({
+    captchaToken,
+    error: '',
+  })
+
+  useEffect(() => {
+    if (signInWithEmailState.captchaToken === captchaToken) {
+      if (signInWithEmailCaptchaRef) {
+        console.log('reset captcha')
+        ;(signInWithEmailCaptchaRef as any).current?.resetCaptcha()
+      }
+    }
+  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef])
 
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
@@ -62,7 +80,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                 exit="hidden"
                 initial="hidden"
                 variants={variants}
-                action={signIn}
+                action={signInAction}
               >
                 <Input
                   autoFocus
@@ -81,13 +99,21 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                 />
                 <input type="hidden" name="captchaToken" value={captchaToken} />
                 <HCaptcha
+                  id="hcaptcha-comp"
                   onVerify={(token) => setCaptchaToken(token)}
                   sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  size="normal"
                   theme={'dark'}
+                  ref={signInWithEmailCaptchaRef}
                 />
                 <Button color="primary" type="submit">
                   Login
                 </Button>
+                <RenderIf condition={Boolean(signInWithEmailState.error)}>
+                  <span className="text-danger">
+                    {signInWithEmailState.error}
+                  </span>
+                </RenderIf>
                 {orDivider}
                 <Button
                   fullWidth
@@ -164,7 +190,6 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                     <Divider className="flex-1" />
                   </div>
                   <PasswordlessLoginForm />
-                  <NewUserTooltip />
                 </m.div>
                 <CaptchaModal
                   {...captchaModal}
@@ -175,6 +200,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
             )}
           </AnimatePresence>
         </LazyMotion>
+        <NewUserTooltip />
       </ModalContent>
     </Modal>
   )

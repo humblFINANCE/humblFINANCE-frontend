@@ -13,10 +13,11 @@ import {
 } from '@nextui-org/react'
 import React, { useRef } from 'react'
 import ForgotPassword from './forgot-password-modal'
-import { createClient } from '@/utils/supabase/client'
 import { signIn, forgotPassword } from '../actions'
 import SocialLoginForm from './social-login-form'
 import NewUserTooltip from './new-user-tooltip'
+import RenderIf from '@/components/RenderIf'
+import { useSignInState } from '../hooks/use-signIn-state'
 
 export default function LoginForm() {
   const captchaModal = useDisclosure()
@@ -33,11 +34,20 @@ export default function LoginForm() {
       'border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20',
   }
 
+  const { signInWithEmailState, signInAction } = useSignInState({
+    error: '',
+    captchaToken: '',
+  })
+
   return (
     <>
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
         <p className="pb-2 text-xl font-medium">Log In</p>
-        <form ref={formRef} action={signIn} className="flex flex-col gap-3">
+        <form
+          ref={formRef}
+          action={signInAction}
+          className="flex flex-col gap-3"
+        >
           <input type="hidden" ref={captchaInputRef} name="captchaToken" />
           <Input
             classNames={inputClasses}
@@ -92,6 +102,9 @@ export default function LoginForm() {
           <Button onClick={captchaModal.onOpenChange} className={buttonClasses}>
             Log In
           </Button>
+          <RenderIf condition={Boolean(signInWithEmailState.error)}>
+            <span className="text-danger">{signInWithEmailState.error}</span>
+          </RenderIf>
           <CaptchaModal
             formRef={formRef}
             captchaInputRef={captchaInputRef}
