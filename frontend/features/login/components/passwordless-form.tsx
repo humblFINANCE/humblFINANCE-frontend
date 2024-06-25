@@ -1,11 +1,16 @@
 import React, { useCallback, useState } from 'react'
-import { Button , Input ,
+import {
+  Button,
+  Input,
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
+  useDisclosure,
 } from '@nextui-org/react'
+import { createClient } from '@/utils/supabase/client'
+import { Icon } from '@iconify/react'
 
 type ModalProps = {
   isOpen: boolean
@@ -15,7 +20,68 @@ type ModalProps = {
   type: 'magicLink' | 'phoneNumber'
 }
 
-export default function PasswordLessLoginModal({
+export default function PasswordlessLoginForm() {
+  const passwordLessModal = useDisclosure()
+  const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
+
+  const [passwordLessModalType, setPasswordLessModalType] = React.useState<
+    'magicLink' | 'phoneNumber'
+  >('magicLink')
+
+  const handleLoginPasswordLess = async (
+    type: 'magicLink' | 'phoneNumber',
+    value: string
+  ) => {
+    const supabase = createClient()
+    const target = type === 'magicLink' ? { email: value } : { phone: value }
+    const { error } = await supabase.auth.signInWithOtp({
+      ...target,
+      options: {
+        emailRedirectTo: window.origin + '/auth/callback/social-login',
+        shouldCreateUser: true,
+      },
+    })
+
+    if (error) {
+      throw new Error(error?.message)
+    }
+  }
+
+  const handleOpenPasswordLessModal = (type: 'magicLink' | 'phoneNumber') => {
+    return function () {
+      setPasswordLessModalType(type)
+      passwordLessModal.onOpen()
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <Button
+        onClick={handleOpenPasswordLessModal('magicLink')}
+        className={buttonClasses}
+        startContent={<Icon icon="mdi:email-lock-outline" width={24} />}
+      >
+        Continue with E-Mail
+      </Button>
+      <Button
+        type="submit"
+        onClick={handleOpenPasswordLessModal('phoneNumber')}
+        className={buttonClasses}
+        startContent={<Icon icon="fluent:phone-lock-24-regular" width={24} />}
+      >
+        Continue with Phone
+      </Button>
+      <PasswordLessLoginModal
+        onSignIn={handleLoginPasswordLess}
+        type={passwordLessModalType}
+        onOpenChange={passwordLessModal.onOpenChange}
+        isOpen={passwordLessModal.isOpen}
+      />
+    </div>
+  )
+}
+
+export function PasswordLessLoginModal({
   isOpen,
   onOpenChange,
   onSignIn,

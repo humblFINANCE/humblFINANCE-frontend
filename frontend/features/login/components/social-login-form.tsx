@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
-import { Button, Divider } from '@nextui-org/react'
-import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
+import { Button } from '@nextui-org/react'
+import { m } from 'framer-motion'
 import { useLogin } from '../hooks/use-login'
 
 export default function SocialLoginForm() {

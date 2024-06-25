@@ -1,6 +1,6 @@
 'use client'
 import CaptchaModal from './captcha-modal'
-import PasswordLessLoginModal from './passwordless-modal'
+import PasswordlessForm from './passwordless-form'
 import { Icon } from '@iconify/react'
 import {
   Button,
@@ -8,7 +8,6 @@ import {
   Divider,
   Link,
   useDisclosure,
-  Tooltip,
   Input,
   type InputProps,
 } from '@nextui-org/react'
@@ -17,51 +16,21 @@ import ForgotPassword from './forgot-password-modal'
 import { createClient } from '@/utils/supabase/client'
 import { signIn, forgotPassword } from '../actions'
 import SocialLoginForm from './social-login-form'
+import NewUserTooltip from './new-user-tooltip'
 
 export default function LoginForm() {
   const captchaModal = useDisclosure()
-  const passwordLessModal = useDisclosure()
   const forgotPasswordModal = useDisclosure()
   const [isVisible, setIsVisible] = React.useState(false)
-  const [passwordLessModalType, setPasswordLessModalType] = React.useState<
-    'magicLink' | 'phoneNumber'
-  >('magicLink')
   const formRef = useRef(null)
   const captchaInputRef = useRef(null)
 
   const toggleVisibility = () => setIsVisible(!isVisible)
 
+  const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
   const inputClasses: InputProps['classNames'] = {
     inputWrapper:
       'border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20',
-  }
-
-  const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
-
-  const handleLoginPasswordLess = async (
-    type: 'magicLink' | 'phoneNumber',
-    value: string
-  ) => {
-    const supabase = createClient()
-    const target = type === 'magicLink' ? { email: value } : { phone: value }
-    const { error } = await supabase.auth.signInWithOtp({
-      ...target,
-      options: {
-        emailRedirectTo: window.origin + '/auth/callback/social-login',
-        shouldCreateUser: true,
-      },
-    })
-
-    if (error) {
-      throw new Error(error?.message)
-    }
-  }
-
-  const handleOpenPasswordLessModal = (type: 'magicLink' | 'phoneNumber') => {
-    return function () {
-      setPasswordLessModalType(type)
-      passwordLessModal.onOpen()
-    }
   }
 
   return (
@@ -140,54 +109,10 @@ export default function LoginForm() {
           <p className="shrink-0 text-tiny text-default-500">PASSWORDLESS</p>
           <Divider className="flex-1" />
         </div>
-        <div className="flex flex-col gap-2">
-          <Button
-            onClick={handleOpenPasswordLessModal('magicLink')}
-            className={buttonClasses}
-            startContent={<Icon icon="mdi:email-lock-outline" width={24} />}
-          >
-            Continue with E-Mail
-          </Button>
-          <Button
-            type="submit"
-            onClick={handleOpenPasswordLessModal('phoneNumber')}
-            className={buttonClasses}
-            startContent={
-              <Icon icon="fluent:phone-lock-24-regular" width={24} />
-            }
-          >
-            Continue with Phone
-          </Button>
-        </div>
-        <p className="text-center text-small">
-          <span className="text-foreground/50">New User?</span>{' '}
-          <Tooltip
-            content={
-              <div className="px-1 py-2">
-                <div className="text-medium font-bold">First Time User?</div>
-                <div className="text-small">
-                  If you have not signed up yet, when you sign in for the first
-                  time, the password that you enter will be set as your account
-                  password.
-                </div>
-              </div>
-            }
-            placement="bottom"
-            color="foreground"
-          >
-            <span className="cursor-pointer text-foreground/50 hover:text-foreground/100">
-              Hover over me for help!
-            </span>
-          </Tooltip>
-        </p>
+        <PasswordlessForm />
+        <NewUserTooltip />
       </div>
       <ForgotPassword action={forgotPassword as any} {...forgotPasswordModal} />
-      <PasswordLessLoginModal
-        onSignIn={handleLoginPasswordLess}
-        type={passwordLessModalType}
-        onOpenChange={passwordLessModal.onOpenChange}
-        isOpen={passwordLessModal.isOpen}
-      />
     </>
   )
 }

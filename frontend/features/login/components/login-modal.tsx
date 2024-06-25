@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Modal,
   ModalContent,
@@ -10,19 +10,36 @@ import {
   Input,
 } from '@nextui-org/react'
 
+import RenderIf from '@/components/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import SocialLoginForm from './social-login-form'
 import { signIn } from '../actions'
+import NewUserTooltip from './new-user-tooltip'
+import { signInAnonymously } from '../actions/signIn-anonymously'
+import CaptchaModal from './captcha-modal'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import PasswordlessLoginForm from './passwordless-form'
+import { useFormState } from 'react-dom'
 
 export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
   const { onOpenChange, isOpen } = props
   const [isFormVisible, setIsFormVisible] = React.useState(false)
+  const [captchaToken, setCaptchaToken] = React.useState('')
+  const captchaModal = useDisclosure()
+
+  const anonymouseLoginFormRef = useRef(null)
+  const captchaInputRef = useRef(null)
 
   const variants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: 10 },
   }
+
+  const [signInAnonymError, signInAnonymAction] = useFormState(
+    signInAnonymously,
+    ''
+  )
 
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
@@ -41,7 +58,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
             {isFormVisible ? (
               <m.form
                 animate="visible"
-                className="flex flex-col gap-y-3"
+                className="flex flex-col gap-3"
                 exit="hidden"
                 initial="hidden"
                 variants={variants}
@@ -61,6 +78,12 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                   name="password"
                   type="password"
                   variant="bordered"
+                />
+                <input type="hidden" name="captchaToken" value={captchaToken} />
+                <HCaptcha
+                  onVerify={(token) => setCaptchaToken(token)}
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  theme={'dark'}
                 />
                 <Button color="primary" type="submit">
                   Login
@@ -83,20 +106,31 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
               </m.form>
             ) : (
               <>
-                <Button
-                  fullWidth
-                  color="primary"
-                  startContent={
-                    <Icon
-                      className="pointer-events-none text-2xl"
-                      icon="solar:letter-bold"
-                    />
-                  }
-                  type="button"
-                  onPress={() => setIsFormVisible(true)}
-                >
-                  Continue Anonymously
-                </Button>
+                <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
+                  <input
+                    ref={captchaInputRef}
+                    type="hidden"
+                    name="capchaToken"
+                  />
+                  <Button
+                    fullWidth
+                    color="primary"
+                    startContent={
+                      <Icon
+                        className="pointer-events-none text-2xl"
+                        icon="majesticons:eye-off"
+                      />
+                    }
+                    type="submit"
+                    onClick={captchaModal.onOpenChange}
+                  >
+                    Continue Anonymously
+                  </Button>
+                  <RenderIf condition={Boolean(signInAnonymError)}>
+                    <span className="text-danger">{signInAnonymError}</span>
+                  </RenderIf>
+                </form>
+
                 {orDivider}
 
                 <Button
@@ -122,11 +156,21 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                   variants={variants}
                 >
                   <SocialLoginForm />
-                  <p className="mt-3 text-center text-small">
-                    If is this your first time, your account will automatically
-                    created?&nbsp;
-                  </p>
+                  <div className="flex items-center gap-4 py-2">
+                    <Divider className="flex-1" />
+                    <p className="shrink-0 text-tiny text-default-500">
+                      PASSWORDLESS
+                    </p>
+                    <Divider className="flex-1" />
+                  </div>
+                  <PasswordlessLoginForm />
+                  <NewUserTooltip />
                 </m.div>
+                <CaptchaModal
+                  {...captchaModal}
+                  captchaInputRef={captchaInputRef}
+                  formRef={anonymouseLoginFormRef}
+                />
               </>
             )}
           </AnimatePresence>

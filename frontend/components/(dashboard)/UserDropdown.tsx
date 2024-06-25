@@ -1,7 +1,8 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { Avatar ,
+import {
+  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,

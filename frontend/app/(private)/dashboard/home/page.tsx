@@ -1,4 +1,3 @@
-import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
@@ -13,8 +12,8 @@ export default async function PrivateTestPage() {
 
   return (
     <>
-      <p>Hello {data.user.email}</p>
-      <LogoutModal />
+      <p>Hello </p>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </>
   )
 }
