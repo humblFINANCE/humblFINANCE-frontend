@@ -130,7 +130,7 @@ export default function WatchListModal({
                     {watchlists.map((item, index) => (
                       <div
                         key={item}
-                        className="flex justify-between items-center transition-background ease-in-out duration-200   dark:hover:bg-gradient-to-t from-zinc-700 to-transparent px-2 rounded-md"
+                        className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                       >
                         <p
                           className="bg-transparent w-full  text-xl cursor-pointer  "
