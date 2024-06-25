@@ -139,7 +139,7 @@ export default function WatchListModal({
                           {item}
                         </p>
 
-                        <div className="flex flex-row gap-2">
+                        <div className="flex flex-row ">
                           <Button
                             className="bg-transparent"
                             isIconOnly
