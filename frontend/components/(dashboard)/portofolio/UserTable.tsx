@@ -1,15 +1,15 @@
 'use client'
 
 import { cn } from '@/utils/nextui/cn'
+import { InlineIcon } from '@iconify/react'
+import { Button, Select, SelectItem, useDisclosure } from '@nextui-org/react'
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
+import { useState } from 'react'
+import WatchList from './WatchListModal'
 import dataTable from './data'
 import { IDataWatchList } from './types'
-import { Button, Select, SelectItem, useDisclosure } from '@nextui-org/react'
-import { stockSectors } from './constants'
-import { InlineIcon } from '@iconify/react'
-import WatchList from './WatchListModal'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -47,22 +47,26 @@ const defaultColDef: agGrid.ColDef = {
 const UserTable = () => {
   const { theme } = useTheme()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [watchlists, setWatchlists] = useState<string[]>([])
 
   return (
     <div className="h-full flex flex-col">
       <div className=" flex items-center gap-2 mb-2">
         <Select
           aria-label="Select Sectore"
-          placeholder="Select Sector"
+          placeholder={
+            watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
+          }
           defaultSelectedKeys={['healthcare']}
           className="max-w-xs"
           scrollShadowProps={{
             isEnabled: false,
           }}
         >
-          {stockSectors.map((sector) => (
-            <SelectItem key={sector.value}>{sector.label}</SelectItem>
-          ))}
+          {watchlists &&
+            watchlists.map((watchlist) => (
+              <SelectItem key={watchlist}>{watchlist}</SelectItem>
+            ))}
         </Select>
         <Button className="bg-transparent" isIconOnly onPress={onOpen}>
           <InlineIcon icon={'mdi:gear'} fontSize={28} />
@@ -80,7 +84,12 @@ const UserTable = () => {
           defaultColDef={defaultColDef}
         />
       </div>
-      <WatchList isOpen={isOpen} onOpenChange={onOpenChange} />
+      <WatchList
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        setWatchlists={setWatchlists}
+        watchlists={watchlists}
+      />
     </div>
   )
 }
