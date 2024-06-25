@@ -15,16 +15,14 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import type { NavbarProps } from '@nextui-org/react'
-import { usePathname } from 'next/navigation'
 import React from 'react'
-import LoginModal from './login/LoginModal'
+import LoginModal from '@/features/login/components/login-modal'
 
 const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
-  const pathname = usePathname()
 
   return (
     <Navbar

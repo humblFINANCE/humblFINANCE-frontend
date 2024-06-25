@@ -12,6 +12,8 @@ import {
 
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
+import SocialLoginForm from './social-login-form'
+import { signIn } from '../actions'
 
 export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
   const { onOpenChange, isOpen } = props
@@ -33,7 +35,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
-        <ModalHeader className="p-0">Sign Up</ModalHeader>
+        <ModalHeader className="p-0">Login</ModalHeader>
         <LazyMotion features={domAnimation}>
           <AnimatePresence initial={false} mode="popLayout">
             {isFormVisible ? (
@@ -43,7 +45,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                 exit="hidden"
                 initial="hidden"
                 variants={variants}
-                onSubmit={(e) => e.preventDefault()}
+                action={signIn}
               >
                 <Input
                   autoFocus
@@ -61,7 +63,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                   variant="bordered"
                 />
                 <Button color="primary" type="submit">
-                  Sign Up
+                  Login
                 </Button>
                 {orDivider}
                 <Button
@@ -76,7 +78,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                   variant="flat"
                   onPress={() => setIsFormVisible(false)}
                 >
-                  Other Sign Up options
+                  Other Login options
                 </Button>
               </m.form>
             ) : (
@@ -119,67 +121,7 @@ export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
                   initial="hidden"
                   variants={variants}
                 >
-                  <Button
-                    fullWidth
-                    startContent={
-                      <Icon icon="flat-color-icons:google" width={24} />
-                    }
-                    variant="flat"
-                  >
-                    Continue with Google
-                  </Button>
-                  <Button
-                    fullWidth
-                    startContent={
-                      <Icon
-                        className="text-default-500"
-                        icon="fe:github"
-                        width={24}
-                      />
-                    }
-                    variant="flat"
-                  >
-                    Continue with GitHub
-                  </Button>
-                  <Button
-                    fullWidth
-                    startContent={
-                      <Icon
-                        className="text-default-500"
-                        icon="ic:baseline-discord"
-                        width={24}
-                      />
-                    }
-                    variant="flat"
-                  >
-                    Continue with Discord
-                  </Button>
-                  <Button
-                    fullWidth
-                    startContent={
-                      <Icon
-                        className="text-default-500"
-                        icon="fe:twitter"
-                        width={24}
-                      />
-                    }
-                    variant="flat"
-                  >
-                    Continue with Twitter
-                  </Button>
-                  <Button
-                    fullWidth
-                    startContent={
-                      <Icon
-                        className="text-default-500"
-                        icon="mdi:linkedin"
-                        width={24}
-                      />
-                    }
-                    variant="flat"
-                  >
-                    Continue with LinkedIn
-                  </Button>
+                  <SocialLoginForm />
                   <p className="mt-3 text-center text-small">
                     If is this your first time, your account will automatically
                     created?&nbsp;

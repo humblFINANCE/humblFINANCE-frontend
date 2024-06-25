@@ -1,5 +1,6 @@
-import CaptchaModal from '@/components/(landing-page)/login/CaptchaModal'
-import PasswordLessLoginModal from '@/components/(landing-page)/login/PasswordlessModal'
+'use client'
+import CaptchaModal from './captcha-modal'
+import PasswordLessLoginModal from './passwordless-modal'
 import { Icon } from '@iconify/react'
 import {
   Button,
@@ -12,17 +13,15 @@ import {
   type InputProps,
 } from '@nextui-org/react'
 import React, { useRef } from 'react'
-import ForgotPassword from '@/components/(landing-page)/login/ForgotPasswordModal'
-import { useRouter } from 'next/router'
+import ForgotPassword from './forgot-password-modal'
 import { createClient } from '@/utils/supabase/client'
-import { signIn, forgotPassword } from '@/app/(landing-page)/login/action'
+import { signIn, forgotPassword } from '../actions'
+import SocialLoginForm from './social-login-form'
 
 export default function LoginForm() {
   const captchaModal = useDisclosure()
   const passwordLessModal = useDisclosure()
-  const signInModal = useDisclosure()
   const forgotPasswordModal = useDisclosure()
-  const router = useRouter()
   const [isVisible, setIsVisible] = React.useState(false)
   const [passwordLessModalType, setPasswordLessModalType] = React.useState<
     'magicLink' | 'phoneNumber'
@@ -38,30 +37,6 @@ export default function LoginForm() {
   }
 
   const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
-
-  const handleLoginWithOauth = (
-    provider:
-      | 'google'
-      | 'github'
-      | 'twitter'
-      | 'discord'
-      | 'linkedin_oidc'
-      | 'apple'
-  ) => {
-    return async function () {
-      const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: provider,
-        options: {
-          redirectTo: window.origin + '/auth/callback/social-login',
-        },
-      })
-
-      if (error) {
-        router.replace('/login?message=' + error.message)
-      }
-    }
-  }
 
   const handleLoginPasswordLess = async (
     type: 'magicLink' | 'phoneNumber',
@@ -90,7 +65,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className=" fixed inset-0 flex h-screen w-screen items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
+    <>
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
         <p className="pb-2 text-xl font-medium">Log In</p>
         <form ref={formRef} action={signIn} className="flex flex-col gap-3">
@@ -159,48 +134,7 @@ export default function LoginForm() {
           <p className="shrink-0 text-tiny text-default-500">SOCIAL LOGIN</p>
           <Divider className="flex-1" />
         </div>
-        <form className="flex flex-col gap-2">
-          <div className="flex flex-row gap-3 justify-center">
-            <Button
-              className={buttonClasses}
-              onClick={handleLoginWithOauth('google')}
-              startContent={<Icon icon="fe:google" width={24} />}
-            />
-            <Button
-              type="submit"
-              onClick={handleLoginWithOauth('github')}
-              className={buttonClasses}
-              startContent={<Icon icon="fe:github" width={24} />}
-            />
-            <Button
-              type="submit"
-              onClick={handleLoginWithOauth('twitter')}
-              className={buttonClasses}
-              startContent={<Icon icon="fe:twitter" width={24} />}
-            />
-          </div>
-          <div className="flex flex-row gap-3 justify-center">
-            <Button
-              type="submit"
-              onClick={handleLoginWithOauth('discord')}
-              className={buttonClasses}
-              startContent={<Icon icon="ic:baseline-discord" width={24} />}
-            />
-            <Button
-              type="submit"
-              onClick={handleLoginWithOauth('linkedin_oidc')}
-              className={buttonClasses}
-              startContent={<Icon icon="mdi:linkedin" width={24} />}
-            />
-            <Button
-              isDisabled
-              type="submit"
-              onClick={handleLoginWithOauth('apple')}
-              className={buttonClasses}
-              startContent={<Icon icon="ic:baseline-apple" width={24} />}
-            />
-          </div>
-        </form>
+        <SocialLoginForm />
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
           <p className="shrink-0 text-tiny text-default-500">PASSWORDLESS</p>
@@ -254,6 +188,6 @@ export default function LoginForm() {
         onOpenChange={passwordLessModal.onOpenChange}
         isOpen={passwordLessModal.isOpen}
       />
-    </div>
+    </>
   )
 }
