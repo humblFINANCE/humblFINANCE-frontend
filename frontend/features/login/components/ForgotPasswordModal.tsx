@@ -7,7 +7,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
- Input , Button } from '@nextui-org/react'
+  Input,
+  Button,
+} from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 type ModalProps = {
@@ -17,7 +19,7 @@ type ModalProps = {
   action: <State, Payload>(prevState: Awaited<State>, data: Payload) => State
 }
 
-export default function ForgotPassword({
+export function ForgotPasswordModal({
   isOpen,
   onOpenChange,
   action,
