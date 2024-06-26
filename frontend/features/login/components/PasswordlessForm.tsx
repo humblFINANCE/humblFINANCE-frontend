@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Button,
   Input,
@@ -11,14 +11,8 @@ import {
 } from '@nextui-org/react'
 import { createClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
-
-type ModalProps = {
-  isOpen: boolean
-  onOpen?: () => void
-  onOpenChange: (open: boolean) => void
-  onSignIn: (type: 'magicLink' | 'phoneNumber', input: string) => Promise<void>
-  type: 'magicLink' | 'phoneNumber'
-}
+import { CaptchaInput } from './CapchaInput'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
@@ -30,7 +24,8 @@ export function PasswordlessLoginForm() {
 
   const handleLoginPasswordLess = async (
     type: 'magicLink' | 'phoneNumber',
-    value: string
+    value: string,
+    captchaToken: string
   ) => {
     const supabase = createClient()
     const target = type === 'magicLink' ? { email: value } : { phone: value }
@@ -39,6 +34,7 @@ export function PasswordlessLoginForm() {
       options: {
         emailRedirectTo: window.origin + '/auth/callback/social-login',
         shouldCreateUser: true,
+        captchaToken,
       },
     })
 
@@ -81,6 +77,18 @@ export function PasswordlessLoginForm() {
   )
 }
 
+type ModalProps = {
+  isOpen: boolean
+  onOpen?: () => void
+  onOpenChange: (open: boolean) => void
+  onSignIn: (
+    type: 'magicLink' | 'phoneNumber',
+    input: string,
+    captchaToken: string
+  ) => Promise<void>
+  type: 'magicLink' | 'phoneNumber'
+}
+
 export function PasswordLessLoginModal({
   isOpen,
   onOpenChange,
@@ -88,11 +96,13 @@ export function PasswordLessLoginModal({
   type,
 }: ModalProps) {
   const [value, setValue] = useState<null | string>()
+  const [captchaToken, setCaptchaToken] = useState('')
   const [result, setResult] = useState({
     error: '',
     submitted: false,
   })
   const [isLoading, setLoading] = useState(false)
+  const captchaInputRef = useRef<any>(null)
   const inputProps =
     type === 'magicLink'
       ? {
@@ -104,10 +114,18 @@ export function PasswordLessLoginModal({
           placeHolder: 'Enter your phone number',
         }
 
-  const handleSignIn = useCallback(async () => {
+  useEffect(() => {
+    if (!isOpen) {
+      setResult({
+        error: '',
+        submitted: false,
+      })
+    }
+  }, [isOpen])
+  const handleSignIn = async () => {
     setLoading(true)
     try {
-      await onSignIn(type, value as string)
+      await onSignIn(type, value as string, captchaToken)
       setResult({
         submitted: true,
         error: '',
@@ -119,9 +137,9 @@ export function PasswordLessLoginModal({
       })
     }
 
+    captchaInputRef.current?.resetCaptcha()
     setLoading(false)
-  }, [onSignIn, type, value])
-
+  }
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
@@ -131,7 +149,7 @@ export function PasswordLessLoginModal({
               <ModalHeader className="flex flex-col gap-1">
                 Continue with {type === 'magicLink' ? 'Magic Link' : 'Phone'}
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="flex items-center">
                 <Input
                   name="input"
                   autoFocus
@@ -142,13 +160,19 @@ export function PasswordLessLoginModal({
                   {...inputProps}
                 />
                 {Boolean(result.error) && (
-                  <div className="text-red-500">{result.error}</div>
+                  <div className="text-danger">{result.error}</div>
                 )}
                 {result.submitted && !Boolean(result.error) && (
-                  <div className="text-lime-500">
+                  <div className="text-success">
                     Check your {type === 'magicLink' ? 'email' : 'phone'}
                   </div>
                 )}
+                <HCaptcha
+                  ref={captchaInputRef}
+                  onVerify={(token) => setCaptchaToken(token)}
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  theme={'dark'}
+                />
               </ModalBody>
               <ModalFooter>
                 <Button
