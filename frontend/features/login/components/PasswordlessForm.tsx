@@ -11,7 +11,6 @@ import {
 } from '@nextui-org/react'
 import { createClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
-import { CaptchaInput } from './CapchaInput'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 export function PasswordlessLoginForm() {

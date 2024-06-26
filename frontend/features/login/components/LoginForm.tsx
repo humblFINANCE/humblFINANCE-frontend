@@ -5,14 +5,14 @@ import { Button, useDisclosure, Divider, Input } from '@nextui-org/react'
 import RenderIf from '@/components/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
-import { SocialLoginForm } from './SocialLoginForm'
-import NewUserTooltip from './NewUserTooltip'
-import { signInAnonymously } from '../actions/signIn-anonymously'
-import { CaptchaModal } from './CaptchaModal'
+import { SocialLoginForm } from '@/features/login/components/SocialLoginForm'
+import NewUserTooltip from '@/features/login/components/NewUserTooltip'
+import { signInAnonymously } from '@/features/login/actions/signIn-anonymously'
+import { CaptchaModal } from '@/features/login/components/CaptchaModal'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import { PasswordlessLoginForm } from './PasswordlessForm'
+import { PasswordlessLoginForm } from '@/features/login/components/PasswordlessForm'
 import { useFormState } from 'react-dom'
-import { useSignInState } from '../hooks/use-signIn-state'
+import { useSignInState } from '@/features/login/hooks/use-signIn-state'
 import { cn } from '@/utils/nextui/cn'
 
 interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {}
@@ -44,7 +44,6 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
   useEffect(() => {
     if (signInWithEmailState.captchaToken === captchaToken) {
       if (signInWithEmailCaptchaRef) {
-        console.log('reset captcha')
         ;(signInWithEmailCaptchaRef as any).current?.resetCaptcha()
       }
     }

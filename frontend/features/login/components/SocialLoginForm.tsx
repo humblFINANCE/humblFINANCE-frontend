@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { Button } from '@nextui-org/react'
 import { m } from 'framer-motion'
-import { useLogin } from '../hooks/use-login'
+import { useLogin } from '@/features/login/hooks/use-login'
 
 export function SocialLoginForm() {
   const { handleLoginWithOauth } = useLogin()

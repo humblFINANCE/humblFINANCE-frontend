@@ -6,7 +6,7 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@nextui-org/react'
-import { LoginForm } from './LoginForm'
+import { LoginForm } from '@/features/login/components/LoginForm'
 export function LoginModal(props: ReturnType<typeof useDisclosure>) {
   const { onOpenChange, isOpen } = props
   return (
