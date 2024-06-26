@@ -1,134 +1,197 @@
 'use client'
-import { CaptchaModal } from './CaptchaModal'
-import { PasswordlessLoginForm } from './PasswordlessForm'
+import React, { useEffect, useRef } from 'react'
+import { Button, useDisclosure, Divider, Input } from '@nextui-org/react'
+
+import RenderIf from '@/components/RenderIf'
+import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
-import {
-  Button,
-  Checkbox,
-  Divider,
-  Link,
-  useDisclosure,
-  Input,
-  type InputProps,
-} from '@nextui-org/react'
-import React, { useRef } from 'react'
-import { ForgotPasswordModal } from './ForgotPasswordModal'
-import { forgotPassword } from '../actions'
 import { SocialLoginForm } from './SocialLoginForm'
 import NewUserTooltip from './NewUserTooltip'
-import RenderIf from '@/components/RenderIf'
+import { signInAnonymously } from '../actions/signIn-anonymously'
+import { CaptchaModal } from './CaptchaModal'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { PasswordlessLoginForm } from './PasswordlessForm'
+import { useFormState } from 'react-dom'
 import { useSignInState } from '../hooks/use-signIn-state'
+import { cn } from '@/utils/nextui/cn'
 
-export function LoginForm() {
+interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {}
+
+export function LoginForm({ className, ...rest }: LoginFormProps) {
+  const [isFormVisible, setIsFormVisible] = React.useState(false)
+  const [captchaToken, setCaptchaToken] = React.useState('')
   const captchaModal = useDisclosure()
-  const forgotPasswordModal = useDisclosure()
-  const [isVisible, setIsVisible] = React.useState(false)
-  const formRef = useRef(null)
+
+  const anonymouseLoginFormRef = useRef(null)
   const captchaInputRef = useRef(null)
+  const signInWithEmailCaptchaRef = useRef(null)
 
-  const toggleVisibility = () => setIsVisible(!isVisible)
-
-  const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
-  const inputClasses: InputProps['classNames'] = {
-    inputWrapper:
-      'border-transparent bg-default-50/40 dark:bg-default-50/20 group-data-[focus=true]:border-primary data-[hover=true]:border-foreground/20',
+  const variants = {
+    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 10 },
   }
 
+  const [signInAnonymError, signInAnonymAction] = useFormState(
+    signInAnonymously,
+    ''
+  )
+
   const { signInWithEmailState, signInAction } = useSignInState({
+    captchaToken,
     error: '',
-    captchaToken: '',
   })
 
+  useEffect(() => {
+    if (signInWithEmailState.captchaToken === captchaToken) {
+      if (signInWithEmailCaptchaRef) {
+        console.log('reset captcha')
+        ;(signInWithEmailCaptchaRef as any).current?.resetCaptcha()
+      }
+    }
+  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef])
+
+  const orDivider = (
+    <div className="flex items-center gap-4 py-2">
+      <Divider className="flex-1" />
+      <p className="shrink-0 text-tiny text-default-500">OR</p>
+      <Divider className="flex-1" />
+    </div>
+  )
+
   return (
-    <>
-      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-background/60 px-8 pb-10 pt-6 shadow-small backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50">
-        <p className="pb-2 text-xl font-medium">Log In</p>
-        <form
-          ref={formRef}
-          action={signInAction}
-          className="flex flex-col gap-3"
-        >
-          <input type="hidden" ref={captchaInputRef} name="captchaToken" />
-          <Input
-            classNames={inputClasses}
-            label="Email Address"
-            name="email"
-            placeholder="Enter your email"
-            type="email"
-            variant="bordered"
-          />
-          <Input
-            classNames={inputClasses}
-            endContent={
-              <button type="button" onClick={toggleVisibility}>
-                {isVisible ? (
-                  <Icon
-                    className="pointer-events-none text-2xl text-foreground/50"
-                    icon="solar:eye-closed-linear"
-                  />
-                ) : (
-                  <Icon
-                    className="pointer-events-none text-2xl text-foreground/50"
-                    icon="solar:eye-bold"
-                  />
-                )}
-              </button>
-            }
-            label="Password"
-            name="password"
-            placeholder="Enter your password"
-            type={isVisible ? 'text' : 'password'}
-            variant="bordered"
-          />
-          <div className="flex items-center justify-between px-1 py-2">
-            <Checkbox
-              classNames={{
-                wrapper: 'before:border-foreground/50',
-              }}
-              name="remember"
-              size="sm"
+    <div
+      className={cn(
+        'flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 ',
+        className
+      )}
+      {...rest}
+    >
+      <LazyMotion features={domAnimation}>
+        <AnimatePresence initial={false} mode="popLayout">
+          {isFormVisible ? (
+            <m.form
+              animate="visible"
+              className="flex flex-col gap-3"
+              exit="hidden"
+              initial="hidden"
+              variants={variants}
+              action={signInAction}
             >
-              Remember me
-            </Checkbox>
-            <Link
-              onClick={forgotPasswordModal.onOpenChange}
-              className="text-foreground/50"
-              href="#"
-              size="sm"
-            >
-              Forgot Password
-            </Link>
-          </div>
-          <Button onClick={captchaModal.onOpenChange} className={buttonClasses}>
-            Log In
-          </Button>
-          <RenderIf condition={Boolean(signInWithEmailState.error)}>
-            <span className="text-danger">{signInWithEmailState.error}</span>
-          </RenderIf>
-          <CaptchaModal
-            formRef={formRef}
-            captchaInputRef={captchaInputRef}
-            {...captchaModal}
-          />
-        </form>
-        <div className="flex items-center gap-4 py-2">
-          <Divider className="flex-1" />
-          <p className="shrink-0 text-tiny text-default-500">SOCIAL LOGIN</p>
-          <Divider className="flex-1" />
-        </div>
-        <SocialLoginForm />
-        <div className="flex items-center gap-4 py-2">
-          <Divider className="flex-1" />
-          <p className="shrink-0 text-tiny text-default-500">PASSWORDLESS</p>
-          <Divider className="flex-1" />
-        </div>
-        <PasswordlessLoginForm />
-        <NewUserTooltip />
-      </div>
-      <ForgotPasswordModal
-        action={forgotPassword as any}
-        {...forgotPasswordModal}
-      />
-    </>
+              <Input
+                autoFocus
+                isRequired
+                label="Email Address"
+                name="email"
+                type="email"
+                variant="bordered"
+              />
+              <Input
+                isRequired
+                label="Password"
+                name="password"
+                type="password"
+                variant="bordered"
+              />
+              <input type="hidden" name="captchaToken" value={captchaToken} />
+              <HCaptcha
+                id="hcaptcha-comp"
+                onVerify={(token) => setCaptchaToken(token)}
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                size="normal"
+                theme={'dark'}
+                ref={signInWithEmailCaptchaRef}
+              />
+              <Button color="primary" type="submit">
+                Login
+              </Button>
+              <RenderIf condition={Boolean(signInWithEmailState.error)}>
+                <span className="text-danger">
+                  {signInWithEmailState.error}
+                </span>
+              </RenderIf>
+              {orDivider}
+              <Button
+                fullWidth
+                startContent={
+                  <Icon
+                    className="text-default-500"
+                    icon="solar:arrow-left-linear"
+                    width={18}
+                  />
+                }
+                variant="flat"
+                onPress={() => setIsFormVisible(false)}
+              >
+                Other Login options
+              </Button>
+            </m.form>
+          ) : (
+            <>
+              <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
+                <input ref={captchaInputRef} type="hidden" name="capchaToken" />
+                <Button
+                  fullWidth
+                  color="primary"
+                  startContent={
+                    <Icon
+                      className="pointer-events-none text-2xl"
+                      icon="majesticons:eye-off"
+                    />
+                  }
+                  type="submit"
+                  onClick={captchaModal.onOpenChange}
+                >
+                  Continue Anonymously
+                </Button>
+                <RenderIf condition={Boolean(signInAnonymError)}>
+                  <span className="text-danger">{signInAnonymError}</span>
+                </RenderIf>
+              </form>
+
+              {orDivider}
+
+              <Button
+                fullWidth
+                color="primary"
+                startContent={
+                  <Icon
+                    className="pointer-events-none text-2xl"
+                    icon="solar:letter-bold"
+                  />
+                }
+                type="button"
+                onPress={() => setIsFormVisible(true)}
+              >
+                Continue with Email
+              </Button>
+              {orDivider}
+              <m.div
+                animate="visible"
+                className="flex flex-col gap-y-2"
+                exit="hidden"
+                initial="hidden"
+                variants={variants}
+              >
+                <SocialLoginForm />
+                <div className="flex items-center gap-4 py-2">
+                  <Divider className="flex-1" />
+                  <p className="shrink-0 text-tiny text-default-500">
+                    PASSWORDLESS
+                  </p>
+                  <Divider className="flex-1" />
+                </div>
+                <PasswordlessLoginForm />
+              </m.div>
+              <CaptchaModal
+                {...captchaModal}
+                captchaInputRef={captchaInputRef}
+                formRef={anonymouseLoginFormRef}
+              />
+            </>
+          )}
+        </AnimatePresence>
+      </LazyMotion>
+      <NewUserTooltip />
+    </div>
   )
 }
