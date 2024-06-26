@@ -5,7 +5,7 @@ import '@/styles/globals.css'
 import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
-import { Providers } from '../providers'
+import { Providers } from '@/app/providers'
 import LandingFooter from '@/components/(landing-page)/Footer'
 
 export const metadata: Metadata = {
