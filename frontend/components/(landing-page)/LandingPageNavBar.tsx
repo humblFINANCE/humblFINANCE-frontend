@@ -24,6 +24,7 @@ const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
+  const pathname = usePathname()
 
   const checkActive = (path: string) => {
     return pathname === path
