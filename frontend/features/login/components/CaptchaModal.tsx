@@ -18,7 +18,7 @@ type ModalProps = {
   captchaInputRef: React.MutableRefObject<HTMLInputElement | null>
 }
 
-export default function CaptchaModal({
+export function CaptchaModal({
   isOpen,
   onOpenChange,
   onClose,

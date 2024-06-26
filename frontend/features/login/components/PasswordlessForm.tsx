@@ -20,7 +20,7 @@ type ModalProps = {
   type: 'magicLink' | 'phoneNumber'
 }
 
-export default function PasswordlessLoginForm() {
+export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
   const buttonClasses = 'bg-foreground/10 dark:bg-foreground/20'
 

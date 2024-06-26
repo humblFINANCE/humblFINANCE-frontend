@@ -13,19 +13,16 @@ import {
 import RenderIf from '@/components/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
-import SocialLoginForm from './social-login-form'
-import { signIn } from '../actions'
-import NewUserTooltip from './new-user-tooltip'
+import { SocialLoginForm } from './SocialLoginForm'
+import NewUserTooltip from './NewUserTooltip'
 import { signInAnonymously } from '../actions/signIn-anonymously'
-import CaptchaModal from './captcha-modal'
+import { CaptchaModal } from './CaptchaModal'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import PasswordlessLoginForm from './passwordless-form'
+import { PasswordlessLoginForm } from './PasswordlessForm'
 import { useFormState } from 'react-dom'
-import { useForm } from 'react-hook-form'
-import { sign } from 'crypto'
 import { useSignInState } from '../hooks/use-signIn-state'
 
-export default function LoginModal(props: ReturnType<typeof useDisclosure>) {
+export function LoginModal(props: ReturnType<typeof useDisclosure>) {
   const { onOpenChange, isOpen } = props
   const [isFormVisible, setIsFormVisible] = React.useState(false)
   const [captchaToken, setCaptchaToken] = React.useState('')

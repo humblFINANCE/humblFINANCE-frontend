@@ -3,7 +3,7 @@ import { Button } from '@nextui-org/react'
 import { m } from 'framer-motion'
 import { useLogin } from '../hooks/use-login'
 
-export default function SocialLoginForm() {
+export function SocialLoginForm() {
   const { handleLoginWithOauth } = useLogin()
   const variants = {
     visible: { opacity: 1, y: 0 },

@@ -16,7 +16,7 @@ import {
 } from '@nextui-org/react'
 import type { NavbarProps } from '@nextui-org/react'
 import React from 'react'
-import LoginModal from '@/features/login/components/login-modal'
+import { LoginModal } from '@/features/login/components/LoginModal'
 
 const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 

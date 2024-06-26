@@ -1,6 +1,6 @@
 'use client'
-import CaptchaModal from './captcha-modal'
-import PasswordlessForm from './passwordless-form'
+import { CaptchaModal } from './CaptchaModal'
+import { PasswordlessLoginForm } from './PasswordlessForm'
 import { Icon } from '@iconify/react'
 import {
   Button,
@@ -12,14 +12,14 @@ import {
   type InputProps,
 } from '@nextui-org/react'
 import React, { useRef } from 'react'
-import ForgotPassword from './forgot-password-modal'
-import { signIn, forgotPassword } from '../actions'
-import SocialLoginForm from './social-login-form'
-import NewUserTooltip from './new-user-tooltip'
+import { ForgotPasswordModal } from './ForgotPasswordModal'
+import { forgotPassword } from '../actions'
+import { SocialLoginForm } from './SocialLoginForm'
+import NewUserTooltip from './NewUserTooltip'
 import RenderIf from '@/components/RenderIf'
 import { useSignInState } from '../hooks/use-signIn-state'
 
-export default function LoginForm() {
+export function LoginForm() {
   const captchaModal = useDisclosure()
   const forgotPasswordModal = useDisclosure()
   const [isVisible, setIsVisible] = React.useState(false)
@@ -122,10 +122,13 @@ export default function LoginForm() {
           <p className="shrink-0 text-tiny text-default-500">PASSWORDLESS</p>
           <Divider className="flex-1" />
         </div>
-        <PasswordlessForm />
+        <PasswordlessLoginForm />
         <NewUserTooltip />
       </div>
-      <ForgotPassword action={forgotPassword as any} {...forgotPasswordModal} />
+      <ForgotPasswordModal
+        action={forgotPassword as any}
+        {...forgotPasswordModal}
+      />
     </>
   )
 }
