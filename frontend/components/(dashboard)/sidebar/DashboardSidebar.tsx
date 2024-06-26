@@ -2,7 +2,14 @@
 
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
-import { Avatar , Button , useDisclosure , ScrollShadow , Spacer , Tooltip } from '@nextui-org/react'
+import {
+  Avatar,
+  Button,
+  useDisclosure,
+  ScrollShadow,
+  Spacer,
+  Tooltip,
+} from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -188,7 +195,7 @@ export default function DashboardSidebar({
           {/* UserAvatar goes here, justify-right */}
         </header>
         <main className="mt-4 h-[90%] w-full overflow-visible">
-          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider">
+          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-hidden p-4">
             {children}
           </div>
         </main>

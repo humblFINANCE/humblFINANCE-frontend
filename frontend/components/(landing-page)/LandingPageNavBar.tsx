@@ -2,6 +2,8 @@
 
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
+import type { NavbarProps } from '@nextui-org/react'
+import { usePathname } from 'next/navigation'
 import {
   Button,
   Link,
@@ -14,7 +16,6 @@ import {
   NavbarMenuToggle,
   useDisclosure,
 } from '@nextui-org/react'
-import type { NavbarProps } from '@nextui-org/react'
 import React from 'react'
 import { LoginModal } from '@/features/login/components/LoginModal'
 
@@ -23,6 +24,10 @@ const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
+
+  const checkActive = (path: string) => {
+    return pathname === path
+  }
 
   return (
     <Navbar
@@ -66,22 +71,22 @@ export default function Component(props: NavbarProps) {
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
       >
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/')}>
           <Link className="text-default-500" href="/" size="sm">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/features')}>
           <Link className="text-default-500" href="/features" size="sm">
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/about-us')}>
           <Link className="text-default-500" href="/about-us" size="sm">
             About Us
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/investing-framework')}>
           <Link
             className="text-default-500"
             href="/investing-framework"
