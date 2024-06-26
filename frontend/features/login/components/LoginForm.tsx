@@ -15,9 +15,15 @@ import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/login/hooks/use-signIn-state'
 import { cn } from '@/utils/nextui/cn'
 
-interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {}
+interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
+  linkAccount?: boolean
+}
 
-export function LoginForm({ className, ...rest }: LoginFormProps) {
+export function LoginForm({
+  className,
+  linkAccount = false,
+  ...rest
+}: LoginFormProps) {
   const [isFormVisible, setIsFormVisible] = React.useState(false)
   const [captchaToken, setCaptchaToken] = React.useState('')
   const captchaModal = useDisclosure()
@@ -126,29 +132,33 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
             </m.form>
           ) : (
             <>
-              <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
-                <input ref={captchaInputRef} type="hidden" name="capchaToken" />
-                <Button
-                  fullWidth
-                  color="primary"
-                  startContent={
-                    <Icon
-                      className="pointer-events-none text-2xl"
-                      icon="majesticons:eye-off"
-                    />
-                  }
-                  type="submit"
-                  onClick={captchaModal.onOpenChange}
-                >
-                  Continue Anonymously
-                </Button>
-                <RenderIf condition={Boolean(signInAnonymError)}>
-                  <span className="text-danger">{signInAnonymError}</span>
-                </RenderIf>
-              </form>
-
-              {orDivider}
-
+              <RenderIf condition={!linkAccount}>
+                <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
+                  <input
+                    ref={captchaInputRef}
+                    type="hidden"
+                    name="capchaToken"
+                  />
+                  <Button
+                    fullWidth
+                    color="primary"
+                    startContent={
+                      <Icon
+                        className="pointer-events-none text-2xl"
+                        icon="majesticons:eye-off"
+                      />
+                    }
+                    type="submit"
+                    onClick={captchaModal.onOpenChange}
+                  >
+                    Continue Anonymously
+                  </Button>
+                  <RenderIf condition={Boolean(signInAnonymError)}>
+                    <span className="text-danger">{signInAnonymError}</span>
+                  </RenderIf>
+                </form>
+                {orDivider}
+              </RenderIf>
               <Button
                 fullWidth
                 color="primary"

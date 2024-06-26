@@ -3,6 +3,7 @@ import { createContext } from 'react'
 import { User } from '@/features/user/types'
 import { LoginModal } from '@/features/login/components/LoginModal'
 import { useDisclosure } from '@nextui-org/react'
+import { UpgradeUserModal } from '../components/UpgradeUserModal'
 
 interface UserContextType {
   user: User
@@ -18,16 +19,16 @@ export function UserProvider({
   children: React.ReactNode
   user: User
 }) {
-  const loginModalDisclosure = useDisclosure()
+  const upgradeUserModalDisclosure = useDisclosure()
 
   const ctx: UserContextType = {
     user,
-    openModalConvertUser: loginModalDisclosure.onOpenChange,
+    openModalConvertUser: upgradeUserModalDisclosure.onOpenChange,
   }
 
   return (
     <UserContext.Provider value={ctx}>
-      <LoginModal {...loginModalDisclosure} />
+      <UpgradeUserModal {...upgradeUserModalDisclosure} role={user.role} />
       {children}
     </UserContext.Provider>
   )

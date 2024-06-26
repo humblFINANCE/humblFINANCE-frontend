@@ -15,15 +15,22 @@ export function useLogin() {
   ) => {
     return async function () {
       const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: provider,
-        options: {
-          redirectTo: window.origin + '/auth/callback/social-login',
-        },
-      })
+      const { data } = await supabase.auth.getUser()
 
-      if (error) {
-        router.replace('/login?message=' + error.message)
+      if (data?.user?.is_anonymous) {
+        await supabase.auth.linkIdentity({ provider })
+        router.replace('/dashboard/home')
+      } else {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: provider,
+          options: {
+            redirectTo: window.origin + '/auth/callback/social-login',
+          },
+        })
+
+        if (error) {
+          router.replace('/login?message=' + error.message)
+        }
       }
     }
   }
