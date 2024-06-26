@@ -1,20 +1,14 @@
-import { UserProvider } from '@/features/user/context/UserContext'
-import { createClient } from '@/utils/supabase/server'
-import { User } from '@/features/user/types'
-import { redirect } from 'next/navigation'
-import A from './a'
+'use client'
 
-export default async function PrivateTestPage() {
-  const supabase = createClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    console.log('i made it')
-    redirect('/login')
-  }
+import { useUser } from '@/features/user/hooks/use-user'
+
+export default function PrivateTestPage() {
+  const { user } = useUser()
 
   return (
-    <UserProvider user={data.user as User}>
-      <A />
-    </UserProvider>
+    <>
+      <p>Hello </p>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+    </>
   )
 }
