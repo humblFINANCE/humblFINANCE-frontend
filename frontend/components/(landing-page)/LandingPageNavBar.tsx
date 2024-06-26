@@ -17,7 +17,13 @@ import {
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
+const menuItems = [
+  'Home',
+  'Features',
+  'About Us',
+  'Investing Framework',
+  'Pricing',
+]
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
@@ -91,6 +97,11 @@ export default function Component(props: NavbarProps) {
             size="sm"
           >
             Investing Framework
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={checkActive('/pricing')}>
+          <Link className="text-default-500" href="/pricing" size="sm">
+            Pricing
           </Link>
         </NavbarItem>
       </NavbarContent>
