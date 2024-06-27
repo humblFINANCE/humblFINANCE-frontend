@@ -3,6 +3,7 @@
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
 import type { NavbarProps } from '@nextui-org/react'
+import { usePathname } from 'next/navigation'
 import {
   Button,
   Link,
@@ -13,9 +14,10 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  useDisclosure,
 } from '@nextui-org/react'
-import { usePathname } from 'next/navigation'
 import React from 'react'
+import { LoginModal } from '@/features/login/components/LoginModal'
 
 const menuItems = [
   'Home',
@@ -27,7 +29,7 @@ const menuItems = [
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const pathname = usePathname()
+  const disclosure = useDisclosure()
 
   const checkActive = (path: string) => {
     return pathname === path
@@ -108,15 +110,6 @@ export default function Component(props: NavbarProps) {
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           <Button
-            as={Link}
-            className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
-            radius="full"
-            variant="light"
-            href="/login"
-          >
-            Login
-          </Button>
-          <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
             radius="full"
@@ -124,8 +117,9 @@ export default function Component(props: NavbarProps) {
               boxShadow: 'inset 0 0 4px #bf97ff70',
             }}
             variant="flat"
+            onClick={disclosure.onOpenChange}
           >
-            Get Started
+            Dashboard
           </Button>
         </NavbarItem>
       </NavbarContent>
@@ -149,6 +143,7 @@ export default function Component(props: NavbarProps) {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
+      <LoginModal {...disclosure} />
     </Navbar>
   )
 }

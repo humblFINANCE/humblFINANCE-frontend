@@ -5,7 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
- Button } from '@nextui-org/react'
+  Button,
+} from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 type ModalProps = {
@@ -17,7 +18,7 @@ type ModalProps = {
   captchaInputRef: React.MutableRefObject<HTMLInputElement | null>
 }
 
-export default function PasswordLessLoginModal({
+export function CaptchaModal({
   isOpen,
   onOpenChange,
   onClose,

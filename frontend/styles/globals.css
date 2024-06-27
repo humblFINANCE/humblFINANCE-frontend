@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* From feat/anonymouse-auth-Headerbar branch */
+#hcaptcha-comp {
+  display: flex;
+  justify-content: center;
+}
+
+/* From development/next-reset branch */
 ::-webkit-scrollbar {
    width: 5px;
    height: 5px;
