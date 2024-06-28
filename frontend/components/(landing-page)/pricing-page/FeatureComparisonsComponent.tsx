@@ -16,6 +16,17 @@ function capitalizeEveryWord(str: string) {
 }
 
 const FeatureComparisonsComponent = () => {
+  // hydration error
+  const [isMounted, setIsMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return null
+  }
+
   return (
     <div>
       <p className=" text-2xl">
