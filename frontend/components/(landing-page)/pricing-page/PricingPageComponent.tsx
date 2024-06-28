@@ -26,16 +26,22 @@ import FeatureComparisonsComponent from './FeatureComparisonsComponent'
 import ModalCheckout from './stripe/ModalCheckout'
 import { Elements } from '@stripe/react-stripe-js'
 import getStripe from '@/utils/stripe/stripe'
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
+import AskAuthModal from './modal/AskAuthModal'
 
 export default function Component() {
+  const supabase = createClient()
+  const router = useRouter()
   const [selectedFrequency, setSelectedFrequency] = React.useState<Frequency>(
     frequencies[0]
   )
-  const disclosure = useDisclosure()
   const [selectedTier, setSelectedTier] = React.useState<{
     tier: Tier
     price: number
   } | null>(null)
+  const disclosure = useDisclosure()
+  const authDisclosure = useDisclosure()
 
   const onFrequencyChange = (selectedKey: React.Key) => {
     const frequencyIndex = frequencies.findIndex((f) => f.key === selectedKey)
@@ -43,10 +49,16 @@ export default function Component() {
     setSelectedFrequency(frequencies[frequencyIndex])
   }
 
-  const handleSelectTier = (tier: Tier) => {
+  const handleSelectTier = async (tier: Tier) => {
     console.log(tier)
     if (tier.price === 'Free') {
       return
+    }
+
+    const { data, error } = await supabase.auth.getUser()
+
+    if (!data || error) {
+      return authDisclosure.onOpen()
     }
 
     const price = +(
@@ -54,7 +66,6 @@ export default function Component() {
         ? tier.price
         : tier.price[selectedFrequency.key]
     ).replace('$', '')
-    console.log(price)
     setSelectedTier({
       tier,
       price,
@@ -380,6 +391,10 @@ export default function Component() {
           price={selectedTier?.price!}
         />
       </Elements>
+      <AskAuthModal
+        isOpen={authDisclosure.isOpen}
+        onOpenChange={authDisclosure.onOpenChange}
+      />
     </div>
   )
 }

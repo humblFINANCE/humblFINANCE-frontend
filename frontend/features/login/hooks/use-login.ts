@@ -15,10 +15,18 @@ export function useLogin() {
   ) => {
     return async function () {
       const supabase = createClient()
+      const { searchParams } = new URL(window.location.href)
+      console.log('FROOOOMMM', searchParams.get('from'))
+
+      const redirectTo =
+        window.origin +
+        '/auth/callback/social-login' +
+        (searchParams.get('from') ? `?from=${searchParams.get('from')}` : '')
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
-          redirectTo: window.origin + '/auth/callback/social-login',
+          redirectTo: redirectTo,
         },
       })
 
