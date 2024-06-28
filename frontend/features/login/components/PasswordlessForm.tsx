@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Spinner,
 } from '@nextui-org/react'
 import { createClient, isAnonymouseUserClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
@@ -15,6 +16,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { redirect } from 'next/navigation'
 import { SubmitButton } from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
+import { useRouter } from 'next/router'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
@@ -106,6 +108,7 @@ export function PasswordLessLoginModal({
   onSignIn,
   type,
 }: ModalProps) {
+  const router = useRouter()
   const [value, setValue] = useState<null | string>()
   const [captchaToken, setCaptchaToken] = useState('')
   const [result, setResult] = useState({
@@ -113,6 +116,11 @@ export function PasswordLessLoginModal({
     submitted: false,
   })
   const [isLoading, setLoading] = useState(false)
+  const [otpForm, setOtpForm] = useState({
+    otpCode: '',
+    otpSubmitLoading: false,
+    otpError: '',
+  })
   const captchaInputRef = useRef<any>(null)
   const inputProps =
     type === 'magicLink'
@@ -141,6 +149,10 @@ export function PasswordLessLoginModal({
         submitted: true,
         error: '',
       })
+
+      setTimeout(() => {
+        onOpenChange(false)
+      }, 60000 * 5)
     } catch (e: any) {
       setResult({
         submitted: true,
@@ -151,6 +163,57 @@ export function PasswordLessLoginModal({
     captchaInputRef.current?.resetCaptcha()
     setLoading(false)
   }
+
+  const onOtpCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (otpForm.otpSubmitLoading) {
+      return true
+    }
+    const value = e.target.value
+
+    setOtpForm((prev) => ({
+      ...prev,
+      otpCode: value,
+    }))
+  }
+
+  useEffect(() => {
+    async function handleOtp() {
+      setOtpForm((prev) => ({
+        ...prev,
+        otpSubmitLoading: true,
+      }))
+
+      const supabase = createClient()
+      const identity =
+        type === 'magicLink'
+          ? {
+              email: value as string,
+              token: otpForm.otpCode,
+              type: 'email',
+            }
+          : { phone: value as string, token: otpForm.otpCode, type: 'sms' }
+
+      const { error } = await supabase.auth.verifyOtp(identity as any)
+
+      setOtpForm({
+        otpCode: '',
+        otpSubmitLoading: false,
+        otpError: error?.message as string,
+      })
+
+      if (!error) {
+        router.replace('/dashboard/home')
+      }
+    }
+
+    if (otpForm.otpCode.length >= 6 && !otpForm.otpSubmitLoading) {
+      handleOtp()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otpForm])
+
+  const submitSuccess = Boolean(result.submitted && !result.error)
+
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
@@ -161,23 +224,44 @@ export function PasswordLessLoginModal({
                 Continue with {type === 'magicLink' ? 'Magic Link' : 'Phone'}
               </ModalHeader>
               <ModalBody className="flex items-center">
-                <Input
-                  name="input"
-                  autoFocus
-                  variant="bordered"
-                  isRequired={true}
-                  onChange={(e) => setValue(e.target.value)}
-                  value={value as string}
-                  {...inputProps}
-                />
+                <RenderIf
+                  condition={Boolean(!result.submitted || result.error)}
+                >
+                  <Input
+                    name="input"
+                    autoFocus
+                    variant="bordered"
+                    isRequired={true}
+                    onChange={(e) => setValue(e.target.value)}
+                    value={value as string}
+                    {...inputProps}
+                  />
+                </RenderIf>
                 {Boolean(result.error) && (
                   <div className="text-danger">{result.error}</div>
                 )}
-                {result.submitted && !Boolean(result.error) && (
+                {submitSuccess && (
                   <div className="text-success">
                     Check your {type === 'magicLink' ? 'email' : 'phone'}
                   </div>
                 )}
+                <RenderIf condition={submitSuccess}>
+                  <div className="flex gap-x-2">
+                    <Input
+                      onChange={onOtpCodeChange}
+                      name="otp"
+                      variant="bordered"
+                      label="Otp Code"
+                      value={otpForm.otpCode}
+                    />
+                    <RenderIf condition={otpForm.otpSubmitLoading}>
+                      <Spinner color="success" />
+                    </RenderIf>
+                  </div>
+                </RenderIf>
+                <RenderIf condition={Boolean(otpForm.otpError)}>
+                  <span className="text-danger">{otpForm.otpError}</span>
+                </RenderIf>
                 <RenderIf
                   condition={Boolean(!result.submitted || result.error)}
                 >
@@ -199,7 +283,7 @@ export function PasswordLessLoginModal({
                   Close
                 </Button>
                 <RenderIf
-                  condition={Boolean(!result.submitted && !result.error)}
+                  condition={Boolean(!result.submitted || result.error)}
                 >
                   <SubmitButton
                     color="primary"
