@@ -14,6 +14,7 @@ import { PasswordlessLoginForm } from '@/features/login/components/PasswordlessF
 import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/login/hooks/use-signIn-state'
 import { cn } from '@/utils/nextui/cn'
+import { SubmitButton } from '@/components/shared/SubmitButton'
 
 interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
   linkAccount?: boolean
@@ -106,9 +107,9 @@ export function LoginForm({
                 theme={'dark'}
                 ref={signInWithEmailCaptchaRef}
               />
-              <Button color="primary" type="submit">
+              <SubmitButton color="primary" type="submit">
                 Login
-              </Button>
+              </SubmitButton>
               <RenderIf condition={Boolean(signInWithEmailState.error)}>
                 <span className="text-danger">
                   {signInWithEmailState.error}
@@ -148,7 +149,6 @@ export function LoginForm({
                         icon="majesticons:eye-off"
                       />
                     }
-                    type="submit"
                     onClick={captchaModal.onOpenChange}
                   >
                     Continue Anonymously

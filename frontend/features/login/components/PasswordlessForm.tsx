@@ -13,6 +13,7 @@ import { createClient, isAnonymouseUserClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { redirect } from 'next/navigation'
+import { SubmitButton } from '@/components/shared/SubmitButton'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
@@ -192,14 +193,15 @@ export function PasswordLessLoginModal({
                 >
                   Close
                 </Button>
-                <Button
+                <SubmitButton
                   color="primary"
                   disabled={isLoading}
                   onClick={handleSignIn}
                   type="submit"
+                  isLoading={isLoading}
                 >
-                  {isLoading ? '...' : 'Sign in'}
-                </Button>
+                  Sign in
+                </SubmitButton>
               </ModalFooter>
             </form>
           )}

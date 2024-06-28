@@ -11,6 +11,7 @@ import {
   Button,
 } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { SubmitButton } from '@/components/shared/SubmitButton'
 
 type ModalProps = {
   isOpen: boolean
@@ -69,7 +70,7 @@ export function ForgotPasswordModal({
                   Close
                 </Button>
                 <RenderIf condition={!submited}>
-                  <Submit />
+                  <SubmitButton />
                 </RenderIf>
               </ModalFooter>
             </form>
@@ -77,19 +78,5 @@ export function ForgotPasswordModal({
         </ModalContent>
       </Modal>
     </>
-  )
-}
-
-function Submit() {
-  const { pending } = useFormStatus()
-  return (
-    <Button
-      color="primary"
-      type="submit"
-      disabled={pending}
-      aria-disabled={pending}
-    >
-      {pending ? 'loading' : 'submit'}
-    </Button>
   )
 }
