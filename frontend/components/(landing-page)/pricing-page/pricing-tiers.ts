@@ -38,7 +38,7 @@ export const tiers: Array<Tier> = [
     mostPopular: true,
     price: {
       yearly: '$72',
-      monthly: '$24',
+      monthly: '$12',
     },
     featured: false,
     features: [
@@ -60,17 +60,17 @@ export const tiers: Array<Tier> = [
     description: 'For large teams that have more than 10 members.',
     price: {
       yearly: '$90',
-      monthly: '$120',
+      monthly: '$35',
     },
-    priceSuffix: 'per user',
+    priceSuffix: '',
     features: [
       '50 users included',
       '30 GB of storage',
       'Help center access',
       'Phone & email support',
     ],
-    buttonText: 'Contact us',
-    buttonColor: 'default',
+    buttonText: 'Get Started',
+    buttonColor: 'primary',
     buttonVariant: 'flat',
   },
   {
@@ -81,18 +81,18 @@ export const tiers: Array<Tier> = [
     mostPopular: false,
     description: 'For large teams that have more than 10 members.',
     price: {
-      yearly: '$90',
-      monthly: '$120',
+      yearly: '$999',
+      monthly: '$999',
     },
-    priceSuffix: 'per user',
+    priceSuffix: '',
     features: [
       '50 users included',
       '30 GB of storage',
       'Help center access',
       'Phone & email support',
     ],
-    buttonText: 'Contact us',
-    buttonColor: 'default',
+    buttonText: 'Get Started',
+    buttonColor: 'primary',
     buttonVariant: 'flat',
   },
 ]

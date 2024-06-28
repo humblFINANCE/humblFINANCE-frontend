@@ -15,23 +15,51 @@ import {
   Tab,
   Tabs,
   Tooltip,
+  useDisclosure,
 } from '@nextui-org/react'
 
-import { FrequencyEnum } from './pricing-types'
+import { Frequency, FrequencyEnum, Tier } from './pricing-types'
 import { frequencies, tiers } from './pricing-tiers'
 import features from './pricing-tiers-features'
 import { cn } from '@/utils/nextui/cn'
 import FeatureComparisonsComponent from './FeatureComparisonsComponent'
+import ModalCheckout from './stripe/ModalCheckout'
+import { Elements } from '@stripe/react-stripe-js'
+import getStripe from '@/utils/stripe/stripe'
 
 export default function Component() {
-  const [selectedFrequency, setSelectedFrequency] = React.useState(
+  const [selectedFrequency, setSelectedFrequency] = React.useState<Frequency>(
     frequencies[0]
   )
+  const disclosure = useDisclosure()
+  const [selectedTier, setSelectedTier] = React.useState<{
+    tier: Tier
+    price: number
+  } | null>(null)
 
   const onFrequencyChange = (selectedKey: React.Key) => {
     const frequencyIndex = frequencies.findIndex((f) => f.key === selectedKey)
 
     setSelectedFrequency(frequencies[frequencyIndex])
+  }
+
+  const handleSelectTier = (tier: Tier) => {
+    console.log(tier)
+    if (tier.price === 'Free') {
+      return
+    }
+
+    const price = +(
+      typeof tier.price === 'string'
+        ? tier.price
+        : tier.price[selectedFrequency.key]
+    ).replace('$', '')
+    console.log(price)
+    setSelectedTier({
+      tier,
+      price,
+    })
+    disclosure.onOpen()
   }
 
   return (
@@ -145,8 +173,9 @@ export default function Component() {
                 fullWidth
                 as={Link}
                 color="secondary"
-                href={tier.href}
+                // href={tier.href}
                 variant={tier.buttonVariant}
+                onPress={() => handleSelectTier(tier)}
               >
                 {tier.buttonText}
               </Button>
@@ -230,7 +259,8 @@ export default function Component() {
                           tier.mostPopular,
                       })}
                       color="secondary"
-                      href={tier.href}
+                      // href={tier.href}
+                      onPress={() => handleSelectTier(tier)}
                       variant={tier.buttonVariant}
                     >
                       {tier.buttonText}
@@ -342,6 +372,14 @@ export default function Component() {
         </p>
       </div>
       <Spacer y={12} />
+      <Elements stripe={getStripe()}>
+        <ModalCheckout
+          onOpenChange={disclosure.onOpenChange}
+          isOpen={disclosure.isOpen}
+          tier={selectedTier?.tier!}
+          price={selectedTier?.price!}
+        />
+      </Elements>
     </div>
   )
 }

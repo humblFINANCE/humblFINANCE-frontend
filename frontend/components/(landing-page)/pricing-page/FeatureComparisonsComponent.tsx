@@ -52,8 +52,8 @@ const FeatureComparisonsComponent = () => {
           </thead>
           <tbody className="border-separate border-spacing-x-4 w-full">
             {dataComparion.map((data, dataIndex) => (
-              <React.Fragment>
-                <tr key={dataIndex} className="border-b-1 border-gray-500">
+              <React.Fragment key={dataIndex}>
+                <tr className="border-b-1 border-gray-500">
                   <td
                     className={cn(
                       'pb-4 pt-12 text-large font-semibold text-foreground ',
