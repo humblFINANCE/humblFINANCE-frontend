@@ -14,6 +14,7 @@ import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { redirect } from 'next/navigation'
 import { SubmitButton } from '@/components/shared/SubmitButton'
+import RenderIf from '@/components/RenderIf'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
@@ -177,12 +178,16 @@ export function PasswordLessLoginModal({
                     Check your {type === 'magicLink' ? 'email' : 'phone'}
                   </div>
                 )}
-                <HCaptcha
-                  ref={captchaInputRef}
-                  onVerify={(token) => setCaptchaToken(token)}
-                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
-                  theme={'dark'}
-                />
+                <RenderIf
+                  condition={Boolean(!result.submitted || result.error)}
+                >
+                  <HCaptcha
+                    ref={captchaInputRef}
+                    onVerify={(token) => setCaptchaToken(token)}
+                    sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                    theme={'dark'}
+                  />
+                </RenderIf>
               </ModalBody>
               <ModalFooter>
                 <Button
