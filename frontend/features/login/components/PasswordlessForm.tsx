@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
   Input,
@@ -9,9 +9,10 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@nextui-org/react'
-import { createClient } from '@/utils/supabase/client'
+import { createClient, isAnonymouseUserClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { redirect } from 'next/navigation'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
@@ -28,6 +29,15 @@ export function PasswordlessLoginForm() {
   ) => {
     const supabase = createClient()
     const target = type === 'magicLink' ? { email: value } : { phone: value }
+
+    if (await isAnonymouseUserClient()) {
+      await supabase.auth.updateUser({
+        ...target,
+      })
+
+      return redirect('/dashboard/home')
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       ...target,
       options: {
