@@ -13,10 +13,9 @@ import {
 import { createClient, isAnonymouseUserClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { SubmitButton } from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
-import { useRouter } from 'next/router'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()
