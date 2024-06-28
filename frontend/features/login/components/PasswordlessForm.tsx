@@ -198,15 +198,19 @@ export function PasswordLessLoginModal({
                 >
                   Close
                 </Button>
-                <SubmitButton
-                  color="primary"
-                  disabled={isLoading}
-                  onClick={handleSignIn}
-                  type="submit"
-                  isLoading={isLoading}
+                <RenderIf
+                  condition={Boolean(!result.submitted && !result.error)}
                 >
-                  Sign in
-                </SubmitButton>
+                  <SubmitButton
+                    color="primary"
+                    disabled={isLoading}
+                    onClick={handleSignIn}
+                    type="submit"
+                    isLoading={isLoading}
+                  >
+                    Sign in
+                  </SubmitButton>
+                </RenderIf>
               </ModalFooter>
             </form>
           )}
