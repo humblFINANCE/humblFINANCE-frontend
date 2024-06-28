@@ -15,6 +15,8 @@ import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/login/hooks/use-signIn-state'
 import { cn } from '@/utils/nextui/cn'
 import { SubmitButton } from '@/components/shared/SubmitButton'
+import { ForgotPasswordModal } from './ForgotPasswordModal'
+import Link from 'next/link'
 
 interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
   linkAccount?: boolean
@@ -28,6 +30,7 @@ export function LoginForm({
   const [isFormVisible, setIsFormVisible] = React.useState(false)
   const [captchaToken, setCaptchaToken] = React.useState('')
   const captchaModal = useDisclosure()
+  const forgotPasswordModal = useDisclosure()
 
   const anonymouseLoginFormRef = useRef(null)
   const captchaInputRef = useRef(null)
@@ -115,6 +118,13 @@ export function LoginForm({
                   {signInWithEmailState.error}
                 </span>
               </RenderIf>
+              <Link
+                onClick={forgotPasswordModal.onOpenChange}
+                className="cursor-pointer text-foreground/50 hover:text-foreground/100 text-center"
+                href="#"
+              >
+                Forgot Password?
+              </Link>{' '}
               {orDivider}
               <Button
                 fullWidth
@@ -200,7 +210,10 @@ export function LoginForm({
           )}
         </AnimatePresence>
       </LazyMotion>
-      <NewUserTooltip />
+      <RenderIf condition={!isFormVisible}>
+        <NewUserTooltip />
+      </RenderIf>
+      <ForgotPasswordModal {...forgotPasswordModal} />
     </div>
   )
 }

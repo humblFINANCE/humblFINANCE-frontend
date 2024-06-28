@@ -12,21 +12,20 @@ import {
 } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { SubmitButton } from '@/components/shared/SubmitButton'
+import { forgotPassword } from '../actions'
 
 type ModalProps = {
   isOpen: boolean
   onOpen?: () => void
   onOpenChange: (open: boolean) => void
-  action: <State, Payload>(prevState: Awaited<State>, data: Payload) => State
 }
 
-export function ForgotPasswordModal({
-  isOpen,
-  onOpenChange,
-  action,
-}: ModalProps) {
+export function ForgotPasswordModal({ isOpen, onOpenChange }: ModalProps) {
   const [captchaToken, setCaptchaToken] = useState('')
-  const [state, formAction] = useFormState(action, { status: '', msg: '' })
+  const [state, formAction] = useFormState(forgotPassword, {
+    status: '',
+    msg: '',
+  })
   const submited = Boolean(state.status)
 
   return (
@@ -38,7 +37,7 @@ export function ForgotPasswordModal({
               <ModalHeader className="flex flex-col gap-1">
                 Forgot Passowrd
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="flex justify-center items-center">
                 <RenderIf condition={submited}>
                   <RenderIf condition={state.status === 'success'}>
                     <span className="text-lime-500">{state.msg}</span>
@@ -70,7 +69,9 @@ export function ForgotPasswordModal({
                   Close
                 </Button>
                 <RenderIf condition={!submited}>
-                  <SubmitButton />
+                  <SubmitButton color="primary" type="submit">
+                    Send
+                  </SubmitButton>
                 </RenderIf>
               </ModalFooter>
             </form>
