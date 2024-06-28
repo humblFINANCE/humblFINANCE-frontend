@@ -66,7 +66,7 @@ export function LoginForm({
   return (
     <div
       className={cn(
-        'flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 ',
+        'flex w-full flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 ',
         className
       )}
       {...rest}
@@ -76,7 +76,7 @@ export function LoginForm({
           {isFormVisible ? (
             <m.form
               animate="visible"
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-3 w-[303px]"
               exit="hidden"
               initial="hidden"
               variants={variants}

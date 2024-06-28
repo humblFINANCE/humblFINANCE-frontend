@@ -12,7 +12,7 @@ interface LoginModalProps extends UseDisclosureReturn {
 export function LoginModal(props: LoginModalProps) {
   return (
     <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
-      <ModalContent className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
+      <ModalContent className="flex w-full min-w-[340px] flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
         <ModalHeader className="p-0">Login</ModalHeader>
         <LoginForm linkAccount={props.linkAccount} />
       </ModalContent>
