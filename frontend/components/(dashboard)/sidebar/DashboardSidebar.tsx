@@ -19,6 +19,7 @@ import { cn } from '@/utils/nextui/cn'
 import { sectionItemsWithTeams } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
+import { UserDropdown } from '../UserDropdown'
 
 export default function DashboardSidebar({
   children,
@@ -180,19 +181,23 @@ export default function DashboardSidebar({
         </div>
       </div>
       <div className="w-full flex-1 flex-col p-4">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-          <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
-            <Icon
-              className="text-default-500"
-              height={24}
-              icon="solar:sidebar-minimalistic-outline"
-              width={24}
-            />
-          </Button>
-          <h2 className="text-medium font-medium text-default-700">
-            {capitalizedCurrentPath}
-          </h2>
-          {/* UserAvatar goes here, justify-right */}
+        <header className="flex justify-between items-center gap-3 rounded-medium border-small border-divider p-4">
+          <div className="flex items-center gap-x-4 flex-row">
+            <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
+              <Icon
+                className="text-default-500"
+                height={24}
+                icon="solar:sidebar-minimalistic-outline"
+                width={24}
+              />
+            </Button>
+            <h2 className="text-medium font-medium text-default-700">
+              {capitalizedCurrentPath}
+            </h2>
+          </div>
+          <div className="flex items-center gap-x-4 flex-row">
+            <UserDropdown />
+          </div>
         </header>
         <main className="mt-4 h-[90%] w-full overflow-visible">
           <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-hidden p-4">
