@@ -40,10 +40,10 @@ export function ForgotPasswordModal({ isOpen, onOpenChange }: ModalProps) {
               <ModalBody className="flex justify-center items-center">
                 <RenderIf condition={submited}>
                   <RenderIf condition={state.status === 'success'}>
-                    <span className="text-lime-500">{state.msg}</span>
+                    <span className="text-success">{state.msg}</span>
                   </RenderIf>
                   <RenderIf condition={state.status !== 'success'}>
-                    <span className="text-danger-500">{state.msg} </span>
+                    <span className="text-danger">{state.msg} </span>
                   </RenderIf>
                 </RenderIf>
                 <RenderIf condition={!Boolean(state.status)}>
@@ -57,11 +57,13 @@ export function ForgotPasswordModal({ isOpen, onOpenChange }: ModalProps) {
                     type="hidden"
                     value={captchaToken}
                   />
-                  <HCaptcha
-                    sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
-                    onVerify={setCaptchaToken}
-                    theme={'dark'}
-                  />
+                  <RenderIf condition={!submited || state.status == 'failed'}>
+                    <HCaptcha
+                      sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                      onVerify={setCaptchaToken}
+                      theme={'dark'}
+                    />
+                  </RenderIf>
                 </RenderIf>
               </ModalBody>
               <ModalFooter>
