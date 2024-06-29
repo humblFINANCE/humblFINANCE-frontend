@@ -14,13 +14,23 @@ import { PasswordlessLoginForm } from '@/features/login/components/PasswordlessF
 import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/login/hooks/use-signIn-state'
 import { cn } from '@/utils/nextui/cn'
+import { SubmitButton } from '@/components/shared/SubmitButton'
+import { ForgotPasswordModal } from './ForgotPasswordModal'
+import Link from 'next/link'
 
-interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {}
+interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
+  linkAccount?: boolean
+}
 
-export function LoginForm({ className, ...rest }: LoginFormProps) {
+export function LoginForm({
+  className,
+  linkAccount = false,
+  ...rest
+}: LoginFormProps) {
   const [isFormVisible, setIsFormVisible] = React.useState(false)
   const [captchaToken, setCaptchaToken] = React.useState('')
   const captchaModal = useDisclosure()
+  const forgotPasswordModal = useDisclosure()
 
   const anonymouseLoginFormRef = useRef(null)
   const captchaInputRef = useRef(null)
@@ -60,7 +70,7 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
   return (
     <div
       className={cn(
-        'flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 ',
+        'flex w-full flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 ',
         className
       )}
       {...rest}
@@ -70,7 +80,7 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
           {isFormVisible ? (
             <m.form
               animate="visible"
-              className="flex flex-col gap-3"
+              className="flex flex-col gap-3 w-[303px]"
               exit="hidden"
               initial="hidden"
               variants={variants}
@@ -100,14 +110,21 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
                 theme={'dark'}
                 ref={signInWithEmailCaptchaRef}
               />
-              <Button color="primary" type="submit">
+              <SubmitButton color="primary" type="submit">
                 Login
-              </Button>
+              </SubmitButton>
               <RenderIf condition={Boolean(signInWithEmailState.error)}>
                 <span className="text-danger">
                   {signInWithEmailState.error}
                 </span>
               </RenderIf>
+              <Link
+                onClick={forgotPasswordModal.onOpenChange}
+                className="cursor-pointer text-foreground/50 hover:text-foreground/100 text-center"
+                href="#"
+              >
+                Forgot Password?
+              </Link>{' '}
               {orDivider}
               <Button
                 fullWidth
@@ -126,29 +143,32 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
             </m.form>
           ) : (
             <>
-              <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
-                <input ref={captchaInputRef} type="hidden" name="capchaToken" />
-                <Button
-                  fullWidth
-                  color="primary"
-                  startContent={
-                    <Icon
-                      className="pointer-events-none text-2xl"
-                      icon="majesticons:eye-off"
-                    />
-                  }
-                  type="submit"
-                  onClick={captchaModal.onOpenChange}
-                >
-                  Continue Anonymously
-                </Button>
-                <RenderIf condition={Boolean(signInAnonymError)}>
-                  <span className="text-danger">{signInAnonymError}</span>
-                </RenderIf>
-              </form>
-
-              {orDivider}
-
+              <RenderIf condition={!linkAccount}>
+                <form action={signInAnonymAction} ref={anonymouseLoginFormRef}>
+                  <input
+                    ref={captchaInputRef}
+                    type="hidden"
+                    name="capchaToken"
+                  />
+                  <Button
+                    fullWidth
+                    color="primary"
+                    startContent={
+                      <Icon
+                        className="pointer-events-none text-2xl"
+                        icon="majesticons:eye-off"
+                      />
+                    }
+                    onClick={captchaModal.onOpenChange}
+                  >
+                    Continue Anonymously
+                  </Button>
+                  <RenderIf condition={Boolean(signInAnonymError)}>
+                    <span className="text-danger">{signInAnonymError}</span>
+                  </RenderIf>
+                </form>
+                {orDivider}
+              </RenderIf>
               <Button
                 fullWidth
                 color="primary"
@@ -190,7 +210,10 @@ export function LoginForm({ className, ...rest }: LoginFormProps) {
           )}
         </AnimatePresence>
       </LazyMotion>
-      <NewUserTooltip />
+      <RenderIf condition={!isFormVisible}>
+        <NewUserTooltip />
+      </RenderIf>
+      <ForgotPasswordModal {...forgotPasswordModal} />
     </div>
   )
 }

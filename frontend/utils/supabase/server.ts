@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { isAnonymouseUser } from './isAnonymouseUser'
 
 export const createClient = () => {
   const cookieStore = cookies()
@@ -34,3 +35,5 @@ export const createClient = () => {
     }
   )
 }
+
+export const isAnonymouseUserServer = () => isAnonymouseUser(createClient())

@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
+import { socialLoginRedirectPath } from '../constants'
 
 export function useLogin() {
   const router = useRouter()
@@ -15,15 +16,25 @@ export function useLogin() {
   ) => {
     return async function () {
       const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: provider,
-        options: {
-          redirectTo: window.origin + '/auth/callback/social-login',
-        },
-      })
+      const { data } = await supabase.auth.getUser()
+      const options = {
+        redirectTo: window.origin + socialLoginRedirectPath,
+      }
 
-      if (error) {
-        router.replace('/login?message=' + error.message)
+      if (data?.user?.is_anonymous) {
+        await supabase.auth.linkIdentity({
+          provider,
+          options,
+        })
+        router.replace('/dashboard/home')
+      } else {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: provider,
+          options,
+        })
+        if (error) {
+          router.replace('/login?message=' + error.message)
+        }
       }
     }
   }

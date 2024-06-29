@@ -1,19 +1,14 @@
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+'use client'
 
-export default async function PrivateTestPage() {
-  const supabase = createClient()
+import { useUser } from '@/features/user/hooks/use-user'
 
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    console.log('i made it')
-    redirect('/login')
-  }
+export default function PrivateTestPage() {
+  const { user } = useUser()
 
   return (
     <>
       <p>Hello </p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
     </>
   )
 }
