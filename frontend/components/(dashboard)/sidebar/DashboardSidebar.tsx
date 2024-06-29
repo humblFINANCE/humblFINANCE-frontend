@@ -39,7 +39,7 @@ export default function DashboardSidebar({
     currentPath.charAt(0).toUpperCase() + currentPath.slice(1)
 
   // Logout Modal Control
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const logoutModalDisclosure = useDisclosure()
 
   const onToggle = React.useCallback(() => {
     setIsCollapsed((prev) => !prev)
@@ -148,7 +148,7 @@ export default function DashboardSidebar({
           </Tooltip>
           <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
             <Button
-              onPress={onOpen}
+              onPress={logoutModalDisclosure.onOpenChange}
               className={cn(
                 'justify-start text-default-500 data-[hover=true]:bg-red-500 data-[hover=true]:text-red-100',
                 {
@@ -196,7 +196,9 @@ export default function DashboardSidebar({
             </h2>
           </div>
           <div className="flex items-center gap-x-4 flex-row">
-            <UserDropdown />
+            <UserDropdown
+              openLogoutModal={logoutModalDisclosure.onOpenChange}
+            />
           </div>
         </header>
         <main className="mt-4 h-[90%] w-full overflow-visible">
@@ -205,7 +207,7 @@ export default function DashboardSidebar({
           </div>
         </main>
       </div>
-      <LogoutModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <LogoutModal {...logoutModalDisclosure} />
     </div>
   )
 }

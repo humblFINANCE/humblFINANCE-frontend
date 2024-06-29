@@ -9,7 +9,13 @@ import {
 import { ThemeSwitch } from '../ThemeSwitch'
 import { useRef } from 'react'
 
-export function UserDropdown() {
+export interface UserDropDownProps {
+  openLogoutModal: () => void
+}
+
+export function UserDropdown({
+  openLogoutModal: openLogouModal,
+}: UserDropDownProps) {
   const { user } = useUser()
   const themeRef = useRef<{ onChange: () => void }>()
 
@@ -42,7 +48,12 @@ export function UserDropdown() {
         </DropdownItem>
         <DropdownItem key="settings">Profile Settings</DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-        <DropdownItem key="logout" color="danger" className="text-danger ">
+        <DropdownItem
+          onClick={openLogouModal}
+          key="logout"
+          color="danger"
+          className="text-danger "
+        >
           Log Out
         </DropdownItem>
         <DropdownItem

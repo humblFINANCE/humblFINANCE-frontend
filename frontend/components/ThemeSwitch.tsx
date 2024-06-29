@@ -5,7 +5,7 @@ import { useIsSSR } from '@react-aria/ssr'
 import { VisuallyHidden } from '@react-aria/visually-hidden'
 import clsx from 'clsx'
 import { useTheme } from 'next-themes'
-import { FC, forwardRef, useImperativeHandle } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 
 import { MoonFilledIcon, SunFilledIcon } from '@/components/icons/Icons'
 
