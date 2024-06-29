@@ -46,7 +46,9 @@ export function UserDropdown({
           <p>Signed in as</p>
           <p>{user.email}</p>
         </DropdownItem>
-        <DropdownItem key="settings">Profile Settings</DropdownItem>
+        <DropdownItem href="/dashboard/profile-setting" key="settings">
+          Profile Settings
+        </DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
         <DropdownItem
           onClick={openLogouModal}

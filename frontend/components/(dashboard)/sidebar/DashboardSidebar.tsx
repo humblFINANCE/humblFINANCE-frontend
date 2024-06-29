@@ -20,6 +20,7 @@ import { sectionItemsWithTeams } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
+import { NotificationsDropdown } from '../NotificationDropdown'
 
 export default function DashboardSidebar({
   children,
@@ -196,6 +197,7 @@ export default function DashboardSidebar({
             </h2>
           </div>
           <div className="flex items-center gap-x-4 flex-row">
+            <NotificationsDropdown />
             <UserDropdown
               openLogoutModal={logoutModalDisclosure.onOpenChange}
             />
