@@ -15,6 +15,7 @@ import {
 import { stockSectors } from './constants'
 import { InlineIcon } from '@iconify/react'
 import { TSector } from './types'
+import { useUser } from '@/features/user/hooks/use-user'
 
 type WatchlistModalProps = {
   isOpen: boolean
@@ -31,6 +32,7 @@ export default function WatchListModal({
   watchlists,
   setWatchlists,
 }: WatchlistModalProps) {
+  const { user, openModalConvertUser } = useUser()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
@@ -58,6 +60,11 @@ export default function WatchListModal({
   }
 
   const handleAddWatchlist = () => {
+    if (user.is_anonymous) {
+      openModalConvertUser()
+      return
+    }
+
     if (!watchListName) return
     if (watchlists.includes(watchListName)) return
     onAddWatchlist(watchListName)
@@ -75,6 +82,11 @@ export default function WatchListModal({
   }
 
   const handleEditWatchlist = () => {
+    if (user.is_anonymous) {
+      openModalConvertUser()
+      return
+    }
+
     if (!watchListName) return
     if (watchlists.includes(watchListName)) return
 

@@ -10,20 +10,21 @@
 
 /* From development/next-reset branch */
 ::-webkit-scrollbar {
-   width: 5px;
-   height: 5px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-   background: transparent;
-   border-radius: 5px;
+  background: transparent;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-   background: #888;
-   border-radius: 5px;
+  background: #888;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-   background: #555;
+  background: #555;
 }
+
