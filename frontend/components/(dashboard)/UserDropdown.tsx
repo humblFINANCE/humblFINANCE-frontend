@@ -8,6 +8,7 @@ import {
 } from '@nextui-org/react'
 import { ThemeSwitch } from '../ThemeSwitch'
 import { useRef } from 'react'
+import ThemeSwitcher from '../ThemeSwitcher'
 
 export interface UserDropDownProps {
   openLogoutModal: () => void
@@ -26,7 +27,7 @@ export function UserDropdown({
   }
 
   return (
-    <Dropdown>
+    <Dropdown closeOnSelect={false}>
       <DropdownTrigger>
         <Avatar
           as="button"
@@ -46,7 +47,11 @@ export function UserDropdown({
           <p>Signed in as</p>
           <p>{user.email}</p>
         </DropdownItem>
-        <DropdownItem href="/dashboard/profile-setting" key="settings">
+        <DropdownItem
+          href="/dashboard/profile-setting"
+          key="settings"
+          closeOnSelect
+        >
           Profile Settings
         </DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
@@ -58,14 +63,10 @@ export function UserDropdown({
         >
           Log Out
         </DropdownItem>
-        <DropdownItem
-          closeOnSelect={false}
-          onClick={handleChangeTheme}
-          key="theme"
-        >
+        <DropdownItem closeOnSelect={false} key="theme-2">
           <div className="flex items-center justify-between">
             <span>Theme</span>
-            <ThemeSwitch ref={themeRef} />
+            <ThemeSwitcher />
           </div>
         </DropdownItem>
       </DropdownMenu>
