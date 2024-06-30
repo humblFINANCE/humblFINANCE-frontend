@@ -5,7 +5,7 @@ import { WavyBackground } from '@/features/aceternity/WavyBackground'
 export default function HomePage() {
   return (
     <section className="flex flex-col items-center justify-center gap-1">
-      <WavyBackground>
+      <WavyBackground waveHeight={0.5}>
         <HumblFinanceHeading />
         <br />
         <div className="inline-block w-full text-center">
