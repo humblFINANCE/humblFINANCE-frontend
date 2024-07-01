@@ -15,7 +15,8 @@ export async function GET(request: NextRequest) {
       redirectTo.searchParams.delete('code')
       redirectTo.pathname = '/dashboard/home'
       if (redirectTo.searchParams.get('from')) {
-        redirectTo.pathname = '/pricing'
+        redirectTo.searchParams.delete('from')
+        redirectTo.pathname = '/' + from
       }
       return NextResponse.redirect(redirectTo)
     }

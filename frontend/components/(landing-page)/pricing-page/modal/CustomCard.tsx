@@ -50,7 +50,7 @@ export const EvervaultCard = ({
         <div className="relative z-10 flex items-center justify-center">
           <div className="relative h-44 w-44  rounded-full flex items-center justify-center text-white font-bold text-4xl">
             <div className="absolute w-full h-full bg-white/[0.8] dark:bg-black/[0.8] blur-sm rounded-full" />
-            <Link href="/login" className="z-20">
+            <Link href="/login?from=pricing" className="z-20">
               <span className="dark:text-white/50 text-black z-20">Login</span>
             </Link>
           </div>
