@@ -15,6 +15,7 @@ import {
   AutocompleteItem,
   CardFooter,
 } from '@nextui-org/react'
+import { Avatar as AvatarCustom } from "@/features/profile/components/Avatar";
 import { Icon } from '@iconify/react'
 import { countries } from '@/features/profile/constans'
 import { useUser } from '@/features/user/hooks/use-user'
@@ -102,7 +103,16 @@ export function AccountSetting(props: CardProps) {
                 placement="bottom-right"
                 shape="circle"
               >
-                <Avatar className="h-14 w-14" src={getValues('avatar_url')} />
+                <AvatarCustom
+                  uid={user?.id ?? null}
+                  url={getValues('avatar_url')}
+                  size={56}
+                  onUpload={(url: any) => {
+                    setValue('avatar_url', url)
+                    updateProfile(user.id, { avatar_url: url })
+                  }}
+                />
+                {/* <Avatar className="h-14 w-14" src={getValues('avatar_url')} /> */}
               </Badge>
               <div className="flex flex-col items-start justify-center">
                 <p className="font-medium">{fullname}</p>
