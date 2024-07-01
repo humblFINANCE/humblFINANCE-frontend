@@ -1,6 +1,6 @@
 'use client'
 
-import { SwitchProps, useSwitch } from '@nextui-org/react'
+import { Switch, SwitchProps, useSwitch } from '@nextui-org/react'
 import { useIsSSR } from '@react-aria/ssr'
 import { VisuallyHidden } from '@react-aria/visually-hidden'
 import clsx from 'clsx'
@@ -15,7 +15,6 @@ export interface ThemeSwitchProps {
 }
 
 export const ThemeSwitch = forwardRef((props: ThemeSwitchProps, ref) => {
-  const { className, classNames } = props
   const { theme, setTheme } = useTheme()
   const isSSR = useIsSSR()
 
@@ -27,59 +26,13 @@ export const ThemeSwitch = forwardRef((props: ThemeSwitchProps, ref) => {
     onChange,
   }))
 
-  const {
-    Component,
-    slots,
-    isSelected,
-    getBaseProps,
-    getInputProps,
-    getWrapperProps,
-  } = useSwitch({
+  const {} = useSwitch({
     'isSelected': theme === 'light' || isSSR,
     'aria-label': `Switch to ${theme === 'light' || isSSR ? 'dark' : 'light'} mode`,
     onChange,
   })
 
-  return (
-    <Component
-      {...getBaseProps({
-        className: clsx(
-          'px-px transition-opacity hover:opacity-80 cursor-pointer',
-          className,
-          classNames?.base
-        ),
-      })}
-    >
-      <VisuallyHidden>
-        <input {...getInputProps()} />
-      </VisuallyHidden>
-      <div
-        {...getWrapperProps()}
-        className={slots.wrapper({
-          class: clsx(
-            [
-              'w-auto h-auto',
-              'bg-transparent',
-              'rounded-lg',
-              'flex items-center justify-center',
-              'group-data-[selected=true]:bg-transparent',
-              '!text-default-500',
-              'pt-px',
-              'px-0',
-              'mx-0',
-            ],
-            classNames?.wrapper
-          ),
-        })}
-      >
-        {!isSelected || isSSR ? (
-          <SunFilledIcon size={22} />
-        ) : (
-          <MoonFilledIcon size={22} />
-        )}
-      </div>
-    </Component>
-  )
+  return <Switch onChange={onChange} isSelected={theme === 'light'} />
 })
 
 ThemeSwitch.displayName = 'ThemeSwitcher'
