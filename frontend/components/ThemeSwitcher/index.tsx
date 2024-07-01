@@ -1,22 +1,28 @@
+'use client'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import styles from './style.module.css'
 import { MoonFilledIcon, SunFilledIcon } from '../icons/Icons'
 import { cn } from '@/utils/nextui/cn'
+import { useEffect, useState } from 'react'
 
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme()
-  // initialize the customClassName according to the
-  // state of the "isOn" using ternary operator
   const customClassName = `toggleSwitch ${theme === 'dark' ? 'on' : 'off'}`
+  // fix hydration error
+  const [isMounted, setIsMounted] = useState(false)
 
-  // initialize the src according to the
-  // state of the "isOn" using ternary operator
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
   return (
     <motion.div
       animate
       className={cn(
-        'flex w-1/3 p-[5px] rounded-full ease-in duration-500 transition-all',
+        'flex  p-[5px] rounded-full ease-in duration-500 transition-all w-full',
         {
           'justify-end': theme === 'dark',
           'justify-start': theme !== 'dark',

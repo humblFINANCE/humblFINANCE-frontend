@@ -17,8 +17,14 @@ export function useLogin() {
     return async function () {
       const supabase = createClient()
       const { data } = await supabase.auth.getUser()
+
+      const { searchParams } = new URL(window.location.href)
+      const from = searchParams.get('from')
       const options = {
-        redirectTo: window.origin + socialLoginRedirectPath,
+        redirectTo:
+          window.origin +
+          socialLoginRedirectPath +
+          (from ? `?from=${from}` : ''),
       }
 
       if (data?.user?.is_anonymous) {
