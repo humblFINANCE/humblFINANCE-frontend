@@ -29,6 +29,7 @@ import getStripe from '@/utils/stripe/stripe'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import AskAuthModal from './modal/AskAuthModal'
+import { LoginModal } from '@/features/login/components/LoginModal'
 
 export default function Component() {
   const supabase = createClient()
@@ -45,12 +46,10 @@ export default function Component() {
 
   const onFrequencyChange = (selectedKey: React.Key) => {
     const frequencyIndex = frequencies.findIndex((f) => f.key === selectedKey)
-
     setSelectedFrequency(frequencies[frequencyIndex])
   }
 
   const handleSelectTier = async (tier: Tier) => {
-    console.log(tier)
     if (tier.price === 'Free') {
       return
     }
@@ -58,6 +57,7 @@ export default function Component() {
     const { data, error } = await supabase.auth.getUser()
 
     if (!data || error) {
+      router.push('?from=pricing')
       return authDisclosure.onOpen()
     }
 
@@ -74,7 +74,7 @@ export default function Component() {
   }
 
   return (
-    <div className="relative mx-auto max-w-7xl flex flex-col items-center py-24">
+    <div className="relative mx-auto max-w-7xl flex flex-col items-center py-2">
       <div
         aria-hidden="true"
         className="px:5 fixed inset-x-0 top-3 z-0 h-full w-full transform-gpu overflow-hidden blur-3xl md:right-20 md:h-auto md:w-auto md:px-36"
@@ -88,12 +88,14 @@ export default function Component() {
         />
       </div>
       <div className="flex max-w-xl flex-col text-center">
-        <h2 className="font-medium leading-7 text-secondary">Pricing</h2>
-        <h1 className="text-4xl font-medium tracking-tight">
+        <h2 className="font-medium text-2xl leading-7 text-secondary">
+          Pricing
+        </h2>
+        <h1 className="text-6xl font-medium tracking-tight">
           Compare plans & features.
         </h1>
         <Spacer y={4} />
-        <h2 className="text-large text-default-500">
+        <h2 className="text-xl text-default-500">
           Discover the ideal plan, beginning at under $2 per week.
         </h2>
       </div>
@@ -158,13 +160,13 @@ export default function Component() {
                     ? tier.price
                     : tier.price[selectedFrequency.key]}
                 </span>
-                {typeof tier.price !== 'string' ? (
+                {typeof tier.price !== 'string' && (
                   <span className="text-small font-medium text-default-400">
                     {tier.priceSuffix
-                      ? `/${tier.priceSuffix}/${selectedFrequency.priceSuffix}`
-                      : `/${selectedFrequency.priceSuffix}`}
+                      ? `/${tier.priceSuffix}/${tier.title === 'humblPERMANENT' ? 'lifetime' : selectedFrequency.priceSuffix}`
+                      : `/${tier.title === 'humblPERMANENT' ? 'lifetime' : selectedFrequency.priceSuffix}`}
                   </span>
-                ) : null}
+                )}
               </p>
               <ul className="flex flex-col gap-2">
                 {tier.features?.map((feature) => (
@@ -258,8 +260,8 @@ export default function Component() {
                       </span>
                       <span className="text-small font-medium text-default-600">
                         {tier.priceSuffix
-                          ? `/${tier.priceSuffix}/${selectedFrequency.priceSuffix}`
-                          : `/${selectedFrequency.priceSuffix}`}
+                          ? `/${tier.priceSuffix}/${tier.title === 'humblPERMANENT' ? 'lifetime' : selectedFrequency.priceSuffix}`
+                          : `/${tier.title === 'humblPERMANENT' ? 'lifetime' : selectedFrequency.priceSuffix}`}
                       </span>
                     </div>
                     <Button
@@ -391,10 +393,7 @@ export default function Component() {
           price={selectedTier?.price!}
         />
       </Elements>
-      <AskAuthModal
-        isOpen={authDisclosure.isOpen}
-        onOpenChange={authDisclosure.onOpenChange}
-      />
+      <LoginModal {...authDisclosure} />
     </div>
   )
 }

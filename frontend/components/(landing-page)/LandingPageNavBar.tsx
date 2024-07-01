@@ -19,6 +19,7 @@ import {
 import React from 'react'
 import { LoginModal } from '@/features/login/components/LoginModal'
 import { useTheme } from 'next-themes'
+import ThemeSwitcher from '../ThemeSwitcher'
 
 const menuItems = [
   'Home',
@@ -75,9 +76,7 @@ export default function Component(props: NavbarProps) {
           humblFINANCE
         </span>
       </NavbarBrand>
-      <Button onPress={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-        Switch
-      </Button>
+
       <NavbarContent
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
@@ -126,6 +125,11 @@ export default function Component(props: NavbarProps) {
           >
             Dashboard
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <div className="w-14">
+            <ThemeSwitcher />
+          </div>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu
