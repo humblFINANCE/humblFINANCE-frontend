@@ -28,9 +28,14 @@ import {SubmitButton} from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
 import {toast, ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import {AlertComponent} from "@/features/profile/components/AlertComponent";
 
-export function AccountSetting(props: CardProps) {
-    const {user, profile, isProfileLoaded} = useUser()
+interface ICardProps extends CardProps {
+    selectedTab?: any;
+}
+
+export function AccountSetting(props: ICardProps) {
+    const {user, profile, isProfileLoaded, refetchProfile} = useUser()
     const {updateProfile, updateProfilePicture, error, isLoading} = useUpdateProfile()
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
@@ -68,6 +73,7 @@ export function AccountSetting(props: CardProps) {
             let res: any = await updateProfile(user.id, data)
             if (res?.id) {
                 toast.success("Success Update Profile !");
+                refetchProfile(user.id);  // fetch new profile data
             }
         }
 
@@ -93,21 +99,30 @@ export function AccountSetting(props: CardProps) {
         doc.getElementById("imgupload").click()
     }
 
-    useEffect(() => {
-        if (profile && isProfileLoaded) {
-            reset(profile)
-        }
-    }, [profile, isProfileLoaded, reset])
-
     const fullname = ''.concat(
         getValues('first_name') ?? '',
         ' ',
         getValues('last_name') ?? ''
     )
 
+    const handleIfLoginByEmail = () => {
+        setValue('email', user.email)
+    }
+
+    useEffect(() => {
+        handleIfLoginByEmail()
+        if (profile && isProfileLoaded) {
+            reset(profile)
+        }
+    }, [profile, isProfileLoaded, reset])
     return (
         <ContentWrapperLoading isLoading={!isProfileLoaded || !Boolean(profile)}>
             <Card className="max-w-xl p-2" {...props}>
+
+                {/*<div className="p-2">*/}
+                {/*    <AlertComponent/>*/}
+                {/*</div>*/}
+
                 <form onSubmit={handleSubmit((e) => console.log(e))}>
                     <CardHeader className="flex flex-col items-start px-4 pb-0 pt-4">
                         <p className="text-large">{fullname}</p>
@@ -157,7 +172,7 @@ export function AccountSetting(props: CardProps) {
                             other users of the platform.
                         </p>
                     </CardHeader>
-                    <CardBody className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <CardBody className="grid grid-cols-2 gap-4 md:grid-cols-2">
                         {/* Username */}
                         <Input
                             label="Username"
@@ -172,6 +187,30 @@ export function AccountSetting(props: CardProps) {
                             placeholder="Enter email"
                             {...register('email')}
                             disabled={true}
+                            // defaultValue={getValues('email')}
+                            description={
+                                <>
+                                    <RenderIf condition={Boolean(user.user_metadata.email_verified)}>
+              <span className="text-success">
+                Email verified
+              </span>
+                                    </RenderIf><RenderIf condition={Boolean(!user.user_metadata.email_verified)}>
+              <span className="text-warning">
+                Email not verified
+              </span>
+                                </RenderIf>
+                                </>
+                            }
+                            endContent={
+                                <RenderIf condition={Boolean(!user.user_metadata.email_verified)}>
+                                    <Button color="success" size="sm" variant="flat" onClick={() => props.selectedTab({
+                                        tabs: "security-settings",
+                                        type: "email"
+                                    })}>
+                                        Verify Email
+                                    </Button>
+                                </RenderIf>
+                            }
                         />
                         {/* First Name */}
                         <Input
@@ -198,6 +237,30 @@ export function AccountSetting(props: CardProps) {
                             labelPlacement="outside"
                             placeholder="Enter phone number"
                             disabled={true}
+                            description={
+                                <>
+                                    <RenderIf condition={Boolean(user.user_metadata.phone_verified)}>
+              <span className="text-success">
+                Phone Number verified
+              </span>
+                                    </RenderIf><RenderIf condition={Boolean(!user.user_metadata.phone_verified)}>
+              <span className="text-warning">
+                Phone Number not verified
+              </span>
+                                </RenderIf>
+                                </>
+                            }
+                            endContent={
+                                <RenderIf condition={Boolean(!user.user_metadata.phone_verified)}>
+                                    <Button color="success" size="sm" variant="flat"
+                                            onClick={() => props.selectedTab({
+                                                tabs: "security-settings",
+                                                type: "email"
+                                            })}>
+                                        Verify Phone Number
+                                    </Button>
+                                </RenderIf>
+                            }
                         />
                         <RenderIf condition={Boolean(errors?.phone)}>
               <span className="text-danger">

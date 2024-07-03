@@ -1,14 +1,14 @@
 'use client'
 
-import { useUser } from '@/features/user/hooks/use-user'
+import {useUser} from '@/features/user/hooks/use-user'
 
 export default function PrivateTestPage() {
-  const { user } = useUser()
+    const {user} = useUser()
 
-  return (
-    <>
-      <p>Hello </p>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-    </>
-  )
+    return (
+        <>
+            <p>Hello </p>
+            <pre>{JSON.stringify(user, null, 2)}</pre>
+        </>
+    )
 }
