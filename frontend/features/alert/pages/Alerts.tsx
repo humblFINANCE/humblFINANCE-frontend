@@ -3,6 +3,7 @@
 import { Icon } from '@iconify/react'
 import { Tab, Tabs } from '@nextui-org/react'
 import React from 'react'
+import CreateAlert from '../components/CreateAlert'
 
 function Alerts() {
   return (
@@ -24,7 +25,7 @@ function Alerts() {
             </div>
           }
         >
-          <>create</>
+          <CreateAlert />
         </Tab>
         <Tab
           key="active-alerts"
