@@ -1,54 +1,115 @@
-import { Button, Select, SelectItem } from '@nextui-org/react'
-import React from 'react'
-
-const DATA_STOCKS = [
-  {
-    key: 'AAPL',
-    label: 'AAPL',
-  },
-  {
-    key: 'MSFT',
-    label: 'MSFT',
-  },
-  {
-    key: 'AMZN',
-    label: 'AMZN',
-  },
-]
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Select,
+  SelectItem,
+  Selection,
+  Spacer,
+} from '@nextui-org/react'
+import { IAlertForm } from '../types/alert'
+import { useState } from 'react'
+import {
+  useDataAction,
+  useDataIndicator,
+  useDataLogic,
+  useDataSymbol,
+} from '../hooks/useDataAlert'
+import VALUE_TYPE from '../constants/VALUE_TYPE'
 
 function CreateAlert() {
+  const { dataSymbol, error: errorSymbol } = useDataSymbol()
+  const { dataIndicator, error: errorIndicator } = useDataIndicator()
+  const { dataLogic, error: errorLogic } = useDataLogic()
+  const { dataAction, error: errorAction } = useDataAction()
+
+  const [form, setForm] = useState({
+    symbol: '',
+    condition: '',
+    logic: '',
+    value: 0,
+    action: '',
+  } satisfies IAlertForm)
+
+  const handleChange = (key: string, value: string) => {
+    console.log(key, value)
+
+    if (key === 'value') {
+      if (value.toLocaleLowerCase() === 'current price') {
+      } else if (value.toLocaleLowerCase() === 'yesterday close') {
+      }
+
+      return setForm({ ...form, value: +value })
+    }
+
+    setForm({ ...form, [key]: value })
+  }
+
   return (
     <div className="w-full h-full p-4">
-      <form className="block">
+      <h2 className="text-3xl ">Create New Alert</h2>
+      <Spacer y={3} />
+      <form className="mt-3">
         <div className="flex gap-4 flex-wrap">
-          <Select label="Select Symbol" className="max-w-xs">
-            {DATA_STOCKS.map((stock) => (
-              <SelectItem key={stock.key}>{stock.label}</SelectItem>
-            ))}
+          <Select
+            label="Select Symbol"
+            className="max-w-xs"
+            disabledKeys={['']}
+            value={form.symbol}
+            onChange={(value) => handleChange('symbol', value.target.value)}
+          >
+            {dataSymbol.length > 0 ? (
+              dataSymbol.map((symbol) => (
+                <SelectItem key={symbol.symbol_id} value={symbol.symbol_id}>
+                  {symbol.symbol}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem key="">No Symbols Available</SelectItem>
+            )}
           </Select>
           <Select label="Select Condition" className="max-w-xs">
-            {DATA_STOCKS.map((stock) => (
-              <SelectItem key={stock.key}>{stock.label}</SelectItem>
+            {dataIndicator.map((indicator) => (
+              <SelectItem
+                key={indicator.indicator_id}
+                value={indicator.indicator_id}
+              >
+                {indicator.name}
+              </SelectItem>
             ))}
           </Select>
           <Select label="Select Logic" className="max-w-xs">
-            {DATA_STOCKS.map((stock) => (
-              <SelectItem key={stock.key}>{stock.label}</SelectItem>
+            {dataLogic.map((logic) => (
+              <SelectItem key={logic.logic_id} value={logic.logic_id}>
+                {logic.condition}
+              </SelectItem>
             ))}
           </Select>
-          <Select label="Select Value Type" className="max-w-xs">
-            {DATA_STOCKS.map((stock) => (
-              <SelectItem key={stock.key}>{stock.label}</SelectItem>
-            ))}
-          </Select>
+          <Autocomplete
+            allowsCustomValue
+            label="Select Value Type"
+            className="max-w-xs"
+            defaultItems={VALUE_TYPE}
+            onInputChange={(value) => handleChange('value', value)}
+          >
+            {(value) => (
+              <AutocompleteItem key={value.key}>{value.label}</AutocompleteItem>
+            )}
+          </Autocomplete>
           <Select label="Select Action" className="max-w-xs">
-            {DATA_STOCKS.map((stock) => (
-              <SelectItem key={stock.key}>{stock.label}</SelectItem>
+            {dataAction.map((action) => (
+              <SelectItem key={action.action_id} value={action.action_id}>
+                {action.name}
+              </SelectItem>
             ))}
           </Select>
         </div>
         <div className="mt-4 w-full  bg-cyan-500 h-full">
-          <Button color="secondary" size="lg">
+          <Button
+            color="secondary"
+            size="lg"
+            isDisabled={Object.entries(form).some((item) => item[1] === '')}
+          >
             Add Alert
           </Button>
         </div>
