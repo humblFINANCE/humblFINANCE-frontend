@@ -4,10 +4,20 @@ import { Icon } from '@iconify/react'
 import { Tab, Tabs } from '@nextui-org/react'
 import React from 'react'
 import CreateAlert from '../components/CreateAlert'
+import ActiveAlert from '../components/ActiveAlert'
+import HistoryAlert from '../components/HistoryAlert'
 
 function Alerts() {
+  const [isMounted, setIsMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
   return (
-    <div className="h-full overflow-y-scroll">
+    <div className="h-full w-full overflow-y-scroll">
       <Tabs
         classNames={{
           tabList: 'mx-4 mt-6 text-medium',
@@ -37,7 +47,7 @@ function Alerts() {
             </div>
           }
         >
-          <>active</>
+          <ActiveAlert />
         </Tab>
         <Tab
           key="history-alerts"
@@ -49,7 +59,7 @@ function Alerts() {
             </div>
           }
         >
-          <>history</>
+          <HistoryAlert />
         </Tab>
       </Tabs>
     </div>
