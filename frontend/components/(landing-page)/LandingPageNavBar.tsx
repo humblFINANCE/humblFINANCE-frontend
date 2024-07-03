@@ -18,14 +18,22 @@ import {
 } from '@nextui-org/react'
 import React from 'react'
 import { LoginModal } from '@/features/login/components/LoginModal'
+import { useTheme } from 'next-themes'
+import ThemeSwitcher from '../ThemeSwitcher'
 
-const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
+const menuItems = [
+  'Home',
+  'Features',
+  'About Us',
+  'Investing Framework',
+  'Pricing',
+]
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
   const pathname = usePathname()
-
+  const { theme, setTheme } = useTheme()
   const checkActive = (path: string) => {
     return pathname === path
   }
@@ -68,6 +76,7 @@ export default function Component(props: NavbarProps) {
           humblFINANCE
         </span>
       </NavbarBrand>
+
       <NavbarContent
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
@@ -96,6 +105,11 @@ export default function Component(props: NavbarProps) {
             Investing Framework
           </Link>
         </NavbarItem>
+        <NavbarItem isActive={checkActive('/pricing')}>
+          <Link className="text-default-500" href="/pricing" size="sm">
+            Pricing
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
@@ -111,6 +125,11 @@ export default function Component(props: NavbarProps) {
           >
             Dashboard
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <div className="w-14">
+            <ThemeSwitcher />
+          </div>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu

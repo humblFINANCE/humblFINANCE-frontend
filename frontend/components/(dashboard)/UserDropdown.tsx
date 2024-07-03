@@ -66,7 +66,9 @@ export function UserDropdown({
         <DropdownItem closeOnSelect={false} key="theme-2">
           <div className="flex items-center justify-between">
             <span>Theme</span>
-            <ThemeSwitcher />
+            <div className="w-1/3">
+              <ThemeSwitcher />
+            </div>
           </div>
         </DropdownItem>
       </DropdownMenu>
