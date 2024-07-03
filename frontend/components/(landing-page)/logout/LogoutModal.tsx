@@ -1,20 +1,30 @@
 'use client'
 import LogoutModalButton from '@/components/(landing-page)/logout/LogoutModalButton'
+import { Button } from '@nextui-org/button'
 import {
-  Button,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-} from '@nextui-org/react'
+} from '@nextui-org/modal'
 
-import { UseDisclosureReturn } from '@nextui-org/use-disclosure'
+type LogoutModalProps = {
+  isOpen: boolean
+  onOpen?: () => void
+  onOpenChange: (open: boolean) => void // Add this line
+}
 
-export default function LogoutModal(props: UseDisclosureReturn) {
-  const { isOpen, onOpenChange } = props
+export default function LogoutModal({
+  isOpen,
+  onOpen,
+  onOpenChange,
+}: LogoutModalProps) {
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
+      {/* <Button onPress={onOpen}>Open Modal</Button> */}
       <Modal
         backdrop="opaque"
         isOpen={isOpen}

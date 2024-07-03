@@ -1,14 +1,20 @@
-'use client'
+import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
-import {useUser} from '@/features/user/hooks/use-user'
+export default async function PrivateTestPage() {
+  const supabase = createClient()
 
-export default function PrivateTestPage() {
-    const {user} = useUser()
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    console.log('i made it')
+    redirect('/login')
+  }
 
-    return (
-        <>
-            <p>Hello </p>
-            <pre>{JSON.stringify(user, null, 2)}</pre>
-        </>
-    )
+  return (
+    <>
+      <p>Hello {data.user.email}</p>
+      <LogoutModal />
+    </>
+  )
 }

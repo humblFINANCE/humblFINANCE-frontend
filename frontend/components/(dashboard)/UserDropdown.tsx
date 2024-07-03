@@ -1,38 +1,29 @@
-import { useUser } from '@/features/user/hooks/use-user'
+'use server'
+
+import { createClient } from '@/utils/supabase/server'
+import { Avatar } from '@nextui-org/avatar'
 import {
-  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/react'
-import { ThemeSwitch } from '../ThemeSwitch'
-import { useRef } from 'react'
-import ThemeSwitcher from '../ThemeSwitcher'
+} from '@nextui-org/dropdown'
 
-export interface UserDropDownProps {
-  openLogoutModal: () => void
-}
-
-export function UserDropdown({
-  openLogoutModal: openLogouModal,
-}: UserDropDownProps) {
-  const { profile, user } = useUser()
-  const themeRef = useRef<{ onChange: () => void }>()
-
-  const handleChangeTheme = () => {
-    if (themeRef.current) {
-      themeRef.current.onChange()
-    }
+export const UserDropdown = async () => {
+  const supabase = createClient()
+  const { data, error } = await supabase.auth.getUser()
+  if (error || !data?.user?.email) {
+    console.error('User could not be found.')
   }
 
   return (
-    <Dropdown closeOnSelect={false}>
+    <Dropdown>
       <DropdownTrigger>
         <Avatar
           as="button"
+          color="secondary"
           size="md"
-          src={profile?.avatar_url}
+          src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
         />
       </DropdownTrigger>
       <DropdownMenu
@@ -44,30 +35,14 @@ export function UserDropdown({
           className="flex flex-col justify-start w-full items-start"
         >
           <p>Signed in as</p>
-          <p>{user.email}</p>
+          <p>{data?.user?.email}</p>
         </DropdownItem>
-        <DropdownItem
-          href="/dashboard/profile-setting"
-          key="settings"
-          closeOnSelect
-        >
-          Profile Settings
-        </DropdownItem>
+        <DropdownItem key="settings">Profile Settings</DropdownItem>
         <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-        <DropdownItem
-          onClick={openLogouModal}
-          key="logout"
-          color="danger"
-          className="text-danger "
-        >
+        <DropdownItem key="logout" color="danger" className="text-danger ">
           Log Out
         </DropdownItem>
-        <DropdownItem closeOnSelect={false} key="theme-2">
-          <div className="flex items-center justify-between">
-            <span>Theme</span>
-            <ThemeSwitcher />
-          </div>
-        </DropdownItem>
+        <DropdownItem key="switch">{/* <ThemeSwitch /> */}</DropdownItem>
       </DropdownMenu>
     </Dropdown>
   )

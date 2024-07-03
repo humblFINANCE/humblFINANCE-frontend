@@ -28,7 +28,6 @@ import {SubmitButton} from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
 import {toast, ToastContainer} from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-import {AlertComponent} from "@/features/profile/components/AlertComponent";
 
 interface ICardProps extends CardProps {
     selectedTab?: any;

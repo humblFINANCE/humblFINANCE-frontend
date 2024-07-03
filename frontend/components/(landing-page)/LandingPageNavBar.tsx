@@ -2,11 +2,10 @@
 
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
-import type { NavbarProps } from '@nextui-org/react'
-import { usePathname } from 'next/navigation'
+import { Button } from '@nextui-org/button'
+import { Link } from '@nextui-org/link'
+import type { NavbarProps } from '@nextui-org/navbar'
 import {
-  Button,
-  Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -14,21 +13,15 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-  useDisclosure,
-} from '@nextui-org/react'
+} from '@nextui-org/navbar'
+import { usePathname } from 'next/navigation'
 import React from 'react'
-import { LoginModal } from '@/features/login/components/LoginModal'
 
 const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const disclosure = useDisclosure()
   const pathname = usePathname()
-
-  const checkActive = (path: string) => {
-    return pathname === path
-  }
 
   return (
     <Navbar
@@ -72,22 +65,22 @@ export default function Component(props: NavbarProps) {
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
       >
-        <NavbarItem isActive={checkActive('/')}>
+        <NavbarItem>
           <Link className="text-default-500" href="/" size="sm">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={checkActive('/features')}>
+        <NavbarItem>
           <Link className="text-default-500" href="/features" size="sm">
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={checkActive('/about-us')}>
+        <NavbarItem>
           <Link className="text-default-500" href="/about-us" size="sm">
             About Us
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={checkActive('/investing-framework')}>
+        <NavbarItem>
           <Link
             className="text-default-500"
             href="/investing-framework"
@@ -99,6 +92,15 @@ export default function Component(props: NavbarProps) {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
+          <Link href="/login">
+            <Button
+              className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
+              radius="full"
+              variant="light"
+            >
+              Login
+            </Button>
+          </Link>
           <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
@@ -107,9 +109,8 @@ export default function Component(props: NavbarProps) {
               boxShadow: 'inset 0 0 4px #bf97ff70',
             }}
             variant="flat"
-            onClick={disclosure.onOpenChange}
           >
-            Dashboard
+            Get Started
           </Button>
         </NavbarItem>
       </NavbarContent>
@@ -133,7 +134,6 @@ export default function Component(props: NavbarProps) {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
-      <LoginModal {...disclosure} />
     </Navbar>
   )
 }

@@ -8,7 +8,7 @@ import { Icon } from '@iconify/react'
 import { SocialLoginForm } from '@/features/login/components/SocialLoginForm'
 import NewUserTooltip from '@/features/login/components/NewUserTooltip'
 import { signInAnonymously } from '@/features/login/actions/signIn-anonymously'
-import { CaptchaModal } from '@/features/login/components/CaptchaModal'
+import PasswordLessLoginModal from '@/features/login/components/CaptchaModal'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { PasswordlessLoginForm } from '@/features/login/components/PasswordlessForm'
 import { useFormState } from 'react-dom'
@@ -201,7 +201,7 @@ export function LoginForm({
                 </div>
                 <PasswordlessLoginForm />
               </m.div>
-              <CaptchaModal
+              <PasswordLessLoginModal
                 {...captchaModal}
                 captchaInputRef={captchaInputRef}
                 formRef={anonymouseLoginFormRef}
