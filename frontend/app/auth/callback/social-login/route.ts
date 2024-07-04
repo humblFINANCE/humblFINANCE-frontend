@@ -9,8 +9,15 @@ export async function GET(request: NextRequest) {
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code!)
     if (!error) {
+      const from = searchParams.get('from')
+      console.log(from)
+
       redirectTo.searchParams.delete('code')
       redirectTo.pathname = '/dashboard/home'
+      if (redirectTo.searchParams.get('from')) {
+        redirectTo.searchParams.delete('from')
+        redirectTo.pathname = '/' + from
+      }
       return NextResponse.redirect(redirectTo)
     }
   }
