@@ -1,9 +1,14 @@
-import { title } from "@/components/Primitives";
-
+import { title } from '@/components/Primitives'
+import PricingPageComponent from '@/components/(landing-page)/pricing-page/PricingPageComponent'
+import React from 'react'
+import FeatureComparisonsComponent from '@/components/(landing-page)/pricing-page/FeatureComparisonsComponent'
+import { Divider } from '@nextui-org/react'
 export default function PricingPage() {
-	return (
-		<div>
-			<h1 className={title()}>Pricing</h1>
-		</div>
-	);
+  return (
+    <>
+      <PricingPageComponent />
+      <Divider className="mb-12" />
+      <FeatureComparisonsComponent />
+    </>
+  )
 }

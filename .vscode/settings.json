@@ -26,11 +26,15 @@
       "color": "foldercolorizer.red"
     },
     {
-      "folderPath": "humblFINANCE-frontend\\frontend\\app\\(landing-page)\\login\\",
-      "badge": "🫠"
-    },
-    {
       "folderPath": "humblFINANCE-frontend\\frontend\\app\\(landing-page)\\login\\page.tsx\\"
     }
-  ]
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cSpell.words": ["clsx", "iconify", "oidc"]
 }
