@@ -8,6 +8,8 @@ import {useTheme} from 'next-themes'
 import {FC} from 'react'
 
 import {MoonFilledIcon, SunFilledIcon} from '@/components/icons/Icons'
+import {useUser} from "@/features/user/hooks/use-user";
+import {useUpdateProfile} from "@/features/profile/hooks/use-update-profile";
 
 export interface ThemeSwitchProps {
     className?: string
@@ -20,9 +22,16 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
                                                   }) => {
     const {theme, setTheme} = useTheme()
     const isSSR = useIsSSR()
+    const {user} = useUser()
+    const {updateProfile} = useUpdateProfile()
+
+    const handleDefaultTheme = async (val: string) => {
+        let res: any = await updateProfile(user.id, {default_theme: val});
+        setTheme(res?.default_theme)
+    }
 
     const onChange = () => {
-        theme === 'light' ? setTheme('dark') : setTheme('light')
+        handleDefaultTheme(theme === 'dark' ? 'light' : 'dark')
     }
 
     const {

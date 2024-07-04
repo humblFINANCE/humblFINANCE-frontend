@@ -6,9 +6,9 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import { ThemeSwitch } from '../ThemeSwitch'
 import { useRef } from 'react'
 import ThemeSwitcher from '../ThemeSwitcher'
+import AuthenticatedTheme from "@/components/ThemeSwitcher/AuthenticatedTheme";
 
 export interface UserDropDownProps {
   openLogoutModal: () => void
@@ -66,7 +66,8 @@ export function UserDropdown({
           <div className="flex items-center justify-between">
             <span>Theme</span>
             <div className="w-1/3">
-              <ThemeSwitcher />
+              {/*<ThemeSwitcher />*/}
+              <AuthenticatedTheme />
             </div>
           </div>
         </DropdownItem>

@@ -254,7 +254,7 @@ export function AccountSetting(props: ICardProps) {
                                     <Button color="success" size="sm" variant="flat"
                                             onClick={() => props.selectedTab({
                                                 tabs: "security-settings",
-                                                type: "email"
+                                                type: "phone"
                                             })}>
                                         Verify Phone Number
                                     </Button>
