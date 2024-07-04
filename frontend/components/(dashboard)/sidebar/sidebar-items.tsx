@@ -33,7 +33,7 @@ export const items: SidebarItem[] = [
   },
   {
     key: 'alerts',
-    href: '#',
+    href: '/dashboard/alerts',
     icon: 'solar:bell-line-duotone',
     title: 'Alerts',
     endContent: (
@@ -118,7 +118,7 @@ export const sectionItems: SidebarItem[] = [
       },
       {
         key: 'alerts',
-        href: '#',
+        href: '/dashboard/alerts',
         icon: 'solar:bell-line-duotone',
         title: 'Alerts',
         endContent: (

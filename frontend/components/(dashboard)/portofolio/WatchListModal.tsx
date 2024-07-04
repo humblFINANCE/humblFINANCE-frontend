@@ -60,6 +60,8 @@ export default function WatchListModal({
   }
 
   const handleAddWatchlist = () => {
+    console.log(user)
+
     if (user.is_anonymous) {
       openModalConvertUser()
       return
@@ -82,6 +84,8 @@ export default function WatchListModal({
   }
 
   const handleEditWatchlist = () => {
+    console.log(user)
+
     if (user.is_anonymous) {
       openModalConvertUser()
       return
