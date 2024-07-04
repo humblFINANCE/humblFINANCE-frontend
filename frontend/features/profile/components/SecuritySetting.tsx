@@ -1,6 +1,6 @@
 'use client'
 
-import {CardProps, useDisclosure} from '@nextui-org/react'
+import {CardProps} from '@nextui-org/react'
 
 import React, {useState} from 'react'
 import {Card, CardHeader, CardBody, Button} from '@nextui-org/react'

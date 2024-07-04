@@ -4,20 +4,10 @@ import {useTheme} from 'next-themes'
 import {MoonFilledIcon, SunFilledIcon} from '../icons/Icons'
 import {cn} from '@/utils/nextui/cn'
 import {useEffect, useState} from 'react'
-import {useUpdateProfile} from "@/features/profile/hooks/use-update-profile";
-import {useUser} from "@/features/user/hooks/use-user";
 
 const ThemeSwitcher = () => {
     const [isMounted, setIsMounted] = useState(false)   // fix hydration error
     const {theme, setTheme} = useTheme()
-    // const {user} = useUser()
-    // const {updateProfile} = useUpdateProfile()
-    //
-    // const handleDefaultTheme = async (val: string) => {
-    //     let res: any = await updateProfile(user.id, {default_theme: val});
-    //     setTheme(res?.default_theme)
-    // }
-
     useEffect(() => {
         setIsMounted(true)
     }, [])
