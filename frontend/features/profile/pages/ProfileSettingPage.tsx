@@ -1,9 +1,7 @@
 'use client'
 
-import type { CardProps } from '@nextui-org/react'
-
 import React from 'react'
-import { Card, Tabs, Tab } from '@nextui-org/react'
+import {  Tabs, Tab } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
 
 import { AccountSetting } from '@/features/profile/components/AccountSetting'
@@ -11,6 +9,11 @@ import { SecuritySetting } from '@/features/profile/components/SecuritySetting'
 import { NotificationSetting } from '@/features/profile/components/NotificationSetting'
 
 export function ProfileSettingPage() {
+    const [selected, setSelected] = React.useState<any>({
+        tabs: "account-settings",
+        type: ""
+    });
+
   return (
     <div className="h-full overflow-y-scroll">
       <Tabs
@@ -19,6 +22,8 @@ export function ProfileSettingPage() {
           tabContent: 'text-small',
         }}
         size="lg"
+        selectedKey={selected.tabs}
+        onSelectionChange={(e: any) => setSelected({tabs: e})}
       >
         <Tab
           key="account-settings"
@@ -30,7 +35,7 @@ export function ProfileSettingPage() {
             </div>
           }
         >
-          <AccountSetting className="p-2  shadow-none overflow-y-scroll" />
+          <AccountSetting selectedTab={setSelected} className="p-2  shadow-none overflow-y-scroll" />
         </Tab>
         <Tab
           key="notifications-settings"
@@ -54,7 +59,7 @@ export function ProfileSettingPage() {
             </div>
           }
         >
-          <SecuritySetting className="p-2  shadow-none" />
+          <SecuritySetting activeAction={selected} className="p-2  shadow-none" />
         </Tab>
       </Tabs>
     </div>

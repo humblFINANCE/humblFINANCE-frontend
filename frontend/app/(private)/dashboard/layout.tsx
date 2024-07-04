@@ -2,15 +2,11 @@ import DashboardSidebar from '@/components/(dashboard)/sidebar/DashboardSidebar'
 import { fontSans } from '@/config/fonts'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
-import '@/styles/ag-grid-theme-builder.css'
+import { Link } from '@nextui-org/link'
 import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
-import { UserProvider } from '@/features/user/context/UserContext'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import { User } from '@/features/user/types'
 
 export const metadata: Metadata = {
   title: {
@@ -33,17 +29,11 @@ export const viewport: Viewport = {
   ],
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const client = createClient()
-  const { data, error } = await client.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/login')
-  }
-
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -55,9 +45,7 @@ export default async function RootLayout({
       >
         <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
           <div className="relative flex flex-col h-screen">
-            <UserProvider user={data.user as User}>
-              <DashboardSidebar>{children}</DashboardSidebar>
-            </UserProvider>
+            <DashboardSidebar>{children}</DashboardSidebar>
           </div>
         </Providers>
       </body>

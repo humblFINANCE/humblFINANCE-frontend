@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { Button } from '@nextui-org/button'
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
-  Button,
-} from '@nextui-org/react'
-import HCaptcha from '@hcaptcha/react-hcaptcha'
+  ModalHeader,
+} from '@nextui-org/modal'
+import React, { useCallback, useEffect, useRef } from 'react'
 
 type ModalProps = {
   isOpen: boolean
@@ -18,7 +18,7 @@ type ModalProps = {
   captchaInputRef: React.MutableRefObject<HTMLInputElement | null>
 }
 
-export function CaptchaModal({
+export default function PasswordLessLoginModal({
   isOpen,
   onOpenChange,
   onClose,
@@ -51,7 +51,7 @@ export function CaptchaModal({
           {(onClose: () => void) => (
             <div>
               <ModalHeader className="flex flex-col gap-1">
-                Are you human ?
+                Are you human?
               </ModalHeader>
               <ModalBody className="flex flex-row justify-center">
                 <HCaptcha

@@ -1,8 +1,14 @@
 'use client'
 
-import { type ListboxProps, type ListboxSectionProps , type Selection } from '@nextui-org/react'
-import { Accordion, AccordionItem , Tooltip , Listbox, ListboxItem, ListboxSection } from '@nextui-org/react'
+import {
+  type ListboxProps,
+  type ListboxSectionProps,
+} from '@nextui-org/listbox'
+import { type Selection } from '@nextui-org/table'
+import { Accordion, AccordionItem } from '@nextui-org/accordion'
 import React from 'react'
+import { Tooltip } from '@nextui-org/tooltip'
+import { Listbox, ListboxItem, ListboxSection } from '@nextui-org/listbox'
 import { Icon } from '@iconify/react'
 
 import { cn } from '@/utils/nextui/cn'
