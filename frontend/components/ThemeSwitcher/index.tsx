@@ -1,51 +1,58 @@
 'use client'
-import { motion } from 'framer-motion'
-import { useTheme } from 'next-themes'
-import styles from './style.module.css'
-import { MoonFilledIcon, SunFilledIcon } from '../icons/Icons'
-import { cn } from '@/utils/nextui/cn'
-import { useEffect, useState } from 'react'
+import {motion} from 'framer-motion'
+import {useTheme} from 'next-themes'
+import {MoonFilledIcon, SunFilledIcon} from '../icons/Icons'
+import {cn} from '@/utils/nextui/cn'
+import {useEffect, useState} from 'react'
+import {useUpdateProfile} from "@/features/profile/hooks/use-update-profile";
+import {useUser} from "@/features/user/hooks/use-user";
 
 const ThemeSwitcher = () => {
-  const { theme, setTheme } = useTheme()
-  const customClassName = `toggleSwitch ${theme === 'dark' ? 'on' : 'off'}`
-  // fix hydration error
-  const [isMounted, setIsMounted] = useState(false)
+    const {user} = useUser()
+    const {theme, setTheme} = useTheme()
+    const {updateProfile} = useUpdateProfile()
+    const [isMounted, setIsMounted] = useState(false)   // fix hydration error
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    const handleDefaultTheme = async (val: string) => {
+        let res: any = await updateProfile(user.id, {default_theme: val});
+        setTheme(res?.default_theme)
+    }
 
-  if (!isMounted) return null
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
 
-  return (
-    <motion.div
-      animate
-      className={cn(
-        'flex  p-[5px] rounded-full ease-in duration-500 transition-all w-full',
-        {
-          'justify-end': theme === 'dark',
-          'justify-start': theme !== 'dark',
-          'bg-default-200 dark:bg-default-100': true,
-        }
-      )}
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-    >
-      <motion.div
-        animate
-        className={cn('p-[5px] rounded-full  ', {
-          'bg-primary-100': theme === 'dark',
-          'bg-gray-500': theme !== 'dark',
-        })}
-      >
-        {theme === 'dark' ? (
-          <MoonFilledIcon size={18} />
-        ) : (
-          <SunFilledIcon size={18} className="text-yellow-300" />
-        )}
-      </motion.div>
-    </motion.div>
-  )
+    if (!isMounted) return null
+
+    return (
+        <motion.div
+            animate
+            className={cn(
+                'flex  p-[5px] rounded-full ease-in duration-500 transition-all w-full',
+                {
+                    'justify-end': theme === 'dark',
+                    'justify-start': theme !== 'dark',
+                    'bg-default-200 dark:bg-default-100': true,
+                }
+            )}
+            // onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            onClick={() => handleDefaultTheme(theme === 'dark' ? 'light' : 'dark')}
+        >
+            <motion.div
+                animate
+                className={cn('p-[5px] rounded-full  ', {
+                    'bg-primary-100': theme === 'dark',
+                    'bg-gray-500': theme !== 'dark',
+                })}
+            >
+                {theme === 'dark' ? (
+                    <MoonFilledIcon size={18}/>
+                ) : (
+                    <SunFilledIcon size={18} className="text-yellow-300"/>
+                )}
+            </motion.div>
+        </motion.div>
+    )
 }
 
 export default ThemeSwitcher
