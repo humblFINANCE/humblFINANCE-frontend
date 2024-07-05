@@ -41,8 +41,9 @@ export function CaptchaModal({
   useEffect(() => {
     if (isOpen) {
       captchaRef.current?.resetCaptcha()
+      onVerify('')
     }
-  }, [isOpen])
+  }, [isOpen, onVerify])
 
   return (
     <>
