@@ -2,12 +2,14 @@
 
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
-import { Avatar } from '@nextui-org/avatar'
-import { Button } from '@nextui-org/button'
-import { useDisclosure } from '@nextui-org/modal'
-import { ScrollShadow } from '@nextui-org/scroll-shadow'
-import { Spacer } from '@nextui-org/spacer'
-import { Tooltip } from '@nextui-org/tooltip'
+import {
+  Avatar,
+  Button,
+  useDisclosure,
+  ScrollShadow,
+  Spacer,
+  Tooltip,
+} from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'
@@ -17,6 +19,8 @@ import { cn } from '@/utils/nextui/cn'
 import { sectionItemsWithTeams } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
+import { UserDropdown } from '../UserDropdown'
+import { NotificationsDropdown } from '../NotificationDropdown'
 
 export default function DashboardSidebar({
   children,
@@ -36,7 +40,7 @@ export default function DashboardSidebar({
     currentPath.charAt(0).toUpperCase() + currentPath.slice(1)
 
   // Logout Modal Control
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const logoutModalDisclosure = useDisclosure()
 
   const onToggle = React.useCallback(() => {
     setIsCollapsed((prev) => !prev)
@@ -145,7 +149,7 @@ export default function DashboardSidebar({
           </Tooltip>
           <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
             <Button
-              onPress={onOpen}
+              onPress={logoutModalDisclosure.onOpenChange}
               className={cn(
                 'justify-start text-default-500 data-[hover=true]:bg-red-500 data-[hover=true]:text-red-100',
                 {
@@ -178,27 +182,34 @@ export default function DashboardSidebar({
         </div>
       </div>
       <div className="w-full flex-1 flex-col p-4">
-        <header className="flex items-center gap-3 rounded-medium border-small border-divider p-4">
-          <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
-            <Icon
-              className="text-default-500"
-              height={24}
-              icon="solar:sidebar-minimalistic-outline"
-              width={24}
+        <header className="flex justify-between items-center gap-3 rounded-medium border-small border-divider p-4">
+          <div className="flex items-center gap-x-4 flex-row">
+            <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
+              <Icon
+                className="text-default-500"
+                height={24}
+                icon="solar:sidebar-minimalistic-outline"
+                width={24}
+              />
+            </Button>
+            <h2 className="text-medium font-medium text-default-700">
+              {capitalizedCurrentPath}
+            </h2>
+          </div>
+          <div className="flex items-center gap-x-4 flex-row">
+            <NotificationsDropdown />
+            <UserDropdown
+              openLogoutModal={logoutModalDisclosure.onOpenChange}
             />
-          </Button>
-          <h2 className="text-medium font-medium text-default-700">
-            {capitalizedCurrentPath}
-          </h2>
-          {/* UserAvatar goes here, justify-right */}
+          </div>
         </header>
         <main className="mt-4 h-[90%] w-full overflow-visible">
-          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider">
+          <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-hidden p-4">
             {children}
           </div>
         </main>
       </div>
-      <LogoutModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <LogoutModal {...logoutModalDisclosure} />
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import UserTable from '@/components/(dashboard)/portofolio/UserTable'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
@@ -10,5 +11,5 @@ export default async function PrivateTestPage() {
     redirect('/login')
   }
 
-  return <p>{data.user.email}'s Portfolio</p>
+  return <UserTable />
 }

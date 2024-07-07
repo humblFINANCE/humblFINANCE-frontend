@@ -1,11 +1,11 @@
 'use client'
 
-import { SwitchProps, useSwitch } from '@nextui-org/switch'
+import { SwitchProps, useSwitch } from '@nextui-org/react'
 import { useIsSSR } from '@react-aria/ssr'
 import { VisuallyHidden } from '@react-aria/visually-hidden'
 import clsx from 'clsx'
 import { useTheme } from 'next-themes'
-import { FC } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 
 import { MoonFilledIcon, SunFilledIcon } from '@/components/icons/Icons'
 
@@ -14,16 +14,18 @@ export interface ThemeSwitchProps {
   classNames?: SwitchProps['classNames']
 }
 
-export const ThemeSwitch: FC<ThemeSwitchProps> = ({
-  className,
-  classNames,
-}) => {
+export const ThemeSwitch = forwardRef((props: ThemeSwitchProps, ref) => {
+  const { className, classNames } = props
   const { theme, setTheme } = useTheme()
   const isSSR = useIsSSR()
 
   const onChange = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light')
   }
+
+  useImperativeHandle(ref, () => ({
+    onChange,
+  }))
 
   const {
     Component,
@@ -78,4 +80,6 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
       </div>
     </Component>
   )
-}
+})
+
+ThemeSwitch.displayName = 'ThemeSwitcher'

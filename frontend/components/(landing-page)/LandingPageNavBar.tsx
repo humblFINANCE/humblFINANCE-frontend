@@ -2,10 +2,11 @@
 
 import { AcmeIcon } from '@/components/icons/Brands'
 import { cn } from '@/utils/nextui/cn'
-import { Button } from '@nextui-org/button'
-import { Link } from '@nextui-org/link'
-import type { NavbarProps } from '@nextui-org/navbar'
+import type { NavbarProps } from '@nextui-org/react'
+import { usePathname } from 'next/navigation'
 import {
+  Button,
+  Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -13,15 +14,29 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from '@nextui-org/navbar'
-import { usePathname } from 'next/navigation'
+  useDisclosure,
+} from '@nextui-org/react'
 import React from 'react'
+import { LoginModal } from '@/features/login/components/LoginModal'
+import { useTheme } from 'next-themes'
+import ThemeSwitcher from '../ThemeSwitcher'
 
-const menuItems = ['Home', 'Features', 'About Us', 'Investing Framework']
+const menuItems = [
+  'Home',
+  'Features',
+  'About Us',
+  'Investing Framework',
+  'Pricing',
+]
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const disclosure = useDisclosure()
   const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
+  const checkActive = (path: string) => {
+    return pathname === path
+  }
 
   return (
     <Navbar
@@ -61,26 +76,27 @@ export default function Component(props: NavbarProps) {
           humblFINANCE
         </span>
       </NavbarBrand>
+
       <NavbarContent
         className="hidden h-11 gap-4 rounded-full border-small border-default-200/20 bg-background/60 px-4 shadow-medium backdrop-blur-md backdrop-saturate-150 md:flex dark:bg-default-100/50"
         justify="center"
       >
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/')}>
           <Link className="text-default-500" href="/" size="sm">
             Home
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/features')}>
           <Link className="text-default-500" href="/features" size="sm">
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/about-us')}>
           <Link className="text-default-500" href="/about-us" size="sm">
             About Us
           </Link>
         </NavbarItem>
-        <NavbarItem>
+        <NavbarItem isActive={checkActive('/investing-framework')}>
           <Link
             className="text-default-500"
             href="/investing-framework"
@@ -89,18 +105,14 @@ export default function Component(props: NavbarProps) {
             Investing Framework
           </Link>
         </NavbarItem>
+        <NavbarItem isActive={checkActive('/pricing')}>
+          <Link className="text-default-500" href="/pricing" size="sm">
+            Pricing
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
-          <Link href="/login">
-            <Button
-              className="bg-default-100 text-default-700 sm:bg-transparent sm:text-default-500"
-              radius="full"
-              variant="light"
-            >
-              Login
-            </Button>
-          </Link>
           <Button
             className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
@@ -109,9 +121,15 @@ export default function Component(props: NavbarProps) {
               boxShadow: 'inset 0 0 4px #bf97ff70',
             }}
             variant="flat"
+            onClick={disclosure.onOpenChange}
           >
-            Get Started
+            Dashboard
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <div className="w-14">
+            <ThemeSwitcher />
+          </div>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu
@@ -134,6 +152,7 @@ export default function Component(props: NavbarProps) {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
+      <LoginModal {...disclosure} />
     </Navbar>
   )
 }

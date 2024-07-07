@@ -1,12 +1,13 @@
 import { signOut } from '@/app/(landing-page)/logout/action'
 import { Icon } from '@iconify/react'
-import { Button, ButtonGroup } from '@nextui-org/button'
 import {
+  Button,
+  ButtonGroup,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown'
+} from '@nextui-org/react'
 import React from 'react'
 
 export default function LogoutModalButton({
