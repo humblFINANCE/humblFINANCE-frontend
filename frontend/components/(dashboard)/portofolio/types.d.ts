@@ -14,3 +14,30 @@ export type TSector = {
   label: string
   value: string
 }
+
+// STATE INTERFACE
+export interface IWatchList {
+  date: string
+  symbol: string
+  buy_price: number
+  last_price: number
+  sell_price: number
+  ud_pct: string
+  ud_ratio: number
+  sector: string
+  asset_class: string
+}
+
+export interface IWatchlistParams extends Record<string, string> {
+  symbols: string
+  membership: string
+}
+
+export interface IWatchListState {
+  watchlists: IWatchList[]
+}
+
+export interface IWatchListAction {
+  setWatchlists: (watchlists: IWatchList[]) => void
+  getWatchlists: (params: IWatchlistParams) => Promise<void>
+}

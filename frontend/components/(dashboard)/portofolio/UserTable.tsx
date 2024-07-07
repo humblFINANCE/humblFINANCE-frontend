@@ -6,36 +6,34 @@ import { Button, Select, SelectItem, useDisclosure } from '@nextui-org/react'
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
-import WatchList from './WatchListModal'
-import dataTable from './data'
-import { IDataWatchList } from './types'
+import { useEffect } from 'react'
+import { usePortofolio } from './hooks/usePortofolio'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
-  { field: 'last_close', headerName: 'Last Close', minWidth: 100 },
+  { field: 'last_price', headerName: 'Last Close', minWidth: 100 },
   {
-    field: 'mandelbrot_channel_buy',
+    field: 'buy_price',
     headerName: 'Buy Price',
     flex: 1,
     minWidth: 100,
   },
   {
-    field: 'mandelbrot_channel_sell',
+    field: 'sell_price',
     headerName: 'Sell Price',
     flex: 1,
     minWidth: 100,
   },
-  { field: 'up_down', headerName: 'Up/Down' },
-  { field: 'risk_reward', headerName: 'Risk Reward', flex: 1, minWidth: 120 },
+  { field: 'ud_pct', headerName: 'Up/Down' },
+  { field: 'ud_ratio', headerName: 'Risk Reward', flex: 1, minWidth: 120 },
   { field: 'asset_class', headerName: 'Asset Class', flex: 1, minWidth: 120 },
   { field: 'sector', headerName: 'Sector', flex: 2, minWidth: 150 },
-  {
-    field: 'humbl_suggestion',
-    headerName: 'Humbl Suggestion',
-    flex: 2,
-    minWidth: 150,
-  },
+  // {
+  //   field: 'humbl_suggestion',
+  //   headerName: 'Humbl Suggestion',
+  //   flex: 2,
+  //   minWidth: 150,
+  // },
 ]
 
 const defaultColDef: agGrid.ColDef = {
@@ -47,7 +45,13 @@ const defaultColDef: agGrid.ColDef = {
 const UserTable = () => {
   const { theme } = useTheme()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [watchlists, setWatchlists] = useState<string[]>([])
+  const { watchlists, getWatchlists } = usePortofolio()
+
+  console.log(watchlists)
+
+  useEffect(() => {
+    getWatchlists({ symbols: 'AAPL,TSLA', membership: 'peon' })
+  }, [])
 
   return (
     <div className="h-full flex flex-col">
@@ -63,10 +67,11 @@ const UserTable = () => {
             isEnabled: false,
           }}
         >
-          {watchlists &&
+          {/* {watchlists &&
             watchlists.map((watchlist) => (
-              <SelectItem key={watchlist}>{watchlist}</SelectItem>
-            ))}
+              <SelectItem key={watchlist}>{watchlist.}</SelectItem>
+            ))} */}
+          <SelectItem key="healthcare">Healthcare</SelectItem>
         </Select>
         <Button
           id="watchlist-setting"
@@ -84,17 +89,17 @@ const UserTable = () => {
         )}
       >
         <AgGridReact
-          rowData={dataTable as IDataWatchList[]}
+          rowData={watchlists}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
         />
       </div>
-      <WatchList
+      {/* <WatchList
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         setWatchlists={setWatchlists}
         watchlists={watchlists}
-      />
+      /> */}
     </div>
   )
 }
