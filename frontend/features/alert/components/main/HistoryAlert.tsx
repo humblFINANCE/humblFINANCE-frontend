@@ -12,7 +12,7 @@ import {
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact, CustomCellRendererProps } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import CustomButton from './CustomButton'
+import CustomButton from '../active-alert/CustomButton'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100, flex: 1 },
