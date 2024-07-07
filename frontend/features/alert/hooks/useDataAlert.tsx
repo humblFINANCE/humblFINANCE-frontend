@@ -8,89 +8,31 @@ import {
   TAlertSymbol,
 } from '../types/alert'
 
-const useDataSymbol = () => {
+const useDataFetcher = (table: string) => {
   const client = createClient()
-  const [dataSymbol, setDataSymbol] = React.useState<TAlertSymbol[]>([])
+  const [data, setData] = React.useState<any[]>([])
   const [error, setError] = React.useState<string | null>(null)
+
   React.useEffect(() => {
     const refetch = async () => {
-      const response = await client.from('watchlist_symbols').select('*')
+      const response = await client.from(table).select()
+
       if (response.error) {
         return setError(response.error.message)
       }
 
-      setDataSymbol(response.data)
+      setData(response.data)
     }
 
     refetch()
-  }, [])
+  }, [table])
 
-  return { dataSymbol, error }
+  return { data, error }
 }
 
-const useDataIndicator = () => {
-  const client = createClient()
-
-  const [dataIndicator, setDataIndicator] = React.useState<TAlertIndicator[]>(
-    []
-  )
-  const [error, setError] = React.useState<string | null>(null)
-  React.useEffect(() => {
-    const refetch = async () => {
-      const response = await client.from('indicators').select('*')
-      if (response.error) {
-        return setError(response.error.message)
-      }
-
-      setDataIndicator(response.data)
-    }
-
-    refetch()
-  }, [])
-
-  return { dataIndicator, error }
-}
-
-const useDataLogic = () => {
-  const client = createClient()
-
-  const [dataLogic, setDataLogic] = React.useState<TAlertLogic[]>([])
-  const [error, setError] = React.useState<string | null>(null)
-  React.useEffect(() => {
-    const refetch = async () => {
-      const response = await client.from('logic_conditions').select('*')
-      if (response.error) {
-        return setError(response.error.message)
-      }
-
-      setDataLogic(response.data)
-    }
-
-    refetch()
-  }, [])
-
-  return { dataLogic, error }
-}
-
-const useDataAction = () => {
-  const client = createClient()
-
-  const [dataAction, setDataAction] = React.useState<TAlertAction[]>([])
-  const [error, setError] = React.useState<string | null>(null)
-  React.useEffect(() => {
-    const refetch = async () => {
-      const response = await client.from('actions').select('*')
-      if (response.error) {
-        return setError(response.error.message)
-      }
-
-      setDataAction(response.data)
-    }
-
-    refetch()
-  }, [])
-
-  return { dataAction, error }
-}
+const useDataSymbol = () => useDataFetcher('watchlist_symbols')
+const useDataIndicator = () => useDataFetcher('indicators')
+const useDataLogic = () => useDataFetcher('logic_conditions')
+const useDataAction = () => useDataFetcher('actions')
 
 export { useDataSymbol, useDataIndicator, useDataLogic, useDataAction }
