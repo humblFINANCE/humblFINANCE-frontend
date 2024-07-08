@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Modal,
   ModalContent,
@@ -14,62 +14,61 @@ import {
 } from '@nextui-org/react'
 import { stockSectors } from './constants'
 import { InlineIcon } from '@iconify/react'
-import { TSector } from './types'
+import { IWatchlist, TSector } from './types'
 import { useUser } from '@/features/user/hooks/use-user'
+import useWatchlist from './hooks/useWatchlist'
 
 type WatchlistModalProps = {
   isOpen: boolean
   onOpen?: () => void
   onOpenChange: (open: boolean) => void
-  watchlists: string[]
-  setWatchlists: (arg: string[]) => void
 }
 
 export default function WatchListModal({
   isOpen,
   onOpenChange,
   onOpen,
-  watchlists,
-  setWatchlists,
 }: WatchlistModalProps) {
   const { user, openModalConvertUser } = useUser()
+  const {
+    getWatchlists,
+    watchlists,
+    addWatchlist,
+    removeWatchlist,
+    updateWatchlist,
+  } = useWatchlist()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
-  const [selectedWatchlist, setSelectedWatchlist] = React.useState<string>(
-    watchlists[0] ?? ''
-  )
+  const [selectedWatchlist, setSelectedWatchlist] =
+    React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [stocks, setStocks] = React.useState<
     { sector: string; stock: string }[]
   >([])
-  const onAddWatchlist = (watchlist: string) => {
-    setWatchlists([...watchlists, watchlist])
-  }
 
-  const handleSelectWatchlist = (watchlist: string) => {
-    setSelectedWatchlist(watchlist)
-  }
+  useEffect(() => {
+    getWatchlists()
+  }, [isOpen])
+
+  const onAddWatchlist = (watchlist: string) => {}
+
   const handleAddStock = () => {
     if (!selectedWatchlist) return
-    // create validation if already added to the list
     if (stocks.find((stock) => stock.stock === stockName)) return
     if (!stockName) return
 
-    setStocks([...stocks, { sector: selectedWatchlist, stock: stockName }])
     setStockName('')
   }
 
-  const handleAddWatchlist = () => {
-    console.log(user)
-
+  const handleAddWatchlist = async () => {
     if (user.is_anonymous) {
       openModalConvertUser()
       return
     }
 
     if (!watchListName) return
-    if (watchlists.includes(watchListName)) return
-    onAddWatchlist(watchListName)
+    if (watchlists.find((wl) => wl.name === watchListName)) return
+    await addWatchlist(watchListName)
     setWatchListName('')
   }
 
@@ -78,12 +77,12 @@ export default function WatchListModal({
     setStocks(stocks.filter((s) => s.stock !== stock))
   }
 
-  const handleClickEdit = (watchlistIndex: number, watchlist: string) => {
-    setIsEditing(watchlistIndex)
+  const handleClickEdit = (watchlist_id: number, watchlist: string) => {
+    setIsEditing(watchlist_id)
     setWatchListName(watchlist)
   }
 
-  const handleEditWatchlist = () => {
+  const handleEditWatchlist = async () => {
     console.log(user)
 
     if (user.is_anonymous) {
@@ -92,28 +91,33 @@ export default function WatchListModal({
     }
 
     if (!watchListName) return
-    if (watchlists.includes(watchListName)) return
+    if (watchlists.find((wl) => wl.name === watchListName)) return
+    if (isEditing) {
+      await updateWatchlist(isEditing, watchListName)
+    }
 
-    const newWatchlists = [...watchlists]
-    newWatchlists[isEditing as number] = watchListName
-    console.log(newWatchlists)
-
-    setWatchlists(newWatchlists)
+    // todo: update watchlist
+    // setWatchlists(newWatchlists)
 
     setIsEditing(null)
     setWatchListName('')
+    setSelectedWatchlist(null)
   }
 
-  const handleRemoveWatchlist = (item: string) => {
-    setWatchlists(watchlists.filter((wl) => wl !== item))
-    if (selectedWatchlist === item) setSelectedWatchlist('')
+  const handleRemoveWatchlist = async (id: number) => {
+    await removeWatchlist(id)
   }
 
   return (
     <>
       <Modal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={() => {
+          setWatchListName('')
+          setIsEditing(null)
+          setSelectedWatchlist(null)
+          onOpenChange(false)
+        }}
         size="4xl"
         scrollBehavior="inside"
       >
@@ -145,21 +149,23 @@ export default function WatchListModal({
                   <div className="w-full h-full overflow-auto">
                     {watchlists.map((item, index) => (
                       <div
-                        key={item}
+                        key={item.watchlist_id}
                         className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                       >
                         <p
                           className="bg-transparent w-full  text-xl cursor-pointer  "
                           onClick={() => setSelectedWatchlist(item)}
                         >
-                          {item}
+                          {item.name}
                         </p>
 
                         <div className="flex flex-row ">
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleClickEdit(index, item)}
+                            onPress={() =>
+                              handleClickEdit(item.watchlist_id, item.name)
+                            }
                           >
                             <InlineIcon
                               icon="iconamoon:edit-thin"
@@ -173,7 +179,9 @@ export default function WatchListModal({
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleRemoveWatchlist(item)}
+                            onPress={() =>
+                              handleRemoveWatchlist(item.watchlist_id)
+                            }
                           >
                             <InlineIcon
                               icon="iconamoon:trash-light"
@@ -190,7 +198,7 @@ export default function WatchListModal({
                     <Divider orientation="vertical" />
                     <div className="flex-1 flex flex-col gap-2">
                       <h4 className="flex flex-col gap-1 text-2xl">
-                        {selectedWatchlist}
+                        {selectedWatchlist.name}
                       </h4>
                       <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
                         <Input
@@ -209,7 +217,9 @@ export default function WatchListModal({
                       <Divider />
 
                       {stocks
-                        .filter((stock) => stock.sector === selectedWatchlist)
+                        .filter(
+                          (stock) => stock.sector === selectedWatchlist.name
+                        )
                         .map((stock) => (
                           <div
                             key={stock.stock}
