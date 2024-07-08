@@ -68,7 +68,12 @@ const UserTable = () => {
               <SelectItem key={watchlist}>{watchlist}</SelectItem>
             ))}
         </Select>
-        <Button className="bg-transparent" isIconOnly onPress={onOpen}>
+        <Button
+          id="watchlist-setting"
+          className="bg-transparent"
+          isIconOnly
+          onPress={onOpen}
+        >
           <InlineIcon icon={'mdi:gear'} fontSize={28} />
         </Button>
       </div>
