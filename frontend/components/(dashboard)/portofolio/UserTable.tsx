@@ -8,6 +8,7 @@ import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
 import { useEffect } from 'react'
 import { usePortofolio } from './hooks/usePortofolio'
+import WatchListModal from './WatchListModal'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -45,12 +46,10 @@ const defaultColDef: agGrid.ColDef = {
 const UserTable = () => {
   const { theme } = useTheme()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { watchlists, getWatchlists } = usePortofolio()
-
-  console.log(watchlists)
+  const { getPortofolio, portofolio } = usePortofolio()
 
   useEffect(() => {
-    getWatchlists({ symbols: 'AAPL,TSLA', membership: 'peon' })
+    getPortofolio({ symbols: 'AAPL,TSLA', membership: 'peon' })
   }, [])
 
   return (
@@ -58,9 +57,9 @@ const UserTable = () => {
       <div className=" flex items-center gap-2 mb-2">
         <Select
           aria-label="Select Sectore"
-          placeholder={
-            watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
-          }
+          // placeholder={
+          //   watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
+          // }
           defaultSelectedKeys={['healthcare']}
           className="max-w-xs"
           scrollShadowProps={{
@@ -89,17 +88,12 @@ const UserTable = () => {
         )}
       >
         <AgGridReact
-          rowData={watchlists}
+          rowData={portofolio}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
         />
       </div>
-      {/* <WatchList
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        setWatchlists={setWatchlists}
-        watchlists={watchlists}
-      /> */}
+      <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
   )
 }

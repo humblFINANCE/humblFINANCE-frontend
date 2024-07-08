@@ -1,19 +1,18 @@
 import { create } from 'zustand'
 import {
-  IWatchList,
-  IWatchListAction,
-  IWatchlistParams,
-  IWatchListState,
+  IPortofolio,
+  IPortofolioAction,
+  IPortofolioParams,
+  IPortofolioState,
 } from '../types'
 import { ENDPOINTS } from '../constants'
 
 const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
-export const usePortofolio = create<IWatchListState & IWatchListAction>(
+export const usePortofolio = create<IPortofolioState & IPortofolioAction>(
   (set) => ({
-    watchlists: [],
-    setWatchlists: (watchlists: IWatchList[]) => set({ watchlists }),
-    getWatchlists: async (params: IWatchlistParams) => {
+    portofolio: [],
+    getPortofolio: async (params: IPortofolioParams) => {
       try {
         const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
         for (const item in params) {
@@ -24,7 +23,7 @@ export const usePortofolio = create<IWatchListState & IWatchListAction>(
         const response = await fetch(url.toString())
         const data = await response.json()
 
-        set(() => ({ watchlists: data }))
+        set(() => ({ portofolio: data }))
       } catch (err) {
         console.log(err)
       }
