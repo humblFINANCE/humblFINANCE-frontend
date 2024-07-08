@@ -17,6 +17,10 @@ export const stockSectors: TSector[] = [
 ]
 
 export const ENDPOINTS = {
-  WATCHLIST: 'watchlist',
   USERTABLE: 'user-table',
+}
+
+export const TABLES = {
+  WATCHLIST: 'watchlists',
+  TICKER: 'watchlistsymbols',
 }

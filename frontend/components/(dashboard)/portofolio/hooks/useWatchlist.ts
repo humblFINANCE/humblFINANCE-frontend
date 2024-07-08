@@ -1,9 +1,9 @@
-import React from 'react'
-import { create } from 'zustand'
-import { IWatchlistAction, IWatchlistState } from '../types'
 import { createClient } from '@/utils/supabase/client'
-import { TABLES } from '../constants'
 import { toast } from 'react-toastify'
+import { create } from 'zustand'
+import { TABLES } from '../constants'
+import { IWatchlistAction, IWatchlistState } from '../types'
+import { useTickerStore } from './useTickerStore'
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   watchlists: [],
@@ -37,16 +37,24 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     if (error) {
       console.log(error)
-      toast.error(error.message)
       return
     }
-    toast.success('Watchlist added successfully')
     await get().getWatchlists()
   },
 
   removeWatchlist: async (watchlistId: number) => {
     const supabase = createClient()
     const user = await supabase.auth.getUser()
+
+    const { error: deleteTickerError } = await supabase
+      .from(TABLES.TICKER)
+      .delete()
+      .eq('watchlist_id', watchlistId)
+
+    if (deleteTickerError) {
+      console.log(deleteTickerError)
+      return
+    }
 
     const { error } = await supabase
       .from(TABLES.WATCHLIST)
@@ -59,8 +67,8 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
       toast.error(error.message)
       return
     }
-    toast.success('Watchlist removed successfully')
 
+    await useTickerStore.getState().getTickers(watchlistId)
     await get().getWatchlists()
   },
 
@@ -76,11 +84,8 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     if (error) {
       console.log(error)
-      toast.error(error.message)
       return
     }
-
-    toast.success('Watchlist updated successfully')
 
     await get().getWatchlists()
   },

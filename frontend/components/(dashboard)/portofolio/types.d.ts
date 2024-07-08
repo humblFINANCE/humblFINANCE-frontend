@@ -16,7 +16,7 @@ export type TSector = {
 }
 
 // STATE INTERFACE
-export interface IWatchList {
+export interface IPortofolio {
   date: string
   symbol: string
   buy_price: number
@@ -28,16 +28,61 @@ export interface IWatchList {
   asset_class: string
 }
 
-export interface IWatchlistParams extends Record<string, string> {
+export interface IPortofolioParams extends Record<string, string> {
   symbols: string
   membership: string
 }
 
-export interface IWatchListState {
-  watchlists: IWatchList[]
+export interface IPortofolioState {
+  portofolio: IPortofolio[]
 }
 
-export interface IWatchListAction {
-  setWatchlists: (watchlists: IWatchList[]) => void
-  getWatchlists: (params: IWatchlistParams) => Promise<void>
+export interface IPortofolioAction {
+  getPortofolio: (params: IPortofolioParams) => Promise<void>
+}
+
+// * WATCHLIST INTERFACE
+
+export interface IWatchlistState {
+  watchlists: IWatchlist[]
+}
+
+export interface IWatchlistAction {
+  getWatchlists: () => Promise<void>
+  addWatchlist: (name: string) => Promise<void>
+  removeWatchlist: (watchlistId: number) => Promise<void>
+  updateWatchlist: (id: number, name: string) => Promise<void>
+}
+
+export interface IWatchlistSymbol {
+  ticker_id: number
+  watchlist_id: number
+  ticker_symbol: string
+}
+
+export interface IWatchlist {
+  watchlist_id: number
+  user_id: string
+  name: string
+  created_at: string
+
+  symbols: IWatchlistSymbol[]
+}
+
+// * TICKER INTERFACE
+
+export interface ITickerState {
+  tickers: ITicker[]
+}
+
+export interface ITickerAction {
+  getTickers: (watchlist_id: number) => Promise<void>
+  addTicker: (ticker: string, watchlist_id: number) => Promise<void>
+  deleteTicker: (ticker_id: number, watchlist_id: number) => Promise<void>
+}
+
+export interface ITicker {
+  ticker_id: number
+  ticker_symbol: string
+  watchlist_id: number
 }

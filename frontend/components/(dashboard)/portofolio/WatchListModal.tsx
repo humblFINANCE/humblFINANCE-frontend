@@ -17,6 +17,7 @@ import { InlineIcon } from '@iconify/react'
 import { IWatchlist, TSector } from './types'
 import { useUser } from '@/features/user/hooks/use-user'
 import useWatchlist from './hooks/useWatchlist'
+import { useTickerStore } from './hooks/useTickerStore'
 
 type WatchlistModalProps = {
   isOpen: boolean
@@ -29,6 +30,7 @@ export default function WatchListModal({
   onOpenChange,
   onOpen,
 }: WatchlistModalProps) {
+  const [isMounted, setIsMounted] = React.useState(false)
   const { user, openModalConvertUser } = useUser()
   const {
     getWatchlists,
@@ -37,6 +39,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
+  const { getTickers, tickers, addTicker, deleteTicker } = useTickerStore()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
@@ -52,11 +55,14 @@ export default function WatchListModal({
 
   const onAddWatchlist = (watchlist: string) => {}
 
-  const handleAddStock = () => {
+  const handleAddStock = async () => {
     if (!selectedWatchlist) return
     if (stocks.find((stock) => stock.stock === stockName)) return
     if (!stockName) return
 
+    // todo: should add validation if ticker can be added
+
+    await addTicker(stockName, selectedWatchlist.watchlist_id)
     setStockName('')
   }
 
@@ -73,8 +79,9 @@ export default function WatchListModal({
   }
 
   //  function to remove stock from watchlist
-  const handleRemoveStock = (stock: string) => {
-    setStocks(stocks.filter((s) => s.stock !== stock))
+  const handleRemoveStock = (ticker_id: number) => {
+    if (!selectedWatchlist) return
+    deleteTicker(ticker_id, selectedWatchlist?.watchlist_id)
   }
 
   const handleClickEdit = (watchlist_id: number, watchlist: string) => {
@@ -96,9 +103,6 @@ export default function WatchListModal({
       await updateWatchlist(isEditing, watchListName)
     }
 
-    // todo: update watchlist
-    // setWatchlists(newWatchlists)
-
     setIsEditing(null)
     setWatchListName('')
     setSelectedWatchlist(null)
@@ -107,6 +111,12 @@ export default function WatchListModal({
   const handleRemoveWatchlist = async (id: number) => {
     await removeWatchlist(id)
   }
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   return (
     <>
@@ -154,7 +164,10 @@ export default function WatchListModal({
                       >
                         <p
                           className="bg-transparent w-full  text-xl cursor-pointer  "
-                          onClick={() => setSelectedWatchlist(item)}
+                          onClick={async () => {
+                            setSelectedWatchlist(item)
+                            await getTickers(item.watchlist_id)
+                          }}
                         >
                           {item.name}
                         </p>
@@ -206,6 +219,7 @@ export default function WatchListModal({
                           value={stockName}
                           placeholder="Add New Ticker"
                           aria-label="Stock Name"
+                          maxLength={10}
                         />
                         <Button
                           isDisabled={!stockName}
@@ -216,25 +230,21 @@ export default function WatchListModal({
                       </div>
                       <Divider />
 
-                      {stocks
-                        .filter(
-                          (stock) => stock.sector === selectedWatchlist.name
-                        )
-                        .map((stock) => (
-                          <div
-                            key={stock.stock}
-                            className="flex justify-between items-center"
+                      {tickers.map((stock) => (
+                        <div
+                          key={stock.ticker_id}
+                          className="flex justify-between items-center"
+                        >
+                          <p>{stock.ticker_symbol}</p>
+                          <Button
+                            className="bg-transparent"
+                            isIconOnly
+                            onPress={() => handleRemoveStock(stock.ticker_id)}
                           >
-                            <p>{stock.stock}</p>
-                            <Button
-                              className="bg-transparent"
-                              isIconOnly
-                              onPress={() => handleRemoveStock(stock.stock)}
-                            >
-                              <InlineIcon icon="mdi:close" fontSize={20} />
-                            </Button>
-                          </div>
-                        ))}
+                            <InlineIcon icon="mdi:close" fontSize={20} />
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   </>
                 )}
