@@ -7,6 +7,7 @@ import { TABLES } from '../constants'
 export const useTickerStore = create<ITickerState & ITickerAction>(
   (set, get) => ({
     tickers: [],
+    error: '',
     getTickers: async (watchlist_id: number) => {
       const supabase = createClient()
 
@@ -24,6 +25,22 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
 
     addTicker: async (ticker: string, watchlist_id: number) => {
       const supabase = createClient()
+      set(() => ({ error: '' }))
+
+      const allSymbols = await supabase
+        .from(TABLES.ALL_SYMBOLS)
+        .select('*')
+        .eq('symbol', ticker)
+
+      if (allSymbols.data?.length === 0) {
+        set(() => ({ error: 'Ticker not found' }))
+        return
+      }
+
+      if (get().tickers.find((item) => item.ticker_symbol === ticker)) {
+        set(() => ({ error: 'Ticker already added' }))
+        return
+      }
 
       const { error } = await supabase
         .from(TABLES.TICKER)

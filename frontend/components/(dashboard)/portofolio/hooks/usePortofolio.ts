@@ -12,9 +12,12 @@ const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 export const usePortofolio = create<IPortofolioState & IPortofolioAction>(
   (set) => ({
     portofolio: [],
+    loading: false,
     getPortofolio: async (params: IPortofolioParams) => {
       try {
         const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+        set(() => ({ loading: true }))
+
         for (const item in params) {
           if (!params[item]) continue
           url.searchParams.set(item, params[item])
@@ -23,9 +26,10 @@ export const usePortofolio = create<IPortofolioState & IPortofolioAction>(
         const response = await fetch(url.toString())
         const data = await response.json()
 
-        set(() => ({ portofolio: data }))
+        set(() => ({ portofolio: data, loading: false }))
       } catch (err) {
         console.log(err)
+        set(() => ({ loading: false }))
       }
     },
   })

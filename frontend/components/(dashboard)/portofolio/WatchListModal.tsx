@@ -39,7 +39,8 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
-  const { getTickers, tickers, addTicker, deleteTicker } = useTickerStore()
+  const { getTickers, tickers, addTicker, deleteTicker, error } =
+    useTickerStore()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
@@ -215,7 +216,9 @@ export default function WatchListModal({
                       </h4>
                       <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
                         <Input
-                          onChange={(e) => setStockName(e.target.value)}
+                          onChange={(e) =>
+                            setStockName(e.target.value.toUpperCase())
+                          }
                           value={stockName}
                           placeholder="Add New Ticker"
                           aria-label="Stock Name"
@@ -228,6 +231,8 @@ export default function WatchListModal({
                           Add
                         </Button>
                       </div>
+                      {error && <p className="text-red-500 text-sm">{error}</p>}
+
                       <Divider />
 
                       {tickers.map((stock) => (

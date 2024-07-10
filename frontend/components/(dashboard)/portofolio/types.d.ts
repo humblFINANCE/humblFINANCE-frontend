@@ -35,6 +35,7 @@ export interface IPortofolioParams extends Record<string, string> {
 
 export interface IPortofolioState {
   portofolio: IPortofolio[]
+  loading: boolean
 }
 
 export interface IPortofolioAction {
@@ -66,13 +67,14 @@ export interface IWatchlist {
   name: string
   created_at: string
 
-  symbols: IWatchlistSymbol[]
+  watchlistsymbols: IWatchlistSymbol[]
 }
 
 // * TICKER INTERFACE
 
 export interface ITickerState {
   tickers: ITicker[]
+  error: string
 }
 
 export interface ITickerAction {

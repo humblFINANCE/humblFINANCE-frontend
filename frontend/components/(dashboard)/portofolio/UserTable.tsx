@@ -2,12 +2,24 @@
 
 import { cn } from '@/utils/nextui/cn'
 import { InlineIcon } from '@iconify/react'
-import { Button, Select, SelectItem, useDisclosure } from '@nextui-org/react'
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  Select,
+  SelectItem,
+  Spinner,
+  useDisclosure,
+} from '@nextui-org/react'
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { usePortofolio } from './hooks/usePortofolio'
+import { useTickerStore } from './hooks/useTickerStore'
+import useWatchlist from './hooks/useWatchlist'
+import { IPortofolioParams } from './types'
 import WatchListModal from './WatchListModal'
 
 const colDefs: agGrid.ColDef[] = [
@@ -46,31 +58,67 @@ const defaultColDef: agGrid.ColDef = {
 const UserTable = () => {
   const { theme } = useTheme()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { getPortofolio, portofolio } = usePortofolio()
+  const { getPortofolio, portofolio, loading } = usePortofolio()
+  const { watchlists, getWatchlists } = useWatchlist()
+  const [value, setValue] = useState<string>('')
 
   useEffect(() => {
-    getPortofolio({ symbols: 'AAPL,TSLA', membership: 'peon' })
+    getWatchlists()
+    getData()
   }, [])
+
+  useEffect(() => {
+    getData()
+  }, [value])
+
+  const getData = async () => {
+    const params: IPortofolioParams = {
+      symbols: '',
+      membership: '',
+    }
+
+    if (value === '') {
+      await getPortofolio(params)
+    }
+
+    if (value) {
+      const symbols = watchlists.find(
+        (watchlist) => watchlist.watchlist_id === +value
+      )
+
+      if (symbols) {
+        params.symbols = symbols.watchlistsymbols
+          .map((ticker) => ticker.ticker_symbol)
+          .join(',')
+        params.membership = ''
+      }
+
+      await getPortofolio(params)
+    }
+  }
 
   return (
     <div className="h-full flex flex-col">
       <div className=" flex items-center gap-2 mb-2">
         <Select
           aria-label="Select Sectore"
-          // placeholder={
-          //   watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
-          // }
-          defaultSelectedKeys={['healthcare']}
+          placeholder={
+            watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
+          }
           className="max-w-xs"
           scrollShadowProps={{
             isEnabled: false,
           }}
+          onChange={(e) => {
+            setValue(e.target.value)
+          }}
         >
-          {/* {watchlists &&
+          {watchlists &&
             watchlists.map((watchlist) => (
-              <SelectItem key={watchlist}>{watchlist.}</SelectItem>
-            ))} */}
-          <SelectItem key="healthcare">Healthcare</SelectItem>
+              <SelectItem key={watchlist.watchlist_id}>
+                {watchlist.name}
+              </SelectItem>
+            ))}
         </Select>
         <Button
           id="watchlist-setting"
@@ -94,6 +142,21 @@ const UserTable = () => {
         />
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
+      <Modal
+        isOpen={loading}
+        size="sm"
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <ModalBody>
+              <Spinner size="lg" />
+              <p className="text-center">Please wait</p>
+            </ModalBody>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   )
 }

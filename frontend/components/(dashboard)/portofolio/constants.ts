@@ -23,4 +23,5 @@ export const ENDPOINTS = {
 export const TABLES = {
   WATCHLIST: 'watchlists',
   TICKER: 'watchlistsymbols',
+  ALL_SYMBOLS: 'all_symbols',
 }

@@ -1,5 +1,4 @@
 import { createClient } from '@/utils/supabase/client'
-import { toast } from 'react-toastify'
 import { create } from 'zustand'
 import { TABLES } from '../constants'
 import { IWatchlistAction, IWatchlistState } from '../types'
@@ -13,7 +12,13 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     const { data, error } = await supabase
       .from(TABLES.WATCHLIST)
-      .select('*')
+      .select(
+        `watchlist_id,
+        user_id,
+        name,
+        created_at,
+        watchlistsymbols(ticker_id, watchlist_id, ticker_symbol)`
+      )
       .eq('user_id', user.data.user?.id)
 
     console.log(data)
@@ -64,7 +69,6 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     if (error) {
       console.log(error)
-      toast.error(error.message)
       return
     }
 
