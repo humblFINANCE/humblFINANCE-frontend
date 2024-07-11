@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Modal,
   ModalContent,
@@ -14,76 +14,83 @@ import {
 } from '@nextui-org/react'
 import { stockSectors } from './constants'
 import { InlineIcon } from '@iconify/react'
-import { TSector } from './types'
+import { IWatchlist, TSector } from './types'
 import { useUser } from '@/features/user/hooks/use-user'
+import useWatchlist from './hooks/useWatchlist'
+import { useTickerStore } from './hooks/useTickerStore'
 
 type WatchlistModalProps = {
   isOpen: boolean
   onOpen?: () => void
   onOpenChange: (open: boolean) => void
-  watchlists: string[]
-  setWatchlists: (arg: string[]) => void
 }
 
 export default function WatchListModal({
   isOpen,
   onOpenChange,
   onOpen,
-  watchlists,
-  setWatchlists,
 }: WatchlistModalProps) {
+  const [isMounted, setIsMounted] = React.useState(false)
   const { user, openModalConvertUser } = useUser()
+  const {
+    getWatchlists,
+    watchlists,
+    addWatchlist,
+    removeWatchlist,
+    updateWatchlist,
+  } = useWatchlist()
+  const { getTickers, tickers, addTicker, deleteTicker, error } =
+    useTickerStore()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
-  const [selectedWatchlist, setSelectedWatchlist] = React.useState<string>(
-    watchlists[0] ?? ''
-  )
+  const [selectedWatchlist, setSelectedWatchlist] =
+    React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [stocks, setStocks] = React.useState<
     { sector: string; stock: string }[]
   >([])
-  const onAddWatchlist = (watchlist: string) => {
-    setWatchlists([...watchlists, watchlist])
-  }
 
-  const handleSelectWatchlist = (watchlist: string) => {
-    setSelectedWatchlist(watchlist)
-  }
-  const handleAddStock = () => {
+  useEffect(() => {
+    getWatchlists()
+  }, [isOpen])
+
+  const onAddWatchlist = (watchlist: string) => {}
+
+  const handleAddStock = async () => {
     if (!selectedWatchlist) return
-    // create validation if already added to the list
     if (stocks.find((stock) => stock.stock === stockName)) return
     if (!stockName) return
 
-    setStocks([...stocks, { sector: selectedWatchlist, stock: stockName }])
+    // todo: should add validation if ticker can be added
+
+    await addTicker(stockName, selectedWatchlist.watchlist_id)
     setStockName('')
   }
 
-  const handleAddWatchlist = () => {
-    console.log(user)
-
+  const handleAddWatchlist = async () => {
     if (user.is_anonymous) {
       openModalConvertUser()
       return
     }
 
     if (!watchListName) return
-    if (watchlists.includes(watchListName)) return
-    onAddWatchlist(watchListName)
+    if (watchlists.find((wl) => wl.name === watchListName)) return
+    await addWatchlist(watchListName)
     setWatchListName('')
   }
 
   //  function to remove stock from watchlist
-  const handleRemoveStock = (stock: string) => {
-    setStocks(stocks.filter((s) => s.stock !== stock))
+  const handleRemoveStock = (ticker_id: number) => {
+    if (!selectedWatchlist) return
+    deleteTicker(ticker_id, selectedWatchlist?.watchlist_id)
   }
 
-  const handleClickEdit = (watchlistIndex: number, watchlist: string) => {
-    setIsEditing(watchlistIndex)
+  const handleClickEdit = (watchlist_id: number, watchlist: string) => {
+    setIsEditing(watchlist_id)
     setWatchListName(watchlist)
   }
 
-  const handleEditWatchlist = () => {
+  const handleEditWatchlist = async () => {
     console.log(user)
 
     if (user.is_anonymous) {
@@ -92,28 +99,36 @@ export default function WatchListModal({
     }
 
     if (!watchListName) return
-    if (watchlists.includes(watchListName)) return
-
-    const newWatchlists = [...watchlists]
-    newWatchlists[isEditing as number] = watchListName
-    console.log(newWatchlists)
-
-    setWatchlists(newWatchlists)
+    if (watchlists.find((wl) => wl.name === watchListName)) return
+    if (isEditing) {
+      await updateWatchlist(isEditing, watchListName)
+    }
 
     setIsEditing(null)
     setWatchListName('')
+    setSelectedWatchlist(null)
   }
 
-  const handleRemoveWatchlist = (item: string) => {
-    setWatchlists(watchlists.filter((wl) => wl !== item))
-    if (selectedWatchlist === item) setSelectedWatchlist('')
+  const handleRemoveWatchlist = async (id: number) => {
+    await removeWatchlist(id)
   }
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
 
   return (
     <>
       <Modal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={() => {
+          setWatchListName('')
+          setIsEditing(null)
+          setSelectedWatchlist(null)
+          onOpenChange(false)
+        }}
         size="4xl"
         scrollBehavior="inside"
       >
@@ -145,21 +160,26 @@ export default function WatchListModal({
                   <div className="w-full h-full overflow-auto">
                     {watchlists.map((item, index) => (
                       <div
-                        key={item}
+                        key={item.watchlist_id}
                         className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                       >
                         <p
                           className="bg-transparent w-full  text-xl cursor-pointer  "
-                          onClick={() => setSelectedWatchlist(item)}
+                          onClick={async () => {
+                            setSelectedWatchlist(item)
+                            await getTickers(item.watchlist_id)
+                          }}
                         >
-                          {item}
+                          {item.name}
                         </p>
 
                         <div className="flex flex-row ">
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleClickEdit(index, item)}
+                            onPress={() =>
+                              handleClickEdit(item.watchlist_id, item.name)
+                            }
                           >
                             <InlineIcon
                               icon="iconamoon:edit-thin"
@@ -173,7 +193,9 @@ export default function WatchListModal({
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleRemoveWatchlist(item)}
+                            onPress={() =>
+                              handleRemoveWatchlist(item.watchlist_id)
+                            }
                           >
                             <InlineIcon
                               icon="iconamoon:trash-light"
@@ -190,14 +212,17 @@ export default function WatchListModal({
                     <Divider orientation="vertical" />
                     <div className="flex-1 flex flex-col gap-2">
                       <h4 className="flex flex-col gap-1 text-2xl">
-                        {selectedWatchlist}
+                        {selectedWatchlist.name}
                       </h4>
                       <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
                         <Input
-                          onChange={(e) => setStockName(e.target.value)}
+                          onChange={(e) =>
+                            setStockName(e.target.value.toUpperCase())
+                          }
                           value={stockName}
                           placeholder="Add New Ticker"
                           aria-label="Stock Name"
+                          maxLength={10}
                         />
                         <Button
                           isDisabled={!stockName}
@@ -206,25 +231,25 @@ export default function WatchListModal({
                           Add
                         </Button>
                       </div>
+                      {error && <p className="text-red-500 text-sm">{error}</p>}
+
                       <Divider />
 
-                      {stocks
-                        .filter((stock) => stock.sector === selectedWatchlist)
-                        .map((stock) => (
-                          <div
-                            key={stock.stock}
-                            className="flex justify-between items-center"
+                      {tickers.map((stock) => (
+                        <div
+                          key={stock.ticker_id}
+                          className="flex justify-between items-center"
+                        >
+                          <p>{stock.ticker_symbol}</p>
+                          <Button
+                            className="bg-transparent"
+                            isIconOnly
+                            onPress={() => handleRemoveStock(stock.ticker_id)}
                           >
-                            <p>{stock.stock}</p>
-                            <Button
-                              className="bg-transparent"
-                              isIconOnly
-                              onPress={() => handleRemoveStock(stock.stock)}
-                            >
-                              <InlineIcon icon="mdi:close" fontSize={20} />
-                            </Button>
-                          </div>
-                        ))}
+                            <InlineIcon icon="mdi:close" fontSize={20} />
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   </>
                 )}

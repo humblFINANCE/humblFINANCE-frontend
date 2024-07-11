@@ -1,6 +1,8 @@
 import { signOut } from '@/app/(landing-page)/logout/action'
 import { Icon } from '@iconify/react'
-import { Button, ButtonGroup ,
+import {
+  Button,
+  ButtonGroup,
   Dropdown,
   DropdownItem,
   DropdownMenu,
