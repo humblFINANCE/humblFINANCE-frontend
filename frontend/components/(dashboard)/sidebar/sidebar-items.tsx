@@ -94,8 +94,8 @@ export const items: SidebarItem[] = [
 
 export const sectionItems: SidebarItem[] = [
   {
-    key: 'overview',
-    title: 'Overview',
+    key: 'main',
+    title: 'Main',
     items: [
       {
         key: 'home',

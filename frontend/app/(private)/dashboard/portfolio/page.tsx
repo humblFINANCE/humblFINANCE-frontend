@@ -1,4 +1,4 @@
-import UserTable from '@/components/(dashboard)/portofolio/UserTable'
+import UserTable from '@/components/(dashboard)/portfolio/UserTable'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
