@@ -10,7 +10,7 @@ import { AccountSetting } from '@/features/profile/components/AccountSetting'
 import { SecuritySetting } from '@/features/profile/components/SecuritySetting'
 import { NotificationSetting } from '@/features/profile/components/NotificationSetting'
 
-export function ProfileSettingPage() {
+export function ProfileSettingsPage() {
   return (
     <div className="h-full overflow-y-scroll">
       <Tabs

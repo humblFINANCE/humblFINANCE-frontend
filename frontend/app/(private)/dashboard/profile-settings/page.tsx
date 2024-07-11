@@ -1,5 +1,5 @@
-import { ProfileSettingPage } from '@/features/profile/pages/ProfileSettingPage'
+import { ProfileSettingsPage } from '@/features/profile/pages/ProfileSettingsPage'
 
 export default function ProfilePage() {
-  return <ProfileSettingPage />
+  return <ProfileSettingsPage />
 }
