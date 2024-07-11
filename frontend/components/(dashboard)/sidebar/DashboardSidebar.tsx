@@ -36,8 +36,10 @@ export default function DashboardSidebar({
   const pathname = usePathname()
   const currentTab = pathname.split('/')?.[1]
   const currentPath = pathname.split('/')[pathname.split('/').length - 1]
-  const capitalizedCurrentPath =
-    currentPath.charAt(0).toUpperCase() + currentPath.slice(1)
+  const capitalizedCurrentPath = currentPath
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 
   // Logout Modal Control
   const logoutModalDisclosure = useDisclosure()

@@ -48,7 +48,7 @@ export function UserDropdown({
           <p>{user.email}</p>
         </DropdownItem>
         <DropdownItem
-          href="/dashboard/profile-setting"
+          href="/dashboard/profile-settings"
           key="settings"
           closeOnSelect
         >
