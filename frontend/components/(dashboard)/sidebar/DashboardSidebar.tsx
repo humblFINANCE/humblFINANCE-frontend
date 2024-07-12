@@ -13,14 +13,15 @@ import {
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'
+import Link from 'next/link'
 
-// import { AcmeLogo } from "./acme";
 import { cn } from '@/utils/nextui/cn'
 import { sectionItemsWithTeams } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
 import { NotificationsDropdown } from '../NotificationDropdown'
+import { HumblFinanceIcon } from '@/components/icons/Brands'
 
 export default function DashboardSidebar({
   children,
@@ -67,9 +68,14 @@ export default function DashboardSidebar({
             }
           )}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-            {/* <AcmeLogo className="text-background" /> */}
-          </div>
+          <Link
+            href="/"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground relative"
+          >
+            <div className="absolute -ml-0.25">
+              <HumblFinanceIcon />
+            </div>
+          </Link>
           <span
             className={cn('text-small font-bold uppercase opacity-100', {
               'w-0 opacity-0': isCompact,
