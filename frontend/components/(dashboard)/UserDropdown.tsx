@@ -6,7 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import { ThemeSwitch } from '../ThemeSwitch'
+import { ThemeSwitch } from '../ThemeSwitcher/ThemeSwitch'
 import { useRef } from 'react'
 import ThemeSwitcher from '../ThemeSwitcher'
 

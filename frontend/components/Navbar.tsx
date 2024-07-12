@@ -17,7 +17,7 @@ import { siteConfig } from '@/config/site'
 import clsx from 'clsx'
 import NextLink from 'next/link'
 
-import { ThemeSwitch } from '@/components/ThemeSwitch'
+import { ThemeSwitch } from '@/components/ThemeSwitcher/ThemeSwitch'
 import {
   DiscordIcon,
   GithubIcon,
