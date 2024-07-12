@@ -1,8 +1,11 @@
 import { create } from 'zustand'
 import React from 'react'
-import { ISymbolAction, ISymbolState } from '../types'
+import {
+  ISymbolAction,
+  ISymbolState,
+} from '@/components/(dashboard)/portfolio/types'
 import { createClient } from '@/utils/supabase/client'
-import { TABLES } from '../constants'
+import { TABLES } from '@/components/(dashboard)/portfolio/constants'
 
 export const useTickerStore = create<ISymbolState & ISymbolAction>(
   (set, get) => ({
