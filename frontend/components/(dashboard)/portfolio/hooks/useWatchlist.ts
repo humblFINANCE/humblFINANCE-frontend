@@ -1,8 +1,11 @@
 import { createClient } from '@/utils/supabase/client'
 import { create } from 'zustand'
-import { TABLES } from '../constants'
-import { IWatchlistAction, IWatchlistState } from '../types'
-import { useTickerStore } from './useTickerStore'
+import { TABLES } from '@/components/(dashboard)/portfolio/constants'
+import {
+  IWatchlistAction,
+  IWatchlistState,
+} from '@/components/(dashboard)/portfolio/types'
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   watchlists: [],

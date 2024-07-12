@@ -1,4 +1,4 @@
-import type { TSector } from './types'
+import type { TSector } from '@/components/(dashboard)/portfolio/types'
 
 export const stockSectors: TSector[] = [
   { label: 'Healthcare', value: 'healthcare' },
