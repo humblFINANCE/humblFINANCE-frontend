@@ -17,7 +17,6 @@ import { siteConfig } from '@/config/site'
 import clsx from 'clsx'
 import NextLink from 'next/link'
 
-import { ThemeSwitch } from '@/components/ThemeSwitcher/ThemeSwitch'
 import {
   DiscordIcon,
   GithubIcon,
@@ -91,7 +90,6 @@ export const Navbar = () => {
           <Link isExternal href={siteConfig.links.github} aria-label="Github">
             <GithubIcon className="text-default-500" />
           </Link>
-          <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
@@ -112,7 +110,6 @@ export const Navbar = () => {
         <Link isExternal href={siteConfig.links.github} aria-label="Github">
           <GithubIcon className="text-default-500" />
         </Link>
-        <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
 

@@ -6,9 +6,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import { ThemeSwitch } from '../ThemeSwitcher/ThemeSwitch'
 import { useRef } from 'react'
-import ThemeSwitcher from '../ThemeSwitcher'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export interface UserDropDownProps {
   openLogoutModal: () => void
@@ -19,12 +18,6 @@ export function UserDropdown({
 }: UserDropDownProps) {
   const { user } = useUser()
   const themeRef = useRef<{ onChange: () => void }>()
-
-  const handleChangeTheme = () => {
-    if (themeRef.current) {
-      themeRef.current.onChange()
-    }
-  }
 
   return (
     <Dropdown closeOnSelect={false}>
