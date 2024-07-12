@@ -26,7 +26,7 @@ export function UserDropdown({
           as="button"
           color="secondary"
           size="md"
-          src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+          src={user.user_metadata.avatar_url}
         />
       </DropdownTrigger>
       <DropdownMenu
