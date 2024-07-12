@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 import React from 'react'
-import { ITickerAction, ITickerState } from '../types'
+import { ISymbolAction, ISymbolState } from '../types'
 import { createClient } from '@/utils/supabase/client'
 import { TABLES } from '../constants'
 
-export const useTickerStore = create<ITickerState & ITickerAction>(
+export const useTickerStore = create<ISymbolState & ISymbolAction>(
   (set, get) => ({
-    tickers: [],
+    symbols: [],
     error: '',
     getTickers: async (watchlist_id: number) => {
       const supabase = createClient()
@@ -19,32 +19,32 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
       if (error) {
         console.log(error)
       } else {
-        set(() => ({ tickers: data }))
+        set(() => ({ symbols: data }))
       }
     },
 
-    addTicker: async (ticker: string, watchlist_id: number) => {
+    addTicker: async (symbol: string, watchlist_id: number) => {
       const supabase = createClient()
       set(() => ({ error: '' }))
 
       const allSymbols = await supabase
         .from(TABLES.ALL_SYMBOLS)
         .select('*')
-        .eq('symbol', ticker)
+        .eq('symbol', symbol)
 
       if (allSymbols.data?.length === 0) {
         set(() => ({ error: 'Ticker not found' }))
         return
       }
 
-      if (get().tickers.find((item) => item.ticker_symbol === ticker)) {
+      if (get().symbols.find((item) => item.symbol === symbol)) {
         set(() => ({ error: 'Ticker already added' }))
         return
       }
 
       const { error } = await supabase
         .from(TABLES.WATCHLIST_SYMBOLS)
-        .insert({ ticker_symbol: ticker, watchlist_id: watchlist_id })
+        .insert({ symbol: symbol, watchlist_id: watchlist_id })
 
       if (error) {
         console.log(error)
@@ -53,13 +53,13 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
 
       await get().getTickers(watchlist_id)
     },
-    deleteTicker: async (ticker_id: number, watchlist_id: number) => {
+    deleteTicker: async (symbol_id: number, watchlist_id: number) => {
       const supabase = createClient()
 
       const { error } = await supabase
         .from(TABLES.WATCHLIST_SYMBOLS)
         .delete()
-        .eq('ticker_id', ticker_id)
+        .eq('symbol_id', symbol_id)
         .eq('watchlist_id', watchlist_id)
 
       if (error) {

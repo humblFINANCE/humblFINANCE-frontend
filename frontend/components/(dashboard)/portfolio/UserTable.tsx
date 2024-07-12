@@ -15,7 +15,7 @@ import {
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
@@ -62,7 +62,16 @@ const UserTable = () => {
   const { watchlists, getWatchlists } = useWatchlist()
   const [value, setValue] = useState<string>('')
 
-  const getData = useCallback(async () => {
+  useEffect(() => {
+    getWatchlists()
+    getData()
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [value])
+
+  const getData = async () => {
     const params: IPortfolioParams = {
       symbols: '',
       membership: '',
@@ -86,16 +95,7 @@ const UserTable = () => {
 
       await getPortfolio(params)
     }
-  }, [value, watchlists, getPortfolio])
-
-  useEffect(() => {
-    getWatchlists()
-    getData()
-  }, [getWatchlists, getData])
-
-  useEffect(() => {
-    getData()
-  }, [getData])
+  }
 
   return (
     <div className="h-full flex flex-col">

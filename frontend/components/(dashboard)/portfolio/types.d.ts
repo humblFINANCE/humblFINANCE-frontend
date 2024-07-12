@@ -56,9 +56,9 @@ export interface IWatchlistAction {
 }
 
 export interface IWatchlistSymbol {
-  ticker_id: number
+  symbol_id: number
   watchlist_id: number
-  ticker_symbol: string
+  symbol: string
 }
 
 export interface IWatchlist {
@@ -72,19 +72,19 @@ export interface IWatchlist {
 
 // * TICKER INTERFACE
 
-export interface ITickerState {
-  tickers: ITicker[]
+export interface ISymbolState {
+  symbols: ISymbol[]
   error: string
 }
 
-export interface ITickerAction {
+export interface ISymbolAction {
   getTickers: (watchlist_id: number) => Promise<void>
-  addTicker: (ticker: string, watchlist_id: number) => Promise<void>
-  deleteTicker: (ticker_id: number, watchlist_id: number) => Promise<void>
+  addTicker: (symbol: string, watchlist_id: number) => Promise<void>
+  deleteTicker: (symbol_id: number, watchlist_id: number) => Promise<void>
 }
 
-export interface ITicker {
-  ticker_id: number
-  ticker_symbol: string
+export interface ISymbol {
+  symbol_id: number
+  symbol: string
   watchlist_id: number
 }
