@@ -16,7 +16,7 @@ export type TSector = {
 }
 
 // STATE INTERFACE
-export interface IPortofolio {
+export interface IPortfolio {
   date: string
   symbol: string
   buy_price: number
@@ -28,18 +28,18 @@ export interface IPortofolio {
   asset_class: string
 }
 
-export interface IPortofolioParams extends Record<string, string> {
+export interface IPortfolioParams extends Record<string, string> {
   symbols: string
   membership: string
 }
 
-export interface IPortofolioState {
-  portofolio: IPortofolio[]
+export interface IPortfolioState {
+  portfolio: IPortfolio[]
   loading: boolean
 }
 
-export interface IPortofolioAction {
-  getPortofolio: (params: IPortofolioParams) => Promise<void>
+export interface IPortfolioAction {
+  getPortfolio: (params: IPortfolioParams) => Promise<void>
 }
 
 // * WATCHLIST INTERFACE

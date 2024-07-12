@@ -16,11 +16,11 @@ import * as agGrid from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
-import { usePortofolio } from './hooks/usePortofolio'
-import { useTickerStore } from './hooks/useTickerStore'
-import useWatchlist from './hooks/useWatchlist'
-import { IPortofolioParams } from './types'
-import WatchListModal from './WatchListModal'
+import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
+import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
+import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -58,7 +58,7 @@ const defaultColDef: agGrid.ColDef = {
 const UserTable = () => {
   const { theme } = useTheme()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { getPortofolio, portofolio, loading } = usePortofolio()
+  const { getPortfolio, portfolio, loading } = usePortfolio()
   const { watchlists, getWatchlists } = useWatchlist()
   const [value, setValue] = useState<string>('')
 
@@ -72,13 +72,13 @@ const UserTable = () => {
   }, [value])
 
   const getData = async () => {
-    const params: IPortofolioParams = {
+    const params: IPortfolioParams = {
       symbols: '',
       membership: '',
     }
 
     if (value === '') {
-      await getPortofolio(params)
+      await getPortfolio(params)
     }
 
     if (value) {
@@ -93,7 +93,7 @@ const UserTable = () => {
         params.membership = ''
       }
 
-      await getPortofolio(params)
+      await getPortfolio(params)
     }
   }
 
@@ -136,7 +136,7 @@ const UserTable = () => {
         )}
       >
         <AgGridReact
-          rowData={portofolio}
+          rowData={portfolio}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
         />

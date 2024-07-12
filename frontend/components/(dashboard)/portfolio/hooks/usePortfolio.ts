@@ -1,19 +1,19 @@
 import { create } from 'zustand'
 import {
-  IPortofolio,
-  IPortofolioAction,
-  IPortofolioParams,
-  IPortofolioState,
-} from '../types'
-import { ENDPOINTS } from '../constants'
+  IPortfolio,
+  IPortfolioAction,
+  IPortfolioParams,
+  IPortfolioState,
+} from '@/components/(dashboard)/portfolio/types'
+import { ENDPOINTS } from '@/components/(dashboard)/portfolio/constants'
 
 const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
-export const usePortofolio = create<IPortofolioState & IPortofolioAction>(
+export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
   (set) => ({
-    portofolio: [],
+    portfolio: [],
     loading: false,
-    getPortofolio: async (params: IPortofolioParams) => {
+    getPortfolio: async (params: IPortfolioParams) => {
       try {
         const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
         set(() => ({ loading: true }))
@@ -26,7 +26,7 @@ export const usePortofolio = create<IPortofolioState & IPortofolioAction>(
         const response = await fetch(url.toString())
         const data = await response.json()
 
-        set(() => ({ portofolio: data, loading: false }))
+        set(() => ({ portfolio: data, loading: false }))
       } catch (err) {
         console.log(err)
         set(() => ({ loading: false }))
