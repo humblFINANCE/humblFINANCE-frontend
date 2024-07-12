@@ -39,15 +39,15 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
-  const { getSymbols, tickers, addSymbol, deleteSymbol, error } =
+  const { getSymbols, symbols, addSymbol, deleteSymbol, error } =
     useTickerStore()
-  const [stockName, setStockName] = React.useState<string>('')
+  const [symbolName, setSymbolName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
-  const [stocks, setStocks] = React.useState<
-    { sector: string; stock: string }[]
+  const [symbols1, setSymbols] = React.useState<
+    { sector: string; symbol: string }[]
   >([])
 
   useEffect(() => {
@@ -56,15 +56,15 @@ export default function WatchListModal({
 
   const onAddWatchlist = (watchlist: string) => {}
 
-  const handleAddStock = async () => {
+  const handleAddSymbol = async () => {
     if (!selectedWatchlist) return
-    if (stocks.find((stock) => stock.stock === stockName)) return
-    if (!stockName) return
+    if (symbols.find((symbol) => symbol.symbol === symbolName)) return
+    if (!symbolName) return
 
     // todo: should add validation if ticker can be added
 
-    await addSymbol(stockName, selectedWatchlist.id)
-    setStockName('')
+    await addSymbol(symbolName, selectedWatchlist.id)
+    setSymbolName('')
   }
 
   const handleAddWatchlist = async () => {
@@ -79,7 +79,7 @@ export default function WatchListModal({
     setWatchListName('')
   }
 
-  //  function to remove stock from watchlist
+  //  function to remove symbol1 from watchlist
   const handleRemoveStock = (id: number) => {
     if (!selectedWatchlist) return
     deleteSymbol(id, selectedWatchlist?.id)
@@ -137,13 +137,15 @@ export default function WatchListModal({
             <ModalBody>
               <div className="flex  items-start p-4 gap-3 h-[25rem]">
                 <div className="flex-1 flex flex-col gap-2">
-                  <h4 className="flex flex-col gap-1 text-2xl">Watchlist</h4>
+                  <h4 className="flex flex-col gap-1 text-2xl">
+                    My Watchlists
+                  </h4>
                   <div className="flex gap-2 flex-wrap md:flex-nowrap justify-center">
                     <Input
                       onChange={(e) => setWatchListName(e.target.value)}
                       value={watchListName}
                       placeholder="Add New Watchlist"
-                      aria-label="watchlist Name"
+                      aria-label="watchlist-name"
                     />
                     <Button
                       isDisabled={!watchListName}
@@ -213,16 +215,16 @@ export default function WatchListModal({
                       <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
                         <Input
                           onChange={(e) =>
-                            setStockName(e.target.value.toUpperCase())
+                            setSymbolName(e.target.value.toUpperCase())
                           }
-                          value={stockName}
+                          value={symbolName}
                           placeholder="Add New Ticker"
                           aria-label="Stock Name"
                           maxLength={10}
                         />
                         <Button
-                          isDisabled={!stockName}
-                          onPress={handleAddStock}
+                          isDisabled={!symbolName}
+                          onPress={handleAddSymbol}
                         >
                           Add
                         </Button>
@@ -231,16 +233,16 @@ export default function WatchListModal({
 
                       <Divider />
 
-                      {symbols.map((stock) => (
+                      {symbols.map((symbol1) => (
                         <div
-                          key={stock.id}
+                          key={symbol1.id}
                           className="flex justify-between items-center"
                         >
-                          <p>{stock.symbol}</p>
+                          <p>{symbol1.symbol}</p>
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleRemoveStock(stock.id)}
+                            onPress={() => handleRemoveStock(symbol1.id)}
                           >
                             <InlineIcon icon="mdi:close" fontSize={20} />
                           </Button>
