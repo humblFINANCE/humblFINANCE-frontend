@@ -67,7 +67,7 @@ export interface IWatchlist {
   name: string
   created_at: string
 
-  watchlistsymbols: IWatchlistSymbol[]
+  watchlist_symbols: IWatchlistSymbol[]
 }
 
 // * TICKER INTERFACE

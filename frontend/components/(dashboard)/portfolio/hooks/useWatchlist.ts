@@ -20,7 +20,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
         user_id,
         name,
         created_at,
-        watchlistsymbols(ticker_id, watchlist_id, ticker_symbol)`
+        watchlist_symbols(ticker_id, watchlist_id, ticker_symbol)`
       )
       .eq('user_id', user.data.user?.id)
 

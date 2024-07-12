@@ -87,7 +87,7 @@ const UserTable = () => {
       )
 
       if (symbols) {
-        params.symbols = symbols.watchlistsymbols
+        params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.ticker_symbol)
           .join(',')
         params.membership = ''
