@@ -12,12 +12,12 @@ import {
   Divider,
   Input,
 } from '@nextui-org/react'
-import { stockSectors } from './constants'
 import { InlineIcon } from '@iconify/react'
-import { IWatchlist, TSector } from './types'
 import { useUser } from '@/features/user/hooks/use-user'
-import useWatchlist from './hooks/useWatchlist'
-import { useTickerStore } from './hooks/useTickerStore'
+import { stockSectors } from '@/components/(dashboard)/portfolio/constants'
+import { IWatchlist, TSector } from '@/components/(dashboard)/portfolio/types'
+import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 
 type WatchlistModalProps = {
   isOpen: boolean
