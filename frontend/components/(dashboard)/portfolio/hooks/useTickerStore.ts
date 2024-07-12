@@ -11,7 +11,7 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
   (set, get) => ({
     symbols: [],
     error: '',
-    getTickers: async (watchlist_id: number) => {
+    getSymbols: async (watchlist_id: number) => {
       const supabase = createClient()
 
       const { data, error } = await supabase
@@ -54,7 +54,7 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
         return
       }
 
-      await get().getTickers(watchlist_id)
+      await get().getSymbols(watchlist_id)
     },
     deleteTicker: async (symbol_id: number, watchlist_id: number) => {
       const supabase = createClient()
@@ -70,7 +70,7 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
         return
       }
 
-      await get().getTickers(watchlist_id)
+      await get().getSymbols(watchlist_id)
     },
   })
 )

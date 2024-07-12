@@ -75,7 +75,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
       return
     }
 
-    await useTickerStore.getState().getTickers(watchlistId)
+    await useTickerStore.getState().getSymbols(watchlistId)
     await get().getWatchlists()
   },
 

@@ -56,13 +56,14 @@ export interface IWatchlistAction {
 }
 
 export interface IWatchlistSymbol {
+  id: number
   symbol_id: number
   watchlist_id: number
   symbol: string
 }
 
 export interface IWatchlist {
-  watchlist_id: number
+  id: number
   user_id: string
   name: string
   created_at: string
@@ -78,7 +79,7 @@ export interface ISymbolState {
 }
 
 export interface ISymbolAction {
-  getTickers: (watchlist_id: number) => Promise<void>
+  getSymbols: (watchlist_id: number) => Promise<void>
   addTicker: (symbol: string, watchlist_id: number) => Promise<void>
   deleteTicker: (symbol_id: number, watchlist_id: number) => Promise<void>
 }

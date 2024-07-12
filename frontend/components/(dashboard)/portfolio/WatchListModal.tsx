@@ -39,7 +39,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
-  const { getTickers, tickers, addTicker, deleteTicker, error } =
+  const { getSymbols, tickers, addTicker, deleteTicker, error } =
     useTickerStore()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
@@ -167,7 +167,7 @@ export default function WatchListModal({
                           className="bg-transparent w-full  text-xl cursor-pointer  "
                           onClick={async () => {
                             setSelectedWatchlist(item)
-                            await getTickers(item.watchlist_id)
+                            await getSymbols(item.watchlist_id)
                           }}
                         >
                           {item.name}
