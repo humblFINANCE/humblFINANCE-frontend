@@ -14,7 +14,7 @@ const useDataSymbol = () => {
   const [error, setError] = React.useState<string | null>(null)
   React.useEffect(() => {
     const refetch = async () => {
-      const response = await client.from('watchlist_symbols').select('*')
+      const response = await client.from('TABLES.WATCHLIST_SYMBOLS').select('*')
       if (response.error) {
         return setError(response.error.message)
       }

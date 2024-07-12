@@ -22,6 +22,6 @@ export const ENDPOINTS = {
 
 export const TABLES = {
   WATCHLIST: 'watchlists',
-  TICKER: 'watchlistsymbols',
+  WATCHLIST_SYMBOLS: 'watchlist_symbols',
   ALL_SYMBOLS: 'all_symbols',
 }

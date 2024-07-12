@@ -12,7 +12,7 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
       const supabase = createClient()
 
       const { data, error } = await supabase
-        .from(TABLES.TICKER)
+        .from(TABLES.WATCHLIST_SYMBOLS)
         .select('*')
         .eq('watchlist_id', watchlist_id)
 
@@ -43,7 +43,7 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
       }
 
       const { error } = await supabase
-        .from(TABLES.TICKER)
+        .from(TABLES.WATCHLIST_SYMBOLS)
         .insert({ ticker_symbol: ticker, watchlist_id: watchlist_id })
 
       if (error) {
@@ -57,7 +57,7 @@ export const useTickerStore = create<ITickerState & ITickerAction>(
       const supabase = createClient()
 
       const { error } = await supabase
-        .from(TABLES.TICKER)
+        .from(TABLES.WATCHLIST_SYMBOLS)
         .delete()
         .eq('ticker_id', ticker_id)
         .eq('watchlist_id', watchlist_id)

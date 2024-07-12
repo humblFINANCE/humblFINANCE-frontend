@@ -55,7 +55,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
     const user = await supabase.auth.getUser()
 
     const { error: deleteTickerError } = await supabase
-      .from(TABLES.TICKER)
+      .from(TABLES.WATCHLIST_SYMBOLS)
       .delete()
       .eq('watchlist_id', watchlistId)
 
