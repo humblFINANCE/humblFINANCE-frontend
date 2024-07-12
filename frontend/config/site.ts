@@ -13,16 +13,16 @@ export const siteConfig = {
       href: '/features',
     },
     {
-      label: 'About Us',
-      href: '/about-us',
-    },
-    {
       label: 'Investing Framework',
       href: '/investing-framework',
     },
     {
       label: 'Pricing',
       href: '/pricing',
+    },
+    {
+      label: 'About Us',
+      href: '/about-us',
     },
   ],
   navMenuItems: [
