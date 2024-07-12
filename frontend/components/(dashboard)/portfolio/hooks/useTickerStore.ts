@@ -26,7 +26,7 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
       }
     },
 
-    addTicker: async (symbol: string, watchlist_id: number) => {
+    addSymbol: async (symbol: string, watchlist_id: number) => {
       const supabase = createClient()
       set(() => ({ error: '' }))
 
@@ -36,12 +36,12 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
         .eq('symbol', symbol)
 
       if (allSymbols.data?.length === 0) {
-        set(() => ({ error: 'Ticker not found' }))
+        set(() => ({ error: 'Symbol not found' }))
         return
       }
 
       if (get().symbols.find((item) => item.symbol === symbol)) {
-        set(() => ({ error: 'Ticker already added' }))
+        set(() => ({ error: 'Symbol already added' }))
         return
       }
 
@@ -56,13 +56,13 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
 
       await get().getSymbols(watchlist_id)
     },
-    deleteTicker: async (symbol_id: number, watchlist_id: number) => {
+    deleteSymbol: async (id: number, watchlist_id: number) => {
       const supabase = createClient()
 
       const { error } = await supabase
         .from(TABLES.WATCHLIST_SYMBOLS)
         .delete()
-        .eq('symbol_id', symbol_id)
+        .eq('id', id)
         .eq('watchlist_id', watchlist_id)
 
       if (error) {

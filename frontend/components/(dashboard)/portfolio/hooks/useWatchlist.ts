@@ -16,11 +16,11 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
     const { data, error } = await supabase
       .from(TABLES.WATCHLIST)
       .select(
-        `watchlist_id,
+        `id,
         user_id,
         name,
         created_at,
-        watchlist_symbols(ticker_id, watchlist_id, ticker_symbol)`
+        watchlist_symbols(id, symbol_id, watchlist_id, symbol)`
       )
       .eq('user_id', user.data.user?.id)
 
@@ -54,20 +54,20 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
     const supabase = createClient()
     const user = await supabase.auth.getUser()
 
-    const { error: deleteTickerError } = await supabase
+    const { error: deleteSymbolError } = await supabase
       .from(TABLES.WATCHLIST_SYMBOLS)
       .delete()
       .eq('watchlist_id', watchlistId)
 
-    if (deleteTickerError) {
-      console.log(deleteTickerError)
+    if (deleteSymbolError) {
+      console.log(deleteSymbolError)
       return
     }
 
     const { error } = await supabase
       .from(TABLES.WATCHLIST)
       .delete()
-      .eq('watchlist_id', watchlistId)
+      .eq('id', watchlistId)
       .eq('user_id', user.data.user?.id)
 
     if (error) {
@@ -86,7 +86,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
     const { error } = await supabase
       .from(TABLES.WATCHLIST)
       .update({ name: name })
-      .eq('watchlist_id', id)
+      .eq('id', id)
       .eq('user_id', user.data.user?.id)
 
     if (error) {

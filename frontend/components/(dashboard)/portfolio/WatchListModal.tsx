@@ -39,7 +39,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
-  const { getSymbols, tickers, addTicker, deleteTicker, error } =
+  const { getSymbols, tickers, addSymbol, deleteSymbol, error } =
     useTickerStore()
   const [stockName, setStockName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
@@ -63,7 +63,7 @@ export default function WatchListModal({
 
     // todo: should add validation if ticker can be added
 
-    await addTicker(stockName, selectedWatchlist.watchlist_id)
+    await addSymbol(stockName, selectedWatchlist.id)
     setStockName('')
   }
 
@@ -80,9 +80,9 @@ export default function WatchListModal({
   }
 
   //  function to remove stock from watchlist
-  const handleRemoveStock = (ticker_id: number) => {
+  const handleRemoveStock = (id: number) => {
     if (!selectedWatchlist) return
-    deleteTicker(ticker_id, selectedWatchlist?.watchlist_id)
+    deleteSymbol(id, selectedWatchlist?.id)
   }
 
   const handleClickEdit = (watchlist_id: number, watchlist: string) => {
@@ -160,14 +160,14 @@ export default function WatchListModal({
                   <div className="w-full h-full overflow-auto">
                     {watchlists.map((item, index) => (
                       <div
-                        key={item.watchlist_id}
+                        key={item.id}
                         className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                       >
                         <p
                           className="bg-transparent w-full  text-xl cursor-pointer  "
                           onClick={async () => {
                             setSelectedWatchlist(item)
-                            await getSymbols(item.watchlist_id)
+                            await getSymbols(item.id)
                           }}
                         >
                           {item.name}
@@ -177,9 +177,7 @@ export default function WatchListModal({
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() =>
-                              handleClickEdit(item.watchlist_id, item.name)
-                            }
+                            onPress={() => handleClickEdit(item.id, item.name)}
                           >
                             <InlineIcon
                               icon="iconamoon:edit-thin"
@@ -193,9 +191,7 @@ export default function WatchListModal({
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() =>
-                              handleRemoveWatchlist(item.watchlist_id)
-                            }
+                            onPress={() => handleRemoveWatchlist(item.id)}
                           >
                             <InlineIcon
                               icon="iconamoon:trash-light"
@@ -235,16 +231,16 @@ export default function WatchListModal({
 
                       <Divider />
 
-                      {tickers.map((stock) => (
+                      {symbols.map((stock) => (
                         <div
-                          key={stock.ticker_id}
+                          key={stock.id}
                           className="flex justify-between items-center"
                         >
-                          <p>{stock.ticker_symbol}</p>
+                          <p>{stock.symbol}</p>
                           <Button
                             className="bg-transparent"
                             isIconOnly
-                            onPress={() => handleRemoveStock(stock.ticker_id)}
+                            onPress={() => handleRemoveStock(stock.id)}
                           >
                             <InlineIcon icon="mdi:close" fontSize={20} />
                           </Button>
