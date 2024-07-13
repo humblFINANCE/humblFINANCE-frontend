@@ -57,7 +57,6 @@ export interface IWatchlistAction {
 
 export interface IWatchlistSymbol {
   id: number
-  symbol_id: number
   watchlist_id: number
   symbol: string
   id: number
