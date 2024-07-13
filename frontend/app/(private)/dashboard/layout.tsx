@@ -53,7 +53,9 @@ export default async function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+        <Providers
+          themeProps={{ attribute: 'class', defaultTheme: 'dark', children }}
+        >
           <div className="relative flex flex-col h-screen">
             <UserProvider user={data.user as User}>
               <DashboardSidebar>{children}</DashboardSidebar>
