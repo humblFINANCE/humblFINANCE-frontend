@@ -73,9 +73,7 @@ const UserTable = () => {
     }
 
     if (value) {
-      const symbols = watchlists.find(
-        (watchlist) => watchlist.watchlist_id === +value
-      )
+      const symbols = watchlists.find((watchlist) => watchlist.id === +value)
 
       if (symbols) {
         params.symbols = symbols.watchlist_symbols
@@ -115,9 +113,7 @@ const UserTable = () => {
         >
           {watchlists &&
             watchlists.map((watchlist) => (
-              <SelectItem key={watchlist.watchlist_id}>
-                {watchlist.name}
-              </SelectItem>
+              <SelectItem key={watchlist.id}>{watchlist.name}</SelectItem>
             ))}
         </Select>
         <Button
