@@ -9,13 +9,6 @@ export function useUpdateAvatar() {
     const updateProfileAvatar = async (id: string, data: Profile) => {
         setIsLoading(true)
         const supabase = createClient()
-        // const { data: datas, error } = await supabase
-        //     .storage
-        //     .from('profile_avatars')
-        //     .remove([data.filePath])
-        //
-        // console.log(datas, error)
-
         const {
             data: resUpload,
             error: uploadError

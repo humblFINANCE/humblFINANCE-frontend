@@ -66,7 +66,6 @@ export function AccountSetting(props: CardProps) {
         updateProfile(user.id, data)
     })
 
-
     const fullname = ''.concat(
         getValues('first_name') ?? '',
         ' ',
@@ -140,7 +139,20 @@ export function AccountSetting(props: CardProps) {
                                 labelPlacement="outside"
                                 placeholder="Enter email"
                                 {...register('email')}
-                                disabled={true}
+                                isDisabled={user.app_metadata.provider === 'google'}
+                                endContent={
+                                    <>
+                                        <RenderIf condition={Boolean(user.user_metadata.email_verified)}>
+              <span className="text-success">
+                Verified
+              </span>
+                                        </RenderIf><RenderIf condition={Boolean(!user.user_metadata.email_verified)}>
+              <span className="text-warning">
+                Email not verified
+              </span>
+                                    </RenderIf>
+                                    </>
+                                }
                             />
                             {/* First Name */}
                             <Input
