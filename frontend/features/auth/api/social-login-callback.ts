@@ -24,27 +24,28 @@ export async function GET(request: NextRequest) {
     protocol = `${request.headers.get("x-forwarded-proto")}:`;
   }
 
-  // if (code) {
-  //   const { error } = await supabase.auth.exchangeCodeForSession(code!)
-  //   if (!error) {
-  //     const from = searchParams.get('from')
-  //     console.log(from)
-  //
-  //     redirectTo.searchParams.delete('code')
-  //     redirectTo.pathname = '/dashboard/home'
-  //     if (redirectTo.searchParams.get('from')) {
-  //       redirectTo.searchParams.delete('from')
-  //       redirectTo.pathname = '/' + from
-  //     }
-  //     return NextResponse.redirect(redirectTo)
-  //   }
-  // }
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code!)
+    if (!error) {
+      const from = searchParams.get('from')
 
-  return NextResponse.json({
-    host,
-    nextHost: redirectTo.host,
-    protocol: redirectTo.protocol,
-    redirectTo: redirectTo.toString()
+      redirectTo.searchParams.delete('code')
+      redirectTo.pathname = '/dashboard/home'
+      if (redirectTo.searchParams.get('from')) {
+        redirectTo.searchParams.delete('from')
+        redirectTo.pathname = '/' + from
+      }
+      // return NextResponse.redirect(redirectTo)
+      return NextResponse.json({
+        host,
+        nextHost: redirectTo.host,
+        protocol: redirectTo.protocol,
+        redirectTo: redirectTo.toString()
+      })
+    }
+  }
 
-  })
+  redirectTo.pathname = '/error'
+  return NextResponse.redirect(redirectTo)
+
 }
