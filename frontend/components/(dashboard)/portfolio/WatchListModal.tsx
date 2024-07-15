@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
   Modal,
   ModalContent,
@@ -39,6 +39,13 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
   } = useWatchlist()
+
+  const memoizedGetWatchlists = useCallback(() => {
+    if (isOpen) {
+      getWatchlists()
+    }
+  }, [isOpen, getWatchlists])
+
   const { getSymbols, symbols, addSymbol, deleteSymbol, error } =
     useTickerStore()
   const [symbolName, setSymbolName] = React.useState<string>('')
@@ -51,8 +58,8 @@ export default function WatchListModal({
   >([])
 
   useEffect(() => {
-    getWatchlists()
-  }, [isOpen])
+    memoizedGetWatchlists()
+  }, [memoizedGetWatchlists])
 
   const onAddWatchlist = (watchlist: string) => {}
 
