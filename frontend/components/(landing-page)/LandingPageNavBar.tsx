@@ -17,16 +17,16 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import React from 'react'
-import { LoginModal } from '@/features/login/components/LoginModal'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useTheme } from 'next-themes'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const menuItems = [
   'Home',
   'Features',
-  'About Us',
   'Investing Framework',
   'Pricing',
+  'About Us',
 ]
 
 export default function Component(props: NavbarProps) {
@@ -91,11 +91,6 @@ export default function Component(props: NavbarProps) {
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={checkActive('/about-us')}>
-          <Link className="text-default-500" href="/about-us" size="sm">
-            About Us
-          </Link>
-        </NavbarItem>
         <NavbarItem isActive={checkActive('/investing-framework')}>
           <Link
             className="text-default-500"
@@ -108,6 +103,11 @@ export default function Component(props: NavbarProps) {
         <NavbarItem isActive={checkActive('/pricing')}>
           <Link className="text-default-500" href="/pricing" size="sm">
             Pricing
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={checkActive('/about-us')}>
+          <Link className="text-default-500" href="/about-us" size="sm">
+            About Us
           </Link>
         </NavbarItem>
       </NavbarContent>

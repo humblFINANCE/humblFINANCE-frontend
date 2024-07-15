@@ -13,14 +13,15 @@ import {
 import { usePathname } from 'next/navigation'
 import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'
+import Link from 'next/link'
 
-// import { AcmeLogo } from "./acme";
 import { cn } from '@/utils/nextui/cn'
-import { sectionItemsWithTeams } from './sidebar-items'
+import { sectionItems } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
 import { NotificationsDropdown } from '../NotificationDropdown'
+import { HumblFinanceIcon } from '@/components/icons/Brands'
 
 export default function DashboardSidebar({
   children,
@@ -36,8 +37,10 @@ export default function DashboardSidebar({
   const pathname = usePathname()
   const currentTab = pathname.split('/')?.[1]
   const currentPath = pathname.split('/')[pathname.split('/').length - 1]
-  const capitalizedCurrentPath =
-    currentPath.charAt(0).toUpperCase() + currentPath.slice(1)
+  const capitalizedCurrentPath = currentPath
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
 
   // Logout Modal Control
   const logoutModalDisclosure = useDisclosure()
@@ -65,9 +68,14 @@ export default function DashboardSidebar({
             }
           )}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
-            {/* <AcmeLogo className="text-background" /> */}
-          </div>
+          <Link
+            href="/"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground relative"
+          >
+            <div className="absolute -ml-0.25">
+              <HumblFinanceIcon />
+            </div>
+          </Link>
           <span
             className={cn('text-small font-bold uppercase opacity-100', {
               'w-0 opacity-0': isCompact,
@@ -76,36 +84,16 @@ export default function DashboardSidebar({
             humblFINANCE
           </span>
         </div>
-        <Spacer y={8} />
-        <div className="flex items-center gap-3 px-3">
-          <Avatar
-            isBordered
-            className="flex-none"
-            size="sm"
-            src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-          />
-          <div
-            className={cn('flex max-w-full flex-col', {
-              hidden: isCompact,
-            })}
-          >
-            <p className="truncate text-small font-medium text-default-600">
-              John Doe
-            </p>
-            <p className="truncate text-tiny text-default-400">
-              Product Designer
-            </p>
-          </div>
-        </div>
+        <Spacer y={1} />
         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
           <Sidebar
             defaultSelectedKey="home"
             selectedKeys={[currentTab]}
             isCompact={isCompact}
-            items={sectionItemsWithTeams}
+            items={sectionItems}
           />
         </ScrollShadow>
-        <Spacer y={2} />
+        <Spacer y={0.5} />
         <div
           className={cn('mt-auto flex flex-col', {
             'items-center': isCompact,
@@ -143,7 +131,7 @@ export default function DashboardSidebar({
                   width={24}
                 />
               ) : (
-                'Help & Information'
+                'Help & Feedback'
               )}
             </Button>
           </Tooltip>

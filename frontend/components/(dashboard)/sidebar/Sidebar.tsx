@@ -1,7 +1,18 @@
 'use client'
 
-import { type ListboxProps, type ListboxSectionProps , type Selection } from '@nextui-org/react'
-import { Accordion, AccordionItem , Tooltip , Listbox, ListboxItem, ListboxSection } from '@nextui-org/react'
+import {
+  type ListboxProps,
+  type ListboxSectionProps,
+  type Selection,
+} from '@nextui-org/react'
+import {
+  Accordion,
+  AccordionItem,
+  Tooltip,
+  Listbox,
+  ListboxItem,
+  ListboxSection,
+} from '@nextui-org/react'
 import React from 'react'
 import { Icon } from '@iconify/react'
 
@@ -74,6 +85,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
       }),
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const renderNestItem = React.useCallback(
       (item: SidebarItem) => {
         const isNestType =
@@ -191,9 +203,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           </ListboxItem>
         )
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [isCompact, hideEndContent, iconClassName, items]
     )
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const renderItem = React.useCallback(
       (item: SidebarItem) => {
         const isNestType =
@@ -250,6 +264,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
           </ListboxItem>
         )
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       [isCompact, hideEndContent, iconClassName, itemClasses?.base]
     )
 

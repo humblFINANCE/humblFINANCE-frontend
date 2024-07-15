@@ -1,6 +1,8 @@
 import { signOut } from '@/app/(landing-page)/logout/action'
 import { Icon } from '@iconify/react'
-import { Button, ButtonGroup ,
+import {
+  Button,
+  ButtonGroup,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -32,6 +34,11 @@ export default function LogoutModalButton({
   // Convert the Set to an Array and get the first value.
   type OptionKeys = keyof typeof labelsMap
   const selectedOptionValue = Array.from(selectedOption)[0] as OptionKeys
+  const handleSelectionChange = (keys: Selection) => {
+    // Convert the Selection to a Set<string>
+    const selectedKeys = keys as unknown as Set<string>
+    setSelectedOption(selectedKeys)
+  }
 
   return (
     <ButtonGroup variant="ghost" color="success">
@@ -54,7 +61,9 @@ export default function LogoutModalButton({
           aria-label="Merge options"
           selectedKeys={selectedOption}
           selectionMode="single"
-          onSelectionChange={setSelectedOption}
+          onSelectionChange={(keys) =>
+            handleSelectionChange(keys as unknown as Selection)
+          }
           className="max-w-[300px]"
         >
           <DropdownItem key="global" description={descriptionsMap['global']}>

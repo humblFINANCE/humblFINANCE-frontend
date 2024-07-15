@@ -6,9 +6,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import { ThemeSwitch } from '../ThemeSwitch'
 import { useRef } from 'react'
-import ThemeSwitcher from '../ThemeSwitcher'
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export interface UserDropDownProps {
   openLogoutModal: () => void
@@ -20,12 +19,6 @@ export function UserDropdown({
   const { user } = useUser()
   const themeRef = useRef<{ onChange: () => void }>()
 
-  const handleChangeTheme = () => {
-    if (themeRef.current) {
-      themeRef.current.onChange()
-    }
-  }
-
   return (
     <Dropdown closeOnSelect={false}>
       <DropdownTrigger>
@@ -33,7 +26,7 @@ export function UserDropdown({
           as="button"
           color="secondary"
           size="md"
-          src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+          src={user.user_metadata.avatar_url}
         />
       </DropdownTrigger>
       <DropdownMenu
@@ -48,7 +41,7 @@ export function UserDropdown({
           <p>{user.email}</p>
         </DropdownItem>
         <DropdownItem
-          href="/dashboard/profile-setting"
+          href="/dashboard/profile-settings"
           key="settings"
           closeOnSelect
         >

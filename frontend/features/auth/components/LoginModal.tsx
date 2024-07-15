@@ -3,7 +3,7 @@
 import React from 'react'
 import { Modal, ModalContent, ModalHeader } from '@nextui-org/react'
 import { UseDisclosureReturn } from '@nextui-org/use-disclosure'
-import { LoginForm } from '@/features/login/components/LoginForm'
+import { LoginForm } from '@/features/auth/components/LoginForm'
 
 interface LoginModalProps extends UseDisclosureReturn {
   linkAccount?: boolean

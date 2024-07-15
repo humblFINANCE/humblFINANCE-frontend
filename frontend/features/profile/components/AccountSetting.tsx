@@ -16,7 +16,7 @@ import {
   CardFooter,
 } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
-import { countries } from '@/features/profile/constans'
+import { countries } from '@/features/profile/constants'
 import { useUser } from '@/features/user/hooks/use-user'
 
 import { useForm } from 'react-hook-form'
