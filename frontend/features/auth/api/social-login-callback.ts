@@ -7,10 +7,9 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const redirectTo = request.nextUrl.clone()
 
-  const host = request.headers.get("host")
-  console.log("hostkumenyala", host)
+  const host = request.headers.get('host')
   if (host) {
-    redirectTo.host = request.headers.get("host") as string
+    redirectTo.host = request.headers.get('host') as string
   }
 
   if (code) {
