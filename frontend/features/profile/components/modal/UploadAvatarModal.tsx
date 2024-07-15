@@ -7,8 +7,6 @@ import {
     ModalContent,
     ModalFooter,
     ModalHeader,
-    Card,
-    CardBody
 } from '@nextui-org/react'
 import Upload from "@/features/profile/components/modal/components/Upload";
 
@@ -26,7 +24,7 @@ export default function UploadAvatarModal(props: any) {
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">
-                                Upload Profile Picture
+                                Upload Avatar
                             </ModalHeader>
                             <ModalBody>
                                 <Upload/>
@@ -34,7 +32,7 @@ export default function UploadAvatarModal(props: any) {
                             <ModalFooter>
                                 <Button color="danger" variant="light"
                                         onPress={() => props.onOpenChange(!props.isOpen)}>
-                                    Cancel
+                                    Close
                                 </Button>
                             </ModalFooter>
                         </>

@@ -16,7 +16,7 @@ export interface UserDropDownProps {
 export function UserDropdown({
   openLogoutModal: openLogouModal,
 }: UserDropDownProps) {
-  const { user } = useUser()
+  const { user, profile }: any = useUser()
   const themeRef = useRef<{ onChange: () => void }>()
 
   return (
@@ -24,9 +24,8 @@ export function UserDropdown({
       <DropdownTrigger>
         <Avatar
           as="button"
-          color="secondary"
           size="md"
-          src={user.user_metadata.avatar_url}
+          src={profile?.avatar_url}
         />
       </DropdownTrigger>
       <DropdownMenu
