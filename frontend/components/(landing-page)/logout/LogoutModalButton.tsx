@@ -56,7 +56,7 @@ export default function LogoutModalButton({
           aria-label="Merge options"
           selectedKeys={selectedOption}
           selectionMode="single"
-          onSelectionChange={setSelectedOption}
+          onSelectionChange={(key) => setSelectedOption(key as Set<string>)}
           className="max-w-[300px]"
         >
           <DropdownItem key="global" description={descriptionsMap['global']}>
