@@ -45,7 +45,13 @@ export async function GET(request: NextRequest) {
     }
   }
 
+  return NextResponse.json({
+    host,
+    nextHost: redirectTo.host,
+    protocol: redirectTo.protocol,
+    redirectTo: redirectTo.toString()
+  })
+
   redirectTo.pathname = '/error'
   return NextResponse.redirect(redirectTo)
-
 }
