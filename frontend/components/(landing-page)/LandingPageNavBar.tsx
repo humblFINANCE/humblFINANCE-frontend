@@ -17,7 +17,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import React from 'react'
-import { LoginModal } from '@/features/login/components/LoginModal'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useTheme } from 'next-themes'
 import ThemeSwitcher from '../ThemeSwitcher'
 

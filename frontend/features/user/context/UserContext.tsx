@@ -1,7 +1,7 @@
 'use client'
 import { createContext, useEffect, useState } from 'react'
 import { User } from '@/features/user/types'
-import { LoginModal } from '@/features/login/components/LoginModal'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useDisclosure } from '@nextui-org/react'
 import { UpgradeUserModal } from '../components/UpgradeUserModal'
 import { Profile } from '../types/profile'

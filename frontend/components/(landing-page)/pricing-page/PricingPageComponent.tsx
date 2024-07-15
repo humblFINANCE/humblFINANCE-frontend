@@ -29,7 +29,7 @@ import getStripe from '@/utils/stripe/stripe'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import AskAuthModal from './modal/AskAuthModal'
-import { LoginModal } from '@/features/login/components/LoginModal'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 
 export default function Component() {
   const supabase = createClient()

@@ -32,6 +32,8 @@ import { IPaymentFormValues, usePaymentValidation } from '../hooks/validation'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { redirect, useRouter } from 'next/navigation'
 import { Router } from 'next/router'
+import { createClient } from '@/utils/supabase/client'
+import { useUser } from '@/features/user/hooks/use-user'
 
 type ModalCheckoutProps = {
   isOpen: boolean
@@ -47,6 +49,8 @@ export default function ModalCheckout({
   price,
 }: ModalCheckoutProps) {
   const { theme } = useTheme()
+  const supabase = createClient()
+  const { user } = useUser()
   const router = useRouter()
   const stripe = useStripe()
   const elements = useElements()
@@ -111,6 +115,16 @@ export default function ModalCheckout({
         setErrorMessage(confirmError.message ?? 'An unknown error occurred')
       }
 
+      const membership = tier.title.toLowerCase().replace('humbl', '')
+
+      console.log(membership)
+
+      await supabase
+        .from('profiles')
+        .update({
+          membership,
+        })
+        .eq('id', user?.id)
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')
     } catch (err) {
