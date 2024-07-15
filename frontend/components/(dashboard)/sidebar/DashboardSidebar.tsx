@@ -16,7 +16,7 @@ import { useMediaQuery } from 'usehooks-ts'
 import Link from 'next/link'
 
 import { cn } from '@/utils/nextui/cn'
-import { sectionItemsWithTeams } from './sidebar-items'
+import { sectionItems } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
@@ -90,7 +90,7 @@ export default function DashboardSidebar({
             defaultSelectedKey="home"
             selectedKeys={[currentTab]}
             isCompact={isCompact}
-            items={sectionItemsWithTeams}
+            items={sectionItems}
           />
         </ScrollShadow>
         <Spacer y={0.5} />
