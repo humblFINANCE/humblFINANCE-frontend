@@ -6,6 +6,7 @@ import {
   IWatchlistState,
 } from '@/components/(dashboard)/portfolio/types'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import { useCallback } from 'react'
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   watchlists: [],
