@@ -3,4 +3,5 @@ export interface Profile {
   avatar_url?: string
   first_name?: string
   last_name?: string
+  membership?: string
 }

@@ -21,6 +21,7 @@ import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTick
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
+import { useUser } from '@/features/user/hooks/use-user'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -57,15 +58,18 @@ const defaultColDef: agGrid.ColDef = {
 
 const UserTable = () => {
   const { theme } = useTheme()
+  const { profile } = useUser()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { getPortfolio, portfolio, loading } = usePortfolio()
   const { watchlists, getWatchlists } = useWatchlist()
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string>(
+    () => localStorage.getItem('selectedWatchlistId') || ''
+  )
 
   const getData = useCallback(async () => {
     const params: IPortfolioParams = {
       symbols: '',
-      membership: '',
+      membership: profile?.membership!,
     }
 
     if (value === '') {
@@ -77,23 +81,25 @@ const UserTable = () => {
 
       if (symbols) {
         params.symbols = symbols.watchlist_symbols
-          .map((ticker) => ticker.ticker_symbol)
+          .map((ticker) => ticker.symbol)
           .join(',')
-        params.membership = ''
+        params.membership = profile?.membership!
       }
 
       await getPortfolio(params)
     }
-  }, [value, watchlists, getPortfolio])
+  }, [value, watchlists])
 
   useEffect(() => {
     getWatchlists()
-    getData()
-  }, [getWatchlists, getData])
+  }, [getWatchlists])
 
   useEffect(() => {
+    localStorage.setItem('value', value)
+  }, [value])
+  useEffect(() => {
     getData()
-  }, [getData])
+  }, [value, getData])
 
   return (
     <div className="h-full flex flex-col">
@@ -101,7 +107,7 @@ const UserTable = () => {
         <Select
           aria-label="Select Sectore"
           placeholder={
-            watchlists.length === 0 ? 'No Watchlist' : 'Select watclist'
+            watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
           }
           className="max-w-xs"
           scrollShadowProps={{
@@ -110,6 +116,7 @@ const UserTable = () => {
           onChange={(e) => {
             setValue(e.target.value)
           }}
+          selectedKeys={[value]}
         >
           {watchlists &&
             watchlists.map((watchlist) => (

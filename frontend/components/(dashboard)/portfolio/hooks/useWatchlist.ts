@@ -9,6 +9,7 @@ import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTick
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   watchlists: [],
+  loading: false,
   getWatchlists: async () => {
     const supabase = createClient()
     const user = await supabase.auth.getUser()
@@ -24,8 +25,6 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
       )
       .eq('user_id', user.data.user?.id)
 
-    console.log(data)
-
     if (error) {
       console.log(error)
     } else {
@@ -34,6 +33,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   },
 
   addWatchlist: async (watchlist: string) => {
+    set(() => ({ loading: true }))
     const supabase = createClient()
     const user = await supabase.auth.getUser()
 
@@ -45,9 +45,11 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     if (error) {
       console.log(error)
+      set(() => ({ loading: false }))
       return
     }
     await get().getWatchlists()
+    set(() => ({ loading: false }))
   },
 
   removeWatchlist: async (watchlistId: number) => {
