@@ -15,7 +15,7 @@ export default function LogoutModalButton({
 }: {
   onClose: () => void
 }) {
-  const [selectedOption, setSelectedOption] = React.useState(
+  const [selectedOption, setSelectedOption] = React.useState<any>(
     new Set(['global'])
   )
 

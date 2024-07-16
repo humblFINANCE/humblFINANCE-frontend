@@ -3,6 +3,7 @@ import { fontSans } from '@/config/fonts'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
 import '@/styles/ag-grid-theme-builder.css'
+import 'react-toastify/dist/ReactToastify.css';
 import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'

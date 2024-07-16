@@ -3,7 +3,6 @@
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
 import {
-  Avatar,
   Button,
   useDisclosure,
   ScrollShadow,
@@ -28,6 +27,7 @@ export default function DashboardSidebar({
 }: {
   children: React.ReactNode
 }) {
+
   // Sidebar Collapse Control
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const isMobile = useMediaQuery('(max-width: 768px)')
