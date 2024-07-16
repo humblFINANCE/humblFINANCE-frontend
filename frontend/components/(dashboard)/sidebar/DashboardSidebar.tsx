@@ -3,7 +3,6 @@
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
 import {
-  Avatar,
   Button,
   useDisclosure,
   ScrollShadow,
@@ -11,7 +10,7 @@ import {
   Tooltip,
 } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
-import React, {useCallback, useEffect} from 'react'
+import React from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import Link from 'next/link'
 
@@ -22,16 +21,12 @@ import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
 import { NotificationsDropdown } from '../NotificationDropdown'
 import { HumblFinanceIcon } from '@/components/icons/Brands'
-import {useUser} from "@/features/user/hooks/use-user";
-import {useTheme} from "next-themes";
 
 export default function DashboardSidebar({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const {profile} = useUser()
-  const {setTheme}: any = useTheme()
 
   // Sidebar Collapse Control
   const [isCollapsed, setIsCollapsed] = React.useState(false)
@@ -53,15 +48,6 @@ export default function DashboardSidebar({
   const onToggle = React.useCallback(() => {
     setIsCollapsed((prev) => !prev)
   }, [])
-
-  const fetchDefaulttheme: any = useCallback(() => {
-    setTheme(profile?.default_theme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profile?.default_theme]);
-
-  useEffect(() => {
-    fetchDefaulttheme()
-  }, [fetchDefaulttheme])
 
   return (
     <div className="flex h-dvh w-full">

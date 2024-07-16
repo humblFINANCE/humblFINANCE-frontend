@@ -193,8 +193,6 @@ export function FinancialServiceSetting(props: CardProps) {
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
-                draggable
                 pauseOnHover
                 theme={theme === "dark" ? "dark" : "light"}/>
         </>
