@@ -3,6 +3,7 @@ import { fontSans } from '@/config/fonts'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
 import '@/styles/ag-grid-theme-builder.css'
+import 'react-toastify/dist/ReactToastify.css';
 import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
@@ -53,7 +54,9 @@ export default async function RootLayout({
           fontSans.variable
         )}
       >
-        <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
+        <Providers
+          themeProps={{ attribute: 'class', defaultTheme: 'dark', children }}
+        >
           <div className="relative flex flex-col h-screen">
             <UserProvider user={data.user as User}>
               <DashboardSidebar>{children}</DashboardSidebar>

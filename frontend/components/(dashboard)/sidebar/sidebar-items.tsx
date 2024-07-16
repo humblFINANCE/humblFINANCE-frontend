@@ -94,8 +94,8 @@ export const items: SidebarItem[] = [
 
 export const sectionItems: SidebarItem[] = [
   {
-    key: 'overview',
-    title: 'Overview',
+    key: 'main',
+    title: 'Main',
     items: [
       {
         key: 'home',
@@ -177,26 +177,26 @@ export const sectionItems: SidebarItem[] = [
 export const sectionItemsWithTeams: SidebarItem[] = [
   ...sectionItems,
   {
-    key: 'your-dashboards',
-    title: 'Your Dashboards',
+    key: 'quick-access',
+    title: 'Quick Access',
     items: [
       {
-        key: 'nextui',
+        key: 'sector-overview',
         href: '#',
-        title: 'NextUI',
-        startContent: <AbbreviatedAvatar name="Next UI" />,
+        title: 'Sector Overview',
+        startContent: <AbbreviatedAvatar name="Sector Overview" />,
       },
       {
-        key: 'tailwind-variants',
+        key: 'mag7',
         href: '#',
-        title: 'Tailwind Variants',
-        startContent: <AbbreviatedAvatar name="Tailwind Variants" />,
+        title: 'Magnificent 7',
+        startContent: <AbbreviatedAvatar name="Magnificent 7" />,
       },
       {
-        key: 'nextui-pro',
+        key: 'sector-overview-pro',
         href: '#',
-        title: 'NextUI Pro',
-        startContent: <AbbreviatedAvatar name="NextUI Pro" />,
+        title: 'Sector Overview Pro',
+        startContent: <AbbreviatedAvatar name="Sector Overview Pro" />,
       },
     ],
   },
@@ -269,7 +269,7 @@ export const brandItems: SidebarItem[] = [
       {
         key: 'nextui',
         href: '#',
-        title: 'NextUI',
+        title: 'Sector Overview',
         startContent: (
           <AbbreviatedAvatar
             classNames={{
@@ -297,14 +297,14 @@ export const brandItems: SidebarItem[] = [
       {
         key: 'nextui-pro',
         href: '#',
-        title: 'NextUI Pro',
+        title: 'Sector Overview Pro',
         startContent: (
           <AbbreviatedAvatar
             classNames={{
               base: 'border-1 border-primary-foreground/20',
               name: 'text-primary-foreground/80',
             }}
-            name="NextUI Pro"
+            name="Sector Overview Pro"
           />
         ),
       },
@@ -355,22 +355,22 @@ export const sectionLongList: SidebarItem[] = [
     title: 'Your Teams',
     items: [
       {
-        key: 'nextui',
+        key: 'sector-overview',
         href: '#',
-        title: 'NextUI',
+        title: 'Sector Overview',
         startContent: <AbbreviatedAvatar name="Next UI" />,
       },
       {
-        key: 'tailwind-variants',
+        key: 'sector-overview-pro',
         href: '#',
-        title: 'Tailwind Variants',
+        title: 'Sector Overview Pro',
         startContent: <AbbreviatedAvatar name="Tailwind Variants" />,
       },
       {
-        key: 'nextui-pro',
+        key: 'sector-overview-pro',
         href: '#',
-        title: 'NextUI Pro',
-        startContent: <AbbreviatedAvatar name="NextUI Pro" />,
+        title: 'Sector Overview Pro',
+        startContent: <AbbreviatedAvatar name="Sector Overview Pro" />,
       },
     ],
   },

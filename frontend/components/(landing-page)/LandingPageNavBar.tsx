@@ -17,23 +17,22 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import React from 'react'
-import { LoginModal } from '@/features/login/components/LoginModal'
-import { useTheme } from 'next-themes'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const menuItems = [
   'Home',
   'Features',
-  'About Us',
   'Investing Framework',
   'Pricing',
+  'About Us',
 ]
 
 export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+
   const checkActive = (path: string) => {
     return pathname === path
   }
@@ -91,11 +90,6 @@ export default function Component(props: NavbarProps) {
             Features
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={checkActive('/about-us')}>
-          <Link className="text-default-500" href="/about-us" size="sm">
-            About Us
-          </Link>
-        </NavbarItem>
         <NavbarItem isActive={checkActive('/investing-framework')}>
           <Link
             className="text-default-500"
@@ -110,11 +104,16 @@ export default function Component(props: NavbarProps) {
             Pricing
           </Link>
         </NavbarItem>
+        <NavbarItem isActive={checkActive('/about-us')}>
+          <Link className="text-default-500" href="/about-us" size="sm">
+            About Us
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           <Button
-            className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
+            className="border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
             radius="full"
             style={{

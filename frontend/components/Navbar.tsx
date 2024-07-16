@@ -17,12 +17,11 @@ import { siteConfig } from '@/config/site'
 import clsx from 'clsx'
 import NextLink from 'next/link'
 
-import { ThemeSwitch } from '@/components/ThemeSwitch'
 import {
-  AcmeIcon,
   DiscordIcon,
   GithubIcon,
   TwitterIcon,
+  HumblFinanceIcon,
 } from '@/components/icons/Brands'
 import { HeartFilledIcon, SearchIcon } from '@/components/icons/Icons'
 
@@ -53,7 +52,7 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink className="flex justify-start items-center gap-1" href="/">
-            <AcmeIcon />
+            <HumblFinanceIcon />
             <p className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
               humblFINANCE
             </p>
@@ -91,7 +90,6 @@ export const Navbar = () => {
           <Link isExternal href={siteConfig.links.github} aria-label="Github">
             <GithubIcon className="text-default-500" />
           </Link>
-          <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
         <NavbarItem className="hidden md:flex">
@@ -112,7 +110,6 @@ export const Navbar = () => {
         <Link isExternal href={siteConfig.links.github} aria-label="Github">
           <GithubIcon className="text-default-500" />
         </Link>
-        <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
 
