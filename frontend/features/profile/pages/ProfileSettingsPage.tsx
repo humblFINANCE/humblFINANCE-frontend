@@ -1,7 +1,5 @@
 'use client'
 
-import type { CardProps } from '@nextui-org/react'
-
 import React from 'react'
 import { Tabs, Tab } from '@nextui-org/react'
 import { Icon } from '@iconify/react'
