@@ -3,7 +3,6 @@
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
 import {
-  Avatar,
   Button,
   useDisclosure,
   ScrollShadow,
@@ -16,7 +15,7 @@ import { useMediaQuery } from 'usehooks-ts'
 import Link from 'next/link'
 
 import { cn } from '@/utils/nextui/cn'
-import { sectionItemsWithTeams } from './sidebar-items'
+import { sectionItems } from './sidebar-items'
 
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
@@ -28,6 +27,7 @@ export default function DashboardSidebar({
 }: {
   children: React.ReactNode
 }) {
+
   // Sidebar Collapse Control
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -90,7 +90,7 @@ export default function DashboardSidebar({
             defaultSelectedKey="home"
             selectedKeys={[currentTab]}
             isCompact={isCompact}
-            items={sectionItemsWithTeams}
+            items={sectionItems}
           />
         </ScrollShadow>
         <Spacer y={0.5} />

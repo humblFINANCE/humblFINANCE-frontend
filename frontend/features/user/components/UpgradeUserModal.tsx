@@ -9,7 +9,7 @@ import {
 } from '@nextui-org/react'
 import { UseDisclosureReturn } from '@nextui-org/use-disclosure'
 import { useUser } from '@/features/user/hooks/use-user'
-import { LoginModal } from '@/features/login/components/LoginModal'
+import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useRouter } from 'next/navigation'
 
 interface UpgradeUserModalProps extends UseDisclosureReturn {}
