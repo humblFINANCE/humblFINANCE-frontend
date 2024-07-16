@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react'
 import { AccountSetting } from '@/features/profile/components/AccountSetting'
 import { SecuritySetting } from '@/features/profile/components/SecuritySetting'
 import { NotificationSetting } from '@/features/profile/components/NotificationSetting'
+import {FinancialServiceSetting} from "@/features/profile/components/FinancialServiceSetting";
 
 export function ProfileSettingsPage() {
   return (
@@ -32,6 +33,18 @@ export function ProfileSettingsPage() {
         >
           <AccountSetting className="p-2  shadow-none overflow-y-scroll" />
         </Tab>
+          <Tab
+              key="financial-services"
+              textValue="Financial Services"
+              title={
+                  <div className="flex items-center gap-1.5">
+                      <Icon icon="material-symbols:finance-rounded" width={20} />
+                      <p>Financial Services</p>
+                  </div>
+              }
+          >
+              <FinancialServiceSetting className="p-2  shadow-none overflow-y-scroll" />
+          </Tab>
         <Tab
           key="notifications-settings"
           textValue="Notification Settings"

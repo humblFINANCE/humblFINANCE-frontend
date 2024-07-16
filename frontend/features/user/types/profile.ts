@@ -13,7 +13,9 @@ export interface Profile {
   default_theme?: string
   trade_notification?: string
   openbb_token?: string
+  openbb_token_status?: boolean
   broker_api_key?: string
+  broker_api_key_status?: boolean
   file?: any
   filePath?: any
 }

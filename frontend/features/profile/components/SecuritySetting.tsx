@@ -11,6 +11,7 @@ import {cn} from '@/utils/nextui/cn'
 import {useUser} from "@/features/user/hooks/use-user";
 import {DeleteAccountModal} from "@/features/profile/components/modal/DeleteAccountModal";
 import {toast, ToastContainer} from 'react-toastify';
+import {useTheme} from "next-themes";
 
 const CellWrapper = React.forwardRef<
     HTMLDivElement,
@@ -33,6 +34,7 @@ CellWrapper.displayName = 'CellWrapper'
 export function SecuritySetting(props: CardProps) {
     const [deleteAccount, setDeleteAccount] = React.useState(false);
     const {user, profile} = useUser()
+    const {theme} = useTheme()
 
     return (
         <>
@@ -149,7 +151,7 @@ export function SecuritySetting(props: CardProps) {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="dark"/>
+                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }

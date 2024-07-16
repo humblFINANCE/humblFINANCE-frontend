@@ -27,11 +27,14 @@ import {useUpdateProfile} from '../hooks/use-update-profile'
 import {SubmitButton} from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
 import UploadAvatarModal from "@/features/profile/components/modal/UploadAvatarModal";
+import {toast, ToastContainer} from 'react-toastify';
+import {useTheme} from "next-themes";
 
 export function AccountSetting(props: CardProps) {
-    const {user, profile, isProfileLoaded} = useUser()
+    const {user, profile, isProfileLoaded, refetchProfile} = useUser()
     const {updateProfile, error, isLoading} = useUpdateProfile()
     const [avatarModal, setAvatarModal] = React.useState(false);
+    const {theme} = useTheme()
 
     const schema = z.object({
         avatar_url: z.string().optional().nullable(),
@@ -63,7 +66,15 @@ export function AccountSetting(props: CardProps) {
     })
 
     const onSave = handleSubmit((data) => {
-        updateProfile(user.id, data)
+        async function save() {
+            let res: any = await updateProfile(user.id, data)
+            if (res?.id) {
+                refetchProfile(user.id);  // fetch new profile data
+                toast.success("All Changes Saved !");
+            }
+        }
+
+        save()
     })
 
     const fullname = ''.concat(
@@ -178,7 +189,7 @@ export function AccountSetting(props: CardProps) {
                                 label="Phone Number"
                                 labelPlacement="outside"
                                 placeholder="Enter phone number"
-                                disabled={true}
+                                disabled={false}
                             />
                             <RenderIf condition={Boolean(errors?.phone)}>
               <span className="text-danger">
@@ -278,6 +289,20 @@ export function AccountSetting(props: CardProps) {
 
             {/*  Modals Components  */}
             <UploadAvatarModal isOpen={avatarModal} onOpenChange={setAvatarModal}/>
+
+
+
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }

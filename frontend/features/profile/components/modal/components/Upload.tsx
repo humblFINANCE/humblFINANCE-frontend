@@ -6,9 +6,11 @@ import ImageUploading, {ImageListType} from "react-images-uploading";
 import {toast, ToastContainer} from "react-toastify";
 import {useUser} from "@/features/user/hooks/use-user";
 import {useUpdateAvatar} from "@/features/profile/hooks/use-update-avatar";
+import {useTheme} from "next-themes";
 
 export default function Upload(props: any) {
     const {user, profile, refetchProfile} = useUser()
+    const {theme} = useTheme()
     const {updateProfileAvatar, isLoading} = useUpdateAvatar()
     const [images, setImages] = React.useState<any>([]);
     const [value, setValue] = React.useState<any>(0);
@@ -131,7 +133,7 @@ export default function Upload(props: any) {
                 rtl={false}
                 draggable
                 pauseOnHover
-                theme="dark"/>
+                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }
