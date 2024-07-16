@@ -50,7 +50,6 @@ export default function ModalCheckout({
 }: ModalCheckoutProps) {
   const { theme } = useTheme()
   const supabase = createClient()
-  const { user } = useUser()
   const router = useRouter()
   const stripe = useStripe()
   const elements = useElements()
@@ -82,7 +81,7 @@ export default function ModalCheckout({
       const cardElement = elements.getElement('card')
 
       if (!cardElement) return
-
+      const user = await supabase.auth.getUser()
       setPayment({ status: 'processing' })
 
       const formData = new FormData()
@@ -124,7 +123,7 @@ export default function ModalCheckout({
         .update({
           membership,
         })
-        .eq('id', user?.id)
+        .eq('id', user?.data.user?.id)
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')
     } catch (err) {

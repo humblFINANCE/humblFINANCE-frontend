@@ -3,7 +3,6 @@
 import LogoutModal from '@/components/(landing-page)/logout/LogoutModal'
 import { Icon } from '@iconify/react'
 import {
-  Avatar,
   Button,
   useDisclosure,
   ScrollShadow,
@@ -11,7 +10,7 @@ import {
   Tooltip,
 } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { useMediaQuery } from 'usehooks-ts'
 import Link from 'next/link'
 
@@ -28,6 +27,8 @@ export default function DashboardSidebar({
 }: {
   children: React.ReactNode
 }) {
+  const [isMounted, setIsMounted] = useState(false)   // fix hydration error
+
   // Sidebar Collapse Control
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const isMobile = useMediaQuery('(max-width: 768px)')
@@ -48,6 +49,12 @@ export default function DashboardSidebar({
   const onToggle = React.useCallback(() => {
     setIsCollapsed((prev) => !prev)
   }, [])
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [children])
+
+  if (!isMounted) return null
 
   return (
     <div className="flex h-dvh w-full">

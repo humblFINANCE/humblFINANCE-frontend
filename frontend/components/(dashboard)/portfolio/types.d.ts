@@ -46,6 +46,7 @@ export interface IPortfolioAction {
 
 export interface IWatchlistState {
   watchlists: IWatchlist[]
+  loading: boolean
 }
 
 export interface IWatchlistAction {
