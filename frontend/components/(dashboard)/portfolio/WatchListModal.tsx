@@ -25,19 +25,36 @@ type WatchlistModalProps = {
   onOpenChange: (open: boolean) => void
 }
 
+const isLimited = (membership: string, totalWatchlists: number) => {
+  if (membership === 'peon' && totalWatchlists >= 2) {
+    return true
+  }
+
+  if (membership === 'premium' && totalWatchlists >= 5) {
+    return true
+  }
+
+  if (membership === 'power' && totalWatchlists >= 10) {
+    return true
+  }
+
+  return false
+}
+
 export default function WatchListModal({
   isOpen,
   onOpenChange,
   onOpen,
 }: WatchlistModalProps) {
   const [isMounted, setIsMounted] = React.useState(false)
-  const { user, openModalConvertUser } = useUser()
+  const { user, openModalConvertUser, profile } = useUser()
   const {
     getWatchlists,
     watchlists,
     addWatchlist,
     removeWatchlist,
     updateWatchlist,
+    loading,
   } = useWatchlist()
 
   const memoizedGetWatchlists = useCallback(() => {
@@ -51,6 +68,9 @@ export default function WatchListModal({
   const [symbolName, setSymbolName] = React.useState<string>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
+  const [errorWatchlist, setErrorWatchlist] = React.useState<string | null>(
+    null
+  )
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [symbols1, setSymbols] = React.useState<
@@ -75,14 +95,24 @@ export default function WatchListModal({
   }
 
   const handleAddWatchlist = async () => {
+    setErrorWatchlist(null)
     if (user.is_anonymous) {
       openModalConvertUser()
       return
     }
 
     if (!watchListName) return
-    if (watchlists.find((wl) => wl.name === watchListName)) return
+    if (watchlists.find((wl) => wl.name === watchListName)) {
+      setErrorWatchlist('Watchlist already exists')
+      return
+    }
+    if (isLimited(profile?.membership!, watchlists.length)) {
+      setErrorWatchlist('Watchlist limit reached')
+      return
+    }
+
     await addWatchlist(watchListName)
+
     setWatchListName('')
   }
 
@@ -98,8 +128,6 @@ export default function WatchListModal({
   }
 
   const handleEditWatchlist = async () => {
-    console.log(user)
-
     if (user.is_anonymous) {
       openModalConvertUser()
       return
@@ -135,6 +163,7 @@ export default function WatchListModal({
           setIsEditing(null)
           setSelectedWatchlist(null)
           onOpenChange(false)
+          setErrorWatchlist(null)
         }}
         size="4xl"
         scrollBehavior="inside"
@@ -155,7 +184,8 @@ export default function WatchListModal({
                       aria-label="watchlist-name"
                     />
                     <Button
-                      isDisabled={!watchListName}
+                      isDisabled={!watchListName || loading}
+                      isLoading={loading}
                       onPress={
                         isEditing !== null
                           ? handleEditWatchlist
@@ -165,6 +195,10 @@ export default function WatchListModal({
                       {isEditing !== null ? 'Save' : 'Add'}
                     </Button>
                   </div>
+                  {errorWatchlist && (
+                    <p className="text-red-500 text-sm">{errorWatchlist}</p>
+                  )}
+
                   <Divider />
                   <div className="w-full h-full overflow-auto">
                     {watchlists.map((item, index) => (
