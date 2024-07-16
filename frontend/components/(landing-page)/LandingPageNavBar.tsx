@@ -33,7 +33,7 @@ export default function Component(props: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
   const disclosure = useDisclosure()
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+
   const checkActive = (path: string) => {
     return pathname === path
   }
@@ -114,7 +114,7 @@ export default function Component(props: NavbarProps) {
       <NavbarContent justify="end">
         <NavbarItem className="ml-2 !flex gap-2">
           <Button
-            className="hidden border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
+            className="border-small border-secondary-500/20 bg-secondary-500/10 text-secondary-800 sm:flex"
             color="secondary"
             radius="full"
             style={{
