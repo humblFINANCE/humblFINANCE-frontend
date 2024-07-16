@@ -83,11 +83,6 @@ export function AccountSetting(props: CardProps) {
         getValues('last_name') ?? ''
     )
 
-    const onClickButton = () => {
-        const doc: any = document;
-        doc.getElementById("imgupload").click()
-    }
-
     useEffect(() => {
         if (profile && isProfileLoaded) {
             reset(profile)

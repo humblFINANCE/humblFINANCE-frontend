@@ -8,7 +8,7 @@ import {useUser} from "@/features/user/hooks/use-user";
 import {useUpdateAvatar} from "@/features/profile/hooks/use-update-avatar";
 import {useTheme} from "next-themes";
 
-export default function Upload(props: any) {
+export default function Upload(props?: any) {
     const {user, profile, refetchProfile} = useUser()
     const {theme} = useTheme()
     const {updateProfileAvatar, isLoading} = useUpdateAvatar()
@@ -28,7 +28,7 @@ export default function Upload(props: any) {
 
     // console.log(user, profile)
 
-    const onChange = async (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
+    const onChange = async (imageList: ImageListType, addUpdateIndex?: number[] | undefined) => {
         setImages(imageList as never[]);  // set image to preview
 
         if (imageList?.length > 0) {

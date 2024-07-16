@@ -57,7 +57,10 @@ export function OpenBBTokenModal(props: OpenBBTokenModalProps) {
     const handleStoreTokenAction = async () => {
         setIsLoading(true)
 
-        let res: any = await updateProfile(profile?.id, {openbb_token: token ? token : profile?.openbb_token, openbb_token_status: tokenActivated});
+        let res: any = await updateProfile(profile?.id, {
+            openbb_token: token ? token : profile?.openbb_token,
+            openbb_token_status: tokenActivated
+        });
 
         if (res?.id) {
             refetchProfile(profile?.id);  // fetch new profile data
@@ -103,11 +106,11 @@ export function OpenBBTokenModal(props: OpenBBTokenModalProps) {
                         defaultValue={profile?.openbb_token ? profile?.openbb_token : token}
                         onInput={(e: any) => setToken(e?.target?.value)}
                         isDisabled={isLoading}
-                        endContent={true ?
+                        endContent={
                             <Button size="sm" color="primary" isLoading={isLoading} variant="flat" className="p-3"
                                     onClick={() => handleValidateTokenAction()}>
                                 Validate
-                            </Button> : null
+                            </Button>
                         }
                     />
 
@@ -122,7 +125,8 @@ export function OpenBBTokenModal(props: OpenBBTokenModalProps) {
                         placement="left"
                     >
                         <div className="cursor-pointer text-default-500 left pt-2">
-                            <Switch isDisabled={!tokenIsValid && !profile?.openbb_token} defaultSelected={profile?.openbb_token_status ? profile?.openbb_token_status : tokenActivated}
+                            <Switch isDisabled={!tokenIsValid && !profile?.openbb_token}
+                                    defaultSelected={profile?.openbb_token_status ? profile?.openbb_token_status : tokenActivated}
                                     onValueChange={setTokenActivated}>
                                 Active?
                             </Switch>
@@ -130,7 +134,8 @@ export function OpenBBTokenModal(props: OpenBBTokenModalProps) {
                     </Tooltip>
                 </ModalBody>
                 <ModalFooter>
-                    <Button size="md" color="success" isDisabled={!tokenIsValid && !profile?.openbb_token} isLoading={isLoading} variant="flat"
+                    <Button size="md" color="success" isDisabled={!tokenIsValid && !profile?.openbb_token}
+                            isLoading={isLoading} variant="flat"
                             className="p-3"
                             onClick={() => handleStoreTokenAction()}>
                         Save
