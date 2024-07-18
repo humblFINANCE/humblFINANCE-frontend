@@ -86,6 +86,7 @@ export default function WatchListModal({
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [symbolFind, setSymbol] = React.useState<string>('')
+  const upgradeModal = useDisclosure()
 
   useEffect(() => {
     memoizedGetWatchlists()
@@ -119,6 +120,7 @@ export default function WatchListModal({
     }
     if (isLimited(profile?.membership!, watchlists.length)) {
       setErrorWatchlist('Watchlist limit reached')
+      openModalConvertUser('to add more watchlists')
       return
     }
 
@@ -264,42 +266,46 @@ export default function WatchListModal({
                       <h4 className="flex flex-col gap-1 text-2xl">
                         {selectedWatchlist.name}
                       </h4>
-                      <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
-                        <Autocomplete
-                          aria-label="symbol"
-                          variant="bordered"
-                          className="max-w-xs"
-                          defaultItems={all_symbols}
-                          isLoading={loadingSymbols}
-                          selectedKey={symbolName as string}
-                          // inputValue={symbol}
-                          onChange={(symbol) => console.log(symbol)}
-                          onSelectionChange={(key) => {
-                            setSymbolName(key as string)
-                          }}
-                          onInputChange={(val) => {
-                            setSymbol(val)
-                            findSymbols(val)
-                          }}
-                          allowsCustomValue
-                        >
-                          {(item) => (
-                            <AutocompleteItem
-                              key={item.symbol}
-                              textValue={item.symbol}
-                            >
-                              {item.symbol} : {item.name}
-                            </AutocompleteItem>
-                          )}
-                        </Autocomplete>
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault()
+                          handleAddSymbol()
+                        }}
+                      >
+                        <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
+                          <Autocomplete
+                            aria-label="symbol"
+                            variant="bordered"
+                            className="max-w-xs"
+                            defaultItems={all_symbols}
+                            isLoading={loadingSymbols}
+                            selectedKey={symbolName as string}
+                            // inputValue={symbol}
+                            onChange={(symbol) => console.log(symbol)}
+                            onSelectionChange={(key) => {
+                              setSymbolName(key as string)
+                            }}
+                            onInputChange={(val) => {
+                              setSymbol(val)
+                              findSymbols(val)
+                            }}
+                            allowsCustomValue
+                          >
+                            {(item) => (
+                              <AutocompleteItem
+                                key={item.symbol}
+                                textValue={item.symbol}
+                              >
+                                {item.symbol} : {item.name}
+                              </AutocompleteItem>
+                            )}
+                          </Autocomplete>
 
-                        <Button
-                          isDisabled={!symbolName}
-                          onPress={handleAddSymbol}
-                        >
-                          Add
-                        </Button>
-                      </div>
+                          <Button isDisabled={!symbolName} type="submit">
+                            Add
+                          </Button>
+                        </div>
+                      </form>
                       {error && <p className="text-red-500 text-sm">{error}</p>}
 
                       <Divider />
