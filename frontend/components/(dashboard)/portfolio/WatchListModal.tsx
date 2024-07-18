@@ -4,19 +4,15 @@ import React, {useCallback, useEffect} from 'react'
 import {
     Modal,
     ModalContent,
-    ModalHeader,
     ModalBody,
-    ModalFooter,
     Button,
-    useDisclosure,
     CircularProgress,
     Divider,
     Input, Tooltip, Chip,
 } from '@nextui-org/react'
 import {InlineIcon} from '@iconify/react'
 import {useUser} from '@/features/user/hooks/use-user'
-import {stockSectors} from '@/components/(dashboard)/portfolio/constants'
-import {IWatchlist, TSector} from '@/components/(dashboard)/portfolio/types'
+import {IWatchlist} from '@/components/(dashboard)/portfolio/types'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import {useTickerStore} from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 
@@ -45,7 +41,6 @@ const isLimited = (membership: string, totalWatchlists: number) => {
 export default function WatchListModal({
                                            isOpen,
                                            onOpenChange,
-                                           onOpen,
                                        }: WatchlistModalProps) {
     const [isMounted, setIsMounted] = React.useState(false)
     const {user, openModalConvertUser, profile} = useUser()
@@ -75,16 +70,13 @@ export default function WatchListModal({
     )
     const [selectedWatchlist, setSelectedWatchlist] =
         React.useState<IWatchlist | null>(watchlists[0] ?? null)
-    const [symbols1, setSymbols] = React.useState<
-        { sector: string; symbol: string }[]
-    >([])
 
     useEffect(() => {
         memoizedGetWatchlists()
     }, [memoizedGetWatchlists])
 
-    const onAddWatchlist = (watchlist: string) => {
-    }
+    // const onAddWatchlist = (watchlist: string) => {
+    // }
 
     const handleAddSymbol = async () => {
         if (!selectedWatchlist) return
@@ -113,9 +105,6 @@ export default function WatchListModal({
             setErrorWatchlist('Watchlist limit reached')
             return
         }
-
-        // check have default in profile table
-        // await checkDefaultWatchlists(watchListName)
 
         await addWatchlist(watchListName)
 

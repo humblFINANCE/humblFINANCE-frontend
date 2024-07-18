@@ -17,7 +17,6 @@ import { AgGridReact } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState, useCallback } from 'react'
 import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
-import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
@@ -149,15 +148,14 @@ const UserTable = () => {
         isOpen={loading || loadingWatclist}
         size="sm"
         isDismissable={false}
+        hideCloseButton={true}
         isKeyboardDismissDisabled={true}
       >
         <ModalContent>
-          {(onClose) => (
             <ModalBody>
               <Spinner size="lg" />
               <p className="text-center">{loading ? 'Processing...' : 'Saving watchlist'}</p>
             </ModalBody>
-          )}
         </ModalContent>
       </Modal>
     </div>

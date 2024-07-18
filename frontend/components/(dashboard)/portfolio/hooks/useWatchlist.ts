@@ -38,7 +38,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
         set(() => ({loading: true}))
         const supabase = createClient()
         const user = await supabase.auth.getUser()
-        let {data: profiles, error}: any = await supabase
+        let {data: profiles}: any = await supabase
             .from('profiles')
             .select()
             .eq('id', user.data.user?.id)
@@ -48,14 +48,14 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
         // check profile table if  default_watchlist exist
         if (profiles[0]?.default_watchlist === null) {
-            const {data: insertWatchlistRes, error} = await supabase.from(TABLES.WATCHLIST).insert({
+            const {error} = await supabase.from(TABLES.WATCHLIST).insert({
                 name: watchlist,
                 is_default: true,
                 user_id: user.data.user?.id,
                 created_at: new Date(),
             }).select()
 
-            const {data: insertProfileRes, error: aerrorRes}: any = await supabase
+            const {error: aerrorRes}: any = await supabase
                 .from('profiles')
                 .update({default_watchlist: watchlist})
                 .eq('id', user.data.user?.id)
@@ -112,7 +112,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
             return
         }
 
-        const {data: insertRes, error: aerrorRes}: any = await supabase
+        const {error: aerrorRes}: any = await supabase
             .from('profiles')
             .update({default_watchlist: null})
             .eq('id', user.data.user?.id)
@@ -141,7 +141,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
             .select()
 
         if (data[0].is_default) {
-            const {data: profile, error: aerrorProfile}: any = await supabase
+             await supabase
                 .from('profiles')
                 .update({default_watchlist: name})
                 .eq('id', user.data.user?.id)
@@ -166,7 +166,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
         const supabase = createClient()
         const user = await supabase.auth.getUser()
 
-        const {data: watchlist, error: errorwatchlist}: any = await supabase
+        const {error: errorwatchlist}: any = await supabase
             .from(TABLES.WATCHLIST)
             .update({is_default: false})
             .eq('is_default', true)
@@ -180,7 +180,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
             .eq('user_id', user.data.user?.id)
             .select()
 
-        const {data: profile, error: aerrorProfile}: any = await supabase
+        const {error: aerrorProfile}: any = await supabase
             .from('profiles')
             .update({default_watchlist: watchlist2nd[0]?.name})
             .eq('id', user.data.user?.id)

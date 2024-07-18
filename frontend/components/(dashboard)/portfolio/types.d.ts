@@ -61,7 +61,6 @@ export interface IWatchlistSymbol {
   id: number
   watchlist_id: number
   symbol: string
-  id: number
 }
 
 export interface IWatchlist {
