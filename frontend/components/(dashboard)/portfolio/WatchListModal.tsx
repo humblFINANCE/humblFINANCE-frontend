@@ -31,11 +31,9 @@ const isLimited = (membership: string, totalWatchlists: number) => {
         return true
     }
 
-    if (membership === 'power' && totalWatchlists >= 10) {
-        return true
-    }
+    return membership === 'power' && totalWatchlists >= 10;
 
-    return false
+
 }
 
 export default function WatchListModal({
@@ -166,7 +164,6 @@ export default function WatchListModal({
                 scrollBehavior="inside"
             >
                 <ModalContent>
-                    {(onClose) => (
                         <ModalBody>
                             <div className="flex  items-start p-4 gap-3 h-[25rem]">
                                 <div className="flex-1 flex flex-col gap-2">
@@ -201,7 +198,7 @@ export default function WatchListModal({
                                     <div className="w-full h-full overflow-auto">
                                         {watchlists.map((item, index) => (
                                             <div
-                                                key={item.id}
+                                                key={index+1}
                                                 className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                                             >
                                                 <p
@@ -345,7 +342,6 @@ export default function WatchListModal({
                                 )}
                             </div>
                         </ModalBody>
-                    )}
                 </ModalContent>
             </Modal>
         </>
