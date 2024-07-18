@@ -16,7 +16,7 @@ interface UpgradeUserModalProps extends UseDisclosureReturn {
   text?: string
 }
 
-const tiers = ['peon', 'premium', 'power', 'permanent']
+const tiers = ['peon', 'premium', 'power', 'permanent', 'admin']
 function getNextTier(currentTier: string) {
   console.log(currentTier)
 
