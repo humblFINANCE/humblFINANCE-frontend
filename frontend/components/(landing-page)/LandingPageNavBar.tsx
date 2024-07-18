@@ -68,11 +68,11 @@ export default function Component(props: NavbarProps) {
             <NavbarMenuToggle className="text-default-400 md:hidden"/>
 
             <NavbarBrand>
-                <div className="hidden lg:block rounded-full bg-foreground text-background">
+                <div className="rounded-full bg-foreground text-background">
                     <HumblFinanceIcon/>
                 </div>
                 <span
-                    className="ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                    className="hidden lg:block ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
           humblFINANCE
         </span>
             </NavbarBrand>
