@@ -54,6 +54,7 @@ export interface IWatchlistAction {
   addWatchlist: (name: string) => Promise<void>
   removeWatchlist: (watchlistId: number) => Promise<void>
   updateWatchlist: (id: number, name: string) => Promise<void>
+  updateDefaultWatchlist: (id: number, is_default: boolean) => Promise<void>
 }
 
 export interface IWatchlistSymbol {
@@ -67,6 +68,7 @@ export interface IWatchlist {
   id: number
   user_id: string
   name: string
+  is_default: boolean
   created_at: string
 
   watchlist_symbols: IWatchlistSymbols[]

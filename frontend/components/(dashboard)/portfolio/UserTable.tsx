@@ -61,7 +61,7 @@ const UserTable = () => {
   const { profile } = useUser()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { getPortfolio, portfolio, loading } = usePortfolio()
-  const { watchlists, getWatchlists } = useWatchlist()
+  const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
   const [value, setValue] = useState<string>(
     () => localStorage.getItem('selectedWatchlistId') || ''
   )
@@ -146,7 +146,7 @@ const UserTable = () => {
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
       <Modal
-        isOpen={loading}
+        isOpen={loading || loadingWatclist}
         size="sm"
         isDismissable={false}
         isKeyboardDismissDisabled={true}
@@ -155,7 +155,7 @@ const UserTable = () => {
           {(onClose) => (
             <ModalBody>
               <Spinner size="lg" />
-              <p className="text-center">Please wait</p>
+              <p className="text-center">{loading ? 'Processing...' : 'Saving watchlist'}</p>
             </ModalBody>
           )}
         </ModalContent>
