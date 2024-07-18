@@ -11,7 +11,7 @@ import {FinancialServiceSetting} from "@/features/profile/components/FinancialSe
 
 export function ProfileSettingsPage() {
     return (
-        <div className="h-full overflow-hidden">
+        <div className="h-full overflow-scroll">
             <Tabs
                 classNames={{
                     tabList: 'mx-4 mt-6 text-medium min-w-screen block lg:flex',
