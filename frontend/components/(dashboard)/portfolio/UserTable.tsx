@@ -4,6 +4,7 @@ import { cn } from '@/utils/nextui/cn'
 import { InlineIcon } from '@iconify/react'
 import {
   Button,
+  Chip,
   Modal,
   ModalBody,
   ModalContent,
@@ -21,6 +22,7 @@ import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 import { useUser } from '@/features/user/hooks/use-user'
+import { log } from 'console'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -65,6 +67,7 @@ const UserTable = () => {
     () => localStorage.getItem('selectedWatchlistId') || ''
   )
 
+  console.log(watchlists, value)
   const getData = useCallback(async () => {
     const params: IPortfolioParams = {
       symbols: '',
@@ -98,6 +101,7 @@ const UserTable = () => {
   }, [value])
   useEffect(() => {
     getData()
+    setValue(watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString())
   }, [value, getData])
 
   return (
