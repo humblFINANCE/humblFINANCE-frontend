@@ -11,6 +11,8 @@ import {
   useDisclosure,
   Divider,
   Input,
+  Autocomplete,
+  AutocompleteItem,
 } from '@nextui-org/react'
 import { InlineIcon } from '@iconify/react'
 import { useUser } from '@/features/user/hooks/use-user'
@@ -60,12 +62,22 @@ export default function WatchListModal({
   const memoizedGetWatchlists = useCallback(() => {
     if (isOpen) {
       getWatchlists()
+      findSymbols('A')
     }
   }, [isOpen, getWatchlists])
 
-  const { getSymbols, symbols, addSymbol, deleteSymbol, error } =
-    useTickerStore()
-  const [symbolName, setSymbolName] = React.useState<string>('')
+  const {
+    getSymbols,
+    symbols,
+    addSymbol,
+    deleteSymbol,
+    error,
+    all_symbols,
+    findSymbols,
+    loading: loadingSymbols,
+    setError,
+  } = useTickerStore()
+  const [symbolName, setSymbolName] = React.useState<React.Key>('')
   const [watchListName, setWatchListName] = React.useState<string>('')
   const [isEditing, setIsEditing] = React.useState<number | null>(null)
   const [errorWatchlist, setErrorWatchlist] = React.useState<string | null>(
@@ -73,25 +85,24 @@ export default function WatchListModal({
   )
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
-  const [symbols1, setSymbols] = React.useState<
-    { sector: string; symbol: string }[]
-  >([])
+  const [symbolFind, setSymbol] = React.useState<string>('')
 
   useEffect(() => {
     memoizedGetWatchlists()
-  }, [memoizedGetWatchlists])
-
-  const onAddWatchlist = (watchlist: string) => {}
+  }, [])
 
   const handleAddSymbol = async () => {
+    setError('')
     if (!selectedWatchlist) return
-    if (symbols.find((symbol) => symbol.symbol === symbolName)) return
+    if (symbols.find((symbol) => symbol.symbol === symbolName))
+      return setError('Symbol already added')
     if (!symbolName) return
 
     // todo: should add validation if ticker can be added
 
-    await addSymbol(symbolName, selectedWatchlist.id)
+    await addSymbol(symbolName as string, selectedWatchlist.id)
     setSymbolName('')
+    setSymbol('')
   }
 
   const handleAddWatchlist = async () => {
@@ -254,15 +265,34 @@ export default function WatchListModal({
                         {selectedWatchlist.name}
                       </h4>
                       <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
-                        <Input
-                          onChange={(e) =>
-                            setSymbolName(e.target.value.toUpperCase())
-                          }
-                          value={symbolName}
-                          placeholder="Add New Ticker"
-                          aria-label="Stock Name"
-                          maxLength={10}
-                        />
+                        <Autocomplete
+                          aria-label="symbol"
+                          variant="bordered"
+                          className="max-w-xs"
+                          defaultItems={all_symbols}
+                          isLoading={loadingSymbols}
+                          selectedKey={symbolName as string}
+                          // inputValue={symbol}
+                          onChange={(symbol) => console.log(symbol)}
+                          onSelectionChange={(key) => {
+                            setSymbolName(key as string)
+                          }}
+                          onInputChange={(val) => {
+                            setSymbol(val)
+                            findSymbols(val)
+                          }}
+                          allowsCustomValue
+                        >
+                          {(item) => (
+                            <AutocompleteItem
+                              key={item.symbol}
+                              textValue={item.symbol}
+                            >
+                              {item.symbol} : {item.name}
+                            </AutocompleteItem>
+                          )}
+                        </Autocomplete>
+
                         <Button
                           isDisabled={!symbolName}
                           onPress={handleAddSymbol}
