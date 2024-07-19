@@ -1,4 +1,4 @@
-import LoginPage from '@/features/login/pages/login'
+import LoginPage from '@/features/auth/pages/login'
 
 export default function Page() {
   return <LoginPage />

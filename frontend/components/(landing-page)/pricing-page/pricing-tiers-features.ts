@@ -7,9 +7,9 @@ const features: PricingFeatures = [
     title: 'Content',
     items: [
       {
-        title: 'New apps & screens releases',
+        title: 'Latest Releases',
         tiers: {
-          [TiersEnum.humblPEON]: 'Latest 4 apps',
+          [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
@@ -18,7 +18,7 @@ const features: PricingFeatures = [
           'Enjoy over 1,000+ screens uploaded every week. Get notified via email whenever new screens are added.',
       },
       {
-        title: 'Access to latest versions',
+        title: 'Priority access to new analytics',
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: true,

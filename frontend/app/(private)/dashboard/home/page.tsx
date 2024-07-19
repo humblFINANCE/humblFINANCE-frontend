@@ -1,14 +1,7 @@
 'use client'
 
-import { useUser } from '@/features/user/hooks/use-user'
+import {DashboardPage} from "@/features/dashboard/pages/DashboardPage";
 
 export default function PrivateTestPage() {
-  const { user } = useUser()
-
-  return (
-    <>
-      <p>Hello </p>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-    </>
-  )
+    return <DashboardPage />
 }
