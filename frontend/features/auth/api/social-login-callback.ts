@@ -2,10 +2,10 @@ import { createClient } from '@/utils/supabase/server'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const code = searchParams.get('code')
   try {
     const supabase = createClient()
-    const { searchParams } = new URL(request.url)
-    const code = searchParams.get('code')
     const redirectTo = request.nextUrl.clone()
 
     const host = request.headers.get('host')
@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
   } catch (e: any) {
     return NextResponse.json({
       message: e?.message,
+      code,
     })
   }
 }
