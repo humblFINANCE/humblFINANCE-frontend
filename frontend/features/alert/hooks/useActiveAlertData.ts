@@ -27,7 +27,7 @@ const useActiveAlertData = () => {
       value,
       created_at,
       updated_at,
-      watchlist_symbols:watchlist_symbols(symbol),
+      all_symbols:all_symbols(symbol),
       indicators:indicators(name),
       logic_conditions:logic_conditions(condition),
       alert_actions(actions(action_id,name))

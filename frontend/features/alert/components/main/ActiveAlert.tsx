@@ -69,7 +69,7 @@ function ActiveAlert() {
           theme === 'light' ? 'ag-theme-custom-light' : 'ag-theme-custom-dark'
         )}
         style={{
-          height: 300,
+          height: 500,
         }}
       >
         <AgGridReact

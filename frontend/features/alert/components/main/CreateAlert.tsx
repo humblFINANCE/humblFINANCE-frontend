@@ -8,7 +8,7 @@ import {
   Spacer,
 } from '@nextui-org/react'
 import { IAlertForm } from '../../types/alert'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useDataAction,
   useDataIndicator,
@@ -18,10 +18,17 @@ import {
 import VALUE_TYPE from '../../constants/VALUE_TYPE'
 import useCreateAlert from '../../hooks/useFormAlert'
 import { Controller } from 'react-hook-form'
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import { formatNoUnderscore } from '@/utils/common/formatString'
 
 function CreateAlert() {
   const { control, handleSubmit, onSubmit, watch } = useCreateAlert()
-  const { data: dataSymbol } = useDataSymbol()
+  const {
+    all_symbols,
+    findSymbols,
+    getSymbols,
+    loading: loadingSymbols,
+  } = useTickerStore()
   const { data: dataIndicator } = useDataIndicator()
   const { data: dataLogic } = useDataLogic()
   const { data: dataAction } = useDataAction()
@@ -51,6 +58,12 @@ function CreateAlert() {
     console.log(error)
   }
 
+  useEffect(() => {
+    findSymbols('A')
+  }, [])
+
+  console.log('form', watch())
+
   return (
     <div className="w-full h-full p-4">
       <h2 className="text-3xl ">Create New Alert</h2>
@@ -61,23 +74,30 @@ function CreateAlert() {
             control={control}
             name="symbol_id"
             render={({ field }) => (
-              <Select
+              <Autocomplete
                 label="Select Symbol"
                 className="max-w-xs"
-                disabledKeys={['']}
-                {...field}
-                selectedKeys={[field.value || '']}
+                defaultItems={all_symbols}
+                isLoading={loadingSymbols}
+                selectedKey={field.value}
+                // inputValue={symbol}
+                onSelectionChange={(key) => {
+                  field.onChange(key)
+                }}
+                onInputChange={(val) => {
+                  findSymbols(val)
+                }}
+                allowsCustomValue
               >
-                {dataSymbol.length > 0 ? (
-                  dataSymbol.map((symbol) => (
-                    <SelectItem key={symbol.symbol_id} value={symbol.symbol_id}>
-                      {symbol.symbol}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key="">No Symbols Available</SelectItem>
+                {(item) => (
+                  <AutocompleteItem
+                    key={item.symbol_id}
+                    textValue={item.symbol}
+                  >
+                    {item.symbol} : {item.name}
+                  </AutocompleteItem>
                 )}
-              </Select>
+              </Autocomplete>
             )}
           />
           <Controller
@@ -85,7 +105,7 @@ function CreateAlert() {
             name="indicator_id"
             render={({ field }) => (
               <Select
-                label="Select Condition"
+                label="Select Indicator"
                 className="max-w-xs"
                 disabledKeys={['']}
                 {...field}
@@ -97,7 +117,7 @@ function CreateAlert() {
                       key={indicator.indicator_id}
                       value={indicator.indicator_id}
                     >
-                      {indicator.name}
+                      {formatNoUnderscore(indicator.name)}
                     </SelectItem>
                   ))
                 ) : (
@@ -120,7 +140,7 @@ function CreateAlert() {
                 {dataLogic.length > 0 ? (
                   dataLogic.map((logic) => (
                     <SelectItem key={logic.logic_id} value={logic.logic_id}>
-                      {logic.condition}
+                      {formatNoUnderscore(logic.condition)}
                     </SelectItem>
                   ))
                 ) : (
@@ -133,19 +153,30 @@ function CreateAlert() {
             control={control}
             name="value"
             render={({ field }) => (
-              <Autocomplete
-                allowsCustomValue
-                label="Select Value Type"
+              <Select
+                label="Select Value"
                 className="max-w-xs"
-                defaultItems={VALUE_TYPE}
-                onInputChange={(value) => field.onChange(value)}
+                disabledKeys={[
+                  dataIndicator.find(
+                    (item) => item.indicator_id === +watch('indicator_id')
+                  )?.name || '',
+                ]}
+                {...field}
+                selectedKeys={[field.value || '']}
               >
-                {(value) => (
-                  <AutocompleteItem key={value.key}>
-                    {value.label}
-                  </AutocompleteItem>
+                {dataIndicator.length > 0 ? (
+                  dataIndicator.map((indicator) => (
+                    <SelectItem
+                      key={indicator.name}
+                      value={indicator.indicator_id}
+                    >
+                      {formatNoUnderscore(indicator.name)}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem key="">No Condition Available</SelectItem>
                 )}
-              </Autocomplete>
+              </Select>
             )}
           />
           <Controller

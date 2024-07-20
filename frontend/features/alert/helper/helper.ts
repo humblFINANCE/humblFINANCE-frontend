@@ -1,3 +1,5 @@
+import { formatNoUnderscore } from '@/utils/common/formatString'
+
 export function formatAlert(alert: any) {
-  return `${alert.watchlist_symbols.symbol}: when ${alert.indicators.name} is ${alert.logic_conditions.condition}  ${alert.value}, then ${alert.alert_actions[0].actions?.name}`
+  return `${formatNoUnderscore(alert?.all_symbols?.symbol)}: when ${formatNoUnderscore(alert.indicators.name)} is ${formatNoUnderscore(alert.logic_conditions.condition)}  ${formatNoUnderscore(alert.value)}, then ${alert.alert_actions[0].actions?.name}`
 }

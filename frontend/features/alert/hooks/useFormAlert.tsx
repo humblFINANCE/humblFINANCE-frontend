@@ -33,7 +33,7 @@ const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
       Object.entries(data)
         .map(([key, value]) => [
           key,
-          key === 'value' ? 100 : key === 'user_id' ? value : +value,
+          key === 'user_id' || key === 'value' ? value : +value,
         ])
         .filter(([key, value]) => key !== 'action_id')
     )
@@ -82,7 +82,7 @@ const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
         symbol_id: +data.symbol_id,
         indicator_id: +data.indicator_id,
         logic_id: +data.logic_id,
-        value: 100, // todo: fix this to be dynamic
+        value: data.value,
         updated_at: new Date().toISOString(),
       })
       .eq('alert_id', alert_id)
