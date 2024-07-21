@@ -12,9 +12,7 @@ import { useUser } from '@/features/user/hooks/use-user'
 import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useRouter } from 'next/navigation'
 
-interface UpgradeUserModalProps extends UseDisclosureReturn {
-  msg?: any
-}
+interface UpgradeUserModalProps extends UseDisclosureReturn {}
 
 export function UpgradeUserModal(props: UpgradeUserModalProps) {
   const { user } = useUser()
