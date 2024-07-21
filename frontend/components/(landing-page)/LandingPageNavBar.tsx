@@ -21,11 +21,26 @@ import {LoginModal} from '@/features/auth/components/LoginModal'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const menuItems = [
-    'Home',
-    'Features',
-    'Investing Framework',
-    'Pricing',
-    'About Us',
+    {
+        name: 'Home',
+        path: '/',
+    },
+    {
+        name: 'Features',
+        path: '/features',
+    },
+    {
+        name: 'Investing Framework',
+        path: '/investing-framework',
+    },
+    {
+        name: 'Pricing',
+        path: '/pricing',
+    },
+    {
+        name: 'About Us',
+        path: '/about-us',
+    }
 ]
 
 export default function Component(props: NavbarProps) {
@@ -68,11 +83,11 @@ export default function Component(props: NavbarProps) {
             <NavbarMenuToggle className="text-default-400 md:hidden"/>
 
             <NavbarBrand>
-                <div className="hidden lg:block rounded-full bg-foreground text-background">
+                <div className="rounded-full bg-foreground text-background">
                     <HumblFinanceIcon/>
                 </div>
                 <span
-                    className="ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+                    className="hidden lg:block ml-2 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
           humblFINANCE
         </span>
             </NavbarBrand>
@@ -146,8 +161,18 @@ export default function Component(props: NavbarProps) {
             >
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link className="w-full text-default-500" href="#" size="md">
-                            {item}
+                        <Link className="w-full" href={item.path} size="md" onPress={() => setIsMenuOpen(!isMenuOpen)}>
+                            {
+                                checkActive(item.path) ?
+                                    <span
+                                        className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+         {item.name}
+        </span> :
+                                    <span
+                                        className="text-default-500">
+         {item.name}
+        </span>
+                            }
                         </Link>
                     </NavbarMenuItem>
                 ))}
