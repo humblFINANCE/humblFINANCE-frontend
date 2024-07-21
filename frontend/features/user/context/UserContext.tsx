@@ -57,7 +57,7 @@ export function UserProvider({
 
   return (
     <UserContext.Provider value={ctx}>
-      <UpgradeUserModal {...upgradeUserModalDisclosure} text={info} />
+      <UpgradeUserModal {...upgradeUserModalDisclosure} />
       {children}
     </UserContext.Provider>
   )
