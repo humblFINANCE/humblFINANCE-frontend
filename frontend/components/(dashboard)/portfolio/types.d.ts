@@ -55,6 +55,7 @@ export interface IWatchlistAction {
   removeWatchlist: (watchlistId: number) => Promise<void>
   updateWatchlist: (id: number, name: string) => Promise<void>
   updateDefaultWatchlist: (id: number, is_default: boolean) => Promise<void>
+  refreshWatchlist: (profile: any) => Promise<void>
 }
 
 export interface IWatchlistSymbol {

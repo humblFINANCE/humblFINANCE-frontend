@@ -29,8 +29,6 @@ export function OpenBBTokenModal(props: OpenBBTokenModalProps) {
     const [tokenIsValid, setTokenIsValid] = useState<boolean>(false)
     const {updateProfile} = useUpdateProfile()
 
-    console.log(profile)
-
     const handleValidateTokenAction = async () => {
         setIsLoading(true)
 

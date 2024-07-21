@@ -20,4 +20,5 @@ export interface Profile {
   file?: any
   filePath?: any
   default_watchlist?: string
+  refresh_limit?: number
 }

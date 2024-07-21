@@ -6,6 +6,7 @@ import {
     IWatchlistState,
 } from '@/components/(dashboard)/portfolio/types'
 import {useTickerStore} from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import {Profile} from "@/features/user/types/profile";
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
     watchlists: [],
@@ -141,7 +142,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
             .select()
 
         if (data[0].is_default) {
-             await supabase
+            await supabase
                 .from('profiles')
                 .update({default_watchlist: name})
                 .eq('id', user.data.user?.id)
@@ -195,6 +196,46 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
         await get().getWatchlists()
         set(() => ({loading: false}))
+    },
+
+    refreshWatchlist: async (profile: Profile) => {
+        set(() => ({loading: true}))
+        const supabase = createClient()
+        const user = await supabase.auth.getUser()
+        const currentLimits: any = profile.refresh_limit;
+        let msg: any;
+
+        // console.log("PARAMS: ", profile, currentLimits)
+
+        if (currentLimits === 0 && profile.membership === "anonymous") {
+            msg = "ANON";
+        }
+
+        if (currentLimits === 0 || currentLimits <= 0 && profile.membership !== "anonymous") {
+            msg = "0_LIMIT";
+        }
+
+        if (currentLimits > 0) {
+            const {data, error}: any = await supabase
+                .from('profiles')
+                .update({refresh_limit: currentLimits - 1})
+                .eq('id', user.data.user?.id)
+                .select()
+
+            // console.log("D: ", data, error)
+
+            if (error) {
+                console.log(error)
+                return
+            }
+
+            msg = "REFRESH_SUCCESS";
+
+            await get().getWatchlists()
+        }
+
+        set(() => ({loading: false}))
+        return msg;
     },
 }))
 
