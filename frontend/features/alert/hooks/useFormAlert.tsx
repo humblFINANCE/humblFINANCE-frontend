@@ -1,10 +1,9 @@
 // hooks/useCreateAlert.ts
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { alertSchema, AlertFormData } from '../schema'
 import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { AlertFormData } from '@/features/alert/schema'
 
 const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
   const supabase = createClient()

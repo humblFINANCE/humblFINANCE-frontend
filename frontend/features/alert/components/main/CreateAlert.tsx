@@ -7,28 +7,22 @@ import {
   Selection,
   Spacer,
 } from '@nextui-org/react'
-import { IAlertForm } from '../../types/alert'
+import { IAlertForm } from '@/features/alert/types/alert'
 import { useEffect, useMemo, useState } from 'react'
 import {
   useDataAction,
   useDataIndicator,
   useDataLogic,
   useDataSymbol,
-} from '../../hooks/useDataAlert'
-import VALUE_TYPE from '../../constants/VALUE_TYPE'
-import useCreateAlert from '../../hooks/useFormAlert'
+} from '@/features/alert/hooks/useDataAlert'
+import useCreateAlert from '@/features/alert/hooks/useFormAlert'
 import { Controller } from 'react-hook-form'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 import { formatNoUnderscore } from '@/utils/common/formatString'
 
 function CreateAlert() {
   const { control, handleSubmit, onSubmit, watch } = useCreateAlert()
-  const {
-    all_symbols,
-    findSymbols,
-    getSymbols,
-    loading: loadingSymbols,
-  } = useTickerStore()
+  const { all_symbols, findSymbols, loading: loadingSymbols } = useTickerStore()
   const { data: dataIndicator } = useDataIndicator()
   const { data: dataLogic } = useDataLogic()
   const { data: dataAction } = useDataAction()

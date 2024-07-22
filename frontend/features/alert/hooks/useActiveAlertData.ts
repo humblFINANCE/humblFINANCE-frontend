@@ -1,6 +1,5 @@
-import React from 'react'
-import { Alert, TransformedAlert } from '../types/alert'
 import { createClient } from '@/utils/supabase/client'
+import React from 'react'
 
 const useActiveAlertData = () => {
   const [activeAlert, setActiveAlert] = React.useState<any[]>([])

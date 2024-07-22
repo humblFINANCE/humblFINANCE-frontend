@@ -3,9 +3,9 @@
 import { Icon } from '@iconify/react'
 import { Tab, Tabs } from '@nextui-org/react'
 import React from 'react'
-import CreateAlert from '../components/main/CreateAlert'
-import ActiveAlert from '../components/main/ActiveAlert'
-import HistoryAlert from '../components/main/HistoryAlert'
+import CreateAlert from '@/features/alert/components/main/CreateAlert'
+import ActiveAlert from '@/features/alert/components/main/ActiveAlert'
+import HistoryAlert from '@/features/alert/components/main/HistoryAlert'
 
 function Alerts() {
   const [isMounted, setIsMounted] = React.useState(false)

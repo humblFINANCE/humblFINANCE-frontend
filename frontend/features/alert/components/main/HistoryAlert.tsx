@@ -12,7 +12,7 @@ import {
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact, CustomCellRendererProps } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import CustomButton from '../active-alert/CustomButton'
+import CustomButton from '@/features/alert/components/active-alert/CustomButton'
 import { createClient } from '@/utils/supabase/client'
 import { EffectCallback, useEffect, useState } from 'react'
 

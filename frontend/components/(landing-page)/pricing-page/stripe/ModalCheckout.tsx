@@ -1,39 +1,33 @@
-import React from 'react'
+import { Tier } from '@/components/(landing-page)/pricing-page/pricing-types'
+import { createPaymentIntent } from '@/utils/stripe/action'
+import { createClient } from '@/utils/supabase/client'
+import { Icon } from '@iconify/react'
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Avatar,
   Autocomplete,
   AutocompleteItem,
-  Spacer,
-  Input,
+  Avatar,
+  Button,
   Divider,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Spacer,
   Spinner,
 } from '@nextui-org/react'
-import PaymentForm from './FormCheckout'
-import countries from './countries'
-import { Icon } from '@iconify/react'
-import { Tier } from '../pricing-types'
-import {
-  CardNumberElement,
-  useStripe,
-  useElements,
-  CardElement,
-} from '@stripe/react-stripe-js'
-import { useTheme } from 'next-themes'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { StripeError } from '@stripe/stripe-js'
-import { createPaymentIntent } from '@/utils/stripe/action'
-import { IPaymentFormValues, usePaymentValidation } from '../hooks/validation'
+import { useTheme } from 'next-themes'
+import { useRouter } from 'next/navigation'
+import React from 'react'
 import { Controller, SubmitHandler } from 'react-hook-form'
-import { redirect, useRouter } from 'next/navigation'
-import { Router } from 'next/router'
-import { createClient } from '@/utils/supabase/client'
-import { useUser } from '@/features/user/hooks/use-user'
+import {
+  IPaymentFormValues,
+  usePaymentValidation,
+} from '@/components/(landing-page)/pricing-page/hooks/validation'
+import countries from './countries'
 
 type ModalCheckoutProps = {
   isOpen: boolean

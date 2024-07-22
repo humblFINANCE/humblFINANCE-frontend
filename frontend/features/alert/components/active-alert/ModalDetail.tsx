@@ -11,16 +11,16 @@ import {
   SelectItem,
 } from '@nextui-org/react'
 import React, { useState } from 'react'
-import useCreateAlert from '../../hooks/useFormAlert'
+import useCreateAlert from '@/features/alert/hooks/useFormAlert'
 import {
   useDataAction,
   useDataIndicator,
   useDataLogic,
   useDataSymbol,
-} from '../../hooks/useDataAlert'
-import { IAlertForm } from '../../types/alert'
+} from '@/features/alert/hooks/useDataAlert'
+import { IAlertForm } from '@/features/alert/types/alert'
 import { Controller } from 'react-hook-form'
-import VALUE_TYPE from '../../constants/VALUE_TYPE'
+import VALUE_TYPE from '@/features/alert/constants/VALUE_TYPE'
 
 interface Props {
   onOpenChange: () => void

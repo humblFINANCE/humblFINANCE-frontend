@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/client'
 import { create } from 'zustand'
-import ALERT_TABLES from '../constants/ALERT_TABLES'
+import ALERT_TABLES from '@/features/alert/constants/ALERT_TABLES'
 
 export const useHistoryAlert = create((set) => ({
   historyAlert: [],

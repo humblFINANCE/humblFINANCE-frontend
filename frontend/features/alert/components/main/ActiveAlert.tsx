@@ -1,17 +1,16 @@
 'use client'
-import { Icon } from '@iconify/react'
 import { Spacer, useDisclosure } from '@nextui-org/react'
 import { AgGridReact, CustomCellRendererProps } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
 import React from 'react'
-import CustomButton from '../active-alert/CustomButton'
+import CustomButton from '@/features/alert/components/active-alert/CustomButton'
 import { ColDef } from 'ag-grid-community'
 import { cn } from '@/utils/nextui/cn'
-import useActiveAlertData from '../../hooks/useActiveAlertData'
-import { formatAlert } from '../../helper/helper'
-import ModalDelete from '../active-alert/ModalDelete'
+import useActiveAlertData from '@/features/alert/hooks/useActiveAlertData'
+import { formatAlert } from '@/features/alert/helper/helper'
+import ModalDelete from '@/features/alert/components/active-alert/ModalDelete'
 import { toast } from 'react-toastify'
-import ModalDetail from '../active-alert/ModalDetail'
+import ModalDetail from '@/features/alert/components/active-alert/ModalDetail'
 
 function ActiveAlert() {
   const { theme } = useTheme()
