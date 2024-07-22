@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react'
-import SymbolWidget from "@/features/dashboard/components/SymbolWidget";
+import TradingViewWidget from "@/features/dashboard/components/TradingViewWidget";
 
 export function DashboardPage() {
     return (
         <>
-            <SymbolWidget/>
+            <TradingViewWidget/>
 
 
             {/* OLD COMPONENTS */}
