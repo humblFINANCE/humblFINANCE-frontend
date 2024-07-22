@@ -72,10 +72,6 @@ const UserTable = () => {
       membership: profile?.membership!,
     }
 
-    if (value === '') {
-      await getPortfolio(params)
-    }
-
     if (value) {
       const symbols = watchlists.find((watchlist) => watchlist.id === +value)
 
@@ -85,6 +81,8 @@ const UserTable = () => {
           .join(',')
         params.membership = profile?.membership!
       }
+
+      if (params.symbols === '') return
 
       await getPortfolio(params)
     }
