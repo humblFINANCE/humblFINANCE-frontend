@@ -22,6 +22,7 @@ import {UserDropdown} from '../UserDropdown'
 import {NotificationsDropdown} from '../NotificationDropdown'
 import {HumblFinanceIcon} from '@/components/icons/Brands'
 import {setCookie, getCookie} from 'cookies-next';
+import TickerTape from "@/features/dashboard/components/TickerTape";
 
 export default function DashboardSidebar({
                                              children,
@@ -46,6 +47,10 @@ export default function DashboardSidebar({
 
     // Logout Modal Control
     const logoutModalDisclosure = useDisclosure()
+
+    const checkActive = (path: string) => {
+        return pathname === path
+    }
 
     const onToggle = () => setIsCollapsed(!isCollapsed);
 
@@ -177,8 +182,11 @@ export default function DashboardSidebar({
                 </div>
             </div>
             <div className="w-full flex-1 flex-col p-4">
+                {
+                    checkActive('/dashboard/home') ? <TickerTape/> : null
+                }
                 <header
-                    className="flex justify-between items-center gap-3 rounded-medium border-small border-divider p-4">
+                    className="flex mt-2 justify-between items-center gap-3 rounded-medium border-small border-divider p-4">
                     <div className="flex items-center gap-x-4 flex-row">
                         <Button isIconOnly size="sm" variant="light" onClick={onToggle}>
                             <Icon

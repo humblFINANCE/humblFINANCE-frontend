@@ -143,12 +143,16 @@ const UserTable = () => {
                     <Button
                         isLoading={loading || loadingWatclist}
                         id="watchlist-setting"
-                        className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
+                        className={theme === 'dark' ?
+                            `bg-clip text-white-500 bg-gradient-to-b from-purple-400 via-pink-500 to-red-500 shadow-lg` :
+                            `bg-clip text-black bg-gradient-to-t from-green-300 via-green-200 to-green-100 shadow-lg`
+                        }
                         style={{
                             opacity: 1,
                         }}
+                        size="sm"
                         onPress={onOpen}
-                        endContent={<InlineIcon icon={'mdi:gear'} fontSize={28}/>}
+                        endContent={<InlineIcon icon={'solar:folder-with-files-bold-duotone'} fontSize={24}/>}
                     >
                         <div className='hidden lg:block'>
                             Add
@@ -161,12 +165,16 @@ const UserTable = () => {
                     <Button
                         isLoading={loading || loadingWatclist}
                         id="watchlist-setting"
-                        className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
+                        className={theme === 'dark' ?
+                            `bg-clip text-white-500 bg-gradient-to-b from-purple-400 via-pink-500 to-red-500 shadow-lg` :
+                            `bg-clip text-black bg-gradient-to-t from-green-300 via-green-200 to-green-100 shadow-lg`
+                        }
                         style={{
                             opacity: 1,
                         }}
+                        size="sm"
                         onPress={handleRefreshWatchlist}
-                        endContent={<Icon icon="oui:refresh" fontSize={28}/>}
+                        endContent={<Icon icon="solar:refresh-square-outline" fontSize={24}/>}
                     >
                         <div className='hidden lg:block'>
                             Refresh
