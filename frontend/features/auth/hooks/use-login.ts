@@ -2,8 +2,6 @@ import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { socialLoginRedirectPath } from '../constants'
 
-
-
 export function useLogin() {
   const router = useRouter()
 
@@ -16,8 +14,7 @@ export function useLogin() {
       | 'linkedin_oidc'
       | 'apple'
   ) => {
-    return async function() {
-
+    return async function () {
       const getURL = () => {
         let url =
           process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
@@ -32,14 +29,13 @@ export function useLogin() {
 
       const supabase = createClient()
       const { data } = await supabase.auth.getUser()
+      console.log('redirect url', getURL())
 
       const { searchParams } = new URL(window.location.href)
       const from = searchParams.get('from')
       const options = {
         redirectTo:
-          getURL() +
-          socialLoginRedirectPath +
-          (from ? `?from=${from}` : ''),
+          getURL() + socialLoginRedirectPath + (from ? `?from=${from}` : ''),
       }
 
       if (data?.user?.is_anonymous) {

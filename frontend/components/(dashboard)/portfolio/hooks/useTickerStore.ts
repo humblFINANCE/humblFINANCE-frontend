@@ -10,6 +10,8 @@ import { TABLES } from '@/components/(dashboard)/portfolio/constants'
 export const useTickerStore = create<ISymbolState & ISymbolAction>(
   (set, get) => ({
     symbols: [],
+    all_symbols: [],
+    loading: false,
     error: '',
     getSymbols: async (watchlist_id: number) => {
       const supabase = createClient()
@@ -71,6 +73,26 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
       }
 
       await get().getSymbols(watchlist_id)
+    },
+    findSymbols: async (symbol: string) => {
+      const supabase = createClient()
+      set(() => ({ loading: true }))
+      const { data, error } = await supabase
+        .from(TABLES.ALL_SYMBOLS)
+        .select('*')
+        .ilike('symbol', `%${symbol}%`)
+        .limit(10)
+
+      if (error) {
+        console.log(error)
+        set(() => ({ loading: false }))
+        return
+      }
+
+      set(() => ({ all_symbols: data, loading: false }))
+    },
+    setError: (error: string) => {
+      set(() => ({ error }))
     },
   })
 )

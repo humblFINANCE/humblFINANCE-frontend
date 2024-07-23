@@ -76,13 +76,17 @@ export interface IWatchlist {
 
 export interface ISymbolState {
   symbols: ISymbol[]
+  all_symbols: IAllSymbols[]
   error: string
+  loading: boolean
 }
 
 export interface ISymbolAction {
   getSymbols: (watchlist_id: number) => Promise<void>
   addSymbol: (symbol: string, watchlist_id: number) => Promise<void>
   deleteSymbol: (id: number, watchlist_id: number) => Promise<void>
+  findSymbols: (symbol: string) => Promise<void>
+  setError: (error: string) => void
 }
 
 export interface ISymbol {
@@ -90,4 +94,11 @@ export interface ISymbol {
   symbol: string
   watchlist_id: number
   id: number
+}
+
+export interface IAllSymbols {
+  symbol_id: number
+  symbol: string
+  date_added: string
+  name: string
 }

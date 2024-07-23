@@ -96,7 +96,7 @@ export default function Component() {
         </h1>
         <Spacer y={4} />
         <h2 className="text-xl text-default-500">
-          Discover the ideal plan, beginning at under $2 per week.
+          Discover the ideal plan, options under 50¢ per day.
         </h2>
       </div>
       <Spacer y={8} />
@@ -118,7 +118,7 @@ export default function Component() {
             <div className="flex items-center gap-2">
               <p>Pay Yearly</p>
               <Chip color="secondary" variant="flat">
-                Save 25%
+                2 Months Free
               </Chip>
             </div>
           }

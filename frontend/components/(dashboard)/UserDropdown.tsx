@@ -37,7 +37,7 @@ export function UserDropdown({
 
   const fetchDefaulttheme: any = useCallback(() => {
     setTheme(profile?.default_theme)
-    console.log('FETCHED DEFAULT THEME')
+    // console.log('FETCHED DEFAULT THEME')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?.default_theme])
 
