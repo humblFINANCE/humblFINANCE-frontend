@@ -37,8 +37,8 @@ export const tiers: Array<Tier> = [
     href: '#',
     mostPopular: true,
     price: {
-      yearly: '$72',
-      monthly: '$12',
+      yearly: '$150',
+      monthly: '$15',
     },
     featured: false,
     features: [
@@ -59,7 +59,7 @@ export const tiers: Array<Tier> = [
     mostPopular: false,
     description: 'For large teams that have more than 10 members.',
     price: {
-      yearly: '$90',
+      yearly: '$350',
       monthly: '$35',
     },
     priceSuffix: '',

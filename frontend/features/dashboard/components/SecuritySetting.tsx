@@ -12,7 +12,6 @@ import {useUser} from "@/features/user/hooks/use-user";
 import {DeleteAccountModal} from "@/features/profile/components/modal/DeleteAccountModal";
 import {toast, ToastContainer} from 'react-toastify';
 import {useTheme} from "next-themes";
-import RenderIf from "@/components/RenderIf";
 
 const CellWrapper = React.forwardRef<
     HTMLDivElement,
@@ -48,42 +47,18 @@ export function SecuritySetting(props: CardProps) {
                 </CardHeader>
                 <CardBody className="flex flex-col gap-2">
                     {/* Email */}
-                    <CellWrapper className="block lg:flex">
+                    <CellWrapper>
                         <div>
-                            <p className="flex">Email Address
-                                <RenderIf condition={Boolean(user.user_metadata.email_verified)}>
-                                <p className="lg:hidden ml-2 text-success">Verified</p>
-                                </RenderIf>
-                            </p>
+                            <p>Email Address</p>
                             <p className="text-small text-default-500">
                                 The email address associated with your account.
                             </p>
                         </div>
-                        <div className="hidden lg:flex w-full flex-wrap items-center justify-end gap-6">
+                        <div className="flex w-full flex-wrap items-center justify-end gap-6 sm:w-auto sm:flex-nowrap">
                             <div className="flex mr-2 flex-col items-end">
                                 <p>{profile?.email}</p>
                                 <p className="text-small text-success">Verified</p>
                             </div>
-                            {
-                                user.app_metadata.provider === 'google' ?
-                                    <Button
-                                        endContent={<Icon icon="flat-color-icons:google" width={24}/>}
-                                        radius="full"
-                                        variant="bordered"
-                                        isDisabled
-                                    >
-                                        Linked with
-                                    </Button> :
-                                    <Button
-                                        endContent={<Icon icon="solar:pen-2-linear"/>}
-                                        radius="full"
-                                        variant="bordered"
-                                    >
-                                        Edit
-                                    </Button>
-                            }
-                        </div>
-                        <div className="lg:hidden flex w-full flex-wrap items-center justify-start gap-6 mt-4">
                             {
                                 user.app_metadata.provider === 'google' ?
                                     <Button

@@ -1,9 +1,9 @@
 'use client'
 import { UserContext } from '@/features/user/context/UserContext'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 
 export function useUser() {
-  const context = useContext(UserContext)
+  const context = React.useContext(UserContext)
 
   if (!context) {
     throw new Error('useUser must be used within a UserProvider')
