@@ -75,7 +75,9 @@ const UserTable = () => {
 
     if (value) {
       const symbols = watchlists.find((watchlist) => watchlist.id === +value)
+      localStorage.setItem('selectedWatchlistId', value)
 
+      if (!symbols) return
       if (symbols) {
         params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.symbol)
@@ -91,7 +93,7 @@ const UserTable = () => {
     let res: any = await refreshWatchlist(profile)
 
     if (res === 'REFRESH_SUCCESS') {
-      toast.success('Watchlist Refreshed !')
+      toast.success('Watchlist Refreshed!')
     } else if (res === '0_LIMIT') {
       toast.warning(
         'You have used all your free data for the day, please come back tommorow or upgrade your account'
@@ -111,21 +113,23 @@ const UserTable = () => {
 
   useEffect(() => {
     getWatchlists()
-  }, [getWatchlists])
-
-  useEffect(() => {
-    getData()
     setCookie(
       'pathname',
       watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
     )
-    setValue(
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-  }, [
-    value,
-    watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString(),
-  ])
+
+    if (!value) {
+      setValue(
+        watchlists
+          ?.filter((id: any) => id.is_default === true)[0]
+          ?.id?.toString()
+      )
+    }
+  }, [getWatchlists])
+
+  useEffect(() => {
+    getData()
+  }, [value, watchlists])
 
   return (
     <div className="h-full flex flex-col">

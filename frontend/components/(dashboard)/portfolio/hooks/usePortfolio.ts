@@ -23,7 +23,10 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
           url.searchParams.set(item, params[item])
         }
 
-        const response = await fetch(url.toString())
+        const response = await fetch(url.toString(), {
+          next: { tags: ['portfolio'] },
+        })
+
         const data = await response.json()
 
         set(() => ({ portfolio: data, loading: false }))
