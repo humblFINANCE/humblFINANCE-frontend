@@ -201,7 +201,7 @@ export default function DashboardSidebar({
                 </header>
                 <main className="mt-4 h-[90%] w-full overflow-visible">
                     <div
-                        className={`flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider ${isMobile ? 'overflow-y-scroll' : 'overflow-y-scroll'} p-4`}>
+                        className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-scroll p-4">
                         {children}
                     </div>
                 </main>

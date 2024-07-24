@@ -1,338 +1,349 @@
 'use client'
 
-import React, { useCallback, useEffect } from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Divider,
-  Input,
-  Autocomplete,
-  AutocompleteItem,
+    Modal,
+    ModalContent,
+    ModalBody,
+    Button,
+    CircularProgress,
+    Divider,
+    Input, Tooltip, Chip,
 } from '@nextui-org/react'
-import { InlineIcon } from '@iconify/react'
-import { useUser } from '@/features/user/hooks/use-user'
-import { stockSectors } from '@/components/(dashboard)/portfolio/constants'
-import { IWatchlist, TSector } from '@/components/(dashboard)/portfolio/types'
+import {InlineIcon} from '@iconify/react'
+import {useUser} from '@/features/user/hooks/use-user'
+import {IWatchlist} from '@/components/(dashboard)/portfolio/types'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
-import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import {useTickerStore} from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 
 type WatchlistModalProps = {
-  isOpen: boolean
-  onOpen?: () => void
-  onOpenChange: (open: boolean) => void
+    isOpen: boolean
+    onOpen?: () => void
+    onOpenChange: (open: boolean) => void
 }
 
 const isLimited = (membership: string, totalWatchlists: number) => {
-  if (membership === 'peon' && totalWatchlists >= 2) {
-    return true
-  }
+    if (membership === 'peon' && totalWatchlists >= 2) {
+        return true
+    }
 
-  if (membership === 'premium' && totalWatchlists >= 5) {
-    return true
-  }
+    if (membership === 'premium' && totalWatchlists >= 5) {
+        return true
+    }
 
-  if (membership === 'power' && totalWatchlists >= 10) {
-    return true
-  }
+    return membership === 'power' && totalWatchlists >= 10;
 
-  return false
+
 }
 
 export default function WatchListModal({
-  isOpen,
-  onOpenChange,
-  onOpen,
-}: WatchlistModalProps) {
-  const [isMounted, setIsMounted] = React.useState(false)
-  const { user, openModalConvertUser, profile } = useUser()
-  const {
-    getWatchlists,
-    watchlists,
-    addWatchlist,
-    removeWatchlist,
-    updateWatchlist,
-    loading,
-  } = useWatchlist()
+                                           isOpen,
+                                           onOpenChange,
+                                       }: WatchlistModalProps) {
+    const [isMounted, setIsMounted] = React.useState(false)
+    const {user, openModalConvertUser, profile} = useUser()
+    const {
+        getWatchlists,
+        watchlists,
+        addWatchlist,
+        removeWatchlist,
+        updateWatchlist,
+        updateDefaultWatchlist,
+        loading,
+    } = useWatchlist()
 
-  const memoizedGetWatchlists = useCallback(() => {
-    if (isOpen) {
-      getWatchlists()
-      findSymbols('A')
-    }
-  }, [isOpen, getWatchlists])
+    const memoizedGetWatchlists = useCallback(() => {
+        if (isOpen) {
+            getWatchlists()
+        }
+    }, [isOpen, getWatchlists])
 
-  const {
-    getSymbols,
-    symbols,
-    addSymbol,
-    deleteSymbol,
-    error,
-    all_symbols,
-    findSymbols,
-    loading: loadingSymbols,
-    setError,
-  } = useTickerStore()
-  const [symbolName, setSymbolName] = React.useState<React.Key>('')
-  const [watchListName, setWatchListName] = React.useState<string>('')
-  const [isEditing, setIsEditing] = React.useState<number | null>(null)
-  const [errorWatchlist, setErrorWatchlist] = React.useState<string | null>(
-    null
-  )
-  const [selectedWatchlist, setSelectedWatchlist] =
-    React.useState<IWatchlist | null>(watchlists[0] ?? null)
-  const [symbolFind, setSymbol] = React.useState<string>('')
-  const upgradeModal = useDisclosure()
+    const {getSymbols, symbols, addSymbol, deleteSymbol, error} =
+        useTickerStore()
+    const [symbolName, setSymbolName] = React.useState<string>('')
+    const [watchListName, setWatchListName] = React.useState<string>('')
+    const [isEditing, setIsEditing] = React.useState<number | null>(null)
+    const [errorWatchlist, setErrorWatchlist] = React.useState<string | null>(
+        null
+    )
+    const [selectedWatchlist, setSelectedWatchlist] =
+        React.useState<IWatchlist | null>(watchlists[0] ?? null)
 
-  useEffect(() => {
-    memoizedGetWatchlists()
-  }, [])
+    useEffect(() => {
+        memoizedGetWatchlists()
+    }, [memoizedGetWatchlists])
 
-  const handleAddSymbol = async () => {
-    setError('')
-    if (!selectedWatchlist) return
-    if (symbols.find((symbol) => symbol.symbol === symbolName))
-      return setError('Symbol already added')
-    if (!symbolName) return
+    // const onAddWatchlist = (watchlist: string) => {
+    // }
 
-    // todo: should add validation if ticker can be added
+    const handleAddSymbol = async () => {
+        if (!selectedWatchlist) return
+        if (symbols.find((symbol) => symbol.symbol === symbolName)) return
+        if (!symbolName) return
 
-    await addSymbol(symbolName as string, selectedWatchlist.id)
-    setSymbolName('')
-    setSymbol('')
-  }
+        // todo: should add validation if ticker can be added
 
-  const handleAddWatchlist = async () => {
-    setErrorWatchlist(null)
-    if (user.is_anonymous) {
-      openModalConvertUser()
-      return
+        await addSymbol(symbolName, selectedWatchlist.id)
+        setSymbolName('')
     }
 
-    if (!watchListName) return
-    if (watchlists.find((wl) => wl.name === watchListName)) {
-      setErrorWatchlist('Watchlist already exists')
-      return
-    }
-    if (isLimited(profile?.membership!, watchlists.length)) {
-      setErrorWatchlist('Watchlist limit reached')
-      openModalConvertUser('to add more watchlists')
-      return
-    }
+    const handleAddWatchlist = async () => {
+        setErrorWatchlist(null)
+        if (user.is_anonymous) {
+            openModalConvertUser()
+            return
+        }
 
-    await addWatchlist(watchListName)
+        if (!watchListName) return
+        if (watchlists.find((wl) => wl.name === watchListName)) {
+            setErrorWatchlist('Watchlist already exists')
+            return
+        }
+        if (isLimited(profile?.membership!, watchlists.length)) {
+            setErrorWatchlist('Watchlist limit reached')
+            return
+        }
 
-    setWatchListName('')
-  }
+        await addWatchlist(watchListName)
 
-  //  function to remove symbol1 from watchlist
-  const handleRemoveStock = (id: number) => {
-    if (!selectedWatchlist) return
-    deleteSymbol(id, selectedWatchlist?.id)
-  }
-
-  const handleClickEdit = (watchlist_id: number, watchlist: string) => {
-    setIsEditing(watchlist_id)
-    setWatchListName(watchlist)
-  }
-
-  const handleEditWatchlist = async () => {
-    if (user.is_anonymous) {
-      openModalConvertUser()
-      return
+        setWatchListName('')
     }
 
-    if (!watchListName) return
-    if (watchlists.find((wl) => wl.name === watchListName)) return
-    if (isEditing) {
-      await updateWatchlist(isEditing, watchListName)
+    //  function to remove symbol1 from watchlist
+    const handleRemoveStock = (id: number) => {
+        if (!selectedWatchlist) return
+        deleteSymbol(id, selectedWatchlist?.id)
     }
 
-    setIsEditing(null)
-    setWatchListName('')
-    setSelectedWatchlist(null)
-  }
+    const handleClickEdit = (watchlist_id: number, watchlist: string) => {
+        setIsEditing(watchlist_id)
+        setWatchListName(watchlist)
+    }
 
-  const handleRemoveWatchlist = async (id: number) => {
-    await removeWatchlist(id)
-  }
+    const handleEditWatchlist = async () => {
+        if (user.is_anonymous) {
+            openModalConvertUser()
+            return
+        }
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+        if (!watchListName) return
+        if (watchlists.find((wl) => wl.name === watchListName)) return
+        if (isEditing) {
+            await updateWatchlist(isEditing, watchListName)
+        }
 
-  if (!isMounted) return null
+        setIsEditing(null)
+        setWatchListName('')
+        setSelectedWatchlist(null)
+    }
 
-  return (
-    <>
-      <Modal
-        isOpen={isOpen}
-        onOpenChange={() => {
-          setWatchListName('')
-          setIsEditing(null)
-          setSelectedWatchlist(null)
-          onOpenChange(false)
-          setErrorWatchlist(null)
-        }}
-        size="4xl"
-        scrollBehavior="inside"
-      >
-        <ModalContent>
-          {(onClose) => (
-            <ModalBody>
-              <div className="flex  items-start p-4 gap-3 h-[25rem]">
-                <div className="flex-1 flex flex-col gap-2">
-                  <h4 className="flex flex-col gap-1 text-2xl">
-                    My Watchlists
-                  </h4>
-                  <div className="flex gap-2 flex-wrap md:flex-nowrap justify-center">
-                    <Input
-                      onChange={(e) => setWatchListName(e.target.value)}
-                      value={watchListName}
-                      placeholder="Add New Watchlist"
-                      aria-label="watchlist-name"
-                    />
-                    <Button
-                      isDisabled={!watchListName || loading}
-                      isLoading={loading}
-                      onPress={
-                        isEditing !== null
-                          ? handleEditWatchlist
-                          : handleAddWatchlist
-                      }
-                    >
-                      {isEditing !== null ? 'Save' : 'Add'}
-                    </Button>
-                  </div>
-                  {errorWatchlist && (
-                    <p className="text-red-500 text-sm">{errorWatchlist}</p>
-                  )}
+    const handleRemoveWatchlist = async (id: number) => {
+        await removeWatchlist(id)
+    }
 
-                  <Divider />
-                  <div className="w-full h-full overflow-auto">
-                    {watchlists.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
-                      >
-                        <p
-                          className="bg-transparent w-full  text-xl cursor-pointer  "
-                          onClick={async () => {
-                            setSelectedWatchlist(item)
-                            await getSymbols(item.id)
-                          }}
-                        >
-                          {item.name}
-                        </p>
+    useEffect(() => {
+        setIsMounted(true)
+    }, [])
 
-                        <div className="flex flex-row ">
-                          <Button
-                            className="bg-transparent"
-                            isIconOnly
-                            onPress={() => handleClickEdit(item.id, item.name)}
-                          >
-                            <InlineIcon
-                              icon="iconamoon:edit-thin"
-                              fontSize={20}
-                            />
-                          </Button>
-                          <Divider
-                            orientation="vertical"
-                            className="border-1 bg-white"
-                          />
-                          <Button
-                            className="bg-transparent"
-                            isIconOnly
-                            onPress={() => handleRemoveWatchlist(item.id)}
-                          >
-                            <InlineIcon
-                              icon="iconamoon:trash-light"
-                              fontSize={20}
-                            />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {selectedWatchlist && (
-                  <>
-                    <Divider orientation="vertical" />
-                    <div className="flex-1 flex flex-col gap-2">
-                      <h4 className="flex flex-col gap-1 text-2xl">
-                        {selectedWatchlist.name}
-                      </h4>
-                      <form
-                        onSubmit={(e) => {
-                          e.preventDefault()
-                          handleAddSymbol()
-                        }}
-                      >
-                        <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
-                          <Autocomplete
-                            aria-label="symbol"
-                            variant="bordered"
-                            className="max-w-xs"
-                            defaultItems={all_symbols}
-                            isLoading={loadingSymbols}
-                            selectedKey={symbolName as string}
-                            // inputValue={symbol}
-                            onChange={(symbol) => console.log(symbol)}
-                            onSelectionChange={(key) => {
-                              setSymbolName(key as string)
-                            }}
-                            onInputChange={(val) => {
-                              setSymbol(val)
-                              findSymbols(val)
-                            }}
-                            allowsCustomValue
-                          >
-                            {(item) => (
-                              <AutocompleteItem
-                                key={item.symbol}
-                                textValue={item.symbol}
-                              >
-                                {item.symbol} : {item.name}
-                              </AutocompleteItem>
-                            )}
-                          </Autocomplete>
+    if (!isMounted) return null
 
-                          <Button isDisabled={!symbolName} type="submit">
-                            Add
-                          </Button>
-                        </div>
-                      </form>
-                      {error && <p className="text-red-500 text-sm">{error}</p>}
+    return (
+        <>
+            <Modal
+                isOpen={isOpen}
+                onOpenChange={() => {
+                    setWatchListName('')
+                    setIsEditing(null)
+                    setSelectedWatchlist(null)
+                    onOpenChange(false)
+                    setErrorWatchlist(null)
+                }}
+                backdrop='blur'
+                isDismissable={false}
+                size="4xl"
+                scrollBehavior="inside"
+            >
+                <ModalContent>
+                        <ModalBody>
+                            <div className="flex  items-start p-4 gap-3 h-[25rem]">
+                                <div className="flex-1 flex flex-col gap-2">
+                                    <h4 className="flex flex-col gap-1 text-2xl">
+                                        My Watchlists
+                                    </h4>
+                                    <div className="flex gap-2 flex-wrap md:flex-nowrap justify-center">
+                                        <Input
+                                            onChange={(e) => setWatchListName(e.target.value)}
+                                            value={watchListName}
+                                            isDisabled={loading}
+                                            placeholder="Add New Watchlist"
+                                            aria-label="watchlist-name"
+                                        />
+                                        <Button
+                                            isDisabled={!watchListName || loading}
+                                            isLoading={loading}
+                                            onPress={
+                                                isEditing !== null
+                                                    ? handleEditWatchlist
+                                                    : handleAddWatchlist
+                                            }
+                                        >
+                                            {isEditing !== null ? 'Save' : 'Add'}
+                                        </Button>
+                                    </div>
+                                    {errorWatchlist && (
+                                        <p className="text-red-500 text-sm">{errorWatchlist}</p>
+                                    )}
 
-                      <Divider />
+                                    <Divider/>
+                                    <div className="w-full h-full overflow-auto">
+                                        {watchlists.map((item, index) => (
+                                            <div
+                                                key={index+1}
+                                                className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
+                                            >
+                                                <p
+                                                    className="bg-transparent w-full  text-xl cursor-pointer  "
+                                                    onClick={async () => {
+                                                        setSelectedWatchlist(item)
+                                                        await getSymbols(item.id)
+                                                    }}
+                                                >
+                                                    {item.name} {item.is_default ? <Chip
+                                                    endContent={<InlineIcon
+                                                        icon="material-symbols-light:check"
+                                                        fontSize={20}
+                                                    />}
+                                                    className='ml-1'
+                                                    variant="flat"
+                                                    size="sm"
+                                                    color="primary"
+                                                >
+                                                    Default
+                                                </Chip> : null}
+                                                </p>
 
-                      {symbols.map((symbol1) => (
-                        <div
-                          key={symbol1.id}
-                          className="flex justify-between items-center"
-                        >
-                          <p>{symbol1.symbol}</p>
-                          <Button
-                            className="bg-transparent"
-                            isIconOnly
-                            onPress={() => handleRemoveStock(symbol1.id)}
-                          >
-                            <InlineIcon icon="mdi:close" fontSize={20} />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </ModalBody>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
-  )
+                                                <div className="flex flex-row ">
+                                                    {
+                                                        !item.is_default ?
+                                                            <Tooltip
+                                                                key={`primary`} color={`primary`}
+                                                                content={`Set as Default`}>
+                                                                <Button
+                                                                    className="bg-transparent"
+                                                                    isIconOnly
+                                                                    isDisabled={loading}
+                                                                    onPress={() => updateDefaultWatchlist(item.id, true)}
+                                                                >
+                                                                    {
+                                                                        loading ? null :
+                                                                            <InlineIcon
+                                                                                icon="material-symbols-light:check"
+                                                                                fontSize={20}
+                                                                                color="blue"
+                                                                            />
+                                                                    }
+                                                                </Button>
+                                                            </Tooltip> : null
+                                                    }
+
+                                                    <Tooltip
+                                                        key={`default`} color={`default`}
+                                                        content={`Edit`}>
+                                                        <Button
+                                                            className="bg-transparent"
+                                                            isIconOnly
+                                                            isDisabled={loading}
+                                                            onPress={() => handleClickEdit(item.id, item.name)}
+                                                        >
+                                                            {
+                                                                loading ? null :
+                                                                    <InlineIcon
+                                                                        icon="iconamoon:edit-thin"
+                                                                        fontSize={20}
+                                                                        color="yellow"
+                                                                    />
+                                                            }
+                                                        </Button>
+                                                    </Tooltip>
+                                                    <Divider
+                                                        orientation="vertical"
+                                                        className="border-1 bg-white"
+                                                    />
+                                                    <Tooltip
+                                                        key={`danger`} color={`danger`}
+                                                        content={`Delete`}>
+                                                        <Button
+                                                            className="bg-transparent"
+                                                            isIconOnly
+                                                            isDisabled={loading}
+                                                            onPress={() => handleRemoveWatchlist(item.id)}
+                                                        >
+                                                            {
+                                                                loading ? <CircularProgress size="sm"
+                                                                                            aria-label="Loading..."/> :
+                                                                    <InlineIcon
+                                                                        icon="iconamoon:trash-light"
+                                                                        fontSize={20}
+                                                                        color="red"
+                                                                    />
+                                                            }
+                                                        </Button>
+                                                    </Tooltip>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                {selectedWatchlist && (
+                                    <>
+                                        <Divider orientation="vertical"/>
+                                        <div className="flex-1 flex flex-col gap-2">
+                                            <h4 className="flex flex-col gap-1 text-2xl">
+                                                {selectedWatchlist.name}
+                                            </h4>
+                                            <div className="flex gap-2 mt-auto flex-wrap md:flex-nowrap justify-center">
+                                                <Input
+                                                    onChange={(e) =>
+                                                        setSymbolName(e.target.value.toUpperCase())
+                                                    }
+                                                    value={symbolName}
+                                                    placeholder="Add New Ticker"
+                                                    aria-label="Stock Name"
+                                                    maxLength={10}
+                                                />
+                                                <Button
+                                                    isDisabled={!symbolName}
+                                                    onPress={handleAddSymbol}
+                                                >
+                                                    Add
+                                                </Button>
+                                            </div>
+                                            {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                                            <Divider/>
+
+                                            {symbols.map((symbol1) => (
+                                                <div
+                                                    key={symbol1.id}
+                                                    className="flex justify-between items-center"
+                                                >
+                                                    <p>{symbol1.symbol}</p>
+                                                    <Button
+                                                        className="bg-transparent"
+                                                        isIconOnly
+                                                        onPress={() => handleRemoveStock(symbol1.id)}
+                                                    >
+                                                        <InlineIcon icon="mdi:close" fontSize={20}/>
+                                                    </Button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </ModalBody>
+                </ModalContent>
+            </Modal>
+        </>
+    )
 }
