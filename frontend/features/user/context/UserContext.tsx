@@ -5,6 +5,7 @@ import { useDisclosure } from '@nextui-org/react'
 import { UpgradeUserModal } from '../components/UpgradeUserModal'
 import { Profile } from '../types/profile'
 import { createClient } from '@/utils/supabase/client'
+import { getCookie, setCookie } from 'cookies-next'
 
 interface UserContextType {
   user: User
@@ -15,6 +16,22 @@ interface UserContextType {
 }
 
 export const UserContext = createContext<UserContextType | undefined>(undefined)
+
+const setRefreshLimit = (profile: Profile) => {
+  const existCookie = getCookie(profile.id + '_refresh_limit')
+  if (
+    !existCookie ||
+    JSON.parse(existCookie).updated_at < new Date().getDate()
+  ) {
+    setCookie(
+      profile.id + '_refresh_limit',
+      JSON.stringify({
+        updated_at: new Date().getDate(),
+        refresh_limit: profile.refresh_limit,
+      })
+    )
+  }
+}
 
 export function UserProvider({
   children,
@@ -33,6 +50,7 @@ export function UserProvider({
       .eq('id', userId)
 
     if (Array.isArray(data) && data.length) {
+      setRefreshLimit(data[0])
       setCtx((prev) => ({
         ...prev,
         isProfileLoaded: true,
