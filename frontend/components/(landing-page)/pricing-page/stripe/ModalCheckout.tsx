@@ -140,10 +140,13 @@ export default function ModalCheckout({
         })
         .eq('id', user?.data.user?.id)
 
-      setCookie(user?.data.user?.id + '_refresh_limit', {
-        updated_at: new Date().getDate(),
-        refresh_limit: generateDailyRefreshCount(tier),
-      })
+      setCookie(
+        user?.data.user?.id + '_refresh_limit',
+        JSON.stringify({
+          updated_at: new Date().getDate(),
+          refresh_limit: generateDailyRefreshCount(tier),
+        })
+      )
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')
     } catch (err) {
