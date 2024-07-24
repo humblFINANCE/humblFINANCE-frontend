@@ -34,12 +34,26 @@ import { redirect, useRouter } from 'next/navigation'
 import { Router } from 'next/router'
 import { createClient } from '@/utils/supabase/client'
 import { useUser } from '@/features/user/hooks/use-user'
+import { setCookie } from 'cookies-next'
 
 type ModalCheckoutProps = {
   isOpen: boolean
   onOpenChange: () => void
   tier: Tier
   price: number
+}
+
+function generateDailyRefreshCount(tier: Tier) {
+  switch (tier.title) {
+    case 'peon':
+      return 1
+    case 'premium':
+      return 3
+    case 'power':
+      return 5
+    case 'permanent':
+      return 999
+  }
 }
 
 export default function ModalCheckout({
@@ -122,8 +136,14 @@ export default function ModalCheckout({
         .from('profiles')
         .update({
           membership,
+          refresh_limit: generateDailyRefreshCount(tier),
         })
         .eq('id', user?.data.user?.id)
+
+      setCookie(user?.data.user?.id + '_refresh_limit', {
+        updated_at: new Date().getDate(),
+        refresh_limit: generateDailyRefreshCount(tier),
+      })
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')
     } catch (err) {
