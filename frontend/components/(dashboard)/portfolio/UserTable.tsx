@@ -22,7 +22,7 @@ import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 import { useUser } from '@/features/user/hooks/use-user'
-import { setCookie } from 'cookies-next'
+import { getCookie, setCookie } from 'cookies-next'
 import { toast, ToastContainer } from 'react-toastify'
 
 const colDefs: agGrid.ColDef[] = [
@@ -54,15 +54,11 @@ const defaultColDef: agGrid.ColDef = {
 
 const UserTable = () => {
   const { theme } = useTheme()
-  const { profile, refetchProfile, openModalConvertUser } = useUser()
+  const { profile, user, refetchProfile, openModalConvertUser } = useUser()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { getPortfolio, portfolio, loading } = usePortfolio()
-  const {
-    watchlists,
-    getWatchlists,
-    refreshWatchlist,
-    loading: loadingWatclist,
-  } = useWatchlist()
+  const [shouldRefresh, setShouldRefresh] = useState(false)
+  const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
   const [value, setValue] = useState<string>(
     () => localStorage.getItem('selectedWatchlistId') || ''
   )
@@ -77,6 +73,7 @@ const UserTable = () => {
       const symbols = watchlists.find((watchlist) => watchlist.id === +value)
       localStorage.setItem('selectedWatchlistId', value)
 
+      if (!params.membership) return
       if (!symbols) return
       if (symbols) {
         params.symbols = symbols.watchlist_symbols
@@ -85,31 +82,46 @@ const UserTable = () => {
         params.membership = profile?.membership!
       }
 
-      await getPortfolio(params)
+      await getPortfolio(params, shouldRefresh)
     }
-  }, [value, watchlists])
+  }, [value, watchlists, shouldRefresh, profile?.membership])
 
   const handleRefreshWatchlist = useCallback(async () => {
-    let res: any = await refreshWatchlist(profile)
-
-    if (res === 'REFRESH_SUCCESS') {
-      toast.success('Watchlist Refreshed!')
-    } else if (res === '0_LIMIT') {
-      toast.warning(
-        'You have used all your free data for the day, please come back tommorow or upgrade your account'
-      )
-      openModalConvertUser()
-    } else if (res === 'ANON') {
+    if (user.is_anonymous) {
       toast.warning(
         "You're account membership is Anonymous please upgrade your account"
       )
       openModalConvertUser()
+      return
     }
 
-    // console.log("RETURN: ", res)
+    const limitCookie = getCookie(profile?.id! + '_refresh_limit')
+    if (!limitCookie) {
+      toast.error('Something went wrong please refresh the page and try again')
+      return
+    }
+    const limit = JSON.parse(limitCookie)
+    console.log(limit)
 
-    refetchProfile(profile?.id)
-  }, [profile, watchlists])
+    if (limit.refresh_limit === 0) {
+      toast.warning(
+        'You have used all your free data for the day, please come back tommorow or upgrade your account'
+      )
+      openModalConvertUser()
+      return
+    }
+
+    setShouldRefresh(() => true)
+    console.log(shouldRefresh)
+
+    await getData()
+
+    setShouldRefresh(() => false)
+    setCookie(
+      profile?.id! + '_refresh_limit',
+      JSON.stringify({ refresh_limit: limit.refresh_limit - 1 })
+    )
+  }, [portfolio, watchlists])
 
   useEffect(() => {
     getWatchlists()

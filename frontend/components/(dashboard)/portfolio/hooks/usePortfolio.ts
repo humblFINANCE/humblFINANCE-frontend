@@ -6,30 +6,29 @@ import {
   IPortfolioState,
 } from '@/components/(dashboard)/portfolio/types'
 import { ENDPOINTS } from '@/components/(dashboard)/portfolio/constants'
-
+import { createClient } from '@/utils/supabase/client'
 const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
 export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
-  (set) => ({
+  (set, get) => ({
     portfolio: [],
     loading: false,
-    getPortfolio: async (params: IPortfolioParams) => {
+    getPortfolio: async (params, refresh) => {
       try {
-        const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
         set(() => ({ loading: true }))
 
-        for (const item in params) {
-          if (!params[item]) continue
-          url.searchParams.set(item, params[item])
-        }
-
-        const response = await fetch(url.toString(), {
-          next: { tags: ['portfolio'] },
-        })
+        const response = await fetch(
+          '/api/user-table?' + new URLSearchParams(params).toString(),
+          {
+            method: 'GET',
+            next: { tags: ['portfolio'] },
+            cache: refresh ? 'no-store' : 'force-cache',
+          }
+        )
 
         const data = await response.json()
 
-        set(() => ({ portfolio: data, loading: false }))
+        set(() => ({ portfolio: data.data, loading: false }))
       } catch (err) {
         console.log(err)
         set(() => ({ loading: false }))
