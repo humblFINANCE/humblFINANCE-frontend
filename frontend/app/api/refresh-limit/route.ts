@@ -25,17 +25,14 @@ export async function GET(request: NextRequest) {
   const existedRefreshLimit = await kv.get<IRefreshLimit>(
     userId + '_refresh_limit'
   )
-  if (
-    !existedRefreshLimit ||
-    existedRefreshLimit.updated_at < new Date().getDate()
-  ) {
+  if (!existedRefreshLimit || existedRefreshLimit.updated_at < Date.now()) {
     await kv.set(userId + '_refresh_limit', {
       refresh_limit: data.data[0].refresh_limit,
-      updated_at: new Date().getDate(),
+      updated_at: Date.now(),
     })
     return NextResponse.json({
       refresh_limit: data.data[0].refresh_limit,
-      updated_at: new Date().getDate(),
+      updated_at: Date.now(),
     })
   }
 
@@ -59,7 +56,7 @@ export async function PATCH(request: NextRequest) {
     userId + '_refresh_limit',
     JSON.stringify({
       refresh_limit: existedCookie.refresh_limit - 1,
-      updated_at: new Date().getDate(),
+      updated_at: Date.now(),
     })
   )
   return NextResponse.json({ message: 'success' })
