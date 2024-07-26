@@ -24,6 +24,7 @@ import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 import { useUser } from '@/features/user/hooks/use-user'
 import { getCookie, setCookie } from 'cookies-next'
 import { toast, ToastContainer } from 'react-toastify'
+import { useRefreshLimit } from './hooks/useRefreshLimit'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -62,6 +63,7 @@ const UserTable = () => {
   const [value, setValue] = useState<string>(
     () => localStorage.getItem('selectedWatchlistId') || ''
   )
+  const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
   const getData = useCallback(async () => {
     const params: IPortfolioParams = {
@@ -95,15 +97,15 @@ const UserTable = () => {
       return
     }
 
-    const limitCookie = getCookie(profile?.id! + '_refresh_limit')
+    const limitCookie = await getRefreshLimit(user?.id)
+    console.log(limitCookie)
+
     if (!limitCookie) {
       toast.error('Something went wrong please refresh the page and try again')
       return
     }
-    const limit = JSON.parse(limitCookie)
-    console.log(limit)
 
-    if (limit.refresh_limit === 0) {
+    if (limitCookie.refresh_limit === 0) {
       toast.warning(
         'You have used all your free data for the day, please come back tommorow or upgrade your account'
       )
@@ -115,12 +117,8 @@ const UserTable = () => {
     console.log(shouldRefresh)
 
     await getData()
-
+    await decrementRefreshLimit(profile?.id!)
     setShouldRefresh(() => false)
-    setCookie(
-      profile?.id! + '_refresh_limit',
-      JSON.stringify({ refresh_limit: limit.refresh_limit - 1 })
-    )
   }, [portfolio, watchlists])
 
   useEffect(() => {
