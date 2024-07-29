@@ -1,10 +1,11 @@
 'use client'
-import { createContext, useEffect, useState } from 'react'
+import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 import { User } from '@/features/user/types'
+import { createClient } from '@/utils/supabase/client'
 import { useDisclosure } from '@nextui-org/react'
+import { createContext, useEffect, useState } from 'react'
 import { UpgradeUserModal } from '../components/UpgradeUserModal'
 import { Profile } from '../types/profile'
-import { createClient } from '@/utils/supabase/client'
 
 interface UserContextType {
   user: User
@@ -23,6 +24,7 @@ export function UserProvider({
   children: React.ReactNode
   user: User
 }) {
+  const { getRefreshLimit } = useRefreshLimit()
   const upgradeUserModalDisclosure = useDisclosure()
   const [info, setInfo] = useState<string>('to access this feature')
   const fetchProfile = async (userId: string) => {
@@ -33,6 +35,7 @@ export function UserProvider({
       .eq('id', userId)
 
     if (Array.isArray(data) && data.length) {
+      getRefreshLimit(data[0].id)
       setCtx((prev) => ({
         ...prev,
         isProfileLoaded: true,
@@ -57,7 +60,7 @@ export function UserProvider({
 
   return (
     <UserContext.Provider value={ctx}>
-      <UpgradeUserModal {...upgradeUserModalDisclosure} text={info} />
+      <UpgradeUserModal {...upgradeUserModalDisclosure} msg={info} />
       {children}
     </UserContext.Provider>
   )

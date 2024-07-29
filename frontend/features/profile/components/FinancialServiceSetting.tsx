@@ -42,8 +42,6 @@ export function FinancialServiceSetting(props: CardProps) {
     const {profile} = useUser()
     const {theme} = useTheme()
 
-    console.log(profile)
-
     return (
         <>
             <Card className="w-full max-w-lg p-2" {...props}>
