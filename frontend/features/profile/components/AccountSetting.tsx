@@ -27,7 +27,7 @@ import {useUpdateProfile} from '../hooks/use-update-profile'
 import {SubmitButton} from '@/components/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
 import UploadAvatarModal from "@/features/profile/components/modal/UploadAvatarModal";
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import {useTheme} from "next-themes";
 
 export function AccountSetting(props: CardProps) {
@@ -284,18 +284,6 @@ export function AccountSetting(props: CardProps) {
 
             {/*  Modals Components  */}
             <UploadAvatarModal isOpen={avatarModal} onOpenChange={setAvatarModal}/>
-
-
-
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnHover
-                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }

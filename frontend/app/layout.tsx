@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
+import ToastProvider from '@/components/ToastProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -41,7 +42,9 @@ export default function RootLayout({
         )}
       >
         <Providers attribute="class" defaultTheme="dark">
-          <div className="relative flex flex-col h-screen">{children}</div>
+          <ToastProvider>
+            <div className="relative flex flex-col h-screen">{children}</div>
+          </ToastProvider>
         </Providers>
       </body>
     </html>
