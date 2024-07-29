@@ -1,3 +1,5 @@
+'use client'
+
 import { signOut } from '@/app/(landing-page)/logout/action'
 import { Icon } from '@iconify/react'
 import {
@@ -18,6 +20,8 @@ export default function LogoutModalButton({
   const [selectedOption, setSelectedOption] = React.useState<any>(
     new Set(['global'])
   )
+
+  const [loading, setLoading] = React.useState(false)
 
   const descriptionsMap = {
     global: 'Global logs out from all of your sessions.',
@@ -40,14 +44,16 @@ export default function LogoutModalButton({
     setSelectedOption(selectedKeys)
   }
 
+  const handleSignout = async () => {
+    setLoading(true)
+    await signOut(selectedOptionValue)
+    setLoading(false)
+    onClose()
+  }
+
   return (
     <ButtonGroup variant="ghost" color="success">
-      <Button
-        onPress={() => {
-          signOut(selectedOptionValue)
-          onClose()
-        }}
-      >
+      <Button isLoading={loading} onPress={handleSignout}>
         {labelsMap[selectedOptionValue]}
       </Button>
       <Dropdown placement="bottom-end">
