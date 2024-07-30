@@ -176,7 +176,7 @@ export default function DashboardSidebar({
                     </Tooltip>
                 </div>
             </div>
-            <div className="w-full flex-1 flex-col p-4">
+            <div className="w-full flex-1 flex-col p-4 overflow-hidden">
                 <header
                     className="flex justify-between items-center gap-3 rounded-medium border-small border-divider p-4">
                     <div className="flex items-center gap-x-4 flex-row">
@@ -201,7 +201,7 @@ export default function DashboardSidebar({
                 </header>
                 <main className="mt-4 h-[90%] w-full overflow-visible">
                     <div
-                        className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-scroll p-4">
+                        className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-y-scroll p-4">
                         {children}
                     </div>
                 </main>
