@@ -10,7 +10,7 @@ import {SwitchCell} from '@/components/shared/SwitchCell'
 import {cn} from '@/utils/nextui/cn'
 import {useUser} from "@/features/user/hooks/use-user";
 import {DeleteAccountModal} from "@/features/profile/components/modal/DeleteAccountModal";
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import {useTheme} from "next-themes";
 import RenderIf from "@/components/RenderIf";
 
@@ -165,16 +165,6 @@ export function SecuritySetting(props: CardProps) {
 
             {/* Phone Modal */}
             <DeleteAccountModal toast={toast} deleteAction={deleteAccount} setDeleteAction={setDeleteAccount}/>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnHover
-                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }

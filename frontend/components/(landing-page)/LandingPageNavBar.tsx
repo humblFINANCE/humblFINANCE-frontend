@@ -1,6 +1,6 @@
 'use client'
 
-import {AcmeIcon, HumblFinanceIcon} from '@/components/icons/Brands'
+import {HumblFinanceIcon} from '@/components/icons/Brands'
 import {cn} from '@/utils/nextui/cn'
 import type {NavbarProps} from '@nextui-org/react'
 import {usePathname} from 'next/navigation'
@@ -21,11 +21,26 @@ import {LoginModal} from '@/features/auth/components/LoginModal'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const menuItems = [
-    'Home',
-    'Features',
-    'Investing Framework',
-    'Pricing',
-    'About Us',
+    {
+        name: 'Home',
+        path: '/',
+    },
+    {
+        name: 'Features',
+        path: '/features',
+    },
+    {
+        name: 'Investing Framework',
+        path: '/investing-framework',
+    },
+    {
+        name: 'Pricing',
+        path: '/pricing',
+    },
+    {
+        name: 'About Us',
+        path: '/about-us',
+    }
 ]
 
 export default function Component(props: NavbarProps) {
@@ -146,8 +161,18 @@ export default function Component(props: NavbarProps) {
             >
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link className="w-full text-default-500" href="#" size="md">
-                            {item}
+                        <Link className="w-full" href={item.path} size="md" onPress={() => setIsMenuOpen(!isMenuOpen)}>
+                            {
+                                checkActive(item.path) ?
+                                    <span
+                                        className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+         {item.name}
+        </span> :
+                                    <span
+                                        className="text-default-500">
+         {item.name}
+        </span>
+                            }
                         </Link>
                     </NavbarMenuItem>
                 ))}
