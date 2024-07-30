@@ -1,3 +1,5 @@
+import { Profile } from '@/features/user/types/profile'
+
 export interface IDataWatchList extends String<string, any> {
   symbol: string
   last_close: number
@@ -39,7 +41,7 @@ export interface IPortfolioState {
 }
 
 export interface IPortfolioAction {
-  getPortfolio: (params: IPortfolioParams) => Promise<void>
+  getPortfolio: (params: IPortfolioParams, refresh?: boolean) => Promise<void>
 }
 
 // * WATCHLIST INTERFACE
@@ -55,7 +57,6 @@ export interface IWatchlistAction {
   removeWatchlist: (watchlistId: number) => Promise<void>
   updateWatchlist: (id: number, name: string) => Promise<void>
   updateDefaultWatchlist: (id: number, is_default: boolean) => Promise<void>
-  refreshWatchlist: (profile: any) => Promise<void>
 }
 
 export interface IWatchlistSymbol {

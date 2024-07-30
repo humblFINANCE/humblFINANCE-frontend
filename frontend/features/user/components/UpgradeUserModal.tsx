@@ -14,8 +14,22 @@ import { useRouter } from 'next/navigation'
 
 interface UpgradeUserModalProps extends UseDisclosureReturn {}
 
+const tiers = ['peon', 'premium', 'power', 'permanent', 'admin']
+function getNextTier(currentTier: string) {
+  console.log(currentTier)
+
+  const currentIndex = tiers.indexOf(currentTier)
+
+  if (currentIndex === -1) {
+    throw new Error('Invalid membership tier')
+  }
+
+  const nextIndex = currentIndex + 1
+  return nextIndex < tiers.length ? tiers[nextIndex] : null
+}
+
 export function UpgradeUserModal(props: UpgradeUserModalProps) {
-  const { user } = useUser()
+  const { user, profile } = useUser()
   const router = useRouter()
   const loginModalDisclosure = useDisclosure()
 
@@ -25,6 +39,12 @@ export function UpgradeUserModal(props: UpgradeUserModalProps) {
     }
 
     if (user.role === 'authenticated' && !user.is_anonymous) {
+      if (profile?.membership) {
+        const nextTier = getNextTier(profile.membership)
+
+        return 'humbl' + nextTier?.toUpperCase()
+      }
+
       // return user.subscription_tier + 1 (one tier higher than they are)
       return 'humblPEON/humblPREMIUM'
     }
@@ -36,7 +56,7 @@ export function UpgradeUserModal(props: UpgradeUserModalProps) {
       case 'HumblPEON':
         loginModalDisclosure.onOpenChange()
         break
-      case 'humblPEON/humblPREMIUM':
+      default:
         router.push('/pricing')
         break
     }
