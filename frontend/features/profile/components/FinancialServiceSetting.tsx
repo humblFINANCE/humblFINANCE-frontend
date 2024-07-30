@@ -15,7 +15,7 @@ import {Icon} from '@iconify/react'
 
 import {cn} from '@/utils/nextui/cn'
 import {useUser} from '@/features/user/hooks/use-user'
-import {toast, ToastContainer} from 'react-toastify'
+import {toast} from 'react-toastify'
 import {OpenBBTokenModal} from '@/features/profile/components/modal/OpenBBTokenModal'
 import {useTheme} from 'next-themes'
 
@@ -41,8 +41,6 @@ export function FinancialServiceSetting(props: CardProps) {
     const [openBB, setOpenBB] = React.useState(false)
     const {profile} = useUser()
     const {theme} = useTheme()
-
-    console.log(profile)
 
     return (
         <>
@@ -188,17 +186,6 @@ export function FinancialServiceSetting(props: CardProps) {
                 toast={toast}
                 openBBAction={openBB}
                 setOpenBBAction={setOpenBB}
-            />
-
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnHover
-                theme={theme === 'dark' ? 'dark' : 'light'}
             />
         </>
     )
