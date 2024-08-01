@@ -137,7 +137,6 @@ const UserTable = () => {
             ?.filter((id: any) => id.is_default === true)[0]
             ?.id?.toString()
 
-        console.log(savedValue)
         await getData()
         setValue(savedValue)
       }
