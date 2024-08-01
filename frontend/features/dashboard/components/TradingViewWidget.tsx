@@ -10,8 +10,8 @@ function TradingViewWidget() {
         script.innerHTML = JSON.stringify({
             symbols: [
                 ["Apple", "AAPL|1D"],
-                ["Google", "GOOGL|1D"],
-                ["Microsoft", "MSFT|1D"]
+                ["Nvidia", "NVDA|1D"],
+                ["Tesla", "TSLA|1D"]
             ],
             chartOnly: false,
             width: "100%",

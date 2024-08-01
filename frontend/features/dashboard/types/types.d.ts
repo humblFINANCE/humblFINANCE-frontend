@@ -32,9 +32,8 @@ export interface ITradingView {
   top_price: number
 }
 
-export interface IPortfolioParams extends Record<string, string> {
-  symbols?: string
-  membership?: string
+export interface ITradingViewParams extends Record<string, string> {
+  chart?: string
 }
 
 export interface IPortfolioState {
@@ -44,8 +43,7 @@ export interface IPortfolioState {
 }
 
 export interface IPortfolioAction {
-  getPortfolio: (params: IPortfolioParams) => Promise<void>
-  getTradingSPX: (params?: IPortfolioParams) => Promise<void>
+  getTradingSPX: (params?: any) => Promise<void>
 }
 
 // * WATCHLIST INTERFACE

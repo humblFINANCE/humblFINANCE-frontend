@@ -1,16 +1,13 @@
 'use client'
 
 import {cn} from '@/utils/nextui/cn'
-import {
-    useDisclosure,
-} from '@nextui-org/react'
 import * as agGrid from 'ag-grid-community'
 import {AgGridReact} from 'ag-grid-react'
 import {useTheme} from 'next-themes'
 import React, {useEffect, useState, useCallback} from 'react'
 import {useTradingViewSPX} from '@/features/dashboard/hooks/useTradingViewSPX'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
-import {IPortfolioParams} from '@/components/(dashboard)/portfolio/types'
+import {ITradingViewParams} from '@/features/dashboard/types/types'
 import {useUser} from '@/features/user/hooks/use-user'
 import {setCookie} from "cookies-next";
 import {ToastContainer} from "react-toastify";
@@ -41,33 +38,24 @@ const defaultColDef: agGrid.ColDef = {
 const TableDashboard = () => {
     const {theme} = useTheme()
     const {profile} = useUser()
-    const {getPortfolio, portfolio} = useTradingViewSPX()
+    const {getTradingSPX, portfolio} = useTradingViewSPX()
     const {watchlists, getWatchlists} = useWatchlist()
     const [value, setValue] = useState<string>(
         () => localStorage.getItem('selectedWatchlistId') || ''
     )
 
     const getData = useCallback(async () => {
-        const params: IPortfolioParams = {
-            symbols: '',
-            membership: profile?.membership!,
+        const params: ITradingViewParams = {
+            chart: 'True',
         }
 
         if (value === '') {
-            await getPortfolio(params)
+            await getTradingSPX(params)
         }
 
         if (value) {
-            const symbols = watchlists.find((watchlist) => watchlist.id === +value)
-
-            if (symbols) {
-                params.symbols = symbols.watchlist_symbols
-                    .map((ticker) => ticker.symbol)
-                    .join(',')
-                params.membership = profile?.membership!
-            }
-
-            await getPortfolio(params)
+            params.chart = 'True'
+            await getTradingSPX(params)
         }
     }, [value, watchlists])
 
