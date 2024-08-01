@@ -52,8 +52,6 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'Missing user data' }, { status: 400 })
   }
 
-  console.log(existedCookie)
-
   await kv.set(
     userId + '_refresh_limit',
     JSON.stringify({

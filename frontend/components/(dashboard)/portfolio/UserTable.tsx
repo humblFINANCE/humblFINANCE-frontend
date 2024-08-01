@@ -76,6 +76,7 @@ const UserTable = () => {
       if (!params.membership) return
       if (!symbols) return
       if (symbols) {
+        if (symbols.watchlist_symbols.length === 0) return
         params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.symbol)
           .join(',')
@@ -128,7 +129,7 @@ const UserTable = () => {
           ?.filter((id: any) => id.is_default === true)[0]
           ?.id?.toString()
       )
-      console.log(watchlists)
+      console.log(dataWatchlist)
 
       if (dataWatchlist) {
         let savedValue =
@@ -137,7 +138,6 @@ const UserTable = () => {
             ?.filter((id: any) => id.is_default === true)[0]
             ?.id?.toString()
 
-        await getData()
         setValue(savedValue)
       }
     }
