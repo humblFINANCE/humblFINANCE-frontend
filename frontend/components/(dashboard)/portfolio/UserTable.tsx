@@ -23,7 +23,7 @@ import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 import { useUser } from '@/features/user/hooks/use-user'
 import { getCookie, setCookie } from 'cookies-next'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useRefreshLimit } from './hooks/useRefreshLimit'
 
 const colDefs: agGrid.ColDef[] = [
@@ -221,17 +221,6 @@ const UserTable = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-        theme={theme === 'dark' ? 'dark' : 'light'}
-      />
     </div>
   )
 }

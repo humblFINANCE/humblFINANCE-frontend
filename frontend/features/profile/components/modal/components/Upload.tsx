@@ -3,7 +3,7 @@
 import React from 'react';
 import {Button, Card, CardBody, Image, Progress} from "@nextui-org/react";
 import ImageUploading, {ImageListType} from "react-images-uploading";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import {useUser} from "@/features/user/hooks/use-user";
 import {useUpdateAvatar} from "@/features/profile/hooks/use-update-avatar";
 import {useTheme} from "next-themes";
@@ -124,16 +124,6 @@ export default function Upload(props?: any) {
                     </div>
                 )}
             </ImageUploading>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                rtl={false}
-                draggable
-                pauseOnHover
-                theme={theme === "dark" ? "dark" : "light"}/>
         </>
     )
 }

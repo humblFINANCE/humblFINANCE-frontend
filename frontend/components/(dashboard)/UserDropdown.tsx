@@ -7,7 +7,7 @@ import {
   DropdownTrigger,
 } from '@nextui-org/react'
 import AuthTheme from '@/components/ThemeSwitcher/AuthTheme'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast, UpdateOptions } from 'react-toastify'
 import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile'
 import { useTheme } from 'next-themes'
 import React, { useCallback, useEffect } from 'react'
@@ -24,15 +24,28 @@ export function UserDropdown({
   const { updateProfile } = useUpdateProfile()
 
   const handleDefaultTheme = async (val: string) => {
+    const toastId = toast.loading('Updating Default Theme...')
+
     let res: any = await updateProfile(user.id, { default_theme: val })
 
-    if (res?.id) {
-      refetchProfile(profile?.id) // fetch new profile data
-      setTheme(profile?.default_theme)
-      // toast.success(`Default Theme Changed to ${theme === 'light' ? 'Light' : 'Dark'}`)
-    } else {
-      return
+    const toastOptions: UpdateOptions = {
+      isLoading: false,
+      autoClose: 3000,
+      pauseOnHover: false,
+      theme: val,
     }
+
+    if (res?.id) {
+      await refetchProfile(profile?.id) // fetch new profile data
+      setTheme(profile?.default_theme)
+      toastOptions.render = `Default Theme Changed to ${val.charAt(0).toUpperCase() + val.slice(1)}`
+      toastOptions.type = 'success'
+    } else {
+      toastOptions.render = 'Failed to update Default Theme'
+      toastOptions.type = 'error'
+    }
+
+    toast.update(toastId, toastOptions)
   }
 
   const fetchDefaulttheme: any = useCallback(() => {
@@ -92,16 +105,6 @@ export function UserDropdown({
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-
-      {/*<ToastContainer*/}
-      {/*    position="top-right"*/}
-      {/*    autoClose={1000}*/}
-      {/*    hideProgressBar={false}*/}
-      {/*    newestOnTop={false}*/}
-      {/*    closeOnClick*/}
-      {/*    rtl={false}*/}
-      {/*    pauseOnHover*/}
-      {/*    theme={theme === "dark" ? "dark" : "light"}/>*/}
     </>
   )
 }

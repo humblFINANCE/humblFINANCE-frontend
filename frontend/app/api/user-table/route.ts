@@ -7,9 +7,7 @@ export async function GET(request: NextRequest) {
   // console.log(params)
   const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
 
-  const response = await (
-    await fetch(url.toString() + '?' + params.toString(), {})
-  ).json()
+  const response = await (await fetch(url + '?' + params.toString(), {})).json()
 
   return NextResponse.json({ data: response })
 }
