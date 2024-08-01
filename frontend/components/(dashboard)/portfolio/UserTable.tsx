@@ -60,9 +60,7 @@ const UserTable = () => {
   const { getPortfolio, portfolio, loading } = usePortfolio()
   const [shouldRefresh, setShouldRefresh] = useState(false)
   const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
-  const [value, setValue] = useState<string>(
-    () => localStorage.getItem('selectedWatchlistId') || ''
-  )
+  const [value, setValue] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
   const getData = useCallback(async () => {
@@ -122,24 +120,35 @@ const UserTable = () => {
   }, [portfolio, watchlists])
 
   useEffect(() => {
-    getWatchlists()
-    setCookie(
-      'pathname',
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-
-    if (!value) {
-      setValue(
+    const fetch = async () => {
+      const dataWatchlist = await getWatchlists()
+      setCookie(
+        'pathname',
         watchlists
           ?.filter((id: any) => id.is_default === true)[0]
           ?.id?.toString()
       )
+      console.log(watchlists)
+
+      if (dataWatchlist) {
+        let savedValue =
+          localStorage.getItem('selectedWatchlistId') ??
+          dataWatchlist
+            ?.filter((id: any) => id.is_default === true)[0]
+            ?.id?.toString()
+
+        console.log(savedValue)
+        await getData()
+        setValue(savedValue)
+      }
     }
-  }, [getWatchlists])
+
+    fetch()
+  }, [])
 
   useEffect(() => {
     getData()
-  }, [value, watchlists])
+  }, [value])
 
   return (
     <div className="h-full flex flex-col">
