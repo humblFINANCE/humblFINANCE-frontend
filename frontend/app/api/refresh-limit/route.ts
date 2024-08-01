@@ -56,8 +56,9 @@ export async function PATCH(request: NextRequest) {
     userId + '_refresh_limit',
     JSON.stringify({
       refresh_limit: existedCookie.refresh_limit - 1,
-      updated_at: Date.now(),
+      updated_at: existedCookie.updated_at,
     })
   )
+
   return NextResponse.json({ message: 'success' })
 }
