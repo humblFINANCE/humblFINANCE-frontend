@@ -43,3 +43,12 @@ Cypress.Commands.add("providerLogin", (provider, callback) => {
     });
   });
 });
+
+Cypress.Commands.add("signInWithCookie", (id, cookie) => {
+  cy.session(["cookie-session", id], () => {
+    cy.visit("/");
+    cy.setCookie("sb-loavwylgjranxanmktaa-auth-token", cookie);
+    cy.visit("/dashboard/home");
+    cy.url().should("contain", "dashboard/home");
+  });
+});
