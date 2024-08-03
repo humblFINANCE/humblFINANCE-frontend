@@ -26,12 +26,15 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
           }
         )
 
-        const data = await response.json()
+        const { data } = await response.json()
+        if (Array.isArray(data) && data.length === 0) {
+          throw new Error('Symbols parameter cannot be empty')
+        }
 
-        set(() => ({ portfolio: data.data, loading: false }))
+        set(() => ({ portfolio: data, loading: false }))
       } catch (err) {
         console.log(err)
-        set(() => ({ loading: false }))
+        set(() => ({ portfolio: [], loading: false }))
       }
     },
   })
