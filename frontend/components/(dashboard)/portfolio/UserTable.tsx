@@ -211,6 +211,7 @@ const UserTable = () => {
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           loading={loading}
+          loadingOverlayComponent={() => <Spinner size="lg" />}
         />
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
