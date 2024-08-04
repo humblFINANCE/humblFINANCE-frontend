@@ -52,7 +52,7 @@ export interface IWatchlistState {
 }
 
 export interface IWatchlistAction {
-  getWatchlists: () => Promise<void>
+  getWatchlists: () => Promise<IWatchlist[] | void>
   addWatchlist: (name: string) => Promise<void>
   removeWatchlist: (watchlistId: number) => Promise<void>
   updateWatchlist: (id: number, name: string) => Promise<void>
