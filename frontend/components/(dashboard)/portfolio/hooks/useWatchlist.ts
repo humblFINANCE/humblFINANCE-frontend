@@ -32,6 +32,7 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
       console.log(error)
     } else {
       set(() => ({ watchlists: data }))
+      return data
     }
   },
 

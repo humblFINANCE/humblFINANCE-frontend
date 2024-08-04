@@ -20,7 +20,7 @@ import { stockSectors } from '@/components/(dashboard)/portfolio/constants'
 import { IWatchlist, TSector } from '@/components/(dashboard)/portfolio/types'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
-
+import { useDebouncedCallback } from 'use-debounce'
 type WatchlistModalProps = {
   isOpen: boolean
   onOpen?: () => void
@@ -86,7 +86,9 @@ export default function WatchListModal({
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [symbolFind, setSymbol] = React.useState<string>('')
-  const upgradeModal = useDisclosure()
+  const debounced = useDebouncedCallback((value) => {
+    findSymbols(value)
+  }, 1000)
 
   useEffect(() => {
     memoizedGetWatchlists()
@@ -291,7 +293,7 @@ export default function WatchListModal({
                             }}
                             onInputChange={(val) => {
                               setSymbol(val)
-                              findSymbols(val)
+                              debounced(val)
                             }}
                             allowsCustomValue
                           >

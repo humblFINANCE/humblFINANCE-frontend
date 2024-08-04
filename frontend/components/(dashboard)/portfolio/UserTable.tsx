@@ -60,9 +60,7 @@ const UserTable = () => {
   const { getPortfolio, portfolio, loading } = usePortfolio()
   const [shouldRefresh, setShouldRefresh] = useState(false)
   const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
-  const [value, setValue] = useState<string>(
-    () => localStorage.getItem('selectedWatchlistId') || ''
-  )
+  const [value, setValue] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
   const getData = useCallback(async () => {
@@ -78,6 +76,7 @@ const UserTable = () => {
       if (!params.membership) return
       if (!symbols) return
       if (symbols) {
+        if (symbols.watchlist_symbols.length === 0) return
         params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.symbol)
           .join(',')
@@ -122,24 +121,33 @@ const UserTable = () => {
   }, [portfolio, watchlists])
 
   useEffect(() => {
-    getWatchlists()
-    setCookie(
-      'pathname',
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-
-    if (!value) {
-      setValue(
+    const fetch = async () => {
+      const dataWatchlist = await getWatchlists()
+      setCookie(
+        'pathname',
         watchlists
           ?.filter((id: any) => id.is_default === true)[0]
           ?.id?.toString()
       )
+      console.log(dataWatchlist)
+
+      if (dataWatchlist) {
+        let savedValue =
+          localStorage.getItem('selectedWatchlistId') ??
+          dataWatchlist
+            ?.filter((id: any) => id.is_default === true)[0]
+            ?.id?.toString()
+
+        setValue(savedValue)
+      }
     }
-  }, [getWatchlists])
+
+    fetch()
+  }, [])
 
   useEffect(() => {
     getData()
-  }, [value, watchlists])
+  }, [value])
 
   return (
     <div className="h-full flex flex-col">
