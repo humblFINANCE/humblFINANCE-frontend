@@ -143,8 +143,9 @@ const UserTable = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className=" flex items-center gap-2 mb-2">
+      <div className="flex items-center gap-2 mb-2">
         <Select
+          id='select-watchlist'
           aria-label="Select Sectore"
           placeholder={
             watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
@@ -166,7 +167,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Add Watchlist`}>
           <Button
             isLoading={loading || loadingWatclist}
-            id="watchlist-setting"
+            id="add-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -180,7 +181,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Refresh Watchlist`}>
           <Button
             isLoading={loading || loadingWatclist}
-            id="watchlist-setting"
+            id="refresh-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -199,7 +200,7 @@ const UserTable = () => {
         )}
       >
         <AgGridReact
-          rowData={portfolio}
+          rowData={portfolio ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
         />

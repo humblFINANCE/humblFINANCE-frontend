@@ -197,6 +197,7 @@ export default function WatchListModal({
                       aria-label="watchlist-name"
                     />
                     <Button
+                      id="save-watchlist"
                       isDisabled={!watchListName || loading}
                       isLoading={loading}
                       onPress={
@@ -213,14 +214,15 @@ export default function WatchListModal({
                   )}
 
                   <Divider />
-                  <div className="w-full h-full overflow-auto">
+                  <div id="watchlists" role="list" className="w-full h-full overflow-auto">
                     {watchlists.map((item, index) => (
                       <div
                         key={item.id}
-                        className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
+                        data-watchlist-id={item.id}
+                        className="flex justify-between items-center transition-all ease-in-out duration-300 dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                       >
                         <p
-                          className="bg-transparent w-full  text-xl cursor-pointer  "
+                          className="bg-transparent w-full text-xl cursor-pointer"
                           onClick={async () => {
                             setSelectedWatchlist(item)
                             await getSymbols(item.id)
@@ -231,6 +233,7 @@ export default function WatchListModal({
 
                         <div className="flex flex-row ">
                           <Button
+                            id="edit-watchlist"
                             className="bg-transparent"
                             isIconOnly
                             onPress={() => handleClickEdit(item.id, item.name)}
@@ -245,6 +248,7 @@ export default function WatchListModal({
                             className="border-1 bg-white"
                           />
                           <Button
+                            id="remove-watchlist"
                             className="bg-transparent"
                             isIconOnly
                             onPress={() => handleRemoveWatchlist(item.id)}
@@ -301,7 +305,7 @@ export default function WatchListModal({
                             )}
                           </Autocomplete>
 
-                          <Button isDisabled={!symbolName} type="submit">
+                          <Button id="add-symbol" isDisabled={!symbolName} type="submit">
                             Add
                           </Button>
                         </div>
@@ -313,6 +317,8 @@ export default function WatchListModal({
                       {symbols.map((symbol1) => (
                         <div
                           key={symbol1.id}
+                          data-symbol-id={symbol1.id}
+                          data-symbol-code={symbol1.symbol}
                           className="flex justify-between items-center"
                         >
                           <p>{symbol1.symbol}</p>
