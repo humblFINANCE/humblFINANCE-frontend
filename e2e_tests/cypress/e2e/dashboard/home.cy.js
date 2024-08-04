@@ -10,6 +10,10 @@ const showDashboardHome = () => {
 
 const changeDefaultTheme = () => {
   cy.visit("/dashboard/home");
+
+  cy.intercept("GET", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("getUser");
+  cy.intercept("PATCH", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("updateUser");
+
   cy.get("pre")
     .invoke("text")
     .then((text) => {
@@ -18,9 +22,6 @@ const changeDefaultTheme = () => {
       cy.get("button#user-dropdown-trigger").then(($button) => {
         cy.wrap($button).click();
         cy.get("#user-dropdown").should("exist");
-
-        cy.intercept("GET", `${Cypress.env("supabaseURL")}/rest/v1/profiles?select=*&id=eq.${userData.id}`).as("getUser");
-        cy.intercept("PATCH", `${Cypress.env("supabaseURL")}/rest/v1/profiles?id=eq.${userData.id}&select=*`).as("updateUser");
 
         cy.wait("@getUser").then((interception) => {
           const user = interception.response.body[0];

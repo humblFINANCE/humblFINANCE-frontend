@@ -18,26 +18,6 @@ const visitPortfolioPage = () => {
   cy.get("h2").contains("Portfolio").should("exist");
 };
 
-const checkWatchlist = (watchlistEndpoint, userId) => {
-  cy.intercept({
-    method: "GET",
-    url: watchlistEndpoint,
-    query: {
-      select: "id,user_id,name,is_default,created_at,watchlist_symbols(id,watchlist_id,symbol)",
-      user_id: `eq.${userId}`,
-      order: "id.asc",
-    },
-  }).as("getWatchlists");
-
-  cy.wait("@getWatchlists").then((interception) => {
-    const watchlists = interception.response.body;
-    const newWatchlist = watchlists.find((watchlist) => watchlist.name === watchlistName);
-
-    cy.get("h4").contains("My Watchlists").should("exist");
-    cy.get("#watchlists[role='list']").contains(newWatchlist.name).should("exist");
-  });
-};
-
 /**
  * @param {Object} props
  * @param {"SWITCH" | "ADD" | "RENAME" | "REMOVE"} props.type
