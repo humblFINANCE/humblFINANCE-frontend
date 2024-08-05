@@ -13,8 +13,8 @@ import {
   Tooltip,
   useDisclosure,
 } from '@nextui-org/react'
-import * as agGrid from 'ag-grid-community'
-import { AgGridReact } from 'ag-grid-react'
+import * as agGrid from '@ag-grid-community/core'
+import { AgGridReact } from '@ag-grid-community/react'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
 import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
@@ -25,6 +25,7 @@ import { useUser } from '@/features/user/hooks/use-user'
 import { getCookie, setCookie } from 'cookies-next'
 import { toast } from 'react-toastify'
 import { useRefreshLimit } from './hooks/useRefreshLimit'
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -52,6 +53,8 @@ const defaultColDef: agGrid.ColDef = {
   minWidth: 100,
   resizable: true,
 }
+
+agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
 
 const UserTable = () => {
   const { theme } = useTheme()
@@ -97,7 +100,6 @@ const UserTable = () => {
     }
 
     const limitCookie = await getRefreshLimit(user?.id)
-    console.log(limitCookie)
 
     if (!limitCookie) {
       toast.error('Something went wrong please refresh the page and try again')
@@ -113,8 +115,6 @@ const UserTable = () => {
     }
 
     setShouldRefresh(() => true)
-    console.log(shouldRefresh)
-
     await getData()
     await decrementRefreshLimit(profile?.id!)
     setShouldRefresh(() => false)
@@ -129,7 +129,6 @@ const UserTable = () => {
           ?.filter((id: any) => id.is_default === true)[0]
           ?.id?.toString()
       )
-      console.log(dataWatchlist)
 
       if (dataWatchlist) {
         let savedValue =
@@ -211,10 +210,12 @@ const UserTable = () => {
           rowData={portfolio ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          loading={loading}
+          loadingOverlayComponent={() => <Spinner size="lg" />}
         />
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
-      <Modal
+      {/* <Modal
         isOpen={loading || loadingWatclist}
         size="sm"
         isDismissable={false}
@@ -229,7 +230,7 @@ const UserTable = () => {
             </p>
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </div>
   )
 }
