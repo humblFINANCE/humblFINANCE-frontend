@@ -14,6 +14,7 @@ const changeDefaultTheme = () => {
   cy.intercept("GET", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("getUser");
   cy.intercept("PATCH", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("updateUser");
 
+  cy.wait(10000);
   cy.get("#user-dropdown").should("not.exist");
   cy.get("button#user-dropdown-trigger").then(($button) => {
     cy.wrap($button).click();
