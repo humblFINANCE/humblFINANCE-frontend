@@ -9,10 +9,10 @@ const showDashboardHome = () => {
 };
 
 const changeDefaultTheme = () => {
-  cy.visit("/dashboard/home");
-
   cy.intercept("GET", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("getUser");
   cy.intercept("PATCH", `${Cypress.env("supabaseURL")}/rest/v1/profiles*`).as("updateUser");
+
+  cy.visit("/dashboard/home");
 
   cy.wait(10000);
   cy.get("#user-dropdown").should("not.exist");
