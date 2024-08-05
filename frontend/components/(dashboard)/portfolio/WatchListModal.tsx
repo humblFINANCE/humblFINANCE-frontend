@@ -225,10 +225,10 @@ export default function WatchListModal({
                         <div
                           key={item.id}
                           data-watchlist-id={item.id}
-                          className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
+                          className="flex justify-between items-center transition-all ease-in-out duration-300 dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                         >
                           <p
-                            className="bg-transparent w-full  text-xl cursor-pointer  "
+                            className="bg-transparent w-full text-xl cursor-pointer"
                             onClick={async () => {
                               setSelectedWatchlist(item)
                               await getSymbols(item.id)

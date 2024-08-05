@@ -10,7 +10,6 @@ import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import {ITradingViewParams} from '@/features/dashboard/types/types'
 import {useUser} from '@/features/user/hooks/use-user'
 import {setCookie} from "cookies-next";
-import {ToastContainer} from "react-toastify";
 
 const colDefs: agGrid.ColDef[] = [
     {field: 'symbol', minWidth: 100},
@@ -83,16 +82,6 @@ const TableDashboard = () => {
                     defaultColDef={defaultColDef}
                 />
             </div>
-
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnHover
-                theme={theme === "dark" ? "dark" : "light"}/>
         </div>
     )
 }
