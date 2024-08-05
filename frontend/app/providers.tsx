@@ -7,12 +7,8 @@ import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-export interface ProvidersProps {
-  children: React.ReactNode
-  themeProps?: ThemeProviderProps
-}
 
-export function Providers({ children, themeProps }: ProvidersProps) {
+export function Providers({ children, ...themeProps }: ThemeProviderProps) {
   const router = useRouter()
 
   return (
