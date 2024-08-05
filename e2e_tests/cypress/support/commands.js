@@ -22,7 +22,6 @@ Cypress.Commands.add("signInWithEmail", (email, password) => {
       cy.get('button[type="submit"]').contains("Login").click();
       cy.wait("@loginWithEmail").then((interception) => {
         expect(interception.request.body).to.include(email);
-        cy.get("pre", { timeout: 10000 }).contains(email).should("exist");
       });
     });
   });

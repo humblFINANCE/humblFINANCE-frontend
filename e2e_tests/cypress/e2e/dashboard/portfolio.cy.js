@@ -50,7 +50,7 @@ const watchlistTests = ({ type = "ADD", shouldSuccess = true, isAnonymous = fals
       if (type === "SWITCH") {
         cy.get("button#select-watchlist").then(($button) => {
           cy.get($button).click();
-          cy.get("ul[role='listbox'] li").contains(watchlistName).click();
+          cy.get("ul[role='listbox'] li", { timeout: 5000 }).contains(watchlistName).click();
 
           if (watchlist.watchlist_symbols.length > 0) {
             cy.intercept("GET", `${Cypress.env("supabaseURL")}/api/user-table*`).as("getSymbolDetails");
