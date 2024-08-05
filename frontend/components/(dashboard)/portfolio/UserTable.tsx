@@ -113,7 +113,7 @@ const UserTable = () => {
     }
 
     setShouldRefresh(() => true)
-    console.log(shouldRefresh)
+    // console.log(shouldRefresh)
 
     await getData()
     await decrementRefreshLimit(profile?.id!)
