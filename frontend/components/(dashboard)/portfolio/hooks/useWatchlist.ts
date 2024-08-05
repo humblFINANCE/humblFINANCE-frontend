@@ -46,8 +46,6 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
       .eq('id', user.data.user?.id)
       .select('default_watchlist')
 
-    // console.log("profiles: ", profiles)
-
     // check profile table if  default_watchlist exist
     if (profiles[0]?.default_watchlist === null) {
       const { error } = await supabase
