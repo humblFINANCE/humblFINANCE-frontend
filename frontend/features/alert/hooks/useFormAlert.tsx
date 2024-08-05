@@ -75,36 +75,34 @@ const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
     setLoading(true)
     setError(null)
 
-    const { error: updateError } = await supabase
-      .from('alerts')
-      .update({
-        symbol_id: +data.symbol_id,
-        indicator_id: +data.indicator_id,
-        logic_id: +data.logic_id,
-        value: data.value,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('alert_id', alert_id)
-
-    if (updateError) {
-      console.error('Error updating alert:', updateError)
-      setError(updateError.message)
+    try {
+      const { error: updateError } = await supabase
+        .from('alerts')
+        .update({
+          symbol_id: +data.symbol_id,
+          indicator_id: +data.indicator_id,
+          logic_id: +data.logic_id,
+          value: data.value,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('alert_id', alert_id)
+      if (updateError) {
+        throw updateError
+      }
+      const { error: actionUpdateError } = await supabase
+        .from('alert_actions')
+        .update({
+          action_id: +data.action_id,
+        })
+        .eq('alert_id', alert_id)
+      if (actionUpdateError) {
+        throw actionUpdateError
+      }
+    } catch (error) {
+      console.error('Error updating alert:', error)
+      setError((error as Error).message)
+    } finally {
       setLoading(false)
-      return
-    }
-
-    const { error: actionUpdateError } = await supabase
-      .from('alert_actions')
-      .update({
-        action_id: +data.action_id,
-      })
-      .eq('alert_id', alert_id)
-
-    if (actionUpdateError) {
-      console.error('Error updating alert:', actionUpdateError)
-      setError(actionUpdateError.message)
-      setLoading(false)
-      return
     }
 
     setLoading(false)
