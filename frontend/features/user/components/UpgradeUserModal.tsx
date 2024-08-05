@@ -13,7 +13,7 @@ import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useRouter } from 'next/navigation'
 
 interface UpgradeUserModalProps extends UseDisclosureReturn {
-  text?: string
+  msg: any
 }
 
 const tiers = ['peon', 'premium', 'power', 'permanent', 'admin']
@@ -58,9 +58,6 @@ export function UpgradeUserModal(props: UpgradeUserModalProps) {
       case 'HumblPEON':
         loginModalDisclosure.onOpenChange()
         break
-      case 'HumblPREMIUM':
-        router.push('/pricing')
-        break
       default:
         router.push('/pricing')
         break
@@ -79,7 +76,7 @@ export function UpgradeUserModal(props: UpgradeUserModalProps) {
                 {' '}
                 {getExpectedUpgradeRole()}{' '}
               </span>
-              <span>{props.text}</span>
+              <span>to access this feature</span>
             </div>
           </ModalHeader>
           <ModalBody>

@@ -4,10 +4,11 @@ import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { MoonFilledIcon, SunFilledIcon } from '@/components/icons/Icons'
+import { toast } from 'react-toastify'
 
 const ThemeSwitcher = () => {
   const { theme, setTheme } = useTheme()
-  const customClassName = `toggleSwitch ${theme === 'dark' ? 'on' : 'off'}`
+
   // fix hydration error
   const [isMounted, setIsMounted] = useState(false)
 
@@ -16,6 +17,17 @@ const ThemeSwitcher = () => {
   }, [])
 
   if (!isMounted) return null
+
+  const handleThemeChange = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    toast.success(
+      `Theme Changed to ${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)}`,
+      {
+        theme: newTheme,
+      }
+    )
+  }
 
   return (
     <motion.div
@@ -28,7 +40,7 @@ const ThemeSwitcher = () => {
           'bg-default-200 dark:bg-default-100': true,
         }
       )}
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={handleThemeChange}
     >
       <motion.div
         animate

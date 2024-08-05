@@ -13,14 +13,16 @@ import {
   Input,
   Autocomplete,
   AutocompleteItem,
+  Tooltip,
+  Chip,
 } from '@nextui-org/react'
-import { InlineIcon } from '@iconify/react'
+import { Icon, InlineIcon } from '@iconify/react'
 import { useUser } from '@/features/user/hooks/use-user'
 import { stockSectors } from '@/components/(dashboard)/portfolio/constants'
 import { IWatchlist, TSector } from '@/components/(dashboard)/portfolio/types'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
-
+import { useDebouncedCallback } from 'use-debounce'
 type WatchlistModalProps = {
   isOpen: boolean
   onOpen?: () => void
@@ -57,6 +59,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
     loading,
+    updateDefaultWatchlist
   } = useWatchlist()
 
   const memoizedGetWatchlists = useCallback(() => {
@@ -86,7 +89,9 @@ export default function WatchListModal({
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
   const [symbolFind, setSymbol] = React.useState<string>('')
-  const upgradeModal = useDisclosure()
+  const debounced = useDebouncedCallback((value) => {
+    findSymbols(value)
+  }, 1000)
 
   useEffect(() => {
     memoizedGetWatchlists()
@@ -214,49 +219,67 @@ export default function WatchListModal({
 
                   <Divider />
                   <div className="w-full h-full overflow-auto">
-                    {watchlists.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
-                      >
-                        <p
-                          className="bg-transparent w-full  text-xl cursor-pointer  "
-                          onClick={async () => {
-                            setSelectedWatchlist(item)
-                            await getSymbols(item.id)
-                          }}
+                    {watchlists.map((item, index) => {
+                      return (
+                        <div
+                          key={item.id}
+                          className="flex justify-between items-center transition-all ease-in-out duration-300   dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                         >
-                          {item.name}
-                        </p>
+                          <p
+                            className="bg-transparent w-full  text-xl cursor-pointer  "
+                            onClick={async () => {
+                              setSelectedWatchlist(item)
+                              await getSymbols(item.id)
+                            }}
+                          >
+                            {item.name} {item?.is_default ? <Chip color="success" radius='sm' size='sm'>Default</Chip> : null}
+                          </p>
 
-                        <div className="flex flex-row ">
-                          <Button
-                            className="bg-transparent"
-                            isIconOnly
-                            onPress={() => handleClickEdit(item.id, item.name)}
-                          >
-                            <InlineIcon
-                              icon="iconamoon:edit-thin"
-                              fontSize={20}
+                          <div className="flex flex-row ">
+                            {
+                              !item?.is_default ?
+                                <Tooltip key={`success`} color={`success`} content={`DEFAULT`} className="capitalize">
+                                  <Button
+                                    className="bg-transparent"
+                                    isIconOnly
+                                    onPress={() => updateDefaultWatchlist(item.id, true)}
+                                  >
+                                    <Icon icon="mdi:check" fontSize={20} />
+                                  </Button>
+                                </Tooltip> : null
+                            }
+                            <Tooltip key={`primary`} color={`primary`} content={`EDIT`} className="capitalize">
+                              <Button
+                                className="bg-transparent"
+                                isIconOnly
+                                onPress={() => handleClickEdit(item.id, item.name)}
+                              >
+                                <InlineIcon
+                                  icon="iconamoon:edit-thin"
+                                  fontSize={20}
+                                />
+                              </Button>
+                            </Tooltip>
+                            <Divider
+                              orientation="vertical"
+                              className="border-1 bg-white"
                             />
-                          </Button>
-                          <Divider
-                            orientation="vertical"
-                            className="border-1 bg-white"
-                          />
-                          <Button
-                            className="bg-transparent"
-                            isIconOnly
-                            onPress={() => handleRemoveWatchlist(item.id)}
-                          >
-                            <InlineIcon
-                              icon="iconamoon:trash-light"
-                              fontSize={20}
-                            />
-                          </Button>
+                            <Tooltip key={`danger`} color={`danger`} content={`DELETE`} className="capitalize">
+                              <Button
+                                className="bg-transparent"
+                                isIconOnly
+                                onPress={() => handleRemoveWatchlist(item.id)}
+                              >
+                                <InlineIcon
+                                  icon="iconamoon:trash-light"
+                                  fontSize={20}
+                                />
+                              </Button>
+                            </Tooltip>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
                 {selectedWatchlist && (
@@ -287,7 +310,7 @@ export default function WatchListModal({
                             }}
                             onInputChange={(val) => {
                               setSymbol(val)
-                              findSymbols(val)
+                              debounced(val)
                             }}
                             allowsCustomValue
                           >

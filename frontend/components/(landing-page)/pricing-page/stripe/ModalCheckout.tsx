@@ -1,6 +1,5 @@
 import { Tier } from '@/components/(landing-page)/pricing-page/pricing-types'
 import { createPaymentIntent } from '@/utils/stripe/action'
-import { createClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import {
   Autocomplete,
@@ -20,7 +19,6 @@ import {
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { StripeError } from '@stripe/stripe-js'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/navigation'
 import React from 'react'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import {
@@ -28,12 +26,31 @@ import {
   usePaymentValidation,
 } from '@/components/(landing-page)/pricing-page/hooks/validation'
 import countries from './countries'
+import { redirect, useRouter } from 'next/navigation'
+import { Router } from 'next/router'
+import { createClient } from '@/utils/supabase/client'
+import { useUser } from '@/features/user/hooks/use-user'
+import { setCookie } from 'cookies-next'
+import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 
 type ModalCheckoutProps = {
   isOpen: boolean
   onOpenChange: () => void
   tier: Tier
   price: number
+}
+
+function generateDailyRefreshCount(tier: Tier) {
+  switch (tier.title) {
+    case 'peon':
+      return 1
+    case 'premium':
+      return 3
+    case 'power':
+      return 5
+    case 'permanent':
+      return 999
+  }
 }
 
 export default function ModalCheckout({
@@ -47,6 +64,7 @@ export default function ModalCheckout({
   const router = useRouter()
   const stripe = useStripe()
   const elements = useElements()
+  const { getRefreshLimit } = useRefreshLimit()
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
       <Divider className="flex-1" />
@@ -116,8 +134,20 @@ export default function ModalCheckout({
         .from('profiles')
         .update({
           membership,
+          refresh_limit: generateDailyRefreshCount(tier),
         })
         .eq('id', user?.data.user?.id)
+
+      // setCookie(
+      //   user?.data.user?.id + '_refresh_limit',
+      //   JSON.stringify({
+      //     updated_at: new Date().getDate(),
+      //     refresh_limit: generateDailyRefreshCount(tier),
+      //   })
+      // )
+
+      await getRefreshLimit(user?.data.user?.id!)
+
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')
     } catch (err) {

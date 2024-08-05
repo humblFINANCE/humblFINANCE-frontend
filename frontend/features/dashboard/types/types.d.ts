@@ -1,5 +1,3 @@
-import { Profile } from '@/features/user/types/profile'
-
 export interface IDataWatchList extends String<string, any> {
   symbol: string
   last_close: number
@@ -24,24 +22,28 @@ export interface IPortfolio {
   buy_price: number
   last_price: number
   sell_price: number
-  ud_pct: string
-  ud_ratio: number
-  sector: string
-  asset_class: string
 }
 
-export interface IPortfolioParams extends Record<string, string> {
-  symbols: string
-  membership: string
+export interface ITradingView {
+  date: string
+  symbol: string
+  bottom_price: number
+  recent_price: number
+  top_price: number
+}
+
+export interface ITradingViewParams extends Record<string, string> {
+  chart?: string
 }
 
 export interface IPortfolioState {
   portfolio: IPortfolio[]
+  tradingView: any
   loading: boolean
 }
 
 export interface IPortfolioAction {
-  getPortfolio: (params: IPortfolioParams, refresh?: boolean) => Promise<void>
+  getTradingSPX: (params?: any) => Promise<void>
 }
 
 // * WATCHLIST INTERFACE
@@ -52,11 +54,12 @@ export interface IWatchlistState {
 }
 
 export interface IWatchlistAction {
-  getWatchlists: () => Promise<IWatchlist[] | void>
+  getWatchlists: () => Promise<void>
   addWatchlist: (name: string) => Promise<void>
   removeWatchlist: (watchlistId: number) => Promise<void>
   updateWatchlist: (id: number, name: string) => Promise<void>
   updateDefaultWatchlist: (id: number, is_default: boolean) => Promise<void>
+  refreshWatchlist: (profile: any) => Promise<void>
 }
 
 export interface IWatchlistSymbol {
