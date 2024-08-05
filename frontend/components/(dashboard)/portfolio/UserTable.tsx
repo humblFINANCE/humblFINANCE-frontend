@@ -115,7 +115,6 @@ const UserTable = () => {
     }
 
     setShouldRefresh(() => true)
-
     await getData()
     await decrementRefreshLimit(profile?.id!)
     setShouldRefresh(() => false)
