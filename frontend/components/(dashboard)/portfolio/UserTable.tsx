@@ -13,8 +13,8 @@ import {
   Tooltip,
   useDisclosure,
 } from '@nextui-org/react'
-import * as agGrid from 'ag-grid-community'
-import { AgGridReact } from 'ag-grid-react'
+import * as agGrid from '@ag-grid-community/core'
+import { AgGridReact } from '@ag-grid-community/react'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
 import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
@@ -25,6 +25,7 @@ import { useUser } from '@/features/user/hooks/use-user'
 import { getCookie, setCookie } from 'cookies-next'
 import { toast } from 'react-toastify'
 import { useRefreshLimit } from './hooks/useRefreshLimit'
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
@@ -53,6 +54,8 @@ const defaultColDef: agGrid.ColDef = {
   resizable: true,
 }
 
+agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
+
 const UserTable = () => {
   const { theme } = useTheme()
   const { profile, user, refetchProfile, openModalConvertUser } = useUser()
@@ -60,9 +63,7 @@ const UserTable = () => {
   const { getPortfolio, portfolio, loading } = usePortfolio()
   const [shouldRefresh, setShouldRefresh] = useState(false)
   const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
-  const [value, setValue] = useState<string>(
-    () => localStorage.getItem('selectedWatchlistId') || ''
-  )
+  const [value, setValue] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
   const getData = useCallback(async () => {
@@ -78,6 +79,7 @@ const UserTable = () => {
       if (!params.membership) return
       if (!symbols) return
       if (symbols) {
+        if (symbols.watchlist_symbols.length === 0) return
         params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.symbol)
           .join(',')
@@ -98,7 +100,6 @@ const UserTable = () => {
     }
 
     const limitCookie = await getRefreshLimit(user?.id)
-    console.log(limitCookie)
 
     if (!limitCookie) {
       toast.error('Something went wrong please refresh the page and try again')
@@ -114,37 +115,44 @@ const UserTable = () => {
     }
 
     setShouldRefresh(() => true)
-    console.log(shouldRefresh)
-
     await getData()
     await decrementRefreshLimit(profile?.id!)
     setShouldRefresh(() => false)
   }, [portfolio, watchlists])
 
   useEffect(() => {
-    getWatchlists()
-    setCookie(
-      'pathname',
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-
-    if (!value) {
-      setValue(
+    const fetch = async () => {
+      const dataWatchlist = await getWatchlists()
+      setCookie(
+        'pathname',
         watchlists
           ?.filter((id: any) => id.is_default === true)[0]
           ?.id?.toString()
       )
+
+      if (dataWatchlist) {
+        let savedValue =
+          localStorage.getItem('selectedWatchlistId') ??
+          dataWatchlist
+            ?.filter((id: any) => id.is_default === true)[0]
+            ?.id?.toString()
+
+        setValue(savedValue)
+      }
     }
-  }, [getWatchlists])
+
+    fetch()
+  }, [])
 
   useEffect(() => {
     getData()
-  }, [value, watchlists])
+  }, [value])
 
   return (
     <div className="h-full flex flex-col">
-      <div className=" flex items-center gap-2 mb-2">
+      <div className="flex items-center gap-2 mb-2">
         <Select
+          id='select-watchlist'
           aria-label="Select Sectore"
           placeholder={
             watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
@@ -166,7 +174,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Add Watchlist`}>
           <Button
             isLoading={loading || loadingWatclist}
-            id="watchlist-setting"
+            id="add-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -180,7 +188,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Refresh Watchlist`}>
           <Button
             isLoading={loading || loadingWatclist}
-            id="watchlist-setting"
+            id="refresh-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -199,13 +207,15 @@ const UserTable = () => {
         )}
       >
         <AgGridReact
-          rowData={portfolio}
+          rowData={portfolio ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          loading={loading}
+          loadingOverlayComponent={() => <Spinner size="lg" />}
         />
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
-      <Modal
+      {/* <Modal
         isOpen={loading || loadingWatclist}
         size="sm"
         isDismissable={false}
@@ -220,7 +230,7 @@ const UserTable = () => {
             </p>
           </ModalBody>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </div>
   )
 }

@@ -60,8 +60,8 @@ export function UserDropdown({
 
   return (
     <>
-      <Dropdown closeOnSelect={false}>
-        <DropdownTrigger>
+      <Dropdown id="user-dropdown" closeOnSelect={false}>
+        <DropdownTrigger id="user-dropdown-trigger">
           <Avatar as="button" size="md" src={profile?.avatar_url} />
         </DropdownTrigger>
         <DropdownMenu

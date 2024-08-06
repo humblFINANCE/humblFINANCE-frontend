@@ -16,15 +16,18 @@ export function SocialLoginForm() {
       className="flex flex-col gap-2"
       exit="hidden"
       variants={variants}
+      id="social-login-form"
     >
       <div className="flex flex-row gap-3 justify-center">
         <Button
+          id="login-with-google"
           fullWidth
           startContent={<Icon icon="flat-color-icons:google" width={24} />}
           variant="flat"
           onClick={handleLoginWithOauth('google')}
         />
         <Button
+          id="login-with-github"
           fullWidth
           startContent={
             <Icon className="text-default-500" icon="fe:github" width={24} />
@@ -33,6 +36,7 @@ export function SocialLoginForm() {
           onClick={handleLoginWithOauth('github')}
         />
         <Button
+          id="login-with-discord"
           fullWidth
           startContent={
             <Icon
@@ -47,6 +51,7 @@ export function SocialLoginForm() {
       </div>
       <div className="flex flex-row gap-3 justify-center">
         <Button
+          id="login-with-twitter"
           fullWidth
           startContent={
             <Icon className="text-default-500" icon="fe:twitter" width={24} />
@@ -55,13 +60,16 @@ export function SocialLoginForm() {
           onClick={handleLoginWithOauth('twitter')}
         />
         <Button
+          id="login-with-linkedin"
           fullWidth
           startContent={
             <Icon className="text-default-500" icon="mdi:linkedin" width={24} />
           }
           variant="flat"
+          onClick={handleLoginWithOauth('linkedin_oidc')}
         />
         <Button
+          id="login-with-apple"
           isDisabled
           fullWidth
           startContent={
@@ -72,7 +80,6 @@ export function SocialLoginForm() {
             />
           }
           variant="flat"
-          onClick={handleLoginWithOauth('linkedin_oidc')}
         />
       </div>
     </m.form>
