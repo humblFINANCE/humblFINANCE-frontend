@@ -26,6 +26,8 @@ const AuthTheme = (props: any) => {
                 }
             )}
             onClick={() => props.handleDefaultTheme(props.theme === 'dark' ? 'light' : 'dark')}
+            data-test="default-theme"
+            data-current-theme={props.theme}
         >
             <motion.div
                 animate

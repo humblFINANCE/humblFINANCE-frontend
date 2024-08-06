@@ -179,6 +179,7 @@ export function LoginForm({
                   />
                 }
                 type="button"
+                id='continue-with-email'
                 onPress={() => setIsFormVisible(true)}
               >
                 Continue with Email
