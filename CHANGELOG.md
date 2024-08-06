@@ -1,3 +1,9 @@
+## v0.1.1 (2024-08-06)
+
+### 🐛🚑️ Fixes
+
+- **github-actions**: only bump version on master branch
+
 ## v0.1.0 (2024-08-06)
 
 ### ✨ Features
