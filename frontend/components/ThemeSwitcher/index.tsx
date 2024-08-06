@@ -1,9 +1,9 @@
 'use client'
+import { cn } from '@/utils/nextui/cn'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { MoonFilledIcon, SunFilledIcon } from '../icons/Icons'
-import { cn } from '@/utils/nextui/cn'
 import { useEffect, useState } from 'react'
+import { MoonFilledIcon, SunFilledIcon } from '@/components/icons/Icons'
 import { toast } from 'react-toastify'
 
 const ThemeSwitcher = () => {
