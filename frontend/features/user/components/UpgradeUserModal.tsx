@@ -13,7 +13,7 @@ import { LoginModal } from '@/features/auth/components/LoginModal'
 import { useRouter } from 'next/navigation'
 
 interface UpgradeUserModalProps extends UseDisclosureReturn {
-  msg?: any
+  msg: any
 }
 
 const tiers = ['peon', 'premium', 'power', 'permanent', 'admin']

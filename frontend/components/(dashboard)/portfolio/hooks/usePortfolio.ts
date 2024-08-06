@@ -16,22 +16,24 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
     getPortfolio: async (params, refresh) => {
       try {
         set(() => ({ loading: true }))
+        const param = new URLSearchParams(params).toString()
+        const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+        const response = await fetch(url + '?' + param, {
+          method: 'GET',
+          headers: {
+            'cache-control': refresh ? 'no-cache' : 'must-revalidate',
+          },
+        })
 
-        const response = await fetch(
-          '/api/user-table?' + new URLSearchParams(params).toString(),
-          {
-            method: 'GET',
-            next: { tags: ['portfolio'] },
-            cache: refresh ? 'no-store' : 'force-cache',
-          }
-        )
+        const { data } = await response.json()
+        if (Array.isArray(data) && data.length === 0) {
+          throw new Error('Symbols parameter cannot be empty')
+        }
 
-        const data = await response.json()
-
-        set(() => ({ portfolio: data.data, loading: false }))
+        set(() => ({ portfolio: data, loading: false }))
       } catch (err) {
         console.log(err)
-        set(() => ({ loading: false }))
+        set(() => ({ portfolio: [], loading: false }))
       }
     },
   })
