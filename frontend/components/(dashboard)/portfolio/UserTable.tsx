@@ -29,13 +29,13 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
-  { field: 'last_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'buy_price',
     headerName: 'Buy Price',
     flex: 1,
     minWidth: 100,
   },
+  { field: 'last_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'sell_price',
     headerName: 'Sell Price',
@@ -62,7 +62,11 @@ const UserTable = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const { getPortfolio, portfolio, loading } = usePortfolio()
   const [shouldRefresh, setShouldRefresh] = useState(false)
-  const { watchlists, getWatchlists, loading: loadingWatclist } = useWatchlist()
+  const {
+    watchlists,
+    getWatchlists,
+    loading: loadingWatchlist,
+  } = useWatchlist()
   const [value, setValue] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
@@ -152,7 +156,7 @@ const UserTable = () => {
     <div className="h-full flex flex-col">
       <div className="flex items-center gap-2 mb-2">
         <Select
-          id='select-watchlist'
+          id="select-watchlist"
           aria-label="Select Sectore"
           placeholder={
             watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
@@ -173,7 +177,7 @@ const UserTable = () => {
         </Select>
         <Tooltip color={`default`} content={`Add Watchlist`}>
           <Button
-            isLoading={loading || loadingWatclist}
+            isLoading={loading || loadingWatchlist}
             id="add-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
@@ -187,7 +191,7 @@ const UserTable = () => {
         </Tooltip>
         <Tooltip color={`default`} content={`Refresh Watchlist`}>
           <Button
-            isLoading={loading || loadingWatclist}
+            isLoading={loading || loadingWatchlist}
             id="refresh-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
@@ -216,7 +220,7 @@ const UserTable = () => {
       </div>
       <WatchListModal isOpen={isOpen} onOpenChange={onOpenChange} />
       {/* <Modal
-        isOpen={loading || loadingWatclist}
+        isOpen={loading || loadingWatchlist}
         size="sm"
         isDismissable={false}
         hideCloseButton={true}
