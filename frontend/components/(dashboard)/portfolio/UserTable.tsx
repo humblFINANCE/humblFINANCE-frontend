@@ -112,7 +112,7 @@ const UserTable = () => {
 
     if (limitCookie.refresh_limit === 0) {
       toast.warning(
-        'You have used all your free data for the day, please come back tommorow or upgrade your account'
+        'You have used all your free data for the day, please come back tomorrow or upgrade your account'
       )
       openModalConvertUser()
       return
@@ -157,7 +157,7 @@ const UserTable = () => {
       <div className="flex items-center gap-2 mb-2">
         <Select
           id="select-watchlist"
-          aria-label="Select Sectore"
+          aria-label="Select Watchlist"
           placeholder={
             watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
           }
@@ -175,7 +175,7 @@ const UserTable = () => {
               <SelectItem key={watchlist.id}>{watchlist.name}</SelectItem>
             ))}
         </Select>
-        <Tooltip color={`default`} content={`Add Watchlist`}>
+        <Tooltip color={`default`} content={`Manage Watchlists`}>
           <Button
             isLoading={loading || loadingWatchlist}
             id="add-watchlist"
@@ -184,7 +184,12 @@ const UserTable = () => {
               opacity: 1,
             }}
             onPress={onOpen}
-            endContent={<InlineIcon icon={'mdi:gear'} fontSize={28} />}
+            endContent={
+              <InlineIcon
+                icon={'solar:folder-with-files-linear'}
+                fontSize={28}
+              />
+            }
           >
             <div className="hidden lg:block">Add</div>
           </Button>
@@ -198,7 +203,12 @@ const UserTable = () => {
               opacity: 1,
             }}
             onPress={handleRefreshWatchlist}
-            endContent={<Icon icon="oui:refresh" fontSize={28} />}
+            endContent={
+              <InlineIcon
+                icon={'solar:refresh-circle-line-duotone'}
+                fontSize={28}
+              />
+            }
           >
             <div className="hidden lg:block">Refresh</div>
           </Button>
