@@ -25,7 +25,8 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
           },
         })
 
-        const { data } = await response.json()
+        const { response_data } = await response.json()
+        const { data } = response_data
         if (Array.isArray(data) && data.length === 0) {
           throw new Error('Symbols parameter cannot be empty')
         }
