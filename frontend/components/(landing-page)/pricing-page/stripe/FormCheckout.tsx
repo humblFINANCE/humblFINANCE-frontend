@@ -6,7 +6,7 @@ import React from 'react'
 import { Icon } from '@iconify/react'
 import { Input } from '@nextui-org/react'
 
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 
 export type PaymentFormProps = React.HTMLAttributes<HTMLDivElement> & {
   variant?: InputProps['variant']

@@ -1,4 +1,4 @@
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import { Skeleton } from '@nextui-org/react'
 
 export interface ContentLoadingProps

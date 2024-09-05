@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { useMotionTemplate, motion, useMotionValue } from 'framer-motion'
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import Link from 'next/link'
 
 export const EvervaultCard = ({
