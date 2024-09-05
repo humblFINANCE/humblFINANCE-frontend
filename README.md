@@ -28,3 +28,9 @@ STRIPE_SECRET_KEY=
 STRIPE_PAYMENT_DESCRIPTION=
 STRIPE_WEBHOOK_SECRET=
 ```
+
+# Development: Using MagicUI
+
+MagicUI is a UI component library that is built on top of Radix UI. It is a highly customizable library that allows you to build your own components.
+
+I am not using the CLI tool that comes with MagicUI. Instead I am using the manual method so that I can specify where I want the components to live. That way I can place the components in the `/features` directory, and place the components in the directory where they are used.
