@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import createGlobe, { COBEOptions } from 'cobe'
 import { useSpring } from 'react-spring'
+import { useTheme } from 'next-themes'
 
 import { cn } from '@/utils/cn'
 
@@ -13,7 +14,6 @@ const GLOBE_CONFIG: COBEOptions = {
   devicePixelRatio: 2,
   phi: 0,
   theta: 0.3,
-  dark: 0,
   diffuse: 0.4,
   mapSamples: 16000,
   mapBrightness: 1.2,
@@ -56,6 +56,8 @@ export default function Globe({
     },
   }))
 
+  const { theme } = useTheme()
+
   const updatePointerInteraction = (value: any) => {
     pointerInteracting.current = value
     canvasRef.current!.style.cursor = value ? 'grabbing' : 'grab'
@@ -94,11 +96,12 @@ export default function Globe({
       width: width * 2,
       height: width * 2,
       onRender,
+      dark: theme === 'dark' ? 1 : 0,
     })
 
     setTimeout(() => (canvasRef.current!.style.opacity = '1'))
     return () => globe.destroy()
-  }, [])
+  }, [theme])
 
   return (
     <div
@@ -109,10 +112,20 @@ export default function Globe({
     >
       <canvas
         className={cn(
-          'h-full w-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size] pointer-events-none'
+          'h-full w-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]'
         )}
         ref={canvasRef}
-        // Remove all event listeners to prevent interaction
+        onPointerDown={(e) =>
+          updatePointerInteraction(
+            e.clientX - pointerInteractionMovement.current
+          )
+        }
+        onPointerUp={() => updatePointerInteraction(null)}
+        onPointerOut={() => updatePointerInteraction(null)}
+        onMouseMove={(e) => updateMovement(e.clientX)}
+        onTouchMove={(e) =>
+          e.touches[0] && updateMovement(e.touches[0].clientX)
+        }
       />
     </div>
   )
