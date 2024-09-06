@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
-import ToastProvider from '@/components/ToastProvider'
+import ToastProvider from '@/features/ToastProvider'
 
 export const metadata: Metadata = {
   title: {
