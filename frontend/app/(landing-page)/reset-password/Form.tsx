@@ -1,7 +1,7 @@
 'use client'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import { title } from '@/components/Primitives'
 import { Button, Input, InputProps } from '@nextui-org/react'
 import { resetPassword } from './action'

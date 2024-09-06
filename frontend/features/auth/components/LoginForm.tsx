@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Button, useDisclosure, Divider, Input } from '@nextui-org/react'
 
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { SocialLoginForm } from '@/features/auth/components/SocialLoginForm'
@@ -14,7 +14,7 @@ import { PasswordlessLoginForm } from '@/features/auth/components/PasswordlessFo
 import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/auth/hooks/use-signIn-state'
 import { cn } from '@/utils/cn'
-import { SubmitButton } from '@/components/shared/SubmitButton'
+import { SubmitButton } from '@/features/shared/SubmitButton'
 import { ForgotPasswordModal } from './ForgotPasswordModal'
 import Link from 'next/link'
 

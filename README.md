@@ -37,6 +37,6 @@ I am not using the CLI tool that comes with MagicUI. Instead I am using the manu
 
 # Notes
 
-Currently, I have a disorganized file structure. I had started to use `/components` to hold all of my components, but when working with AppSeed, they suggested using the `/features` directory to hold the components within each directory related to the feature of the application that they are used in.This is a work in progress, and I am sure there will be some reorganization as I continue to work in the project. When adding new components, I will nest them in the appropriate `/features` directory.
-
 The `/features` directory is directed at organizing custom features and components from the user. The `/components` directory is for components that are used across the entire application and are installed by component libraries like MagicUI.
+
+I cannot move `Primitives.tsx` to the `/features` directory because for some reason the title sizes change on the landing-page when I move it. The same goes for the (dashboard) and (landing-page) directories. I will continue to work on this and make the appropriate changes.
