@@ -1,6 +1,6 @@
 import { Button, ButtonProps, Spinner } from '@nextui-org/react'
 import { useFormStatus } from 'react-dom'
-import RenderIf from '../RenderIf'
+import RenderIf from '@/components/RenderIf'
 
 export interface SubmitButtonProps extends ButtonProps {
   isLoading?: boolean

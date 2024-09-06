@@ -14,7 +14,7 @@ import { createClient, isAnonymouseUserClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { redirect, useRouter } from 'next/navigation'
-import { SubmitButton } from '@/components/shared/SubmitButton'
+import { SubmitButton } from '@/features/shared/SubmitButton'
 import RenderIf from '@/components/RenderIf'
 
 export function PasswordlessLoginForm() {

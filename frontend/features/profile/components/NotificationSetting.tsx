@@ -5,7 +5,7 @@ import type { CardProps } from '@nextui-org/react'
 import React from 'react'
 import { Card, CardHeader, CardBody, Button } from '@nextui-org/react'
 
-import { SwitchCell } from '@/components/shared/SwitchCell'
+import { SwitchCell } from '@/features/shared/SwitchCell'
 
 export function NotificationSetting(props: CardProps) {
   return (

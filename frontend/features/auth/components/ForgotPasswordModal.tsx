@@ -11,7 +11,7 @@ import {
   Button,
 } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import { SubmitButton } from '@/components/shared/SubmitButton'
+import { SubmitButton } from '@/features/shared/SubmitButton'
 import { forgotPassword } from '../actions'
 
 type ModalProps = {
