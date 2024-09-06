@@ -11,7 +11,7 @@ const features = [
     Icon: HumblCompassThemed,
     name: 'humblCOMPASS',
     description:
-      'A fundamental financial model tracking US economy health to guide investment decisions.',
+      'A fundamental financial model to MONITOR the health of the US economy to guide investment decisions.',
     href: '/',
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
