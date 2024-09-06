@@ -13,7 +13,7 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { PasswordlessLoginForm } from '@/features/auth/components/PasswordlessForm'
 import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/auth/hooks/use-signIn-state'
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import { SubmitButton } from '@/components/shared/SubmitButton'
 import { ForgotPasswordModal } from './ForgotPasswordModal'
 import Link from 'next/link'
@@ -179,7 +179,7 @@ export function LoginForm({
                   />
                 }
                 type="button"
-                id='continue-with-email'
+                id="continue-with-email"
                 onPress={() => setIsFormVisible(true)}
               >
                 Continue with Email

@@ -21,7 +21,7 @@ import {
 import { Frequency, FrequencyEnum, Tier } from './pricing-types'
 import { frequencies, tiers } from './pricing-tiers'
 import features from './pricing-tiers-features'
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import FeatureComparisonsComponent from './FeatureComparisonsComponent'
 import ModalCheckout from './stripe/ModalCheckout'
 import { Elements } from '@stripe/react-stripe-js'

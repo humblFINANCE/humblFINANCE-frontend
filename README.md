@@ -28,3 +28,15 @@ STRIPE_SECRET_KEY=
 STRIPE_PAYMENT_DESCRIPTION=
 STRIPE_WEBHOOK_SECRET=
 ```
+
+# Development: Using MagicUI
+
+MagicUI is a UI component library that is built on top of Radix UI. It is a highly customizable library that allows you to build your own components.
+
+I am not using the CLI tool that comes with MagicUI. Instead I am using the manual method so that I can specify where I want the components to live. That way I can place the components in the `/features` directory, and place the components in the directory where they are used.
+
+# Notes
+
+Currently, I have a disorganized file structure. I had started to use `/components` to hold all of my components, but when working with AppSeed, they suggested using the `/features` directory to hold the components within each directory related to the feature of the application that they are used in.This is a work in progress, and I am sure there will be some reorganization as I continue to work in the project. When adding new components, I will nest them in the appropriate `/features` directory.
+
+The `/features` directory is directed at organizing custom features and components from the user. The `/components` directory is for components that are used across the entire application and are installed by component libraries like MagicUI.

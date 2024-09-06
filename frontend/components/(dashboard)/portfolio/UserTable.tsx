@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import { Icon, InlineIcon } from '@iconify/react'
 import {
   Button,
