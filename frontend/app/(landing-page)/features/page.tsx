@@ -1,14 +1,14 @@
 import { title } from '@/components/Primitives'
 import { BentoCard, BentoGrid } from '@/components/magicui/bento-grid'
 import { cn } from '@/utils/cn'
-import { HumblPortfolio } from '@/features/icons/HumblPortfolio'
-import { HumblCompass } from '@/features/icons/HumblCompass'
-import { HumblChannel } from '@/features/icons/HumblChannel'
-import { HumblAlerts } from '@/features/icons/HumblAlerts'
+import { HumblPortfolioThemed } from '@/features/icons/HumblPortfolioThemed'
+import { HumblCompassThemed } from '@/features/icons/HumblCompassThemed'
+import { HumblChannelThemed } from '@/features/icons/HumblChannelThemed'
+import { HumblAlertsThemed } from '@/features/icons/HumblAlertsThemed'
 
 const features = [
   {
-    Icon: HumblCompass,
+    Icon: HumblCompassThemed,
     name: 'humblCOMPASS',
     description:
       'A fundamental financial model tracking US economy health to guide investment decisions.',
@@ -20,7 +20,7 @@ const features = [
     ),
   },
   {
-    Icon: HumblChannel,
+    Icon: HumblChannelThemed,
     name: 'humblCHANNEL',
     description:
       'A quantitative model providing buy/sell suggestions for any asset with time series data.',
@@ -32,7 +32,7 @@ const features = [
     ),
   },
   {
-    Icon: HumblPortfolio,
+    Icon: HumblPortfolioThemed,
     name: 'humblPORTFOLIO',
     description:
       'An interactive table tracking your assets with buy/sell prices and market position suggestions.',
@@ -44,7 +44,7 @@ const features = [
     ),
   },
   {
-    Icon: HumblAlerts,
+    Icon: HumblAlertsThemed,
     name: 'humblALERTS',
     description:
       'Instant notifications when your assets reach buy/sell prices for timely action.',

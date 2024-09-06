@@ -4,10 +4,14 @@ export { HeartFilledIcon } from './HeartFilledIcon'
 export { SearchIcon } from './SearchIcon'
 
 // Existing Humbl icons
-export { HumblPortfolio } from './HumblPortfolio'
-export { HumblCompass } from './HumblCompass'
-export { HumblChannel } from './HumblChannel'
-export { HumblAlerts } from './HumblAlerts'
+export { HumblPortfolioThemed } from './HumblPortfolioThemed'
+export { HumblCompassThemed } from './HumblCompassThemed'
+export { HumblChannelThemed } from './HumblChannelThemed'
+export { HumblAlertsThemed } from './HumblAlertsThemed'
+export { HumblPortfolioLight, HumblPortfolioDark } from './HumblPortfolio'
+export { HumblCompassLight, HumblCompassDark } from './HumblCompass'
+export { HumblChannelLight, HumblChannelDark } from './HumblChannel'
+export { HumblAlertsLight, HumblAlertsDark } from './HumblAlerts'
 
 // Brand icons
 export {
