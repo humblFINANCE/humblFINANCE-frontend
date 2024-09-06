@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Button, useDisclosure, Divider, Input } from '@nextui-org/react'
 
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { SocialLoginForm } from '@/features/auth/components/SocialLoginForm'

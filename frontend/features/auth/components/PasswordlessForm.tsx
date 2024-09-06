@@ -15,7 +15,7 @@ import { Icon } from '@iconify/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { redirect, useRouter } from 'next/navigation'
 import { SubmitButton } from '@/features/shared/SubmitButton'
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 
 export function PasswordlessLoginForm() {
   const passwordLessModal = useDisclosure()

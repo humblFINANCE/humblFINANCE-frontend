@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import {
   Modal,
   ModalContent,

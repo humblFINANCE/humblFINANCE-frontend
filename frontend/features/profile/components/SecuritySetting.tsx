@@ -12,7 +12,7 @@ import { useUser } from '@/features/user/hooks/use-user'
 import { DeleteAccountModal } from '@/features/profile/components/modal/DeleteAccountModal'
 import { toast } from 'react-toastify'
 import { useTheme } from 'next-themes'
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 
 const CellWrapper = React.forwardRef<
   HTMLDivElement,
