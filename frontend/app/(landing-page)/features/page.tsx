@@ -5,6 +5,7 @@ import { HumblPortfolioThemed } from '@/features/icons/HumblPortfolioThemed'
 import { HumblCompassThemed } from '@/features/icons/HumblCompassThemed'
 import { HumblChannelThemed } from '@/features/icons/HumblChannelThemed'
 import { HumblAlertsThemed } from '@/features/icons/HumblAlertsThemed'
+import Globe from '@/components/magicui/globe'
 
 const features = [
   {
@@ -17,6 +18,9 @@ const features = [
     className: 'col-span-1 row-span-1',
     background: (
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-30" />
+    ),
+    children: (
+      <Globe className="absolute inset-0 opacity-50 pointer-events-none" />
     ),
   },
   {
