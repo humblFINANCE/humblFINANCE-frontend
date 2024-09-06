@@ -22,8 +22,8 @@ import {
   GithubIcon,
   TwitterIcon,
   HumblFinanceIcon,
-} from '@/components/icons/Brands'
-import { HeartFilledIcon, SearchIcon } from '@/components/icons/Icons'
+} from '@/features/icons/Brands'
+import { HeartFilledIcon, SearchIcon } from '@/features/icons/Icons'
 
 export const Navbar = () => {
   const searchInput = (

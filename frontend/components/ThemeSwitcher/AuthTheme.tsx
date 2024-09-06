@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { MoonFilledIcon, SunFilledIcon } from '../icons/Icons'
+import { MoonFilledIcon, SunFilledIcon } from '../../features/icons/Icons'
 import { cn } from '@/utils/cn'
 import React, { useEffect, useState } from 'react'
 

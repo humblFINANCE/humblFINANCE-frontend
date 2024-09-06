@@ -1,10 +1,10 @@
 import { title } from '@/components/Primitives'
 import { BentoCard, BentoGrid } from '@/components/magicui/bento-grid'
 import { cn } from '@/utils/cn'
-import { HumblPortoflio } from '@/components/icons/HumblPortoflio'
-import { HumblCompass } from '@/components/icons/HumblCompass'
-import { HumblChannel } from '@/components/icons/HumblChannel'
-import { HumblAlerts } from '@/components/icons/HumblAlerts'
+import { HumblPortoflio } from '@/features/icons/HumblPortoflio'
+import { HumblCompass } from '@/features/icons/HumblCompass'
+import { HumblChannel } from '@/features/icons/HumblChannel'
+import { HumblAlerts } from '@/features/icons/HumblAlerts'
 
 const features = [
   {
