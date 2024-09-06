@@ -18,7 +18,7 @@ import {
 } from '@nextui-org/react'
 import React from 'react'
 import { LoginModal } from '@/features/auth/components/LoginModal'
-import ThemeSwitcher from '../ThemeSwitcher'
+import ThemeSwitcher from '../theme-switcher'
 
 const menuItems = [
   {

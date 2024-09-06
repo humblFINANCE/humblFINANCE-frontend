@@ -6,7 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react'
-import AuthTheme from '@/components/ThemeSwitcher/AuthTheme'
+import AuthTheme from '@/components/theme-switcher/AuthTheme'
 import { toast, UpdateOptions } from 'react-toastify'
 import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile'
 import { useTheme } from 'next-themes'
