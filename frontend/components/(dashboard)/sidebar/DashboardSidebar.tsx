@@ -20,7 +20,7 @@ import { sectionItems } from './sidebar-items'
 import Sidebar from '@/components/(dashboard)/sidebar/Sidebar'
 import { UserDropdown } from '../UserDropdown'
 import { NotificationsDropdown } from '../NotificationDropdown'
-import { HumblFinanceIcon } from '@/features/icons/Brands'
+import { HumblFinanceIcon } from '@/features/icons'
 import { setCookie, getCookie } from 'cookies-next'
 import TickerTape from '@/features/dashboard/components/TickerTape'
 

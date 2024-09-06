@@ -36,5 +36,5 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["Bento", "clsx", "iconify", "oidc"]
+  "cSpell.words": ["Bento", "clsx", "iconify", "magicui", "oidc"]
 }

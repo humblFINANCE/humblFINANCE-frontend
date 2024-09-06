@@ -1,6 +1,6 @@
 'use client'
 
-import { HumblFinanceIcon } from '@/features/icons/Brands'
+import { HumblFinanceIcon } from '@/features/icons'
 import { cn } from '@/utils/cn'
 import type { NavbarProps } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'

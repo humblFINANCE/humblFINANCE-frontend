@@ -1,7 +1,7 @@
 import { title } from '@/components/Primitives'
 import { BentoCard, BentoGrid } from '@/components/magicui/bento-grid'
 import { cn } from '@/utils/cn'
-import { HumblPortoflio } from '@/features/icons/HumblPortoflio'
+import { HumblPortfolio } from '@/features/icons/HumblPortfolio'
 import { HumblCompass } from '@/features/icons/HumblCompass'
 import { HumblChannel } from '@/features/icons/HumblChannel'
 import { HumblAlerts } from '@/features/icons/HumblAlerts'
@@ -32,7 +32,7 @@ const features = [
     ),
   },
   {
-    Icon: HumblPortoflio,
+    Icon: HumblPortfolio,
     name: 'humblPORTFOLIO',
     description:
       'An interactive table tracking your assets with buy/sell prices and market position suggestions.',
