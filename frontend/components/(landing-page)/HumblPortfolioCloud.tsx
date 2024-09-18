@@ -27,6 +27,14 @@ const slugs = [
   'reebok',
   'underarmour',
   'lululemon',
+  'airbnb',
+  'lyft',
+  'pinterest',
+  'tiktok',
+  'twitter',
+  'facebook',
+  'instagram',
+  'linkedin',
 ]
 
 export function HumblPortfolioCloud() {

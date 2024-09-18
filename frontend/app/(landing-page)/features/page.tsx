@@ -52,9 +52,6 @@ const features = [
         </div>
       </>
     ),
-    children: (
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-    ),
   },
   {
     Icon: HumblAlertsThemed,

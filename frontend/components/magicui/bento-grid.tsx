@@ -56,13 +56,17 @@ const BentoCard = ({
     <div>{background}</div>
     {children}
     <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-6 transition-all duration-300 group-hover:-translate-y-10">
-      <Icon className="h-12 w-12 origin-left transform-gpu text-neutral-700 transition-all duration-300 ease-in-out group-hover:scale-75" />
-      <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
-        {name}
-      </h3>
-      <p className="max-w-lg text-slate-800/50 dark:text-slate-300/75">
-        {description}
-      </p>
+      <div className="relative">
+        <Icon className="h-12 w-12 origin-left transform-gpu text-neutral-700 transition-all duration-300 ease-in-out group-hover:scale-75" />
+        <div className="backdrop-blur-sm bg-white/10 dark:bg-black/10 rounded-lg p-2 mt-2">
+          <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
+            {name}
+          </h3>
+          <p className="max-w-lg text-slate-800/50 dark:text-slate-300/75">
+            {description}
+          </p>
+        </div>
+      </div>
     </div>
 
     <div
@@ -77,7 +81,6 @@ const BentoCard = ({
         </a>
       </Button>
     </div>
-    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
 )
 
