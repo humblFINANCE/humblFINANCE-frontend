@@ -35,6 +35,14 @@ const slugs = [
   'facebook',
   'instagram',
   'linkedin',
+  'mcdonalds',
+  'kfc',
+  'burgerking',
+  'pizza',
+  'pizzahut',
+  'dominos',
+  'subway',
+  'starbucks',
 ]
 
 export function HumblPortfolioCloud() {
