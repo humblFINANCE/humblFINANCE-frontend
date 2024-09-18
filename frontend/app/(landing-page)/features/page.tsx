@@ -6,6 +6,7 @@ import { HumblCompassThemed } from '@/features/icons/HumblCompassThemed'
 import { HumblChannelThemed } from '@/features/icons/HumblChannelThemed'
 import { HumblAlertsThemed } from '@/features/icons/HumblAlertsThemed'
 import Globe from '@/components/magicui/globe'
+import { HumblPortfolioCloud } from '@/components/(landing-page)/HumblPortfolioCloud'
 
 const features = [
   {
@@ -44,7 +45,15 @@ const features = [
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
     background: (
-      <div className="absolute inset-0 bg-gradient-to-bl from-yellow-400 to-orange-500 opacity-30" />
+      <>
+        <div className="absolute inset-0 bg-gradient-to-bl from-yellow-400 to-orange-500 opacity-30" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <HumblPortfolioCloud />
+        </div>
+      </>
+    ),
+    children: (
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     ),
   },
   {
