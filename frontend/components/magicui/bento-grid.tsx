@@ -37,7 +37,7 @@ const BentoCard = ({
   className: string
   background: ReactNode
   Icon: any
-  description: string
+  description: ReactNode // Change this to ReactNode
   href: string
   cta: string
   children?: ReactNode
@@ -69,9 +69,9 @@ const BentoCard = ({
             <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
               {name}
             </h3>
-            <p className="max-w-lg text-neutral-600 dark:text-neutral-400 mt-2">
+            <div className="max-w-lg text-neutral-600 dark:text-neutral-400 mt-2">
               {description}
-            </p>
+            </div>
           </div>
         </div>
       </div>

@@ -14,8 +14,12 @@ const features = [
   {
     Icon: HumblCompassThemed,
     name: 'humblCOMPASS',
-    description:
-      'A fundamental financial model to MONITOR the health of GLOBAL economies to guide investment decisions.',
+    description: (
+      <div className="text-xl">
+        A fundamental financial model to MONITOR the health of GLOBAL economies
+        to guide investment decisions.
+      </div>
+    ),
     href: '/',
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
@@ -29,8 +33,12 @@ const features = [
   {
     Icon: HumblChannelThemed,
     name: 'humblCHANNEL',
-    description:
-      'A quantitative model providing buy/sell suggestions for any asset with time series data.',
+    description: (
+      <div className="text-xl">
+        A quantitative model providing buy/sell suggestions for any asset with
+        time series data.
+      </div>
+    ),
     href: '/',
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
@@ -46,8 +54,12 @@ const features = [
   {
     Icon: HumblPortfolioThemed,
     name: 'humblPORTFOLIO',
-    description:
-      'An interactive table tracking your assets with buy/sell prices and market position suggestions.',
+    description: (
+      <div className="text-xl">
+        An interactive table tracking your assets with buy/sell prices and
+        market position suggestions.
+      </div>
+    ),
     href: '/',
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
@@ -63,8 +75,12 @@ const features = [
   {
     Icon: HumblAlertsThemed,
     name: 'humblALERTS',
-    description:
-      'Instant notifications when your assets reach buy/sell prices for timely action.',
+    description: (
+      <div className="text-xl">
+        Instant notifications when your assets reach buy/sell prices for timely
+        action.
+      </div>
+    ),
     href: '/',
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
