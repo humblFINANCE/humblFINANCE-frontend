@@ -60,7 +60,7 @@ const UserTable = () => {
   const { theme } = useTheme()
   const { profile, user, refetchProfile, openModalConvertUser } = useUser()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { getPortfolio, portfolio, loading } = usePortfolio()
+  const { getPortfolio, portfolio, loading, clearPortofolio } = usePortfolio()
   const [shouldRefresh, setShouldRefresh] = useState(false)
   const {
     watchlists,
@@ -83,7 +83,12 @@ const UserTable = () => {
       if (!params.membership) return
       if (!symbols) return
       if (symbols) {
-        if (symbols.watchlist_symbols.length === 0) return
+        toast.dismiss()
+        if (symbols.watchlist_symbols.length === 0) {
+          clearPortofolio()
+          toast.warning('Selected Watchlist is Empty')
+          return
+        }
         params.symbols = symbols.watchlist_symbols
           .map((ticker) => ticker.symbol)
           .join(',')
@@ -224,6 +229,9 @@ const UserTable = () => {
           rowData={portfolio ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          noRowsOverlayComponent={() => (
+            <div>Watchlist is Empty. Please add Symbols.</div>
+          )}
           loading={loading}
           loadingOverlayComponent={() => <Spinner size="lg" />}
         />

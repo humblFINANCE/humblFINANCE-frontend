@@ -37,5 +37,8 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
         set(() => ({ portfolio: [], loading: false }))
       }
     },
+    clearPortofolio: () => {
+      set(() => ({ portfolio: [], loading: false }))
+    },
   })
 )
