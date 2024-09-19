@@ -42,6 +42,7 @@ export interface IPortfolioState {
 
 export interface IPortfolioAction {
   getPortfolio: (params: IPortfolioParams, refresh?: boolean) => Promise<void>
+  clearPortofolio: () => void
 }
 
 // * WATCHLIST INTERFACE
