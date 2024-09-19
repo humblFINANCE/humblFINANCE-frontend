@@ -8,6 +8,7 @@ import { HumblAlertsThemed } from '@/features/icons/HumblAlertsThemed'
 import Globe from '@/components/magicui/globe'
 import { HumblPortfolioCloud } from '@/components/(landing-page)/HumblPortfolioCloud'
 import { AlertsAnimatedList } from '@/components/(landing-page)/AlertsAnimatedList'
+import { AnimatedBeamMultipleInputs } from '@/components/(landing-page)/AnimatedBeamMultipleInputs'
 
 const features = [
   {
@@ -34,7 +35,10 @@ const features = [
     cta: 'Learn more',
     className: 'col-span-1 row-span-1',
     background: (
-      <div className="absolute inset-0 bg-gradient-to-tr from-green-400 to-cyan-500 opacity-30" />
+      <>
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-400 to-cyan-500 opacity-30" />
+        <AnimatedBeamMultipleInputs className="absolute inset-0" />
+      </>
     ),
   },
   {
