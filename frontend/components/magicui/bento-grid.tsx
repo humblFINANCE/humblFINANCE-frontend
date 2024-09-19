@@ -31,14 +31,16 @@ const BentoCard = ({
   description,
   href,
   cta,
+  children,
 }: {
   name: string
   className: string
   background: ReactNode
   Icon: any
-  description: string
+  description: ReactNode // Change this to ReactNode
   href: string
   cta: string
+  children?: ReactNode
 }) => (
   <div
     key={name}
@@ -52,12 +54,27 @@ const BentoCard = ({
     )}
   >
     <div>{background}</div>
+    {children}
     <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-6 transition-all duration-300 group-hover:-translate-y-10">
-      <Icon className="h-12 w-12 origin-left transform-gpu text-neutral-700 transition-all duration-300 ease-in-out group-hover:scale-75" />
-      <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
-        {name}
-      </h3>
-      <p className="max-w-lg text-neutral-400">{description}</p>
+      <div className="relative">
+        <div className="inline-block rounded-lg relative mb-4">
+          <div className="absolute inset-0 backdrop-blur-sm bg-white/0 dark:bg-black/0 rounded-lg" />
+          <div className="relative z-10 p-2">
+            <Icon className="h-12 w-12 origin-left transform-gpu text-neutral-700 dark:text-neutral-300 transition-all duration-300 ease-in-out group-hover:scale-75" />
+          </div>
+        </div>
+        <div className="mt-4 rounded-lg relative">
+          <div className="absolute inset-0 backdrop-blur-sm bg-white/0 dark:bg-black/0 rounded-lg" />
+          <div className="relative z-10 p-3">
+            <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300">
+              {name}
+            </h3>
+            <div className="max-w-lg text-neutral-600 dark:text-neutral-400 mt-2">
+              {description}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div
@@ -72,7 +89,6 @@ const BentoCard = ({
         </a>
       </Button>
     </div>
-    <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
 )
 

@@ -1,7 +1,11 @@
-export default function BlogLayout({
+export default function FeaturesLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return <section className="w-full min-h-screen">{children}</section>
+  return (
+    <section className="flex flex-col items-center justify-center gap-4 py-3">
+      <div className="w-full max-w-7xl">{children}</div>
+    </section>
+  )
 }
