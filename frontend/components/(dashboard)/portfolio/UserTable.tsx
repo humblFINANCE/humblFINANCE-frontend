@@ -1,12 +1,9 @@
 'use client'
 
 import { cn } from '@/utils/cn'
-import { Icon, InlineIcon } from '@iconify/react'
+import { InlineIcon } from '@iconify/react'
 import {
   Button,
-  Modal,
-  ModalBody,
-  ModalContent,
   Select,
   SelectItem,
   Spinner,
@@ -19,12 +16,15 @@ import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
 import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
-import { IPortfolioParams } from '@/components/(dashboard)/portfolio/types'
+import {
+  IPortfolioParams,
+  IWatchlist,
+} from '@/components/(dashboard)/portfolio/types'
 import WatchListModal from '@/components/(dashboard)/portfolio/WatchListModal'
 import { useUser } from '@/features/user/hooks/use-user'
-import { getCookie, setCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next'
 import { toast } from 'react-toastify'
-import { useRefreshLimit } from './hooks/useRefreshLimit'
+import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 
 const colDefs: agGrid.ColDef[] = [
@@ -58,46 +58,61 @@ agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
 
 const UserTable = () => {
   const { theme } = useTheme()
-  const { profile, user, refetchProfile, openModalConvertUser } = useUser()
+  const { profile, user, openModalConvertUser } = useUser()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const { getPortfolio, portfolio, loading, clearPortofolio } = usePortfolio()
+
+  const getPortfolio = usePortfolio((store) => store.getPortfolio)
+  const portfolio = usePortfolio((store) => store.portfolio)
+  const loading = usePortfolio((store) => store.loading)
+  const clearPortofolio = usePortfolio((store) => store.clearPortofolio)
+
+  const watchlists = useWatchlist((store) => store.watchlists)
+  const getWatchlists = useWatchlist((store) => store.getWatchlists)
+  const loadingWatchlist = useWatchlist((store) => store.loading)
+
   const [shouldRefresh, setShouldRefresh] = useState(false)
-  const {
-    watchlists,
-    getWatchlists,
-    loading: loadingWatchlist,
-  } = useWatchlist()
-  const [value, setValue] = useState<string>('')
+  const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
+  const [selectedWatchlist, setSelectedWatchlist] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
-  const getData = useCallback(async () => {
-    const params: IPortfolioParams = {
-      symbols: '',
-      membership: profile?.membership!,
-    }
-
-    if (value) {
-      const symbols = watchlists.find((watchlist) => watchlist.id === +value)
-      localStorage.setItem('selectedWatchlistId', value)
-
-      if (!params.membership) return
-      if (!symbols) return
-      if (symbols) {
-        toast.dismiss()
-        if (symbols.watchlist_symbols.length === 0) {
-          clearPortofolio()
-          toast.warning('Selected Watchlist is Empty')
-          return
-        }
-        params.symbols = symbols.watchlist_symbols
-          .map((ticker) => ticker.symbol)
-          .join(',')
-        params.membership = profile?.membership!
+  const getData = useCallback(
+    async (props?: { withRefresh?: boolean }) => {
+      const params: IPortfolioParams = {
+        symbols: '',
+        membership: profile?.membership!,
       }
 
-      await getPortfolio(params, shouldRefresh)
-    }
-  }, [value, watchlists, shouldRefresh, profile?.membership])
+      if (selectedWatchlist) {
+        const currentWatchlists = props?.withRefresh
+          ? ((await getWatchlists()) as IWatchlist[])
+          : watchlists
+
+        const symbols = currentWatchlists.find(
+          (watchlist) => watchlist.id === +selectedWatchlist
+        )
+
+        localStorage.setItem('selectedWatchlistId', selectedWatchlist)
+
+        if (!params.membership) return
+        if (!symbols) return
+        if (symbols) {
+          toast.dismiss()
+          if (symbols.watchlist_symbols.length === 0) {
+            clearPortofolio()
+            toast.warning('Selected Watchlist is Empty')
+            return
+          }
+          params.symbols = symbols.watchlist_symbols
+            .map((ticker) => ticker.symbol)
+            .join(',')
+          params.membership = profile?.membership!
+        }
+
+        await getPortfolio(params, shouldRefresh)
+      }
+    },
+    [selectedWatchlist, watchlists, shouldRefresh, profile?.membership]
+  )
 
   const handleRefreshWatchlist = useCallback(async () => {
     if (user.is_anonymous) {
@@ -108,7 +123,9 @@ const UserTable = () => {
       return
     }
 
+    setIsLoadingRefreshLimit(true)
     const limitCookie = await getRefreshLimit(user?.id)
+    setIsLoadingRefreshLimit(false)
 
     if (!limitCookie) {
       toast.error('Something went wrong please refresh the page and try again')
@@ -123,10 +140,10 @@ const UserTable = () => {
       return
     }
 
-    setShouldRefresh(() => true)
-    await getData()
+    setShouldRefresh(true)
+    await getData({ withRefresh: true })
     await decrementRefreshLimit(profile?.id!)
-    setShouldRefresh(() => false)
+    setShouldRefresh(false)
   }, [portfolio, watchlists])
 
   useEffect(() => {
@@ -146,7 +163,7 @@ const UserTable = () => {
             ?.filter((id: any) => id.is_default === true)[0]
             ?.id?.toString()
 
-        setValue(savedValue)
+        setSelectedWatchlist(savedValue)
       }
     }
 
@@ -155,7 +172,7 @@ const UserTable = () => {
 
   useEffect(() => {
     getData()
-  }, [value])
+  }, [selectedWatchlist, profile?.membership])
 
   return (
     <div className="h-full flex flex-col">
@@ -171,9 +188,9 @@ const UserTable = () => {
             isEnabled: false,
           }}
           onChange={(e) => {
-            setValue(e.target.value)
+            setSelectedWatchlist(e.target.value)
           }}
-          selectedKeys={[value]}
+          selectedKeys={[selectedWatchlist]}
         >
           {watchlists &&
             watchlists.map((watchlist) => (
@@ -182,7 +199,7 @@ const UserTable = () => {
         </Select>
         <Tooltip color={`default`} content={`Manage Watchlists`}>
           <Button
-            isLoading={loading || loadingWatchlist}
+            isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
             id="add-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
@@ -201,7 +218,7 @@ const UserTable = () => {
         </Tooltip>
         <Tooltip color={`default`} content={`Refresh Watchlist`}>
           <Button
-            isLoading={loading || loadingWatchlist}
+            isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
             id="refresh-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{

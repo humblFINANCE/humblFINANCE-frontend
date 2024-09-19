@@ -6,12 +6,12 @@ import {
   IWatchlistState,
 } from '@/components/(dashboard)/portfolio/types'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
-import { Profile } from '@/features/user/types/profile'
 
 const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   watchlists: [],
   loading: false,
   getWatchlists: async () => {
+    set(() => ({ loading: true }))
     const supabase = createClient()
     const user = await supabase.auth.getUser()
 
@@ -30,8 +30,10 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
 
     if (error) {
       console.log(error)
+      set(() => ({ loading: false }))
+      return []
     } else {
-      set(() => ({ watchlists: data }))
+      set(() => ({ watchlists: data, loading: false }))
       return data
     }
   },
