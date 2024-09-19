@@ -70,7 +70,7 @@ export function AlertsAnimatedList({ className }: { className?: string }) {
         className
       )}
     >
-      <AnimatedList className="gap-[14px]">
+      <AnimatedList delay={2000} className="gap-[0.84rem]">
         {extendedAlerts.map((alert, idx) => (
           <AlertNotification {...alert} key={idx} />
         ))}
