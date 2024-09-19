@@ -7,6 +7,7 @@ import { HumblChannelThemed } from '@/features/icons/HumblChannelThemed'
 import { HumblAlertsThemed } from '@/features/icons/HumblAlertsThemed'
 import Globe from '@/components/magicui/globe'
 import { HumblPortfolioCloud } from '@/components/(landing-page)/HumblPortfolioCloud'
+import { AlertsAnimatedList } from '@/components/(landing-page)/AlertsAnimatedList'
 
 const features = [
   {
@@ -63,6 +64,11 @@ const features = [
     className: 'col-span-1 row-span-1',
     background: (
       <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-red-500 opacity-30" />
+    ),
+    children: (
+      <div className="absolute inset-0 flex flex-col pt-2">
+        <AlertsAnimatedList className="flex-grow overflow-hidden" />
+      </div>
     ),
   },
 ]
