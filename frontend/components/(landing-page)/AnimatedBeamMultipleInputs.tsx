@@ -4,6 +4,13 @@ import React, { forwardRef, useRef } from 'react'
 
 import { cn } from '@/utils/cn'
 import { AnimatedBeam } from '@/components/magicui/animated-beam'
+import {
+  VolumeChart,
+  StockDataChart,
+  HumblChannelLight,
+  Robot,
+  Volatility,
+} from '@/features/icons'
 
 const Circle = forwardRef<
   HTMLDivElement,
@@ -39,31 +46,33 @@ export function AnimatedBeamMultipleInputs({
   return (
     <div
       className={cn(
-        'relative flex h-full w-full items-center justify-center overflow-hidden pt-4 pr-4 pl-24 pb-20',
+        'relative flex h-full w-full items-center justify-center overflow-hidden pt-0 pr-2 pl-20 pb-24', // Reduced left padding
         className
       )}
       ref={containerRef}
     >
-      <div className="flex size-full flex-row items-stretch justify-between gap-8 max-w-[320px] ml-24">
+      <div className="flex size-full flex-row items-stretch justify-between gap-8 max-w-[320px] ml-20 -mt-8">
+        {' '}
+        {/* Reduced left margin */}
         <div className="flex flex-col justify-center gap-3">
           <Circle ref={div1Ref} className="size-12">
-            <Icons.googleDocs />
+            <VolumeChart width="1.5em" height="1.5em" />
           </Circle>
           <Circle ref={div2Ref} className="size-12">
-            <Icons.whatsapp />
+            <StockDataChart width="2em" height="2em" />
           </Circle>
           <Circle ref={div3Ref} className="size-12">
-            <Icons.messenger />
+            <Volatility width="2em" height="2em" />
           </Circle>
         </div>
         <div className="flex flex-col justify-center">
           <Circle ref={div4Ref} className="size-16">
-            <Icons.openai />
+            <Robot width="2.5em" height="2.5em" />
           </Circle>
         </div>
         <div className="flex flex-col justify-center">
           <Circle ref={div5Ref} className="size-12">
-            <Icons.user />
+            <HumblChannelLight width="1.9em" height="1.9em" />
           </Circle>
         </div>
       </div>

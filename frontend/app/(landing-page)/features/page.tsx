@@ -37,7 +37,9 @@ const features = [
     background: (
       <>
         <div className="absolute inset-0 bg-gradient-to-tr from-green-400 to-cyan-500 opacity-30" />
-        <AnimatedBeamMultipleInputs className="absolute inset-0" />
+        <div className="absolute inset-0 -left-8">
+          <AnimatedBeamMultipleInputs className="w-full h-full" />
+        </div>
       </>
     ),
   },

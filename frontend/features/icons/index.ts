@@ -2,6 +2,10 @@ export { MoonFilledIcon } from './MoonFilledIcon'
 export { SunFilledIcon } from './SunFilledIcon'
 export { HeartFilledIcon } from './HeartFilledIcon'
 export { SearchIcon } from './SearchIcon'
+export { VolumeChart } from './VolumeChart'
+export { StockDataChart } from './StockDataChart'
+export { Robot } from './Robot'
+export { Volatility } from './Volatility'
 
 // Existing Humbl icons
 export { HumblPortfolioThemed } from './HumblPortfolioThemed'
