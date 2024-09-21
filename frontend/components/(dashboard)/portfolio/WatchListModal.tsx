@@ -120,7 +120,7 @@ export default function WatchListModal({
     await addSymbol(symbolName as string, selectedWatchlist.id)
     setSymbolName('')
 
-    await getPortfolio(params, true)
+    await getPortfolio(params)
   }
 
   const handleAddWatchlist = async () => {

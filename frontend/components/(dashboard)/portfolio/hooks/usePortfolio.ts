@@ -13,15 +13,16 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
   (set, get) => ({
     portfolio: [],
     loading: false,
-    getPortfolio: async (params, refresh) => {
+    getPortfolio: async (params) => {
       try {
         set(() => ({ loading: true }))
         const param = new URLSearchParams(params).toString()
         const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
         const response = await fetch(url + '?' + param, {
           method: 'GET',
+          cache: 'no-store',
           headers: {
-            'cache-control': refresh ? 'no-cache' : 'must-revalidate',
+            'cache-control': 'no-store',
           },
         })
 

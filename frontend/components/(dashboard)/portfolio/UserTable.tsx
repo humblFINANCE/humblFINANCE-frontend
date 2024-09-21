@@ -70,7 +70,6 @@ const UserTable = () => {
   const getWatchlists = useWatchlist((store) => store.getWatchlists)
   const loadingWatchlist = useWatchlist((store) => store.loading)
 
-  const [shouldRefresh, setShouldRefresh] = useState(false)
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
   const [selectedWatchlist, setSelectedWatchlist] = useState<string>('')
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
@@ -108,10 +107,10 @@ const UserTable = () => {
           params.membership = profile?.membership!
         }
 
-        await getPortfolio(params, shouldRefresh)
+        await getPortfolio(params)
       }
     },
-    [selectedWatchlist, watchlists, shouldRefresh, profile?.membership]
+    [selectedWatchlist, watchlists, profile?.membership]
   )
 
   const handleRefreshWatchlist = useCallback(async () => {
@@ -140,10 +139,8 @@ const UserTable = () => {
       return
     }
 
-    setShouldRefresh(true)
     await getData({ withRefresh: true })
     await decrementRefreshLimit(profile?.id!)
-    setShouldRefresh(false)
   }, [portfolio, watchlists])
 
   useEffect(() => {

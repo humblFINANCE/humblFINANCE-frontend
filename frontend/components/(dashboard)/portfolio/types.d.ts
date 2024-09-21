@@ -41,7 +41,7 @@ export interface IPortfolioState {
 }
 
 export interface IPortfolioAction {
-  getPortfolio: (params: IPortfolioParams, refresh?: boolean) => Promise<void>
+  getPortfolio: (params: IPortfolioParams) => Promise<void>
   clearPortofolio: () => void
 }
 
