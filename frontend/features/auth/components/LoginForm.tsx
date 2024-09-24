@@ -20,6 +20,7 @@ import Link from 'next/link'
 
 interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
   linkAccount?: boolean
+  onClose?: () => void
 }
 
 export function LoginForm({
@@ -52,12 +53,15 @@ export function LoginForm({
   })
 
   useEffect(() => {
-    if (signInWithEmailState.captchaToken === captchaToken) {
+    if (signInWithEmailState?.error === undefined) {
+      if (rest.onClose) rest.onClose?.()
+    }
+    if (signInWithEmailState?.captchaToken === captchaToken) {
       if (signInWithEmailCaptchaRef) {
         ;(signInWithEmailCaptchaRef as any).current?.resetCaptcha()
       }
     }
-  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef])
+  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef, rest])
 
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
@@ -93,6 +97,7 @@ export function LoginForm({
                 name="email"
                 type="email"
                 variant="bordered"
+                required
               />
               <Input
                 isRequired
@@ -100,6 +105,7 @@ export function LoginForm({
                 name="password"
                 type="password"
                 variant="bordered"
+                required
               />
               <input type="hidden" name="captchaToken" value={captchaToken} />
               <HCaptcha
@@ -113,9 +119,9 @@ export function LoginForm({
               <SubmitButton color="primary" type="submit">
                 Login
               </SubmitButton>
-              <RenderIf condition={Boolean(signInWithEmailState.error)}>
+              <RenderIf condition={Boolean(signInWithEmailState?.error)}>
                 <span className="text-danger">
-                  {signInWithEmailState.error}
+                  {signInWithEmailState?.error}
                 </span>
               </RenderIf>
               <Link
