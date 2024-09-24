@@ -107,7 +107,7 @@ const UserTable = () => {
           params.membership = profile?.membership!
         }
 
-        await getPortfolio(params)
+        await getPortfolio(params, props?.withRefresh)
       }
     },
     [selectedWatchlist, watchlists, profile?.membership]

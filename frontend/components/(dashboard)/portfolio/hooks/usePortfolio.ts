@@ -1,29 +1,34 @@
 import { create } from 'zustand'
 import {
-  IPortfolio,
   IPortfolioAction,
-  IPortfolioParams,
   IPortfolioState,
 } from '@/components/(dashboard)/portfolio/types'
 import { ENDPOINTS } from '@/components/(dashboard)/portfolio/constants'
-import { createClient } from '@/utils/supabase/client'
 const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
 export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
   (set, get) => ({
     portfolio: [],
     loading: false,
-    getPortfolio: async (params) => {
+    getPortfolio: async (params, shouldRefresh) => {
       try {
         set(() => ({ loading: true }))
         const param = new URLSearchParams(params).toString()
         const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+        const headers = new Headers()
+
+        if (shouldRefresh) {
+          headers.set('Cache-Control', 'no-cache')
+          headers.set('Pragma', 'no-cache')
+        } else {
+          headers.delete('Cache-Control')
+          headers.delete('Pragma')
+        }
+
         const response = await fetch(url + '?' + param, {
           method: 'GET',
-          cache: 'no-store',
-          headers: {
-            'cache-control': 'no-store',
-          },
+          cache: 'no-store', // Prevent disk cache. Use caching mechanism from the server instead
+          headers,
         })
 
         const { response_data } = await response.json()
