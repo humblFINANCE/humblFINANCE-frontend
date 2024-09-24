@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { MultiStepLoader as Loader } from '@/components/ui/multi-step-loader'
 import { IconSquareRoundedX } from '@tabler/icons-react'
 import ShimmerButton from '@/components/magicui/shimmer-button'
+import { CoolMode } from '@/components/magicui/cool-mode'
 
 // Component to render text with specific parts in bold
 const BoldedText = ({
@@ -83,19 +84,27 @@ export default function InvestingFrameworkPage() {
         duration={3700}
       />
 
-      {/* Button to trigger the loader */}
-      <ShimmerButton
-        onClick={() => setLoading(true)}
-        className="mt-1 shadow-xl"
-        shimmerColor="#8B5CF6"
-        shimmerSize="0.15em"
-        shimmerDuration="3s"
-        background="hsl(var(--background))"
+      {/* Button to trigger the loader, now wrapped with CoolMode */}
+      <CoolMode
+        options={{
+          particle: '/money-bag-emoji.svg',
+          particleCount: 20,
+          size: 30,
+        }}
       >
-        <span className="text-sm md:text-base font-medium text-secondary-foreground dark:text-primary">
-          Framework Overview 🚀
-        </span>
-      </ShimmerButton>
+        <ShimmerButton
+          onClick={() => setLoading(true)}
+          className="mt-1 shadow-xl"
+          shimmerColor="#8B5CF6"
+          shimmerSize="0.15em"
+          shimmerDuration="3s"
+          background="hsl(var(--background))"
+        >
+          <span className="text-sm md:text-base font-medium text-secondary-foreground dark:text-primary">
+            Framework Overview 🚀
+          </span>
+        </ShimmerButton>
+      </CoolMode>
 
       {/* Close button for the loader, only visible when loading */}
       {loading && (
