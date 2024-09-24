@@ -100,7 +100,7 @@ export default function InvestingFrameworkPage() {
           shimmerDuration="3s"
           background="hsl(var(--background))"
         >
-          <span className="text-sm md:text-base font-medium text-secondary-foreground dark:text-primary">
+          <span className="text-sm md:text-base font-medium text-black dark:text-white">
             Framework Overview 🚀
           </span>
         </ShimmerButton>
