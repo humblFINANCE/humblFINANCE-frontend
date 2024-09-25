@@ -173,24 +173,23 @@ export default function InvestingFrameworkPage() {
         </CoolMode>
       </div>
 
-      {/* Tracing Beam content */}
-      <TracingBeam className="px-6 w-full">
-        <div className="max-w-2xl mx-auto antialiased pt-4 relative">
-          <Loader
-            loadingStates={loadingStates.map((state) => ({
-              text: (
-                <BoldedText text={state.text} boldParts={state.boldParts} />
-              ),
-            }))}
-            loading={loading}
-            duration={3700}
-          />
+      {/* Loader component */}
+      <div className="w-full max-w-2xl mx-auto mb-12">
+        <Loader
+          loadingStates={loadingStates.map((state) => ({
+            text: <BoldedText text={state.text} boldParts={state.boldParts} />,
+          }))}
+          loading={loading}
+          duration={3700}
+        />
+      </div>
 
+      {/* Tracing Beam content */}
+      <TracingBeam className="px-6">
+        <div className="max-w-2xl mx-auto antialiased pt-4 relative">
           {frameworkContent.map((item, index) => (
-            <div key={`content-${index}`} className="mb-24 pt-16">
-              {' '}
-              {/* Added pt-16 for top padding */}
-              <h2 className="text-2xl md:text-3xl font-bold mb-8">
+            <div key={`content-${index}`} className="mb-20 pt-12">
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">
                 {item.title}
               </h2>
               <div className="text-sm prose prose-sm dark:prose-invert">
