@@ -69,7 +69,7 @@ const loadingStates = [
 
 const frameworkContent = [
   {
-    title: 'Humble Compass',
+    title: 'humblCOMPASS',
     description: (
       <>
         <p>
@@ -84,10 +84,9 @@ const frameworkContent = [
         </p>
       </>
     ),
-    badge: 'Analysis',
   },
   {
-    title: 'Humble Channel',
+    title: 'humblCHANNEL',
     description: (
       <>
         <p>
@@ -102,10 +101,9 @@ const frameworkContent = [
         </p>
       </>
     ),
-    badge: 'Timing',
   },
   {
-    title: 'Humble Portfolio',
+    title: 'humblPORTFOLIO',
     description: (
       <>
         <p>
@@ -120,10 +118,9 @@ const frameworkContent = [
         </p>
       </>
     ),
-    badge: 'Management',
   },
   {
-    title: 'Humble Alerts',
+    title: 'humblALERTS',
     description: (
       <>
         <p>
@@ -138,7 +135,6 @@ const frameworkContent = [
         </p>
       </>
     ),
-    badge: 'Notifications',
   },
 ]
 
@@ -147,7 +143,13 @@ export default function InvestingFrameworkPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <h1 className={cn(title(), 'text-center my-8')}>Investing Framework</h1>
+      <h1 className={cn(title(), 'text-center my-8')}>humblSTRATEGY</h1>
+      <h2 className="text-center text-md md:text-lg font-light text-gray-700 dark:text-gray-500 mb-4">
+        The humblSTRATEGY is a comprehensive framework designed to help you
+        learn and navigate how professional asset managers make money in the
+        stock market.
+      </h2>
+      <br />
 
       {/* Framework Overview button container */}
       <div className="mb-12">
@@ -167,7 +169,7 @@ export default function InvestingFrameworkPage() {
             background="hsl(var(--background))"
           >
             <span className="text-sm md:text-base font-medium text-black dark:text-white">
-              Framework Overview 🚀
+              humblSTRATEGY Overview 🚀
             </span>
           </ShimmerButton>
         </CoolMode>
