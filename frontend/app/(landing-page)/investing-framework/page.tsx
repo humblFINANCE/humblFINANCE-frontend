@@ -161,7 +161,7 @@ export default function InvestingFrameworkPage() {
                 background="hsl(var(--background))"
               >
                 <span className="text-sm md:text-base font-medium text-black dark:text-white">
-                  Framework Overview 🚀
+                  humblSTRATEGY Overview 🚀
                 </span>
               </ShimmerButton>
             </CoolMode>
