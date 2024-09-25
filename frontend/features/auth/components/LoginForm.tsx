@@ -88,7 +88,10 @@ export function LoginForm({
               exit="hidden"
               initial="hidden"
               variants={variants}
-              action={signInAction}
+              action={(formData) => {
+                signInAction(formData)
+                localStorage.setItem('email', formData.get('email') as string)
+              }}
             >
               <Input
                 autoFocus
