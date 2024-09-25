@@ -97,7 +97,7 @@ const features = [
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col">
       <h1 className={cn(title(), 'text-center my-8')}>Features</h1>
       <BentoGrid className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-4">
         {features.map((feature) => (

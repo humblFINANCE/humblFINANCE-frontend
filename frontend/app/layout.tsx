@@ -6,6 +6,7 @@ import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
 import ToastProvider from '@/features/ToastProvider'
+import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = {
   title: {
@@ -34,18 +35,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={clsx(
-          'min-h-screen bg-background font-sans antialiased',
-          fontSans.variable
-        )}
-      >
-        <Providers attribute="class" defaultTheme="dark">
-          <ToastProvider>
-            <div className="relative flex flex-col h-screen">{children}</div>
-          </ToastProvider>
-        </Providers>
+    <html lang="en">
+      <body className="bg-white dark:bg-black">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Providers attribute="class" defaultTheme="system">
+            <ToastProvider>{children}</ToastProvider>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   )

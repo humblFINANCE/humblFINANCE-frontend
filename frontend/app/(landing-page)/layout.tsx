@@ -7,12 +7,12 @@ export default function LandingPageLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-black">
       <LandingPageNavbar />
-      <main className="container mx-auto max-w-7xl pt-8 px-6 flex-grow">
+      <main className="flex-grow container mx-auto max-w-7xl pt-8 px-6">
         {children}
       </main>
       <LandingFooter />
-    </>
+    </div>
   )
 }
