@@ -78,11 +78,12 @@ export default function InvestingFrameworkPage() {
         <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
           A fundamental financial model that tracks the health of the US economy
           using Growth and Inflation data. These data points are known to have
-          the most significant impact on how the "MARKETS" move and whether it
-          is an excellent time to be dumping money into them or taking your
-          money out. We use this to guide our investment decisions because it
-          tells us where the economy is heading and if it is healthy or hurting.
-          The assets we invest in change dramatically in those two scenarios.
+          the most significant impact on how the &quot;MARKETS&quot; move and
+          whether it is an excellent time to be dumping money into them or
+          taking your money out. We use this to guide our investment decisions
+          because it tells us where the economy is heading and if it is healthy
+          or hurting. The assets we invest in change dramatically in those two
+          scenarios.
         </p>
       ),
     },
