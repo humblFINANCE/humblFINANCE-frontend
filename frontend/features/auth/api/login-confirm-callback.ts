@@ -26,6 +26,17 @@ export async function GET(request: NextRequest) {
     console.log(error?.code, data)
 
     if (!error) {
+      if (data?.user) {
+        const { error } = await supabase
+          .from('profiles')
+          .update({ email: data.user.email })
+          .eq('id', data.user.id)
+
+        if (error) {
+          console.log('error update user', error)
+        }
+      }
+
       redirectTo.searchParams.delete('next')
       redirectTo.searchParams.append('success', 'true')
       return NextResponse.redirect(redirectTo)
