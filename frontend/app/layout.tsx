@@ -6,6 +6,7 @@ import type { Viewport } from 'next'
 import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
 import ToastProvider from '@/features/ToastProvider'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: {
@@ -43,7 +44,9 @@ export default function RootLayout({
       >
         <Providers attribute="class" defaultTheme="dark">
           <ToastProvider>
-            <div className="relative flex flex-col h-screen">{children}</div>
+            <div className="relative flex flex-col h-screen">
+              <Suspense>{children}</Suspense>
+            </div>
           </ToastProvider>
         </Providers>
       </body>
