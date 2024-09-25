@@ -1,10 +1,10 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import confetti from 'canvas-confetti'
 
 export default function EmailConfirmationPage() {
-  const handleMouseEnter = useCallback(() => {
+  const fireConfetti = useCallback(() => {
     const duration = 5 * 1000
     const animationEnd = Date.now() + duration
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
@@ -33,11 +33,16 @@ export default function EmailConfirmationPage() {
     }, 250)
   }, [])
 
+  // Fire confetti on initial page load
+  useEffect(() => {
+    fireConfetti()
+  }, [fireConfetti])
+
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-24">
       <h1
         className="text-6xl font-bold mb-6 cursor-default transition-colors duration-300 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 leading-tight"
-        onMouseEnter={handleMouseEnter}
+        onMouseEnter={fireConfetti}
       >
         Congratulations!
       </h1>
