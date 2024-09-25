@@ -6,6 +6,7 @@ import { MultiStepLoader as Loader } from '@/components/ui/multi-step-loader'
 import { IconSquareRoundedX } from '@tabler/icons-react'
 import ShimmerButton from '@/components/magicui/shimmer-button'
 import { CoolMode } from '@/components/magicui/cool-mode'
+import { TracingBeam } from '@/components/ui/tracing-beam'
 
 // Component to render text with specific parts in bold
 const BoldedText = ({
@@ -66,45 +67,139 @@ const loadingStates = [
   },
 ]
 
+const frameworkContent = [
+  {
+    title: 'Humble Compass',
+    description: (
+      <>
+        <p>
+          Humble Compass is our advanced tool for analyzing global economies. It
+          provides a comprehensive view of market trends, economic indicators,
+          and geopolitical factors that influence investment decisions.
+        </p>
+        <p>
+          With Humble Compass, you can navigate the complex world of global
+          finance with confidence, making informed decisions based on real-time
+          data and expert analysis.
+        </p>
+      </>
+    ),
+    badge: 'Analysis',
+  },
+  {
+    title: 'Humble Channel',
+    description: (
+      <>
+        <p>
+          With Humble Channel, you can time your entries and exits with
+          precision. Our sophisticated algorithms analyze market patterns to
+          identify optimal trading windows, helping you maximize your investment
+          potential.
+        </p>
+        <p>
+          Humble Channel provides you with clear signals for when to enter or
+          exit positions, taking the guesswork out of timing the market.
+        </p>
+      </>
+    ),
+    badge: 'Timing',
+  },
+  {
+    title: 'Humble Portfolio',
+    description: (
+      <>
+        <p>
+          Humble Portfolio is your personal asset management center. It offers
+          tools for diversification, risk assessment, and performance tracking,
+          ensuring your investment strategy aligns with your financial goals.
+        </p>
+        <p>
+          With Humble Portfolio, you can visualize your entire investment
+          landscape, make data-driven decisions, and optimize your portfolio for
+          long-term success.
+        </p>
+      </>
+    ),
+    badge: 'Management',
+  },
+  {
+    title: 'Humble Alerts',
+    description: (
+      <>
+        <p>
+          Stay informed with Humble Alerts. This feature provides timely
+          notifications about market opportunities, potential risks, and
+          important updates related to your portfolio, helping you make informed
+          decisions quickly.
+        </p>
+        <p>
+          Humble Alerts ensures you never miss a crucial moment in the market,
+          keeping you ahead of the curve and ready to act on new opportunities.
+        </p>
+      </>
+    ),
+    badge: 'Notifications',
+  },
+]
+
 export default function InvestingFrameworkPage() {
-  // State to control the visibility of the loader
   const [loading, setLoading] = useState(false)
 
   return (
     <div className="min-h-screen flex flex-col items-center">
-      {/* Page title */}
       <h1 className={cn(title(), 'text-center my-8')}>Investing Framework</h1>
 
-      {/* Multi-step loader component */}
-      <Loader
-        loadingStates={loadingStates.map((state) => ({
-          text: <BoldedText text={state.text} boldParts={state.boldParts} />,
-        }))}
-        loading={loading}
-        duration={3700}
-      />
-
-      {/* Button to trigger the loader, now wrapped with CoolMode */}
-      <CoolMode
-        options={{
-          particle: '/money-bag-emoji.svg',
-          particleCount: 20,
-          size: 30,
-        }}
-      >
-        <ShimmerButton
-          onClick={() => setLoading(true)}
-          className="mt-1 shadow-xl"
-          shimmerColor="#8B5CF6"
-          shimmerSize="0.15em"
-          shimmerDuration="3s"
-          background="hsl(var(--background))"
+      {/* Framework Overview button container */}
+      <div className="mb-12">
+        <CoolMode
+          options={{
+            particle: '/money-bag-emoji.svg',
+            particleCount: 20,
+            size: 30,
+          }}
         >
-          <span className="text-sm md:text-base font-medium text-black dark:text-white">
-            Framework Overview 🚀
-          </span>
-        </ShimmerButton>
-      </CoolMode>
+          <ShimmerButton
+            onClick={() => setLoading(true)}
+            className="mt-1 shadow-xl"
+            shimmerColor="#8B5CF6"
+            shimmerSize="0.15em"
+            shimmerDuration="3s"
+            background="hsl(var(--background))"
+          >
+            <span className="text-sm md:text-base font-medium text-black dark:text-white">
+              Framework Overview 🚀
+            </span>
+          </ShimmerButton>
+        </CoolMode>
+      </div>
+
+      {/* Tracing Beam content */}
+      <TracingBeam className="px-6 w-full">
+        <div className="max-w-2xl mx-auto antialiased pt-4 relative">
+          <Loader
+            loadingStates={loadingStates.map((state) => ({
+              text: (
+                <BoldedText text={state.text} boldParts={state.boldParts} />
+              ),
+            }))}
+            loading={loading}
+            duration={3700}
+          />
+
+          {frameworkContent.map((item, index) => (
+            <div key={`content-${index}`} className="mb-24 pt-16">
+              {' '}
+              {/* Added pt-16 for top padding */}
+              <h2 className="text-2xl md:text-3xl font-bold mb-8">
+                {item.title}
+              </h2>
+              <div className="text-sm prose prose-sm dark:prose-invert">
+                {item.description}
+              </div>
+            </div>
+          ))}
+        </div>
+      </TracingBeam>
 
       {/* Close button for the loader, only visible when loading */}
       {loading && (
@@ -115,9 +210,6 @@ export default function InvestingFrameworkPage() {
           <IconSquareRoundedX className="h-12 w-12" />
         </button>
       )}
-
-      {/* Placeholder for additional investing framework content */}
-      {/* Add your investing framework content here */}
     </div>
   )
 }
