@@ -21,9 +21,17 @@ export const usePortfolio = create<IPortfolioState & IPortfolioAction>(
           headers.set('Cache-Control', 'no-cache')
           headers.set('Pragma', 'no-cache')
         } else {
-          headers.delete('Cache-Control')
-          headers.delete('Pragma')
+          headers.set('Cache-Control', 'max-age=60') // added 1m cache to prevent Safari caching bug
+          headers.set('Pragma', 'max-age=60') // added 1m cache to prevent Safari caching bug
         }
+
+        // if (shouldRefresh) {
+        //   headers.set('Cache-Control', 'no-cache')
+        //   headers.set('Pragma', 'no-cache')
+        // } else {
+        //   headers.delete('Cache-Control')
+        //   headers.delete('Pragma')
+        // }
 
         const response = await fetch(url + '?' + param, {
           method: 'GET',
