@@ -4,7 +4,7 @@ import { MacbookScroll } from '@/components/(landing-page)/MacbookScroll'
 
 export default function HomePage() {
   return (
-    <section className="flex flex-col items-center justify-start">
+    <section className="flex flex-col items-center">
       <HumblFinanceHeading />
       <h3 className={`${title({ size: 'xs' })} text-center`}>
         the modern investing framework built for everyone
@@ -12,11 +12,15 @@ export default function HomePage() {
       <MacbookScroll
         src="/humblFINANCE-dashboard.png"
         title={
-          <h4 className="font-semibold text-xl">
+          <span className="font-semibold text-xl">
             a dashboard built for simplicity
-          </h4>
+          </span>
         }
       />
+      {/* Divider for medium screens and above */}
+      <div className="w-full max-w-4xl mx-auto mt-8 mb-10 hidden md:block">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent" />
+      </div>
     </section>
   )
 }

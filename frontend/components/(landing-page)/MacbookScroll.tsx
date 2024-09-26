@@ -69,14 +69,14 @@ export const MacbookScroll = ({
   return (
     <div
       ref={ref}
-      className="min-h-[150vh] flex flex-col items-center py-0 md:py-40 justify-start flex-shrink-0 [perspective:800px] transform md:scale-110 scale-[0.6] sm:scale-75 -mt-20 sm:-mt-10 md:mt-0"
+      className="min-h-[150vh] sm:min-h-[170vh] flex flex-col items-center py-0 md:py-40 justify-start flex-shrink-0 [perspective:800px] transform md:scale-110 scale-[0.6] sm:scale-75 -mt-20 sm:-mt-10 md:mt-0 relative"
     >
       <motion.h2
         style={{
           translateY: textTransform,
           opacity: textOpacity,
         }}
-        className="dark:text-white text-neutral-800 text-3xl font-bold mb-10 text-center"
+        className="dark:text-white text-neutral-800 text-3xl font-bold mb-5 sm:mb-10 text-center"
       >
         {title || <h3>financial freedom starts here</h3>}
       </motion.h2>
@@ -111,6 +111,10 @@ export const MacbookScroll = ({
           <div className="h-40 w-full absolute bottom-0 inset-x-0 bg-gradient-to-t dark:from-black from-white via-white dark:via-black to-transparent z-50"></div>
         )}
         {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
+      </div>
+      {/* Divider for small screens */}
+      <div className="w-full absolute bottom-0 left-0 right-0 md:hidden">
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent" />
       </div>
     </div>
   )
