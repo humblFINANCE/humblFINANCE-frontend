@@ -112,10 +112,6 @@ export const MacbookScroll = ({
         )}
         {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
       </div>
-      {/* Divider for small screens */}
-      <div className="w-full absolute bottom-0 left-0 right-0 md:hidden">
-        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent" />
-      </div>
     </div>
   )
 }
