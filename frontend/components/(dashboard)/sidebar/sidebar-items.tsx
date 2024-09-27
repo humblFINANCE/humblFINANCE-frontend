@@ -99,7 +99,7 @@ export const sectionItems: SidebarItem[] = [
       {
         key: 'humblPORTFOLIO',
         href: '/dashboard/humblPORTFOLIO',
-        icon: 'solar:widget-2-outline',
+        icon: 'solar:folder-with-files-line-duotone',
         title: 'humblPORTFOLIO',
         // endContent: (
         //   <Icon
@@ -132,7 +132,7 @@ export const sectionItems: SidebarItem[] = [
         key: 'humblCOMPASS',
         href: '/dashboard/humblCOMPASS',
         title: 'humblCOMPASS',
-        icon: 'solar:pie-chart-2-outline',
+        icon: 'solar:compass-line-duotone',
         items: [
           {
             key: 'shareholders',
@@ -154,7 +154,7 @@ export const sectionItems: SidebarItem[] = [
       {
         key: 'humblCHANNEL',
         href: '/dashboard/humblCHANNEL',
-        icon: 'solar:chart-outline',
+        icon: 'solar:align-vertical-spacing-line-duotone',
         title: 'humblCHANNEL',
       },
     ],
