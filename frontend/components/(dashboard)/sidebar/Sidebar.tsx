@@ -16,7 +16,7 @@ import {
 import React from 'react'
 import { Icon } from '@iconify/react'
 
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 
 export enum SidebarItemType {
   Nest = 'nest',

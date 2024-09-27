@@ -5,7 +5,7 @@ import {
   SidebarItemType,
   type SidebarItem,
 } from '@/components/(dashboard)/sidebar/Sidebar'
-import AbbreviatedAvatar from '@/components/AbbreviatedAvatar'
+import AbbreviatedAvatar from '@/components/(dashboard)/sidebar/AbbreviatedAvatar'
 
 /**
  * Please check the https://nextui.org/docs/guide/routing to have a seamless router integration

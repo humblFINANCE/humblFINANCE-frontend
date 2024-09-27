@@ -3,7 +3,7 @@ import { Link } from '@nextui-org/react'
 
 export default function LandingFooter() {
   return (
-    <footer className="w-full flex items-center justify-center py-3">
+    <footer className="w-full flex items-center justify-center py-3 mt-auto">
       <Link
         isExternal
         className="flex items-center gap-1 text-current"

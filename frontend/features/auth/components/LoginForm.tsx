@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Button, useDisclosure, Divider, Input } from '@nextui-org/react'
 
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion'
 import { Icon } from '@iconify/react'
 import { SocialLoginForm } from '@/features/auth/components/SocialLoginForm'
@@ -13,13 +13,14 @@ import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { PasswordlessLoginForm } from '@/features/auth/components/PasswordlessForm'
 import { useFormState } from 'react-dom'
 import { useSignInState } from '@/features/auth/hooks/use-signIn-state'
-import { cn } from '@/utils/nextui/cn'
-import { SubmitButton } from '@/components/shared/SubmitButton'
+import { cn } from '@/utils/cn'
+import { SubmitButton } from '@/features/shared/SubmitButton'
 import { ForgotPasswordModal } from './ForgotPasswordModal'
 import Link from 'next/link'
 
 interface LoginFormProps extends React.HTMLProps<HTMLDivElement> {
   linkAccount?: boolean
+  onClose?: () => void
 }
 
 export function LoginForm({
@@ -52,12 +53,15 @@ export function LoginForm({
   })
 
   useEffect(() => {
-    if (signInWithEmailState.captchaToken === captchaToken) {
+    if (signInWithEmailState?.error === undefined) {
+      if (rest.onClose) rest.onClose?.()
+    }
+    if (signInWithEmailState?.captchaToken === captchaToken) {
       if (signInWithEmailCaptchaRef) {
         ;(signInWithEmailCaptchaRef as any).current?.resetCaptcha()
       }
     }
-  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef])
+  }, [signInWithEmailState, captchaToken, signInWithEmailCaptchaRef, rest])
 
   const orDivider = (
     <div className="flex items-center gap-4 py-2">
@@ -84,7 +88,10 @@ export function LoginForm({
               exit="hidden"
               initial="hidden"
               variants={variants}
-              action={signInAction}
+              action={(formData) => {
+                signInAction(formData)
+                localStorage.setItem('email', formData.get('email') as string)
+              }}
             >
               <Input
                 autoFocus
@@ -93,6 +100,7 @@ export function LoginForm({
                 name="email"
                 type="email"
                 variant="bordered"
+                required
               />
               <Input
                 isRequired
@@ -100,6 +108,7 @@ export function LoginForm({
                 name="password"
                 type="password"
                 variant="bordered"
+                required
               />
               <input type="hidden" name="captchaToken" value={captchaToken} />
               <HCaptcha
@@ -113,9 +122,9 @@ export function LoginForm({
               <SubmitButton color="primary" type="submit">
                 Login
               </SubmitButton>
-              <RenderIf condition={Boolean(signInWithEmailState.error)}>
+              <RenderIf condition={Boolean(signInWithEmailState?.error)}>
                 <span className="text-danger">
-                  {signInWithEmailState.error}
+                  {signInWithEmailState?.error}
                 </span>
               </RenderIf>
               <Link
@@ -179,7 +188,7 @@ export function LoginForm({
                   />
                 }
                 type="button"
-                id='continue-with-email'
+                id="continue-with-email"
                 onPress={() => setIsFormVisible(true)}
               >
                 Continue with Email

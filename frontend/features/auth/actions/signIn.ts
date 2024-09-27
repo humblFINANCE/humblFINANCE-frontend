@@ -15,6 +15,13 @@ export const signIn = async (
   const supabase = createClient()
   const serviceRoleClient = createServiceRoleClient()
 
+  if (!captchaToken || captchaToken === state.captchaToken) {
+    return {
+      captchaToken,
+      error: 'Invalid captcha',
+    }
+  }
+
   let { data: userId, error: checkUserError } = await serviceRoleClient.rpc(
     'get_user_id_by_email',
     { user_email: email }
@@ -59,5 +66,6 @@ export const signIn = async (
       error: registerError.message,
     }
   //TODO: add emai confirmation page
+
   return redirect('/email-confirmation')
 }
