@@ -114,13 +114,11 @@ export const sectionItems: SidebarItem[] = [
         href: '/dashboard/humblALERTS',
         icon: 'solar:bell-line-duotone',
         title: 'humblALERTS',
-        // endContent: (
-        //   <Icon
-        //     className="text-default-400"
-        //     icon="solar:add-circle-line-duotone"
-        //     width={24}
-        //   />
-        // ),
+        endContent: (
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
+        ),
       },
     ],
   },
@@ -133,6 +131,11 @@ export const sectionItems: SidebarItem[] = [
         href: '/dashboard/humblCOMPASS',
         title: 'humblCOMPASS',
         icon: 'solar:compass-line-duotone',
+        endContent: (
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
+        ),
         items: [
           {
             key: 'shareholders',
@@ -156,6 +159,11 @@ export const sectionItems: SidebarItem[] = [
         href: '/dashboard/humblCHANNEL',
         icon: 'solar:align-vertical-spacing-line-duotone',
         title: 'humblCHANNEL',
+        endContent: (
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
+        ),
       },
     ],
   },
