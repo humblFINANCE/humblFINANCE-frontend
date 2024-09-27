@@ -1,8 +1,8 @@
 'use client'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { MoonFilledIcon, SunFilledIcon } from '../icons/Icons'
-import { cn } from '@/utils/nextui/cn'
+import { MoonFilledIcon, SunFilledIcon } from '@/features/icons'
+import { cn } from '@/utils/cn'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 

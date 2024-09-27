@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
-import RenderIf from '@/components/RenderIf'
+import RenderIf from '@/features/shared/RenderIf'
 import {
   Modal,
   ModalContent,
@@ -11,7 +11,7 @@ import {
   Button,
 } from '@nextui-org/react'
 import HCaptcha from '@hcaptcha/react-hcaptcha'
-import { SubmitButton } from '@/components/shared/SubmitButton'
+import { SubmitButton } from '@/features/shared/SubmitButton'
 import { forgotPassword } from '../actions'
 
 type ModalProps = {

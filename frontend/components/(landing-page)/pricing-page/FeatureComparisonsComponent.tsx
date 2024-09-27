@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 import { Divider } from '@nextui-org/react'
 import React from 'react'
 import {

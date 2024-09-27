@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes'
 import React from 'react'
 import CustomButton from './CustomButton'
 import { ColDef } from 'ag-grid-community'
-import { cn } from '@/utils/nextui/cn'
+import { cn } from '@/utils/cn'
 
 const colDefs: ColDef[] = [
   { field: 'symbol', minWidth: 100, flex: 1 },
