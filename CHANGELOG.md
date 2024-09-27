@@ -1,3 +1,75 @@
+## v0.2.0 (2024-09-27)
+
+### ✨ Features
+
+- **email-confirmation**: confetti on page load
+- **email-confirmation**: added a new email-confirmation page
+- **cool-mode**: added cool mode; shoots out money bags when clicking the button
+- **multi-loader/shimmer-button**: added acternity multi-loader and magic ui shimmer button
+- **humblCHANNEL**: added animated beam with icons
+- **humblALERTS**: changed delay timing and spacing to be more responsive
+- **humblALERTS**: added animated list to alert bentocard
+- **BentoCard**: added blurred background to the icon
+- **HumblPortfolioCloud**: added some restaurant brands
+- **BentoCard**: added blurred background behind the card description
+- **features**: added icon cloud to hubmlPORTFOLIO
+- **globe**: added london and SF to globe and fixed writing to match global
+- **globe**: matches dark/light theme
+- **features**: added globe to background of the humblCOMPASS card
+- **features-icons**: change line color when switching theme
+- **landing-page**: added feature bento cards
+- **magicui**: added bento-grid
+- **magicui**: init and adding setup files
+
+### 🐛🚑️ Fixes
+
+- **landing-page layout**: added missing div tag
+- refresh button does not refresh data
+- no store for user-table api
+- refresh button does not refresh data
+- fix cannot upgrade from anonymous user
+HCaptcha now working
+
+When you log in as an anonymous user and then continue with email, there are still some bugs, but not breaking, so going to merge.
+- remove `onVerify` when modal open
+- fix cannot upgrade from anonymous user
+- **MacbookScroll**: increased vertical height for screens larger than sm
+- **MAcbookScroll**: fixed spacing on different screen sizes
+- **MacbookScroll**: put the componnet in its own section
+- **imports**: merged macbookscroll imports into one command
+- **MacbookScroll**: changed how the component is viewed on smaller screens
+- **tracing-beam**: scale the tracing beam the height of the page
+- **layout**: LandingFooter now appears at bottom of screen without scrolling
+- **investing-framework**: escaped characters to run npm run build ✅
+- **overview-button**: fixed light/dark themed text colors
+- **tailwind config**: fix tailwind config conflicts
+- **build**: added dark config option to globe.tsx
+- **cursor-ai**: fixed the border-border class build error
+- **user-table**: extract response_data from response.json()
+- **spelling**: correct spelling and change default column layout
+
+### chore
+
+- populate table profiles after confirmation
+- populate table profiles after confirmation
+- delete unnecessary error page
+
+### feat
+
+- :sparkles: feat : error and success register feedback component
+
+### fix
+
+- :bug: fix error build
+- :bug: fix: register email and password flow
+- :bug: fix sign up email passwrod and hcaptcha flow
+- :bug: fix portfolio for empty watchlist
+- :bug: fix portfolio for empty watchlist
+
+### 📌➕⬇️ ➖⬆️  Dependencies
+
+- **sharp**: added image optimization package and confetti
+
 ## v0.1.1 (2024-08-06)
 
 ### 🐛🚑️ Fixes
