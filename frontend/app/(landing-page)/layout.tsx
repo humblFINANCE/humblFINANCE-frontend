@@ -18,6 +18,6 @@ export default function LandingPageLayout({
       <LandingFooter />
       <ErrorAuthModal />
       <SuccessRegisterToast />
-    </>
+    </div>
   )
 }
