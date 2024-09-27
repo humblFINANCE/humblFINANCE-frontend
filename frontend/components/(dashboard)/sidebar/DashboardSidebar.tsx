@@ -44,7 +44,9 @@ export default function DashboardSidebar({
   const currentPath = pathname?.split('/')[pathname?.split('/').length - 1]
   const capitalizedCurrentPath = currentPath
     .split('-')
-    .map((word: any) => word.charAt(0).toLowerCase() + word.slice(1))
+    .map((word: string) =>
+      word === 'home' ? word.charAt(0).toUpperCase() + word.slice(1) : word
+    )
     .join(' ')
 
   // Logout Modal Control
