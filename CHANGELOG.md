@@ -1,3 +1,9 @@
+## v0.3.0 (2024-09-27)
+
+### ✨ Features
+
+- **test**: testing version bumping
+
 ## v0.2.0 (2024-09-27)
 
 ### ✨ Features
