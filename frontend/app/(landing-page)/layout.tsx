@@ -1,5 +1,8 @@
 import LandingPageNavbar from '@/components/(landing-page)/LandingPageNavBar'
 import LandingFooter from '@/components/(landing-page)/Footer'
+import ErrorAuthModal from '@/components/(landing-page)/ErrorAuthModal'
+import { useDisclosure } from '@nextui-org/react'
+import SuccessRegisterToast from '@/components/(landing-page)/SuccessRegisterToast'
 
 export default function LandingPageLayout({
   children,
@@ -13,6 +16,8 @@ export default function LandingPageLayout({
         {children}
       </main>
       <LandingFooter />
-    </div>
+      <ErrorAuthModal />
+      <SuccessRegisterToast />
+    </>
   )
 }

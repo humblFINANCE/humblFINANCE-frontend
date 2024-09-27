@@ -14,7 +14,7 @@ export function LoginModal(props: LoginModalProps) {
     <Modal isOpen={props.isOpen} onOpenChange={props.onOpenChange}>
       <ModalContent className="flex w-full min-w-[340px] flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-small">
         <ModalHeader className="p-0">Login</ModalHeader>
-        <LoginForm linkAccount={props.linkAccount} />
+        <LoginForm linkAccount={props.linkAccount} onClose={props.onClose} />
       </ModalContent>
     </Modal>
   )
