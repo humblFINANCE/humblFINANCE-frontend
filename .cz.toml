@@ -7,7 +7,7 @@ annotated_tag = true
 bump_message = "🔖 bump(release): v$current_version → v$new_version"
 major_version_zero = true
 version_files = [
-    "package.json:^version",
+    "package.json:version",
 ]
 path = ".cz-config.js"
 
