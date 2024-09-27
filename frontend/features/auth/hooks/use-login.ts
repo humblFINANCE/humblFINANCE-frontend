@@ -39,19 +39,16 @@ export function useLogin() {
       }
 
       if (data?.user?.is_anonymous) {
-        await supabase.auth.linkIdentity({
-          provider,
-          options,
-        })
-        router.replace('/dashboard/home')
-      } else {
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: provider,
-          options,
-        })
-        if (error) {
-          router.replace('/login?message=' + error.message)
-        }
+        await supabase.auth.signOut()
+      }
+
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: provider,
+        options,
+      })
+
+      if (error) {
+        router.replace('/login?message=' + error.message)
       }
     }
   }

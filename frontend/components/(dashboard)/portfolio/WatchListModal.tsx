@@ -18,11 +18,15 @@ import {
 } from '@nextui-org/react'
 import { Icon, InlineIcon } from '@iconify/react'
 import { useUser } from '@/features/user/hooks/use-user'
-import { stockSectors } from '@/components/(dashboard)/portfolio/constants'
-import { IWatchlist, TSector } from '@/components/(dashboard)/portfolio/types'
+import {
+  IPortfolioParams,
+  IWatchlist,
+} from '@/components/(dashboard)/portfolio/types'
 import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
 import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
 import { useDebouncedCallback } from 'use-debounce'
+import { usePortfolio } from '@/components/(dashboard)/portfolio/hooks/usePortfolio'
+
 type WatchlistModalProps = {
   isOpen: boolean
   onOpen?: () => void
@@ -59,7 +63,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
     loading,
-    updateDefaultWatchlist
+    updateDefaultWatchlist,
   } = useWatchlist()
 
   const memoizedGetWatchlists = useCallback(() => {
@@ -68,6 +72,8 @@ export default function WatchListModal({
       findSymbols('A')
     }
   }, [isOpen, getWatchlists])
+
+  const getPortfolio = usePortfolio((store) => store.getPortfolio)
 
   const {
     getSymbols,
@@ -88,7 +94,6 @@ export default function WatchListModal({
   )
   const [selectedWatchlist, setSelectedWatchlist] =
     React.useState<IWatchlist | null>(watchlists[0] ?? null)
-  const [symbolFind, setSymbol] = React.useState<string>('')
   const debounced = useDebouncedCallback((value) => {
     findSymbols(value)
   }, 1000)
@@ -104,11 +109,18 @@ export default function WatchListModal({
       return setError('Symbol already added')
     if (!symbolName) return
 
-    // todo: should add validation if ticker can be added
+    const params: IPortfolioParams = {
+      symbols: '',
+      membership: profile?.membership!,
+    }
+
+    params.symbols = `${symbols.map((symbol) => symbol.symbol).join(',')},${symbolName}`
+    params.membership = profile?.membership!
 
     await addSymbol(symbolName as string, selectedWatchlist.id)
     setSymbolName('')
-    setSymbol('')
+
+    await getPortfolio(params)
   }
 
   const handleAddWatchlist = async () => {
@@ -227,15 +239,20 @@ export default function WatchListModal({
                           data-watchlist-id={item.id}
                           className="flex justify-between items-center transition-all ease-in-out duration-300 dark:hover:bg-[#27272A] hover:bg-gray-300 px-2 rounded-md"
                         >
-                          <p
+                          <div
                             className="bg-transparent w-full text-xl cursor-pointer"
                             onClick={async () => {
                               setSelectedWatchlist(item)
                               await getSymbols(item.id)
                             }}
                           >
-                            {item.name} {item?.is_default ? <Chip color="success" radius='sm' size='sm'>Default</Chip> : null}
-                          </p>
+                            {item.name}{' '}
+                            {item?.is_default ? (
+                              <Chip color="success" radius="sm" size="sm">
+                                Default
+                              </Chip>
+                            ) : null}
+                          </div>
 
                           <div className="flex flex-row ">
                             {
@@ -313,7 +330,6 @@ export default function WatchListModal({
                               setSymbolName(key as string)
                             }}
                             onInputChange={(val) => {
-                              setSymbol(val)
                               debounced(val)
                             }}
                             allowsCustomValue
