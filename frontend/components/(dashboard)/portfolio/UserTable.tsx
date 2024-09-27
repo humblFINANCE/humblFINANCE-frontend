@@ -197,7 +197,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Manage Watchlists`}>
           <Button
             isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
-            id="add-watchlist"
+            id="manage-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -210,13 +210,13 @@ const UserTable = () => {
               />
             }
           >
-            <div className="hidden lg:block">Add</div>
+            <div className="hidden lg:block">Manage</div>
           </Button>
         </Tooltip>
-        <Tooltip color={`default`} content={`Refresh Watchlist`}>
+        <Tooltip color={`default`} content={`Refresh Data`}>
           <Button
             isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
-            id="refresh-watchlist"
+            id="refresh-data"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
