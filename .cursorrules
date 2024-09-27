@@ -4,7 +4,7 @@ This codebase is a web application built with TypeScript, React, and Next.js, ut
 
 # Stack and Key Technologies
 
-- Frontend: React with Next.js
+- Frontend: React with Next.js (App Router)
 - Language: TypeScript
 - UI Components: Shadcn UI, NextUI, MagicUI, Radix
 - Styling: Tailwind CSS
