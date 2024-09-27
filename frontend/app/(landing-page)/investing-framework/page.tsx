@@ -169,14 +169,14 @@ const frameworkContent = [
     description: (
       <>
         <p>
-          Humble Portfolio is your personal asset management center. It offers
-          tools for diversification, risk assessment, and performance tracking,
-          ensuring your investment strategy aligns with your financial goals.
+          The <strong>humblPORTFOLIO</strong> is an interactive table that shows
+          an overview of all the assets you own, and their current{' '}
+          <strong>humblCHANNEL</strong> prices. It tells you if the humblCOMPASS
         </p>
         <p>
-          With Humble Portfolio, you can visualize your entire investment
-          landscape, make data-driven decisions, and optimize your portfolio for
-          long-term success.
+          You can visualize your entire investment landscape, make data-driven
+          decisions, and optimize your portfolio for long-term success to avoid
+          deadly draw-downs in your net worth.
         </p>
       </>
     ),
