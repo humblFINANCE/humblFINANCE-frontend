@@ -244,7 +244,9 @@ const UserTable = () => {
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           noRowsOverlayComponent={() => (
-            <div>Watchlist is Empty. Please add Symbols.</div>
+            <div className="text-center">
+              Watchlist is Empty 😢. Please add Symbols.
+            </div>
           )}
           loading={loading}
           loadingOverlayComponent={() => <Spinner size="lg" />}

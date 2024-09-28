@@ -15,7 +15,7 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Enjoy over 1,000+ screens uploaded every week. Get notified via email whenever new screens are added.',
+          'Enjoy instant access to the latest releases and new features.',
       },
       {
         title: 'Priority access to new analytics',
@@ -25,8 +25,7 @@ const features: PricingFeatures = [
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText:
-          'Access to latest screenshots of an app cataloged by expert curators.',
+        helpText: '.',
       },
       {
         title: 'Access to previous versions',

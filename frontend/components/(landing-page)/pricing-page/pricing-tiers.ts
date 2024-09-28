@@ -19,7 +19,7 @@ export const tiers: Array<Tier> = [
     href: '#',
     featured: false,
     mostPopular: false,
-    description: 'For starters and hobbyists that want to try out.',
+    description: 'For starters to test out the platform and get a feel for it.',
     features: [
       '10 users included',
       '2 GB of storage',

@@ -93,7 +93,7 @@ export default function Component() {
         </h1>
         <Spacer y={4} />
         <h2 className="text-xl text-default-500">
-          Discover the ideal plan, options under 50¢ per day.
+          Discover the ideal plan, starting at 42¢ per day.
         </h2>
       </div>
       <Spacer y={8} />
@@ -377,7 +377,7 @@ export default function Component() {
         <p className="text-default-400">
           Are you an open source developer?&nbsp;
           <Link color="foreground" href="#" underline="always">
-            Get a discount
+            Contact us for a discount code.
           </Link>
         </p>
       </div>
