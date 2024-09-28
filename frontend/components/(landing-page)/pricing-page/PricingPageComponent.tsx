@@ -88,10 +88,7 @@ export default function Component() {
         />
       </div>
       <div className="flex max-w-xl flex-col text-center">
-        <h2 className="font-medium text-2xl leading-7 text-secondary">
-          Pricing
-        </h2>
-        <h1 className="text-6xl font-medium tracking-tight">
+        <h1 className="text-6xl font-medium tracking-tight bg-gradient-to-r from-secondary to-white bg-clip-text text-transparent">
           Compare plans & features.
         </h1>
         <Spacer y={4} />
