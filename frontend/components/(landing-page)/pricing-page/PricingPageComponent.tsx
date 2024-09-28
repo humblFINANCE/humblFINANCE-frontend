@@ -88,7 +88,7 @@ export default function Component() {
         />
       </div>
       <div className="flex max-w-xl flex-col text-center">
-        <h1 className="text-6xl font-medium tracking-tight bg-gradient-to-r from-secondary to-white bg-clip-text text-transparent">
+        <h1 className="text-6xl font-medium tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent dark:from-secondary dark:to-white">
           Compare plans & features.
         </h1>
         <Spacer y={4} />
@@ -198,7 +198,7 @@ export default function Component() {
       <div className="isolate hidden lg:block">
         <div className="relative -mx-8">
           {tiers.some((tier) => tier.mostPopular) ? (
-            <div className="absolute inset-x-4 inset-y-0 z-0 flex">
+            <div className="absolute inset-x-4 inset-y-0 z-[-2] flex">
               <div
                 aria-hidden="true"
                 className="flex w-1/5 px-1"
