@@ -93,3 +93,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --gradient-start: theme('colors.purple.400');
+  --gradient-middle: theme('colors.pink.500');
+  --gradient-end: theme('colors.red.500');
+}
+
+.text-hfinance-gradient {
+  background-image: linear-gradient(
+    to right,
+    var(--gradient-start),
+    var(--gradient-middle),
+    var(--gradient-end)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

@@ -93,7 +93,7 @@ export default function DashboardSidebar({
           </Link>
           <span
             className={cn(
-              'text-small opacity-100 font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500',
+              'text-small opacity-100 font-medium text-hfinance-gradient',
               {
                 'w-0 opacity-0': !isMobile && !isCompact,
               }
