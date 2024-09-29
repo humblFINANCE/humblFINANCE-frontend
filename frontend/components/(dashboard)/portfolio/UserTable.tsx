@@ -69,6 +69,7 @@ const UserTable = () => {
   const watchlists = useWatchlist((store) => store.watchlists)
   const getWatchlists = useWatchlist((store) => store.getWatchlists)
   const loadingWatchlist = useWatchlist((store) => store.loading)
+  const setDefaultWatchlist = useWatchlist((store) => store.setDefaultWatchlist)
 
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
   const [selectedWatchlist, setSelectedWatchlist] = useState<string>('')
@@ -146,21 +147,22 @@ const UserTable = () => {
   useEffect(() => {
     const fetch = async () => {
       const dataWatchlist = await getWatchlists()
-      setCookie(
-        'pathname',
-        watchlists
-          ?.filter((id: any) => id.is_default === true)[0]
-          ?.id?.toString()
+      const savedWatchlistId = localStorage.getItem('selectedWatchlistId')
+      const defaultWatchlists = dataWatchlist?.filter(
+        (watchlist) => watchlist.is_default === true
       )
 
-      if (dataWatchlist) {
-        let savedValue =
-          localStorage.getItem('selectedWatchlistId') ??
-          dataWatchlist
-            ?.filter((id: any) => id.is_default === true)[0]
-            ?.id?.toString()
+      // If there are multiple default watchlists, select the first one
+      if (!!defaultWatchlists && defaultWatchlists.length > 1) {
+        setDefaultWatchlist(defaultWatchlists[0].id)
+      }
 
-        setSelectedWatchlist(savedValue)
+      if (savedWatchlistId || !!defaultWatchlists) {
+        setSelectedWatchlist(
+          savedWatchlistId
+            ? savedWatchlistId
+            : defaultWatchlists?.[0]?.id.toString() ?? ''
+        )
       }
     }
 
