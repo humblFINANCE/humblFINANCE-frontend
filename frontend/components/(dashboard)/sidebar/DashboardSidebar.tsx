@@ -66,124 +66,126 @@ export default function DashboardSidebar({
   if (!isMounted) return null
 
   return (
-    <div className="flex h-dvh w-full">
-      <div
-        className={cn(
-          'relative flex h-full w-72 flex-col !border-r-small border-divider p-6 transition-width',
-          {
-            'hidden items-center px-2 py-6': isMobile && isCompact,
-            'w-16 items-center px-2 py-6': !isMobile && !isCompact,
-          }
-        )}
-      >
+    <div className="flex min-h-dvh w-full overflow-y-auto overflow-x-hidden">
+      <div className="h-screen sticky top-0 left-0">
         <div
-          className={cn('flex items-center gap-3 px-3', {
-            'justify-center gap-0': !isMobile && !isCompact,
-          })}
+          className={cn(
+            'relative flex h-full w-72 flex-col !border-r-small border-divider p-6 transition-width',
+            {
+              'hidden items-center px-2 py-6': isMobile && isCompact,
+              'w-16 items-center px-2 py-6': !isMobile && !isCompact,
+            }
+          )}
         >
-          <Link
-            href="/"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground relative"
-          >
-            <div className="absolute -ml-0.25">
-              <HumblFinanceIcon />
-            </div>
-          </Link>
-          <span
-            className={cn('text-small font-bold uppercase opacity-100', {
-              'w-0 opacity-0': !isMobile && !isCompact,
+          <div
+            className={cn('flex items-center gap-3 px-3', {
+              'justify-center gap-0': !isMobile && !isCompact,
             })}
           >
-            humblFINANCE
-          </span>
-        </div>
-        <Spacer y={1} />
-        <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-          <Sidebar
-            defaultSelectedKey="home"
-            selectedKeys={[currentTab]}
-            isCompact={!isMobile && !isCompact}
-            items={sectionItems}
-          />
-        </ScrollShadow>
-        <Spacer y={0.5} />
-        <div
-          className={cn('mt-auto flex flex-col', {
-            'items-center': !isMobile && !isCompact,
-          })}
-        >
-          <Tooltip
-            content="Help & Feedback"
-            isDisabled={!isMobile && !isCompact}
-            placement="right"
+            <Link
+              href="/"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground relative"
+            >
+              <div className="absolute -ml-0.25">
+                <HumblFinanceIcon />
+              </div>
+            </Link>
+            <span
+              className={cn('text-small font-bold uppercase opacity-100', {
+                'w-0 opacity-0': !isMobile && !isCompact,
+              })}
+            >
+              humblFINANCE
+            </span>
+          </div>
+          <Spacer y={1} />
+          <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
+            <Sidebar
+              defaultSelectedKey="home"
+              selectedKeys={[currentTab]}
+              isCompact={!isMobile && !isCompact}
+              items={sectionItems}
+            />
+          </ScrollShadow>
+          <Spacer y={0.5} />
+          <div
+            className={cn('mt-auto flex flex-col', {
+              'items-center': !isMobile && !isCompact,
+            })}
           >
-            <Button
-              fullWidth
-              className={cn(
-                'justify-start truncate text-default-500 data-[hover=true]:text-foreground',
-                {
-                  'justify-center': !isMobile && !isCompact,
+            <Tooltip
+              content="Help & Feedback"
+              isDisabled={!isMobile && !isCompact}
+              placement="right"
+            >
+              <Button
+                fullWidth
+                className={cn(
+                  'justify-start truncate text-default-500 data-[hover=true]:text-foreground',
+                  {
+                    'justify-center': !isMobile && !isCompact,
+                  }
+                )}
+                isIconOnly={!isMobile && !isCompact}
+                startContent={
+                  !isMobile && !isCompact ? null : (
+                    <Icon
+                      className="flex-none text-default-500"
+                      icon="solar:info-circle-line-duotone"
+                      width={24}
+                    />
+                  )
                 }
-              )}
-              isIconOnly={!isMobile && !isCompact}
-              startContent={
-                !isMobile && !isCompact ? null : (
+                variant="light"
+              >
+                {!isMobile && !isCompact ? (
                   <Icon
-                    className="flex-none text-default-500"
+                    className="text-default-500"
                     icon="solar:info-circle-line-duotone"
                     width={24}
                   />
-                )
-              }
-              variant="light"
+                ) : (
+                  'Help & Feedback'
+                )}
+              </Button>
+            </Tooltip>
+            <Tooltip
+              content="Log Out"
+              isDisabled={!isMobile && !isCompact}
+              placement="right"
             >
-              {!isMobile && !isCompact ? (
-                <Icon
-                  className="text-default-500"
-                  icon="solar:info-circle-line-duotone"
-                  width={24}
-                />
-              ) : (
-                'Help & Feedback'
-              )}
-            </Button>
-          </Tooltip>
-          <Tooltip
-            content="Log Out"
-            isDisabled={!isMobile && !isCompact}
-            placement="right"
-          >
-            <Button
-              onPress={logoutModalDisclosure.onOpenChange}
-              className={cn(
-                'justify-start text-default-500 data-[hover=true]:bg-red-500 data-[hover=true]:text-red-100',
-                {
-                  'justify-center': !isMobile && !isCompact,
+              <Button
+                onPress={logoutModalDisclosure.onOpenChange}
+                className={cn(
+                  'justify-start text-default-500 data-[hover=true]:bg-red-500 data-[hover=true]:text-red-100',
+                  {
+                    'justify-center': !isMobile && !isCompact,
+                  }
+                )}
+                isIconOnly={!isMobile && !isCompact}
+                startContent={
+                  !isMobile && !isCompact ? null : (
+                    <Icon
+                      className="flex-none rotate-180 text-default-500"
+                      icon="solar:minus-circle-line-duotone"
+                      width={24}
+                    />
+                  )
                 }
-              )}
-              isIconOnly={!isMobile && !isCompact}
-              startContent={
-                !isMobile && !isCompact ? null : (
+                variant="light"
+              >
+                {!isMobile && !isCompact ? (
                   <Icon
-                    className="flex-none rotate-180 text-default-500"
+                    className="rotate-180 text-default-500"
                     icon="solar:minus-circle-line-duotone"
                     width={24}
                   />
-                )
-              }
-              variant="light"
-            >
-              {!isMobile && !isCompact ? (
-                <Icon
-                  className="rotate-180 text-default-500"
-                  icon="solar:minus-circle-line-duotone"
-                  width={24}
-                />
-              ) : (
-                'Log Out'
-              )}
-            </Button>
-          </Tooltip>
+                ) : (
+                  'Log Out'
+                )}
+              </Button>
+            </Tooltip>
+          </div>
         </div>
       </div>
       <div className="w-full flex-1 flex-col p-4">
@@ -209,7 +211,7 @@ export default function DashboardSidebar({
             />
           </div>
         </header>
-        <main className="mt-4 h-[90%] w-full overflow-visible">
+        <main className="mt-4 h-full w-full overflow-visible">
           <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-scroll p-4">
             {children}
           </div>

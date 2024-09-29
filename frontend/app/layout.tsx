@@ -44,7 +44,7 @@ export default function RootLayout({
       >
         <Providers attribute="class" defaultTheme="dark">
           <ToastProvider>
-            <div className="relative flex flex-col h-screen">
+            <div className="relative flex flex-col min-h-dvh">
               <Suspense>{children}</Suspense>
             </div>
           </ToastProvider>
