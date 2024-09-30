@@ -365,12 +365,9 @@ export default function Component() {
       </div>
 
       <Spacer y={12} />
-      <div className="flex py-2">
-        <p className="text-default-400">
-          Are you an open source developer?&nbsp;
-          <Link color="foreground" href="#" underline="always">
-            Contact us for a discount code.
-          </Link>
+      <div className="flex py-2 md:hidden">
+        <p className="text-default-400 text-center">
+          Please view this page on a desktop to see the full feature set list.
         </p>
       </div>
       <Spacer y={12} />
