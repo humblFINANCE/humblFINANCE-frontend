@@ -10,8 +10,8 @@ interface IRefreshLimit {
 const initRefreshLimit = async (userId: string, refresh_limit: number) => {
   const payload = {
     refresh_limit: refresh_limit,
-    updated_at: Date.now(),
-    expired_at: Date.now() + 86400,
+    // updated_at: Date.now(),
+    // expired_at: Date.now() + 86400,
   }
 
   await kv.set(userId + '_refresh_limit', payload, { ex: 86400, nx: true })
