@@ -167,7 +167,7 @@ const UserTable = () => {
     }
 
     fetch()
-  }, [])
+  }, [getWatchlists, setDefaultWatchlist])
 
   useEffect(() => {
     getData()
