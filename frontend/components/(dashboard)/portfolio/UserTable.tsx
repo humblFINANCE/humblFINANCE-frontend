@@ -180,7 +180,9 @@ const UserTable = () => {
           id="select-watchlist"
           aria-label="Select Watchlist"
           placeholder={
-            watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
+            watchlists.length === 0
+              ? 'Please Create a Watchlist'
+              : 'Select Watchlist'
           }
           className="max-w-xs"
           scrollShadowProps={{
