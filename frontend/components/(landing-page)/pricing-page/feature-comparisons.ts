@@ -91,7 +91,7 @@ interface CompanyFeatures {
     portfolioOptimization: boolean
     dataExport: boolean
     uploadDataForRewards: boolean
-    investmentFrameworkGuidance: boolean
+    simpleInvestmentFrameworkGuidance: boolean
   }
 }
 
@@ -108,7 +108,7 @@ export const companiesComparison: CompanyFeatures[] = [
       portfolioOptimization: true,
       dataExport: true,
       uploadDataForRewards: true,
-      investmentFrameworkGuidance: true,
+      simpleInvestmentFrameworkGuidance: true,
     },
   },
   {
@@ -123,7 +123,7 @@ export const companiesComparison: CompanyFeatures[] = [
       portfolioOptimization: true,
       dataExport: true,
       uploadDataForRewards: false,
-      investmentFrameworkGuidance: false,
+      simpleInvestmentFrameworkGuidance: false,
     },
   },
   {
@@ -138,7 +138,7 @@ export const companiesComparison: CompanyFeatures[] = [
       portfolioOptimization: false,
       dataExport: false,
       uploadDataForRewards: false,
-      investmentFrameworkGuidance: false,
+      simpleInvestmentFrameworkGuidance: false,
     },
   },
   {
@@ -153,7 +153,7 @@ export const companiesComparison: CompanyFeatures[] = [
       portfolioOptimization: false,
       dataExport: false,
       uploadDataForRewards: false,
-      investmentFrameworkGuidance: false,
+      simpleInvestmentFrameworkGuidance: false,
     },
   },
 ]
