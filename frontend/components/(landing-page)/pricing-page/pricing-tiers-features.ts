@@ -4,114 +4,139 @@ import { TiersEnum } from './pricing-types'
 
 const features: PricingFeatures = [
   {
-    title: 'Content',
+    title: 'Analytics & Data',
     items: [
       {
-        title: 'Latest Releases',
+        title: 'humblCOMPASS Coverage',
+        tiers: {
+          [TiersEnum.humblPEON]: 'US Only',
+          [TiersEnum.humblPREMIUM]: 'US + Eurozone',
+          [TiersEnum.humblPOWER]: 'US + Eurozone + Asia + Emerging Markets',
+          [TiersEnum.humblPERMANENT]: 'Global Coverage',
+        },
+        helpText: 'Geographic coverage for market analysis and insights.',
+      },
+      {
+        title: 'Daily Data Refreshes',
+        tiers: {
+          [TiersEnum.humblPEON]: '1',
+          [TiersEnum.humblPREMIUM]: '10',
+          [TiersEnum.humblPOWER]: '50',
+          [TiersEnum.humblPERMANENT]: 'Unlimited',
+        },
+        helpText:
+          'Number of times data is refreshed daily for up-to-date analysis.',
+      },
+      {
+        title: 'Access to Asset Classes',
         tiers: {
           [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText:
-          'Enjoy instant access to the latest releases and new features.',
+        helpText: 'Access to various asset classes for diversified analysis.',
       },
       {
-        title: 'Priority access to new analytics',
+        title: 'Access to 14k+ Equities',
         tiers: {
-          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText: '.',
+        helpText: 'Number of equities available for analysis.',
       },
       {
-        title: 'Access to previous versions',
+        title: 'Exchange Access',
         tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText: 'Version travel across versions of an app cataloged.',
-      },
-      {
-        title: 'Access to flows of apps',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
+          [TiersEnum.humblPEON]: 'All',
+          [TiersEnum.humblPREMIUM]: 'All',
+          [TiersEnum.humblPOWER]: 'All',
+          [TiersEnum.humblPERMANENT]: 'All',
         },
         helpText:
-          'Access to screens organized by flows like onboarding or login.',
-      },
-      {
-        title: 'Filter & search results',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText:
-          'Find apps, screens, or flows by filtering across 10,000+ screens.',
+          'Access to various exchanges for comprehensive market coverage.',
       },
     ],
   },
   {
-    title: 'Features',
+    title: 'Features & Tools',
     items: [
       {
-        title: 'Collections',
-
+        title: 'humblCHANNEL',
         tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 Collections',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
+          [TiersEnum.humblPEON]: true,
+          [TiersEnum.humblPREMIUM]: true,
+          [TiersEnum.humblPOWER]: true,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Access to humblCHANNEL for market insights and analysis.',
+      },
+      {
+        title: 'humblPORTFOLIO Watchlists',
+        tiers: {
+          [TiersEnum.humblPEON]: '2',
+          [TiersEnum.humblPREMIUM]: '5',
+          [TiersEnum.humblPOWER]: '10',
           [TiersEnum.humblPERMANENT]: 'Unlimited',
         },
-        helpText:
-          'Save apps, screens or flows into collections for later viewing.',
+        helpText: 'Number of watchlists available for portfolio tracking.',
       },
       {
-        title: 'Copy to clipboard',
-
-        tiers: {
-          [TiersEnum.humblPEON]: true,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Quickly copy screens into your clipboard to be pasted into other tools.',
-      },
-      {
-        title: 'Screen download',
-
-        tiers: {
-          [TiersEnum.humblPEON]: true,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Download screens as PNG.',
-      },
-      {
-        title: 'Batch download',
-
+        title: 'Custom Built Strategies',
         tiers: {
           [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: true,
+          [TiersEnum.humblPREMIUM]: false,
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText:
-          'Easily batch-download multiple screens at one go from apps, flows, your collections and more.',
+        helpText: 'Ability to create and use custom investment strategies.',
+      },
+      {
+        title: 'Personalized Analytics',
+        tiers: {
+          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPREMIUM]: false,
+          [TiersEnum.humblPOWER]: 'On Request',
+          [TiersEnum.humblPERMANENT]: 'Included',
+        },
+        helpText: 'Access to personalized analytics tailored to your needs.',
+      },
+      {
+        title: 'Custom Portfolio Construction',
+        tiers: {
+          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPREMIUM]: false,
+          [TiersEnum.humblPOWER]: false,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Assistance in constructing custom portfolios.',
+      },
+    ],
+  },
+  {
+    title: 'Support & Priority Access',
+    items: [
+      {
+        title: 'Support Response Time',
+        tiers: {
+          [TiersEnum.humblPEON]: 'Best Effort',
+          [TiersEnum.humblPREMIUM]: 'Within 2 days',
+          [TiersEnum.humblPOWER]: 'Within 1 day',
+          [TiersEnum.humblPERMANENT]: 'Within 3 hours',
+        },
+        helpText: 'Expected response time for support inquiries.',
+      },
+      {
+        title: 'Early Access to New Analytics',
+        tiers: {
+          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPREMIUM]: false,
+          [TiersEnum.humblPOWER]: false,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Get early access to newly developed analytics tools.',
       },
     ],
   },
@@ -120,7 +145,6 @@ const features: PricingFeatures = [
     items: [
       {
         title: 'Team members',
-
         tiers: {
           [TiersEnum.humblPEON]: 'Just You',
           [TiersEnum.humblPREMIUM]: 'Just You',
@@ -131,7 +155,6 @@ const features: PricingFeatures = [
       },
       {
         title: 'Team collections',
-
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
@@ -142,7 +165,6 @@ const features: PricingFeatures = [
       },
       {
         title: 'Team administration',
-
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
@@ -152,18 +174,6 @@ const features: PricingFeatures = [
         helpText:
           'Add or remove members from your team to manage access to membership and collections.',
       },
-      {
-        title: 'Flexible seat-based licensing',
-
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Membership licenses are purchased by seats, which can be provisioned to or removed from users.',
-      },
     ],
   },
   {
@@ -171,7 +181,6 @@ const features: PricingFeatures = [
     items: [
       {
         title: 'SAML Single Sign-On (SSO)',
-
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
@@ -183,7 +192,6 @@ const features: PricingFeatures = [
       },
       {
         title: 'SCIM user provisioning',
-
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
@@ -196,7 +204,7 @@ const features: PricingFeatures = [
     ],
   },
   {
-    title: 'Billing',
+    title: 'Billing & Customization',
     items: [
       {
         title: 'Flexible payment options',
@@ -229,33 +237,7 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Standardized SaaS agreement for your organization’s legal requirement. Available upon request.',
-      },
-    ],
-  },
-  {
-    title: 'Support',
-    items: [
-      {
-        title: 'Help center',
-        tiers: {
-          [TiersEnum.humblPEON]: true,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Browse our articles in our knowledge base to find answers to your questions regarding the platform.',
-      },
-      {
-        title: 'Email support',
-        tiers: {
-          [TiersEnum.humblPEON]: 'Best Effor Basic',
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Get help via email.',
+          "Standardized SaaS agreement for your organization's legal requirement. Available upon request.",
       },
     ],
   },
