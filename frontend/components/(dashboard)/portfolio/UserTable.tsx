@@ -131,7 +131,7 @@ const UserTable = () => {
       return
     }
 
-    if (limitCookie.refresh_limit === 0) {
+    if (limitCookie.refresh_limit <= 0) {
       toast.warning(
         'You have used all your free data for the day, please come back tomorrow or upgrade your account'
       )
