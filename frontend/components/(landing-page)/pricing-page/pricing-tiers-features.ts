@@ -28,7 +28,7 @@ const features: PricingFeatures = [
           'Number of times data is refreshed daily for up-to-date analysis.',
       },
       {
-        title: 'Access to Asset Classes',
+        title: 'Access to all 8 Asset Classes',
         tiers: {
           [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
@@ -48,12 +48,12 @@ const features: PricingFeatures = [
         helpText: 'Number of equities available for analysis.',
       },
       {
-        title: 'Exchange Access',
+        title: 'Access to 60+ Exchanges',
         tiers: {
-          [TiersEnum.humblPEON]: 'All',
-          [TiersEnum.humblPREMIUM]: 'All',
-          [TiersEnum.humblPOWER]: 'All',
-          [TiersEnum.humblPERMANENT]: 'All',
+          [TiersEnum.humblPEON]: true,
+          [TiersEnum.humblPREMIUM]: true,
+          [TiersEnum.humblPOWER]: true,
+          [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
           'Access to various exchanges for comprehensive market coverage.',
@@ -71,7 +71,8 @@ const features: PricingFeatures = [
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText: 'Access to humblCHANNEL for market insights and analysis.',
+        helpText:
+          'Access to humblCHANNEL graph visualizations for equity insights and analysis.',
       },
       {
         title: 'humblPORTFOLIO Watchlists',
@@ -84,14 +85,15 @@ const features: PricingFeatures = [
         helpText: 'Number of watchlists available for portfolio tracking.',
       },
       {
-        title: 'Custom Built Strategies',
+        title: 'Custom Built Trading Strategies',
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
           [TiersEnum.humblPOWER]: true,
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText: 'Ability to create and use custom investment strategies.',
+        helpText:
+          'Ability to create and use custom investment strategies. These will compliment when we finish building out our One-Click Strategy implementation.',
       },
       {
         title: 'Personalized Analytics',
@@ -99,7 +101,7 @@ const features: PricingFeatures = [
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
           [TiersEnum.humblPOWER]: 'On Request',
-          [TiersEnum.humblPERMANENT]: 'Included',
+          [TiersEnum.humblPERMANENT]: true,
         },
         helpText: 'Access to personalized analytics tailored to your needs.',
       },
@@ -113,21 +115,6 @@ const features: PricingFeatures = [
         },
         helpText: 'Assistance in constructing custom portfolios.',
       },
-    ],
-  },
-  {
-    title: 'Support & Priority Access',
-    items: [
-      {
-        title: 'Support Response Time',
-        tiers: {
-          [TiersEnum.humblPEON]: 'Best Effort',
-          [TiersEnum.humblPREMIUM]: 'Within 2 days',
-          [TiersEnum.humblPOWER]: 'Within 1 day',
-          [TiersEnum.humblPERMANENT]: 'Within 3 hours',
-        },
-        helpText: 'Expected response time for support inquiries.',
-      },
       {
         title: 'Early Access to New Analytics',
         tiers: {
@@ -140,69 +127,69 @@ const features: PricingFeatures = [
       },
     ],
   },
-  {
-    title: 'Collaboration',
-    items: [
-      {
-        title: 'Team members',
-        tiers: {
-          [TiersEnum.humblPEON]: 'Just You',
-          [TiersEnum.humblPREMIUM]: 'Just You',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText: 'Collaborate with other users in a team.',
-      },
-      {
-        title: 'Team collections',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Create collections shared across your team.',
-      },
-      {
-        title: 'Team administration',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Add or remove members from your team to manage access to membership and collections.',
-      },
-    ],
-  },
-  {
-    title: 'Security & Access',
-    items: [
-      {
-        title: 'SAML Single Sign-On (SSO)',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Access through Okta, ADFS, Azure, Onelogin, or your own SAML identity provider (IdP).',
-      },
-      {
-        title: 'SCIM user provisioning',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Sync user directories with Okta, Azure AD, Onelogin, or your own SCIM identity provider (IdP).',
-      },
-    ],
-  },
+  // {
+  //   title: 'Collaboration',
+  //   items: [
+  //     {
+  //       title: 'Team members',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: 'Just You',
+  //         [TiersEnum.humblPREMIUM]: 'Just You',
+  //         [TiersEnum.humblPOWER]: 'Unlimited',
+  //         [TiersEnum.humblPERMANENT]: 'Unlimited',
+  //       },
+  //       helpText: 'Collaborate with other users in a team.',
+  //     },
+  //     {
+  //       title: 'Team collections',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText: 'Create collections shared across your team.',
+  //     },
+  //     {
+  //       title: 'Team administration',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Add or remove members from your team to manage access to membership and collections.',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Security & Access',
+  //   items: [
+  //     {
+  //       title: 'SAML Single Sign-On (SSO)',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Access through Okta, ADFS, Azure, Onelogin, or your own SAML identity provider (IdP).',
+  //     },
+  //     {
+  //       title: 'SCIM user provisioning',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Sync user directories with Okta, Azure AD, Onelogin, or your own SCIM identity provider (IdP).',
+  //     },
+  //   ],
+  // },
   {
     title: 'Billing & Customization',
     items: [
@@ -218,17 +205,6 @@ const features: PricingFeatures = [
           'Option to pay via invoice and bank transfers on a net 30, 45 or 60 payment term. Available upon request.',
       },
       {
-        title: 'Custom security assessment',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Our team will help answer security assessments or questionnaires for your organization. Available upon request.',
-      },
-      {
         title: 'Custom agreement',
         tiers: {
           [TiersEnum.humblPEON]: false,
@@ -238,6 +214,21 @@ const features: PricingFeatures = [
         },
         helpText:
           "Standardized SaaS agreement for your organization's legal requirement. Available upon request.",
+      },
+    ],
+  },
+  {
+    title: 'Support & Priority Access',
+    items: [
+      {
+        title: 'Support Response Time',
+        tiers: {
+          [TiersEnum.humblPEON]: 'Best Effort',
+          [TiersEnum.humblPREMIUM]: 'Within 2 days',
+          [TiersEnum.humblPOWER]: 'Within 1 day',
+          [TiersEnum.humblPERMANENT]: 'Within 3 hours',
+        },
+        helpText: 'Expected response time for support inquiries.',
       },
     ],
   },
