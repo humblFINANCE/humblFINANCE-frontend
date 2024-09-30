@@ -49,9 +49,9 @@ function generateDailyRefreshCount(tier: Tier) {
     case 'peon':
       return 1
     case 'premium':
-      return 3
+      return 10
     case 'power':
-      return 5
+      return 50
     case 'permanent':
       return 999
   }
