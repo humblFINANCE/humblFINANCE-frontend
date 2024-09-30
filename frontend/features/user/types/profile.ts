@@ -19,6 +19,5 @@ export interface Profile {
   broker_api_key_status?: boolean
   file?: any
   filePath?: any
-  default_watchlist?: string
   refresh_limit?: number
 }

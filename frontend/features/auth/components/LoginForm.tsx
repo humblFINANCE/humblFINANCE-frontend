@@ -53,6 +53,8 @@ export function LoginForm({
   })
 
   useEffect(() => {
+    localStorage.removeItem('selectedWatchlistId')
+
     if (signInWithEmailState?.error === undefined) {
       if (rest.onClose) rest.onClose?.()
     }
