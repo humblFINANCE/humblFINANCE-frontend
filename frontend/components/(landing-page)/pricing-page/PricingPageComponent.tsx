@@ -199,7 +199,7 @@ export default function Component() {
       <div className="isolate hidden lg:block w-full">
         <div className="relative -mx-8">
           {tiers.some((tier) => tier.mostPopular) ? (
-            <div className="absolute inset-x-4 inset-y-0 z-0 flex">
+            <div className="absolute inset-x-4 inset-y-0 z-[-1] flex">
               <div
                 aria-hidden="true"
                 className="flex w-1/5 px-1"
