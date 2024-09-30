@@ -3,11 +3,39 @@ import { ENDPOINTS } from '@/components/(dashboard)/portfolio/constants'
 const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
 export async function GET(request: NextRequest) {
+  try {
     const params = request.nextUrl.searchParams
-    // console.log(params)
-    const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+    const requestHeaders = request.headers
+    const headers = new Headers()
 
-    const response = await (await fetch(url + '?' + params.toString(), {})).json()
+    if (requestHeaders.has('cache-control')) {
+      headers.set('cache-control', requestHeaders.get('cache-control')!)
+    }
 
-    return NextResponse.json({ data: response })
+    if (requestHeaders.has('pragma')) {
+      headers.set('pragma', requestHeaders.get('pragma')!)
+    }
+
+    const url = new URL(FASTAPI_URL + ENDPOINTS.MANDELBROT)
+
+    const response = await fetch(url + '?' + params.toString(), {
+      cache: 'no-store',
+      headers,
+    })
+
+    const responseHeaders = {
+      'x-fastapi-cache': response.headers.get('x-fastapi-cache') ?? 'MISS',
+    }
+
+    const { response_data } = await response.json()
+    const { data } = response_data
+
+    return NextResponse.json({ data }, { headers: responseHeaders })
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
 }
