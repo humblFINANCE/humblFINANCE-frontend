@@ -41,6 +41,8 @@ export default function Component() {
     tier: Tier
     price: number
   } | null>(null)
+  const [isFreeSelected, setIsFreeSelected] = React.useState(false)
+
   const disclosure = useDisclosure()
   const authDisclosure = useDisclosure()
 
@@ -50,15 +52,16 @@ export default function Component() {
   }
 
   const handleSelectTier = async (tier: Tier) => {
-    if (tier.price === 'Free') {
-      return
-    }
-
     const { data, error } = await supabase.auth.getUser()
 
     if (!data || error) {
-      router.push('?from=pricing')
+      setIsFreeSelected(tier.price === 'Free')
+      window.history.replaceState({}, '', '?from=pricing')
       return authDisclosure.onOpen()
+    }
+
+    if (tier.price === 'Free') {
+      return router.push('/dashboard/home')
     }
 
     const price = +(
@@ -66,10 +69,14 @@ export default function Component() {
         ? tier.price
         : tier.price[selectedFrequency.key]
     ).replace('$', '')
+
     setSelectedTier({
       tier,
       price,
     })
+
+    setIsFreeSelected(false)
+
     disclosure.onOpen()
   }
 
@@ -393,7 +400,7 @@ export default function Component() {
           price={selectedTier?.price!}
         />
       </Elements>
-      <LoginModal {...authDisclosure} />
+      <LoginModal linkAccount={!isFreeSelected} {...authDisclosure} />
     </div>
   )
 }
