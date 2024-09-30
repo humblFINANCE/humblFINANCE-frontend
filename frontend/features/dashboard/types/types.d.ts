@@ -37,13 +37,18 @@ export interface ITradingViewParams extends Record<string, string> {
 }
 
 export interface IPortfolioState {
-  portfolio: IPortfolio[]
-  tradingView: any
+  tradingView: ITradingView[]
   loading: boolean
 }
 
 export interface IPortfolioAction {
-  getTradingSPX: (params?: any) => Promise<void>
+  getTradingSPX: ({
+    params,
+    shouldRefresh,
+  }: {
+    params: any
+    shouldRefresh?: boolean
+  }) => Promise<void>
 }
 
 // * WATCHLIST INTERFACE
