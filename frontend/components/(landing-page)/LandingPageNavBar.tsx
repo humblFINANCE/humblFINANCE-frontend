@@ -167,9 +167,7 @@ export default function Component(props: NavbarProps) {
               onPress={() => setIsMenuOpen(!isMenuOpen)}
             >
               {checkActive(item.path) ? (
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-                  {item.name}
-                </span>
+                <span className="text-hfinance-gradient">{item.name}</span>
               ) : (
                 <span className="text-default-500">{item.name}</span>
               )}
