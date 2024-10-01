@@ -18,6 +18,7 @@ export const stockSectors: TSector[] = [
 
 export const ENDPOINTS = {
   USERTABLE: 'user-table',
+  MANDELBROT: 'mandelbrot-channel',
 }
 
 export const TABLES = {

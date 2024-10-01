@@ -12,192 +12,209 @@ const useWatchlist = create<IWatchlistState & IWatchlistAction>((set, get) => ({
   loading: false,
   getWatchlists: async () => {
     set(() => ({ loading: true }))
-    const supabase = createClient()
-    const user = await supabase.auth.getUser()
 
-    const { data, error } = await supabase
-      .from(TABLES.WATCHLIST)
-      .select(
-        `id,
-        user_id,
-        name,
-        is_default,
-        created_at,
-        watchlist_symbols(id, watchlist_id, symbol)`
-      )
-      .eq('user_id', user.data.user?.id)
-      .order('id', { ascending: true })
+    try {
+      const supabase = createClient()
+      const user = await supabase.auth.getUser()
 
-    if (error) {
-      console.log(error)
-      set(() => ({ loading: false }))
-      return []
-    } else {
-      set(() => ({ watchlists: data, loading: false }))
+      const { data, error } = await supabase
+        .from(TABLES.WATCHLIST)
+        .select(
+          `id,
+          user_id,
+          name,
+          is_default,
+          created_at,
+          watchlist_symbols(id, watchlist_id, symbol)`
+        )
+        .eq('user_id', user.data.user?.id)
+        .order('id', { ascending: true })
+
+      if (error) throw new Error(error.message ?? 'Error getting watchlists')
+      set(() => ({ watchlists: data }))
       return data
+    } catch (error) {
+      console.log(error)
+      set(() => ({ watchlists: [] }))
+      return []
+    } finally {
+      set(() => ({ loading: false }))
     }
   },
 
   addWatchlist: async (watchlist: string) => {
     set(() => ({ loading: true }))
-    const supabase = createClient()
-    const user = await supabase.auth.getUser()
-    let { data: profiles }: any = await supabase
-      .from('profiles')
-      .select()
-      .eq('id', user.data.user?.id)
-      .select('default_watchlist')
 
-    // check profile table if  default_watchlist exist
-    if (profiles[0]?.default_watchlist === null) {
-      const { error } = await supabase
+    try {
+      const supabase = createClient()
+      const user = await supabase.auth.getUser()
+
+      const { data: defaultWatchlists, error: errorCheck } = await supabase
         .from(TABLES.WATCHLIST)
-        .insert({
-          name: watchlist,
-          is_default: true,
-          user_id: user.data.user?.id,
-          created_at: new Date(),
-        })
-        .select()
+        .select('id')
+        .eq('user_id', user.data.user?.id)
+        .eq('is_default', true)
 
-      const { error: aerrorRes }: any = await supabase
-        .from('profiles')
-        .update({ default_watchlist: watchlist })
-        .eq('id', user.data.user?.id)
-        .select()
+      if (errorCheck)
+        throw new Error(
+          errorCheck.message ?? 'Error checking default watchlist'
+        )
 
-      if (error || aerrorRes) {
-        console.log(error, aerrorRes)
-        set(() => ({ loading: false }))
-        return
+      let hasDefaultWatchlist = defaultWatchlists.length > 0
+
+      /* If there are multiple default watchlists, reset all to false.
+         Then set the new watchlist as default */
+      if (defaultWatchlists.length > 1) {
+        const { error: errorReset } = await supabase
+          .from(TABLES.WATCHLIST)
+          .update({ is_default: false })
+          .eq('user_id', user.data.user?.id)
+          .eq('is_default', true)
+
+        if (errorReset)
+          throw new Error(
+            errorReset.message ?? 'Error resetting default watchlist'
+          )
+
+        hasDefaultWatchlist = false
       }
-      await get().getWatchlists()
-      set(() => ({ loading: false }))
-    } else {
+
       const { error } = await supabase.from(TABLES.WATCHLIST).insert({
         name: watchlist,
-        is_default: false,
+        is_default: !hasDefaultWatchlist,
         user_id: user.data.user?.id,
         created_at: new Date(),
       })
 
-      if (error) {
-        console.log(error)
-        set(() => ({ loading: false }))
-        return
-      }
+      if (error) throw new Error(error.message ?? 'Error adding watchlist')
+
       await get().getWatchlists()
+    } catch (error) {
+      console.log(error)
+    } finally {
       set(() => ({ loading: false }))
     }
   },
 
   removeWatchlist: async (watchlistId: number) => {
     set(() => ({ loading: true }))
-    const supabase = createClient()
-    const user = await supabase.auth.getUser()
 
-    const { error: deleteSymbolError } = await supabase
-      .from(TABLES.WATCHLIST_SYMBOLS)
-      .delete()
-      .eq('watchlist_id', watchlistId)
+    try {
+      const supabase = createClient()
+      const user = await supabase.auth.getUser()
 
-    if (deleteSymbolError) {
-      console.log(deleteSymbolError)
-      return
-    }
+      const { error: errorSymbols } = await supabase
+        .from(TABLES.WATCHLIST_SYMBOLS)
+        .delete()
+        .eq('watchlist_id', watchlistId)
 
-    const { error } = await supabase
-      .from(TABLES.WATCHLIST)
-      .delete()
-      .eq('id', watchlistId)
-      .eq('user_id', user.data.user?.id)
+      if (errorSymbols)
+        throw new Error(
+          errorSymbols.message ?? 'Error deleting watchlist symbols'
+        )
 
-    if (error) {
+      const { data: deletedWatchlist, error: errorWatchlist } = await supabase
+        .from(TABLES.WATCHLIST)
+        .delete()
+        .eq('id', watchlistId)
+        .eq('user_id', user.data.user?.id)
+        .select()
+
+      if (errorWatchlist)
+        throw new Error(errorWatchlist.message ?? 'Error deleting watchlist')
+
+      // If deleted watchlist is default, set the first watchlist as default
+      if (deletedWatchlist[0].is_default) {
+        const { data: newDefaultWatchlist, error: errorNewDefault } =
+          await supabase
+            .from(TABLES.WATCHLIST)
+            .select('id')
+            .eq('user_id', user.data.user?.id)
+            .order('id', { ascending: true })
+            .single()
+
+        if (errorNewDefault)
+          throw new Error(
+            errorNewDefault.message ?? 'Error getting new default watchlist'
+          )
+
+        const { error: errorSetDefault } = await supabase
+          .from(TABLES.WATCHLIST)
+          .update({ is_default: true })
+          .eq('id', newDefaultWatchlist.id)
+          .eq('user_id', user.data.user?.id)
+
+        if (errorSetDefault)
+          throw new Error(
+            errorSetDefault.message ?? 'Error setting new default watchlist'
+          )
+      }
+
+      useTickerStore.getState().resetSymbols()
+      await get().getWatchlists()
+    } catch (error) {
       console.log(error)
-      return
+    } finally {
+      set(() => ({ loading: false }))
     }
-
-    const { error: aerrorRes }: any = await supabase
-      .from('profiles')
-      .update({ default_watchlist: null })
-      .eq('id', user.data.user?.id)
-      .select()
-
-    if (aerrorRes) {
-      console.log(aerrorRes)
-      return
-    }
-
-    await useTickerStore.getState().getSymbols(watchlistId)
-    await get().getWatchlists()
-    set(() => ({ loading: false }))
   },
 
   updateWatchlist: async (id: number, name: string) => {
     set(() => ({ loading: true }))
-    const supabase = createClient()
-    const user = await supabase.auth.getUser()
 
-    const { data, error }: any = await supabase
-      .from(TABLES.WATCHLIST)
-      .update({ name: name })
-      .eq('id', id)
-      .eq('user_id', user.data.user?.id)
-      .select()
+    try {
+      const supabase = createClient()
+      const user = await supabase.auth.getUser()
 
-    if (data[0].is_default) {
-      await supabase
-        .from('profiles')
-        .update({ default_watchlist: name })
-        .eq('id', user.data.user?.id)
-        .select()
+      const { error } = await supabase
+        .from(TABLES.WATCHLIST)
+        .update({ name: name })
+        .eq('id', id)
+        .eq('user_id', user.data.user?.id)
 
-      // console.log("data: ", data, profile)
-    }
-
-    if (error) {
+      if (error) throw new Error(error.message ?? 'Error updating watchlist')
+      await get().getWatchlists()
+    } catch (error) {
       console.log(error)
-      return
+    } finally {
+      set(() => ({ loading: false }))
     }
-
-    await get().getWatchlists()
-    set(() => ({ loading: false }))
   },
 
-  updateDefaultWatchlist: async (id: number, is_default: boolean) => {
+  setDefaultWatchlist: async (id: number) => {
     set(() => ({ loading: true }))
-    const supabase = createClient()
-    const user = await supabase.auth.getUser()
 
-    const { error: errorwatchlist }: any = await supabase
-      .from(TABLES.WATCHLIST)
-      .update({ is_default: false })
-      .eq('is_default', true)
-      .eq('user_id', user.data.user?.id)
-      .select()
+    try {
+      const supabase = createClient()
+      const user = await supabase.auth.getUser()
 
-    const { data: watchlist2nd, error: errorwatchlist2nd }: any = await supabase
-      .from(TABLES.WATCHLIST)
-      .update({ is_default: is_default })
-      .eq('id', id)
-      .eq('user_id', user.data.user?.id)
-      .select()
+      const { error: errorReset } = await supabase
+        .from(TABLES.WATCHLIST)
+        .update({ is_default: false })
+        .eq('user_id', user.data.user?.id)
 
-    const { error: aerrorProfile }: any = await supabase
-      .from('profiles')
-      .update({ default_watchlist: watchlist2nd[0]?.name })
-      .eq('id', user.data.user?.id)
-      .select()
+      if (errorReset)
+        throw new Error(
+          errorReset.message ?? 'Error resetting default watchlist'
+        )
 
-    // console.log("watchlist: ", watchlist, watchlist2nd, profile)
+      const { error: errorSetDefault } = await supabase
+        .from(TABLES.WATCHLIST)
+        .update({ is_default: true })
+        .eq('id', id)
+        .eq('user_id', user.data.user?.id)
 
-    if (errorwatchlist || errorwatchlist2nd || aerrorProfile) {
-      console.log(errorwatchlist, errorwatchlist2nd, aerrorProfile)
-      return
+      if (errorSetDefault)
+        throw new Error(
+          errorSetDefault.message ?? 'Error setting default watchlist'
+        )
+
+      await get().getWatchlists()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      set(() => ({ loading: false }))
     }
-
-    await get().getWatchlists()
-    set(() => ({ loading: false }))
   },
 }))
 

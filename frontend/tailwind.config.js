@@ -26,6 +26,7 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        // removed so that the nextui theme can be used?? otherwise the activeTab in the landingpage turns grey and all colors change
         // primary: {
         //   DEFAULT: 'hsl(var(--primary))',
         //   foreground: 'hsl(var(--primary-foreground))',
@@ -85,7 +86,36 @@ module.exports = {
         'spin-around': 'spin-around calc(var(--speed) * 2) infinite linear',
         'slide': 'slide var(--speed) ease-in-out infinite alternate',
       },
+      backgroundImage: {
+        'gradient-custom':
+          'linear-gradient(to right, var(--tw-gradient-stops))',
+      },
     },
   },
-  plugins: [require('tailwindcss-animate'), nextui()],
+  plugins: [
+    function ({ addUtilities, theme }) {
+      const newUtilities = {
+        '.bg-hfinance-gradient': {
+          'backgroundImage':
+            'linear-gradient(to right, var(--tw-gradient-stops))',
+          '--tw-gradient-from': theme('colors.purple.400'),
+          '--tw-gradient-via': theme('colors.pink.500'),
+          '--tw-gradient-to': theme('colors.red.500'),
+        },
+        '.text-hfinance-gradient': {
+          'background-image':
+            'linear-gradient(to right, var(--tw-gradient-stops))',
+          'background-clip': 'text',
+          '-webkit-background-clip': 'text',
+          'color': 'transparent',
+          '--tw-gradient-from': theme('colors.purple.400'),
+          '--tw-gradient-via': theme('colors.pink.500'),
+          '--tw-gradient-to': theme('colors.red.500'),
+        },
+      }
+      addUtilities(newUtilities)
+    },
+    require('tailwindcss-animate'),
+    nextui(),
+  ],
 }
