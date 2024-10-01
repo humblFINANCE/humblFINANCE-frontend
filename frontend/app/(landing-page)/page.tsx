@@ -18,7 +18,7 @@ export default function HomePage() {
       {/* MacbookScroll in its own section */}
       <section className="relative md:mb-16">
         <MacbookScroll
-          src="/humblFINANCE-dashboard.png"
+          src="/humblFINANCE-dashboard2.png"
           title={
             <span className="font-semibold text-xl">
               a dashboard built for simplicity

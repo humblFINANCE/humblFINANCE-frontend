@@ -8,6 +8,48 @@ interface FeatureComparison {
 
 // export const dataComparison: FeatureComparison[] = [
 //   {
+//     feature: 'simple investment framework guidance',
+//     hFinance: true,
+//     OpenBB: false,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
+//     feature: 'mobile access',
+//     hFinance: true,
+//     OpenBB: true,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
+//     feature: 'data export',
+//     hFinance: true,
+//     OpenBB: true,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
+//     feature: 'portfolio visualization overview',
+//     hFinance: true,
+//     OpenBB: true,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
+//     feature: 'one-click strategies',
+//     hFinance: true,
+//     OpenBB: false,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
+//     feature: 'request data sets',
+//     hFinance: true,
+//     OpenBB: false,
+//     longBow: false,
+//     Hedgeye: false,
+//   },
+//   {
 //     feature: 'lowest industry cost',
 //     hFinance: true,
 //     OpenBB: false,
@@ -22,30 +64,9 @@ interface FeatureComparison {
 //     Hedgeye: false,
 //   },
 //   {
-//     feature: 'portfolio optimization',
-//     hFinance: true,
-//     OpenBB: true,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
-//   {
 //     feature: 'access to all asset classes',
 //     hFinance: true,
 //     OpenBB: true,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
-//   {
-//     feature: 'data export',
-//     hFinance: true,
-//     OpenBB: true,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
-//   {
-//     feature: 'request datasets',
-//     hFinance: true,
-//     OpenBB: false,
 //     longBow: false,
 //     Hedgeye: false,
 //   },
@@ -56,104 +77,83 @@ interface FeatureComparison {
 //     longBow: false,
 //     Hedgeye: false,
 //   },
-//   {
-//     feature: 'investment education + guidance',
-//     hFinance: true,
-//     OpenBB: false,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
-//   {
-//     feature: 'mobile access',
-//     hFinance: true,
-//     OpenBB: true,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
-//   {
-//     feature: 'implement strategies (one click)',
-//     hFinance: true,
-//     OpenBB: false,
-//     longBow: false,
-//     Hedgeye: false,
-//   },
 // ]
 
 interface CompanyFeatures {
   company: string
   features: {
+    simpleInvestmentFrameworkGuidance: boolean
+    mobileAccess: boolean
+    dataExport: boolean
+    portfolioVisualizationOverview: boolean
+    implementOneClickStrategies: boolean
+    requestDatasets: boolean
     lowestIndustryCost: boolean
     accessToAllAssetClasses: boolean
-    requestDatasets: boolean
-    implementOneClickStrategies: boolean
-    mobileAccess: boolean
     applicationDashboard: boolean
-    portfolioOptimization: boolean
-    dataExport: boolean
     uploadDataForRewards: boolean
-    simpleInvestmentFrameworkGuidance: boolean
   }
 }
 
 export const companiesComparison: CompanyFeatures[] = [
   {
-    company: 'h.FINANCE',
+    company: 'humblFINANCE',
     features: {
       lowestIndustryCost: true,
-      accessToAllAssetClasses: true,
-      requestDatasets: true,
-      implementOneClickStrategies: true,
-      mobileAccess: true,
-      applicationDashboard: true,
-      portfolioOptimization: true,
-      dataExport: true,
-      uploadDataForRewards: true,
       simpleInvestmentFrameworkGuidance: true,
+      mobileAccess: true,
+      dataExport: true,
+      portfolioVisualizationOverview: true,
+      implementOneClickStrategies: true,
+      requestDatasets: true,
+      accessToAllAssetClasses: true,
+      applicationDashboard: true,
+      uploadDataForRewards: true,
     },
   },
   {
     company: 'OpenBB',
     features: {
       lowestIndustryCost: true,
-      accessToAllAssetClasses: true,
-      requestDatasets: false,
-      implementOneClickStrategies: false,
+      simpleInvestmentFrameworkGuidance: false,
       mobileAccess: true,
-      applicationDashboard: true,
-      portfolioOptimization: true,
       dataExport: true,
-      uploadDataForRewards: false,
-      simpleInvestmentFrameworkGuidance: false,
-    },
-  },
-  {
-    company: 'longBow',
-    features: {
-      lowestIndustryCost: false,
-      accessToAllAssetClasses: false,
-      requestDatasets: false,
+      portfolioVisualizationOverview: true,
       implementOneClickStrategies: false,
-      mobileAccess: false,
+      requestDatasets: true,
+      accessToAllAssetClasses: true,
       applicationDashboard: true,
-      portfolioOptimization: false,
-      dataExport: false,
       uploadDataForRewards: false,
-      simpleInvestmentFrameworkGuidance: false,
     },
   },
   {
-    company: 'Hedgeye',
+    company: 'Bloomberg',
     features: {
       lowestIndustryCost: false,
-      accessToAllAssetClasses: false,
-      requestDatasets: false,
-      implementOneClickStrategies: false,
-      mobileAccess: false,
-      applicationDashboard: false,
-      portfolioOptimization: false,
-      dataExport: false,
-      uploadDataForRewards: false,
       simpleInvestmentFrameworkGuidance: false,
+      mobileAccess: false,
+      dataExport: false,
+      portfolioVisualizationOverview: false,
+      implementOneClickStrategies: false,
+      requestDatasets: false,
+      accessToAllAssetClasses: true,
+      applicationDashboard: true,
+      uploadDataForRewards: false,
+    },
+  },
+  {
+    company: 'Northwestern Mutual',
+    features: {
+      lowestIndustryCost: false,
+      simpleInvestmentFrameworkGuidance: false,
+      mobileAccess: false,
+      dataExport: false,
+      portfolioVisualizationOverview: false,
+      implementOneClickStrategies: false,
+      requestDatasets: false,
+      accessToAllAssetClasses: false,
+      applicationDashboard: false,
+      uploadDataForRewards: false,
     },
   },
 ]
