@@ -1,3 +1,49 @@
+## v0.4.0 (2024-10-01)
+
+### ✨ Features
+
+- **Table**: added title to dashboard table
+- **investing-framework**: updated descriptions
+- **priving-tiers-features**: finalized the first version of tiered features
+- **PrivingPageComponent**: telling users to view on the desktop to see all features
+- **PricingTiers**: updated mobile pricing tier offers
+- **generateDailyRefreshCount**: updated the number of data refreshes available to users
+- **VercelAnalytics**: added analytics components to RootLayout
+
+### 🐛🚑️ Fixes
+
+- **LoginForm**: disabled passwordless phone login
+- **investing-framework**: added space
+- **feature comparison**: updated features and companies
+- **investment-framework**: small content refactor
+- **PricingPageComponent**: changed z-value to show the tooltips
+- **PricingPageCOmponent**: fixed tooltip hovering and light mode gradient
+- **DashboardSidebar**: changed the logic to only capitalize 'Home' pathname
+- **UserTable**: updated icons and tooltips and button text
+- **humblCHANNEL/COMPASS**: added a coming soon basic page
+- **sidebar-items**: added coming soon chips
+- **dashboard-navbar**: made the title lowercase
+- fix refresh-limit not working
+- fix refresh-limit not working
+- added humblCHANNEL to Home dashboard with a refresh button
+- tickers list
+- correct default watchlist not selected
+- **UserTable**: added dependency array in useEffect fto get watchlists
+- **UserTable**: changed text in placeholder
+- correct default watchlist not selected
+- pricing signin modal not opening when clicking `Continue with Free` on pricing page
+- pricing signin modal
+- **versioning**: manual version update
+
+### 📌➕⬇️ ➖⬆️  Dependencies
+
+- **update**: updated react version
+- **update**: ran npm up
+
+### 🚚🍱 Resources & Assets
+
+- **favicon**: modified favicon to be centered
+
 ## v0.3.0 (2024-09-27)
 
 ### ✨ Features
