@@ -12,8 +12,8 @@ import React from 'react'
 interface Props {
   params: CustomCellRendererProps
   index: number
-  onClickDetail: (id: number) => void
-  onClickDelete: (id: number) => void
+  onClickDetail: () => void
+  onClickDelete: () => void
 }
 
 const CustomButton: React.FC<Props> = (props) => {
@@ -27,6 +27,7 @@ const CustomButton: React.FC<Props> = (props) => {
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem
           key="new"
+          onPress={() => props.onClickDetail()}
           startContent={
             <>
               <Icon icon="solar:eye-line-duotone" fontSize={20} />
@@ -38,6 +39,7 @@ const CustomButton: React.FC<Props> = (props) => {
         <DropdownItem
           className="text-danger"
           key="copy"
+          onPress={() => props.onClickDelete()}
           startContent={
             <>
               <Icon icon="ic:outline-delete-forever" fontSize={20} />

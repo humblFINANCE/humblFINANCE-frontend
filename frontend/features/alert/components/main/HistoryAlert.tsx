@@ -12,7 +12,9 @@ import {
 import * as agGrid from 'ag-grid-community'
 import { AgGridReact, CustomCellRendererProps } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
-import CustomButton from './CustomButton'
+import CustomButton from '@/features/alert/components/active-alert/CustomButton'
+import { createClient } from '@/utils/supabase/client'
+import { EffectCallback, useEffect, useState } from 'react'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100, flex: 1 },
@@ -40,8 +42,17 @@ const colDefs: agGrid.ColDef[] = [
   },
 ]
 
+interface IHistoryAlert {
+  symbol: string
+  alert: string
+  fired_at: string
+  action: string
+}
+
 function HistoryAlert() {
   const { theme } = useTheme()
+  const supabase = createClient()
+  const [data, setData] = useState<IHistoryAlert[]>([])
 
   return (
     <div className="w-full h-full p-4 flex flex-col">

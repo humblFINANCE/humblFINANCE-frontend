@@ -1,3 +1,4 @@
+import { createClient } from '@/utils/supabase/client'
 import { Icon } from '@iconify/react'
 import {
   Badge,
@@ -7,9 +8,28 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from '@nextui-org/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export const NotificationsDropdown = () => {
+  const supabase = createClient()
+
+  useEffect(() => {
+    const historyListener = supabase
+      .channel('public:alert_history')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'alert_history' },
+        (payload) => {
+          console.log('Change received!', payload)
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(historyListener)
+    }
+  }, [])
+
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -36,26 +56,6 @@ export const NotificationsDropdown = () => {
               title: 'text-base font-semibold',
             }}
             key="1"
-            description="Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim."
-          >
-            📣 Edit your information
-          </DropdownItem>
-          <DropdownItem
-            key="2"
-            classNames={{
-              base: 'py-2',
-              title: 'text-base font-semibold',
-            }}
-            description="Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim."
-          >
-            🚀 Say goodbye to paper receipts!
-          </DropdownItem>
-          <DropdownItem
-            key="3"
-            classNames={{
-              base: 'py-2',
-              title: 'text-base font-semibold',
-            }}
             description="Sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim."
           >
             📣 Edit your information
