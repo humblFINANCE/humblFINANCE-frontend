@@ -116,8 +116,9 @@ const TableDashboard = () => {
 
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
-      <div className="flex items-center w-full justify-end">
-        <Tooltip color={`default`} content={`Refresh Watchlist`}>
+      <div className="flex items-center w-full justify-between">
+        <h2 className="text-2xl font-bold">Daily humblCHANNEL Tickers</h2>
+        <Tooltip color={`default`} content={`Refresh humblCHANNELS`}>
           <Button
             isLoading={isLoadingRefreshLimit || loading}
             id="refresh-watchlist"
