@@ -4,10 +4,51 @@ import { TiersEnum } from './pricing-types'
 
 const features: PricingFeatures = [
   {
-    title: 'Content',
+    title: 'Analytics & Data',
     items: [
       {
-        title: 'Latest Releases',
+        title: 'humblCOMPASS Coverage',
+        tiers: {
+          [TiersEnum.humblPEON]: 'US Only',
+          [TiersEnum.humblPREMIUM]: 'US + Eurozone',
+          [TiersEnum.humblPOWER]: 'US + Eurozone + Asia + Emerging Markets',
+          [TiersEnum.humblPERMANENT]: 'Global Coverage',
+        },
+        helpText: 'Geographic coverage for market analysis and insights.',
+      },
+      {
+        title: 'Daily Data Refreshes',
+        tiers: {
+          [TiersEnum.humblPEON]: '1',
+          [TiersEnum.humblPREMIUM]: '10',
+          [TiersEnum.humblPOWER]: '50',
+          [TiersEnum.humblPERMANENT]: 'Unlimited',
+        },
+        helpText:
+          'Number of times data is refreshed daily for up-to-date analysis.',
+      },
+      {
+        title: 'Access to all 8 Asset Classes',
+        tiers: {
+          [TiersEnum.humblPEON]: true,
+          [TiersEnum.humblPREMIUM]: true,
+          [TiersEnum.humblPOWER]: true,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Access to various asset classes for diversified analysis.',
+      },
+      {
+        title: 'Access to 14k+ Equities',
+        tiers: {
+          [TiersEnum.humblPEON]: true,
+          [TiersEnum.humblPREMIUM]: true,
+          [TiersEnum.humblPOWER]: true,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Number of equities available for analysis.',
+      },
+      {
+        title: 'Access to 60+ Exchanges',
         tiers: {
           [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
@@ -15,73 +56,15 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Enjoy over 1,000+ screens uploaded every week. Get notified via email whenever new screens are added.',
-      },
-      {
-        title: 'Priority access to new analytics',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Access to latest screenshots of an app cataloged by expert curators.',
-      },
-      {
-        title: 'Access to previous versions',
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText: 'Version travel across versions of an app cataloged.',
-      },
-      {
-        title: 'Access to flows of apps',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText:
-          'Access to screens organized by flows like onboarding or login.',
-      },
-      {
-        title: 'Filter & search results',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 rows',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText:
-          'Find apps, screens, or flows by filtering across 10,000+ screens.',
+          'Access to various exchanges for comprehensive market coverage.',
       },
     ],
   },
   {
-    title: 'Features',
+    title: 'Features & Tools',
     items: [
       {
-        title: 'Collections',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Limited  3 Collections',
-          [TiersEnum.humblPREMIUM]: 'Unlimited',
-          [TiersEnum.humblPOWER]: 'Unlimited',
-          [TiersEnum.humblPERMANENT]: 'Unlimited',
-        },
-        helpText:
-          'Save apps, screens or flows into collections for later viewing.',
-      },
-      {
-        title: 'Copy to clipboard',
-
+        title: 'humblCHANNEL',
         tiers: {
           [TiersEnum.humblPEON]: true,
           [TiersEnum.humblPREMIUM]: true,
@@ -89,61 +72,20 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Quickly copy screens into your clipboard to be pasted into other tools.',
+          'Access to humblCHANNEL graph visualizations for equity insights and analysis.',
       },
       {
-        title: 'Screen download',
-
+        title: 'humblPORTFOLIO Watchlists',
         tiers: {
-          [TiersEnum.humblPEON]: true,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Download screens as PNG.',
-      },
-      {
-        title: 'Batch download',
-
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Easily batch-download multiple screens at one go from apps, flows, your collections and more.',
-      },
-    ],
-  },
-  {
-    title: 'Collaboration',
-    items: [
-      {
-        title: 'Team members',
-
-        tiers: {
-          [TiersEnum.humblPEON]: 'Just You',
-          [TiersEnum.humblPREMIUM]: 'Just You',
-          [TiersEnum.humblPOWER]: 'Unlimited',
+          [TiersEnum.humblPEON]: '2',
+          [TiersEnum.humblPREMIUM]: '5',
+          [TiersEnum.humblPOWER]: '10',
           [TiersEnum.humblPERMANENT]: 'Unlimited',
         },
-        helpText: 'Collaborate with other users in a team.',
+        helpText: 'Number of watchlists available for portfolio tracking.',
       },
       {
-        title: 'Team collections',
-
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Create collections shared across your team.',
-      },
-      {
-        title: 'Team administration',
-
+        title: 'Custom Built Trading Strategies',
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
@@ -151,53 +93,105 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Add or remove members from your team to manage access to membership and collections.',
+          'Ability to create and use custom investment strategies. These will compliment when we finish building out our One-Click Strategy implementation.',
       },
       {
-        title: 'Flexible seat-based licensing',
-
+        title: 'Personalized Analytics',
         tiers: {
           [TiersEnum.humblPEON]: false,
           [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
+          [TiersEnum.humblPOWER]: 'On Request',
           [TiersEnum.humblPERMANENT]: true,
         },
-        helpText:
-          'Membership licenses are purchased by seats, which can be provisioned to or removed from users.',
+        helpText: 'Access to personalized analytics tailored to your needs.',
+      },
+      {
+        title: 'Custom Portfolio Construction',
+        tiers: {
+          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPREMIUM]: false,
+          [TiersEnum.humblPOWER]: false,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Assistance in constructing custom portfolios.',
+      },
+      {
+        title: 'Early Access to New Analytics',
+        tiers: {
+          [TiersEnum.humblPEON]: false,
+          [TiersEnum.humblPREMIUM]: false,
+          [TiersEnum.humblPOWER]: false,
+          [TiersEnum.humblPERMANENT]: true,
+        },
+        helpText: 'Get early access to newly developed analytics tools.',
       },
     ],
   },
+  // {
+  //   title: 'Collaboration',
+  //   items: [
+  //     {
+  //       title: 'Team members',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: 'Just You',
+  //         [TiersEnum.humblPREMIUM]: 'Just You',
+  //         [TiersEnum.humblPOWER]: 'Unlimited',
+  //         [TiersEnum.humblPERMANENT]: 'Unlimited',
+  //       },
+  //       helpText: 'Collaborate with other users in a team.',
+  //     },
+  //     {
+  //       title: 'Team collections',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText: 'Create collections shared across your team.',
+  //     },
+  //     {
+  //       title: 'Team administration',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Add or remove members from your team to manage access to membership and collections.',
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'Security & Access',
+  //   items: [
+  //     {
+  //       title: 'SAML Single Sign-On (SSO)',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Access through Okta, ADFS, Azure, Onelogin, or your own SAML identity provider (IdP).',
+  //     },
+  //     {
+  //       title: 'SCIM user provisioning',
+  //       tiers: {
+  //         [TiersEnum.humblPEON]: false,
+  //         [TiersEnum.humblPREMIUM]: false,
+  //         [TiersEnum.humblPOWER]: true,
+  //         [TiersEnum.humblPERMANENT]: true,
+  //       },
+  //       helpText:
+  //         'Sync user directories with Okta, Azure AD, Onelogin, or your own SCIM identity provider (IdP).',
+  //     },
+  //   ],
+  // },
   {
-    title: 'Security & Access',
-    items: [
-      {
-        title: 'SAML Single Sign-On (SSO)',
-
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Access through Okta, ADFS, Azure, Onelogin, or your own SAML identity provider (IdP).',
-      },
-      {
-        title: 'SCIM user provisioning',
-
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Sync user directories with Okta, Azure AD, Onelogin, or your own SCIM identity provider (IdP).',
-      },
-    ],
-  },
-  {
-    title: 'Billing',
+    title: 'Billing & Customization',
     items: [
       {
         title: 'Flexible payment options',
@@ -211,17 +205,6 @@ const features: PricingFeatures = [
           'Option to pay via invoice and bank transfers on a net 30, 45 or 60 payment term. Available upon request.',
       },
       {
-        title: 'Custom security assessment',
-        tiers: {
-          [TiersEnum.humblPEON]: false,
-          [TiersEnum.humblPREMIUM]: false,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText:
-          'Our team will help answer security assessments or questionnaires for your organization. Available upon request.',
-      },
-      {
         title: 'Custom agreement',
         tiers: {
           [TiersEnum.humblPEON]: false,
@@ -230,33 +213,22 @@ const features: PricingFeatures = [
           [TiersEnum.humblPERMANENT]: true,
         },
         helpText:
-          'Standardized SaaS agreement for your organization’s legal requirement. Available upon request.',
+          "Standardized SaaS agreement for your organization's legal requirement. Available upon request.",
       },
     ],
   },
   {
-    title: 'Support',
+    title: 'Support & Priority Access',
     items: [
       {
-        title: 'Help center',
+        title: 'Support Response Time',
         tiers: {
-          [TiersEnum.humblPEON]: true,
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
+          [TiersEnum.humblPEON]: 'Best Effort',
+          [TiersEnum.humblPREMIUM]: 'Within 2 days',
+          [TiersEnum.humblPOWER]: 'Within 1 day',
+          [TiersEnum.humblPERMANENT]: 'Within 3 hours',
         },
-        helpText:
-          'Browse our articles in our knowledge base to find answers to your questions regarding the platform.',
-      },
-      {
-        title: 'Email support',
-        tiers: {
-          [TiersEnum.humblPEON]: 'Best Effor Basic',
-          [TiersEnum.humblPREMIUM]: true,
-          [TiersEnum.humblPOWER]: true,
-          [TiersEnum.humblPERMANENT]: true,
-        },
-        helpText: 'Get help via email.',
+        helpText: 'Expected response time for support inquiries.',
       },
     ],
   },

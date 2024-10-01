@@ -41,6 +41,8 @@ export default function Component() {
     tier: Tier
     price: number
   } | null>(null)
+  const [isFreeSelected, setIsFreeSelected] = React.useState(false)
+
   const disclosure = useDisclosure()
   const authDisclosure = useDisclosure()
 
@@ -50,15 +52,16 @@ export default function Component() {
   }
 
   const handleSelectTier = async (tier: Tier) => {
-    if (tier.price === 'Free') {
-      return
-    }
-
     const { data, error } = await supabase.auth.getUser()
 
     if (!data || error) {
-      router.push('?from=pricing')
+      setIsFreeSelected(tier.price === 'Free')
+      window.history.replaceState({}, '', '?from=pricing')
       return authDisclosure.onOpen()
+    }
+
+    if (tier.price === 'Free') {
+      return router.push('/dashboard/home')
     }
 
     const price = +(
@@ -66,10 +69,14 @@ export default function Component() {
         ? tier.price
         : tier.price[selectedFrequency.key]
     ).replace('$', '')
+
     setSelectedTier({
       tier,
       price,
     })
+
+    setIsFreeSelected(false)
+
     disclosure.onOpen()
   }
 
@@ -87,16 +94,14 @@ export default function Component() {
           }}
         />
       </div>
+
       <div className="flex max-w-xl flex-col text-center">
-        <h2 className="font-medium text-2xl leading-7 text-secondary">
-          Pricing
-        </h2>
-        <h1 className="text-6xl font-medium tracking-tight">
+        <h1 className="text-6xl font-medium tracking-tight bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent dark:from-secondary dark:via-secondary dark:to-white">
           Compare plans & features.
         </h1>
         <Spacer y={4} />
         <h2 className="text-xl text-default-500">
-          Discover the ideal plan, options under 50¢ per day.
+          Discover the ideal plan, starting at 42¢ per day.
         </h2>
       </div>
       <Spacer y={8} />
@@ -198,10 +203,10 @@ export default function Component() {
       </div>
 
       {/* Table ---> lg */}
-      <div className="isolate hidden lg:block">
+      <div className="isolate hidden lg:block w-full">
         <div className="relative -mx-8">
           {tiers.some((tier) => tier.mostPopular) ? (
-            <div className="absolute inset-x-4 inset-y-0 z-0 flex">
+            <div className="absolute inset-x-4 inset-y-0 z-[-1] flex">
               <div
                 aria-hidden="true"
                 className="flex w-1/5 px-1"
@@ -220,7 +225,7 @@ export default function Component() {
                 <col key={index} className="w-1/4" />
               ))}
             </colgroup>
-            <thead className="sticky top-0 z-10">
+            <thead>
               <tr>
                 <td />
                 {tiers.map((tier) => (
@@ -243,16 +248,7 @@ export default function Component() {
                     <div className="relative text-large font-medium text-foreground">
                       {tier.title}
                     </div>
-                  </th>
-                ))}
-              </tr>
-              <tr>
-                <th scope="row">
-                  <span className="sr-only">Price</span>
-                </th>
-                {tiers.map((tier) => (
-                  <td key={tier.key} className="relative px-6 py-4 xl:px-8">
-                    <div className="flex items-baseline gap-1 text-foreground">
+                    <div className="mt-4 flex items-baseline gap-1 text-foreground">
                       <span className="inline bg-gradient-to-br from-foreground to-foreground-600 bg-clip-text text-4xl font-semibold leading-8 tracking-tight text-transparent">
                         {typeof tier.price === 'string'
                           ? tier.price
@@ -272,13 +268,12 @@ export default function Component() {
                           tier.mostPopular,
                       })}
                       color="secondary"
-                      // href={tier.href}
                       onPress={() => handleSelectTier(tier)}
                       variant={tier.buttonVariant}
                     >
                       {tier.buttonText}
                     </Button>
-                  </td>
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -375,13 +370,11 @@ export default function Component() {
           </table>
         </div>
       </div>
+
       <Spacer y={12} />
-      <div className="flex py-2">
-        <p className="text-default-400">
-          Are you an open source developer?&nbsp;
-          <Link color="foreground" href="#" underline="always">
-            Get a discount
-          </Link>
+      <div className="flex py-2 md:hidden">
+        <p className="text-default-400 text-center">
+          Please view this page on a desktop to see the full feature set list.
         </p>
       </div>
       <Spacer y={12} />
@@ -393,7 +386,7 @@ export default function Component() {
           price={selectedTier?.price!}
         />
       </Elements>
-      <LoginModal {...authDisclosure} />
+      <LoginModal linkAccount={!isFreeSelected} {...authDisclosure} />
     </div>
   )
 }

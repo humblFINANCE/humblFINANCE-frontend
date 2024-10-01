@@ -7,7 +7,7 @@ import { Metadata } from 'next'
 import { Providers } from '@/app/providers'
 import ToastProvider from '@/features/ToastProvider'
 import { Suspense } from 'react'
-
+import { Analytics } from '@vercel/analytics/react'
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -47,6 +47,7 @@ export default function RootLayout({
             <div className="relative flex flex-col h-screen">
               <Suspense>{children}</Suspense>
             </div>
+            <Analytics />
           </ToastProvider>
         </Providers>
       </body>

@@ -41,12 +41,12 @@ export default function EmailConfirmationPage() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen pt-24">
       <h1
-        className="text-6xl font-bold mb-6 cursor-default transition-colors duration-300 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 leading-tight"
+        className="text-6xl font-bold mb-6 cursor-default transition-colors duration-300 text-hfinance-gradient leading-tight"
         onMouseEnter={fireConfetti}
       >
         Congratulations!
       </h1>
-      <h3 className="text-2xl font-thin mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+      <h3 className="text-2xl font-thin mb-8 text-center text-hfinance-gradient">
         We appreciate you joining! Let&apos;s build the path towards financial
         freedom together.
       </h3>

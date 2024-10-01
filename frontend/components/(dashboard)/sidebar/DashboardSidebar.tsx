@@ -44,7 +44,9 @@ export default function DashboardSidebar({
   const currentPath = pathname?.split('/')[pathname?.split('/').length - 1]
   const capitalizedCurrentPath = currentPath
     .split('-')
-    .map((word: any) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word: string) =>
+      word === 'home' ? word.charAt(0).toUpperCase() + word.slice(1) : word
+    )
     .join(' ')
 
   // Logout Modal Control
@@ -90,9 +92,12 @@ export default function DashboardSidebar({
             </div>
           </Link>
           <span
-            className={cn('text-small font-bold uppercase opacity-100', {
-              'w-0 opacity-0': !isMobile && !isCompact,
-            })}
+            className={cn(
+              'text-small opacity-100 font-medium text-hfinance-gradient',
+              {
+                'w-0 opacity-0': !isMobile && !isCompact,
+              }
+            )}
           >
             humblFINANCE
           </span>
