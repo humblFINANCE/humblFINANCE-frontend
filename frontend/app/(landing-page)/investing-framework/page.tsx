@@ -77,9 +77,9 @@ const frameworkContent = [
           The <strong>humblCOMPASS</strong> is the center-piece of our
           <strong> humblSTRATEGY</strong>. It is a tool used to assess the
           <strong> current health of the economy</strong> 🤒. It uses{' '}
-          <strong>GROWTH</strong> and <strong>INFLATION</strong> data of any
-          country to determine the current regime. These two data points have
-          the most influence on the economy.
+          <strong>GROWTH</strong> and <strong>INFLATION</strong> data to
+          determine the current regime of any country. These two data points
+          have the most influence on the direction of an economy.
         </p>
         <p>
           Depending on the direction of <strong>GROWTH</strong> and{' '}
