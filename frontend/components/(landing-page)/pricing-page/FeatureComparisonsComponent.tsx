@@ -30,26 +30,24 @@ const FeatureComparisonsComponent = () => {
 
   return (
     <div>
-      <p className=" text-2xl text-center">
+      <p className="text-2xl text-center">
         We provide access to a suite of quality data-driven insights + financial
         advice with unmatched user experience at the <b>MOST AFFORDABLE </b>
         price
       </p>
       <div className="overflow-x-auto w-full max-w-7xl relative overflow-y-hidden">
-        <table className="w-full table-auto md:table-fixed border-separate border-spacing-x-4 text-left">
+        <table className="w-full table-auto border-separate border-spacing-x-2 md:border-spacing-x-4 text-left">
           <thead className="w-full">
             <tr>
-              <th
-                className={cn('pb-4 pt-12 font-semibold text-foreground')}
-              ></th>
+              <th className="pb-4 pt-12 font-semibold text-foreground"></th>
               {companiesComparison.map((comp, featIndex) => (
                 <th
                   key={comp.company}
                   className={cn(
                     'pb-4 pt-12 font-semibold text-foreground text-center',
                     {
-                      'text-3xl': featIndex === 0,
-                      'text-lg': featIndex !== 0,
+                      'text-xl sm:text-2xl md:text-3xl': featIndex === 0,
+                      'text-sm sm:text-base md:text-lg': featIndex !== 0,
                     }
                   )}
                   colSpan={1}
@@ -60,7 +58,7 @@ const FeatureComparisonsComponent = () => {
               ))}
             </tr>
           </thead>
-          <tbody className="border-separate border-spacing-x-4 w-full">
+          <tbody className="border-separate border-spacing-x-2 md:border-spacing-x-4 w-full">
             {featureKeys.map((feature, dataIndex) => (
               <React.Fragment key={feature}>
                 <tr className="border-b-1 border-gray-500">
