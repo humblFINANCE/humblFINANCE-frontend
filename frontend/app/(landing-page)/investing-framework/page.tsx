@@ -191,10 +191,11 @@ const frameworkContent = [
     description: (
       <>
         <p>
-          Stay informed with <strong>humblALERTS</strong>. This feature provides
-          timely notifications about market opportunities, potential risks, and
-          important updates related to your portfolio, helping you make informed
-          decisions quickly.
+          Stay informed with <strong>humblALERTS</strong>. Monitor your
+          portfolio remotely. We will send you a notification when it is time to
+          buy or sell. This feature provides timely notifications about market
+          opportunities, potential risks, and important updates related to your
+          portfolio, helping you make informed decisions quickly.
         </p>
         <p>
           <strong>humblALERTS</strong> ensures you never miss a crucial moment
