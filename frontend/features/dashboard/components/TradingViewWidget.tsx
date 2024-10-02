@@ -62,7 +62,10 @@ function TradingViewWidget() {
   }, [theme])
 
   return (
-    <div className="relative w-full h-full rounded-lg overflow-hidden">
+    <div
+      className="relative w-full h-full rounded-lg overflow-hidden"
+      style={{ maxHeight: '350px' }}
+    >
       <div
         className="tradingview-widget-container absolute inset-0"
         ref={containerRef}
