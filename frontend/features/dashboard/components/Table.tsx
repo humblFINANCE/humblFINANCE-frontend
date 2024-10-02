@@ -15,16 +15,16 @@ import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRef
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
-  { field: 'recent_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'bottom_price',
-    headerName: 'Bottom Price',
+    headerName: 'Buy Price',
     flex: 1,
     minWidth: 100,
   },
+  { field: 'recent_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'top_price',
-    headerName: 'Top Price',
+    headerName: 'Sell Price',
     flex: 1,
     minWidth: 100,
   },
@@ -52,18 +52,33 @@ const TableDashboard = () => {
 
   const getData = useCallback(async (props?: { shouldRefresh?: boolean }) => {
     const symbols = [
-      'AAPL',
-      'AMZN',
-      'MSFT',
-      'META',
-      'GOOGL',
-      'TSLA',
-      'NVDA',
-      '^SPX',
-      '^RUT',
-      '^VIX',
-      'GLD',
-      'UUP',
+      'SPY', // S&P 500 ETF
+      '^VIX', // Volatility Index
+      'IWM', // Russell 2000 ETF
+      'DIA', // Dow Jones Industrial Average ETF
+      'QQQ', // Nasdaq 100 ETF
+      'UUP', // US Dollar Index
+      // 11 Sector ETFs
+      'XLY', // Consumer Discretionary
+      'XLP', // Consumer Staples
+      'XLE', // Energy
+      'XLF', // Financials
+      'XLV', // Health Care
+      'XLI', // Industrials
+      'XLB', // Materials
+      'XLRE', // Real Estate
+      'XLK', // Technology
+      'XLC', // Communication Services
+      'XLU', // Utilities
+      // Additional symbols
+      // 'AAPL',
+      // 'AMZN',
+      // 'MSFT',
+      // 'META',
+      // 'GOOGL',
+      // 'TSLA',
+      // 'NVDA',
+      // 'UUP',
     ]
 
     const params = {
@@ -76,7 +91,7 @@ const TableDashboard = () => {
   const handleRefreshWatchlist = useCallback(async () => {
     if (user.is_anonymous) {
       toast.warning(
-        "You're account membership is Anonymous please upgrade your account"
+        "You're account membership is Anonymous. Please upgrade your account."
       )
       openModalConvertUser()
       return
