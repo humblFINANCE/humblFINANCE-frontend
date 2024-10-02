@@ -18,5 +18,14 @@ export const signInAnonymously = async (
     return error?.message
   }
 
+  const { error: errorUpdate } = await supabase
+    .from('profiles')
+    .update({ refresh_limit: 0 })
+    .eq('id', data.user?.id)
+
+  if (errorUpdate) {
+    return errorUpdate.message
+  }
+
   return redirect('/dashboard/home')
 }
