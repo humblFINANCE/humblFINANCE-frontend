@@ -69,7 +69,7 @@ export default function DashboardSidebar({
 
   return (
     <div className="flex min-h-dvh w-full overflow-y-auto overflow-x-hidden">
-      <div className="h-screen sticky top-0 left-0">
+      <div className="h-dvh sticky top-0 left-0">
         <div
           className={cn(
             'relative flex h-full w-72 flex-col !border-r-small border-divider p-6 transition-width',
@@ -216,7 +216,7 @@ export default function DashboardSidebar({
             />
           </div>
         </header>
-        <main className="mt-4 h-full w-full overflow-visible">
+        <main className="mt-4 h-full w-full overflow-visible pb-6">
           <div className="flex h-full w-full flex-col gap-4 rounded-medium border-small border-divider overflow-scroll p-4">
             {children}
           </div>
