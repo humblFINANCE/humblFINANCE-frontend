@@ -19,23 +19,16 @@ export const items: SidebarItem[] = [
     title: 'Home',
   },
   {
-    key: 'portfolio',
-    href: '/dashboard/portfolio',
+    key: 'humblPORTFOLIO',
+    href: '/dashboard/humblPORTFOLIO',
     icon: 'solar:widget-2-outline',
-    title: 'Portfolio',
-    endContent: (
-      <Icon
-        className="text-default-400"
-        icon="solar:add-circle-line-duotone"
-        width={24}
-      />
-    ),
+    title: 'humblPORTFOLIO',
   },
   {
-    key: 'alerts',
-    href: '/dashboard/alerts',
+    key: 'humblALERTS',
+    href: '/dashboard/humblALERTS',
     icon: 'solar:bell-line-duotone',
-    title: 'Alerts',
+    title: 'humblALERTS',
     endContent: (
       <Icon
         className="text-default-400"
@@ -104,29 +97,27 @@ export const sectionItems: SidebarItem[] = [
         title: 'Home',
       },
       {
-        key: 'portfolio',
-        href: '/dashboard/portfolio',
-        icon: 'solar:widget-2-outline',
-        title: 'Portfolio',
-        endContent: (
-          <Icon
-            className="text-default-400"
-            icon="solar:add-circle-line-duotone"
-            width={24}
-          />
-        ),
+        key: 'humblPORTFOLIO',
+        href: '/dashboard/humblPORTFOLIO',
+        icon: 'solar:folder-with-files-line-duotone',
+        title: 'humblPORTFOLIO',
+        // endContent: (
+        //   <Icon
+        //     className="text-default-400"
+        //     icon="solar:add-circle-line-duotone"
+        //     width={24}
+        //   />
+        // ),
       },
       {
-        key: 'alerts',
-        href: '/dashboard/alerts',
+        key: 'humblALERTS',
+        href: '/dashboard/humblALERTS',
         icon: 'solar:bell-line-duotone',
-        title: 'Alerts',
+        title: 'humblALERTS',
         endContent: (
-          <Icon
-            className="text-default-400"
-            icon="solar:add-circle-line-duotone"
-            width={24}
-          />
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
         ),
       },
     ],
@@ -136,10 +127,15 @@ export const sectionItems: SidebarItem[] = [
     title: 'Analytics',
     items: [
       {
-        key: 'macro',
-        href: '#',
-        title: 'Macro',
-        icon: 'solar:pie-chart-2-outline',
+        key: 'humblCOMPASS',
+        href: '/dashboard/humblCOMPASS',
+        title: 'humblCOMPASS',
+        icon: 'solar:compass-line-duotone',
+        endContent: (
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
+        ),
         items: [
           {
             key: 'shareholders',
@@ -159,16 +155,15 @@ export const sectionItems: SidebarItem[] = [
         ],
       },
       {
-        key: 'data-lab',
-        href: '#',
-        icon: 'solar:chart-outline',
-        title: 'Data Laboratory',
-      },
-      {
-        key: 'settings',
-        href: '/settings',
-        icon: 'solar:settings-outline',
-        title: 'Settings',
+        key: 'humblCHANNEL',
+        href: '/dashboard/humblCHANNEL',
+        icon: 'solar:align-vertical-spacing-line-duotone',
+        title: 'humblCHANNEL',
+        endContent: (
+          <Chip size="sm" variant="flat" color="warning">
+            🚧
+          </Chip>
+        ),
       },
     ],
   },

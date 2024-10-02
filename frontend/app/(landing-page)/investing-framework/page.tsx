@@ -1,4 +1,5 @@
 'use client'
+
 import { title } from '@/components/Primitives'
 import { cn } from '@/utils/cn'
 import React, { useState } from 'react'
@@ -69,16 +70,16 @@ const loadingStates = [
 
 const frameworkContent = [
   {
-    title: 'humblCOMPASS',
+    title: '1. humblCOMPASS',
     description: (
       <>
         <p>
           The <strong>humblCOMPASS</strong> is the center-piece of our
           <strong> humblSTRATEGY</strong>. It is a tool used to assess the
-          <strong>current health of the economy</strong> 🤒. It uses{' '}
-          <strong>GROWTH</strong> and <strong>INFLATION</strong> data of any
-          country to determine the current regime. These two data points have
-          the most influence on the economy.
+          <strong> current health of the economy</strong> 🤒. It uses{' '}
+          <strong>GROWTH</strong> and <strong>INFLATION</strong> data to
+          determine the current regime of any country. These two data points
+          have the most influence on the direction of an economy.
         </p>
         <p>
           Depending on the direction of <strong>GROWTH</strong> and{' '}
@@ -117,14 +118,14 @@ const frameworkContent = [
         </ul>
         <br />
         <p>
-          The regime is used to determine the most profitable assets to invest
-          in.
+          The regime is used to select and suggest the most profitable assets to
+          invest in.
         </p>
       </>
     ),
   },
   {
-    title: 'humblCHANNEL',
+    title: '2. humblCHANNEL',
     _description: (
       <>
         <p>
@@ -151,9 +152,12 @@ const frameworkContent = [
         </p>
         <br />
         <p>
-          Our humblSTRATEGY has suggested time frames to consider, but your
-          money is yours so we allow you to change the algorithm to suit your
-          needs, no questions asked.
+          Our <strong>humblSTRATEGY</strong> has suggested time frames to
+          consider, but your money is yours so we allow you to change the
+          algorithm to suit your needs, no questions asked. We provide an
+          interactive graph that visually displays how adjusting the time period
+          impacts the humblCHANNEL buy and sell prices, allowing you to easily
+          understand the effects of your customizations.
         </p>
       </>
     ),
@@ -165,13 +169,14 @@ const frameworkContent = [
     },
   },
   {
-    title: 'humblPORTFOLIO',
+    title: '3. humblPORTFOLIO',
     description: (
       <>
         <p>
           The <strong>humblPORTFOLIO</strong> is an interactive table that shows
           an overview of all the assets you own, and their current{' '}
           <strong>humblCHANNEL</strong> prices. It tells you if the humblCOMPASS
+          suggests a buy or sell given the current economic regime.
         </p>
         <p>
           You can visualize your entire investment landscape, make data-driven
@@ -182,18 +187,21 @@ const frameworkContent = [
     ),
   },
   {
-    title: 'humblALERTS',
+    title: '4. humblALERTS',
     description: (
       <>
         <p>
-          Stay informed with Humble Alerts. This feature provides timely
-          notifications about market opportunities, potential risks, and
-          important updates related to your portfolio, helping you make informed
-          decisions quickly.
+          Stay informed with <strong>humblALERTS</strong>. Monitor your
+          portfolio remotely. We will send you a notification when it is time to
+          buy or sell. This feature provides timely notifications about market
+          opportunities, potential risks, and important updates related to your
+          portfolio, helping you make informed decisions quickly.
         </p>
         <p>
-          Humble Alerts ensures you never miss a crucial moment in the market,
-          keeping you ahead of the curve and ready to act on new opportunities.
+          <strong>humblALERTS</strong> ensures you never miss a crucial moment
+          in the market, keeping you ahead of the curve and ready to act on new
+          opportunities or protect yourself from drawdowns and losses in the
+          event of a volatile market.
         </p>
       </>
     ),
@@ -203,9 +211,10 @@ const frameworkContent = [
     description: (
       <>
         <p>
-          The humblSTRATEGY is based on a secretive methodology used by major
-          Wall Street institutions to navigate the US stock market. They do this
-          by measuring and understanding the health of the economy and
+          The <strong>humblSTRATEGY</strong> is based on a secretive methodology
+          used by major Wall Street institutions to navigate the US stock
+          market. They do this by measuring and understanding the health of the
+          economy and identifying the most profitable assets across all
           identifying the most profitable assets across all economic scenarios.
           This approach goes beyond traditional &quot;stocks vs. cash vs.
           bonds&quot; thinking, allowing investors to optimize their portfolio
@@ -215,19 +224,27 @@ const frameworkContent = [
         <p>
           After four years of extensive research; reading academic papers and
           sifting through economic data, we&apos;ve developed the humblSTRATEGY
-          to make this institutional-level approach accessible to individual
-          investors. Our goal is to provide a simple, user-friendly interface
-          that helps you understand and navigate economic health indicators,
-          empowering you to make informed investment decisions in any market
-          condition.
+          to make this{' '}
+          <strong>
+            institutional-level approach accessible to individual investors.
+          </strong>{' '}
+          Our goal is to provide a simple, user-friendly interface that helps
+          you understand and navigate economic health indicators, empowering you
+          to make informed investment decisions in any market condition.
         </p>
         <br />
         <p>
           Our strategy provides guidance on what to invest in during different
-          economic phases, including periods of expansion, contraction,
-          inflation, and deflation. It helps you maintain the value of your
-          investments even when traditional &quot;safe&quot; options like bank
-          deposits may be losing purchasing power due to inflation.
+          economic phases, including periods of expansion (
+          <strong className="text-green-500 dark:text-green-400">
+            humblBOOM
+          </strong>
+          ) OR contraction (
+          <strong className="text-red-500 dark:text-red-400">humblBUST</strong>
+          ), and everything in between. It helps you maintain and monitor the
+          value of your investments even when traditional &quot;safe&quot;
+          options like bank deposits may be losing purchasing power due to
+          inflation.
         </p>
       </>
     ),

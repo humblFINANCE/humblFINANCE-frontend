@@ -76,6 +76,7 @@ export function PasswordlessLoginForm() {
         onClick={handleOpenPasswordLessModal('phoneNumber')}
         className={buttonClasses}
         startContent={<Icon icon="fluent:phone-lock-24-regular" width={24} />}
+        isDisabled={true} // Add this line to disable the button
       >
         Continue with Phone
       </Button>

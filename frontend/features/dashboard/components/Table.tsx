@@ -1,28 +1,30 @@
 'use client'
 
 import { cn } from '@/utils/cn'
-import * as agGrid from 'ag-grid-community'
-import { AgGridReact } from 'ag-grid-react'
+import * as agGrid from '@ag-grid-community/core'
+import { AgGridReact } from '@ag-grid-community/react'
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
 import { useTradingViewSPX } from '@/features/dashboard/hooks/useTradingViewSPX'
-import useWatchlist from '@/components/(dashboard)/portfolio/hooks/useWatchlist'
-import { ITradingViewParams } from '@/features/dashboard/types/types'
 import { useUser } from '@/features/user/hooks/use-user'
-import { setCookie } from 'cookies-next'
+import { Button, Tooltip, Spinner } from '@nextui-org/react'
+import { InlineIcon } from '@iconify/react'
+import { toast } from 'react-toastify'
+import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
-  { field: 'last_price', headerName: 'Recent Price', minWidth: 100 },
+  { field: 'recent_price', headerName: 'Recent Price', minWidth: 100 },
   {
-    field: 'buy_price',
-    headerName: 'Buy Price',
+    field: 'bottom_price',
+    headerName: 'Bottom Price',
     flex: 1,
     minWidth: 100,
   },
   {
-    field: 'sell_price',
-    headerName: 'Sell Price',
+    field: 'top_price',
+    headerName: 'Top Price',
     flex: 1,
     minWidth: 100,
   },
@@ -34,50 +36,108 @@ const defaultColDef: agGrid.ColDef = {
   resizable: true,
 }
 
+agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
+
 const TableDashboard = () => {
   const { theme } = useTheme()
-  const { profile } = useUser()
-  const { getTradingSPX, portfolio } = useTradingViewSPX()
-  const { watchlists, getWatchlists } = useWatchlist()
-  const [value, setValue] = useState<string>(
-    () => localStorage.getItem('selectedWatchlistId') || ''
-  )
+  const { user, openModalConvertUser } = useUser()
 
-  const getData = useCallback(async () => {
-    const params: ITradingViewParams = {
-      chart: 'True',
+  const getTradingSPX = useTradingViewSPX((store) => store.getTradingSPX)
+  const tradingView = useTradingViewSPX((store) => store.tradingView)
+  const loading = useTradingViewSPX((store) => store.loading)
+
+  const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
+
+  const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
+
+  const getData = useCallback(async (props?: { shouldRefresh?: boolean }) => {
+    const symbols = [
+      'AAPL',
+      'AMZN',
+      'MSFT',
+      'META',
+      'GOOGL',
+      'TSLA',
+      'NVDA',
+      '^SPX',
+      '^RUT',
+      '^VIX',
+      'GLD',
+      'UUP',
+    ]
+
+    const params = {
+      symbols: symbols.join(','),
     }
 
-    if (value === '') {
-      await getTradingSPX(params)
+    await getTradingSPX({ params, shouldRefresh: props?.shouldRefresh })
+  }, [])
+
+  const handleRefreshWatchlist = useCallback(async () => {
+    if (user.is_anonymous) {
+      toast.warning(
+        "You're account membership is Anonymous please upgrade your account"
+      )
+      openModalConvertUser()
+      return
     }
 
-    if (value) {
-      params.chart = 'True'
-      await getTradingSPX(params)
-    }
-  }, [value, watchlists])
+    setIsLoadingRefreshLimit(true)
+    const limitCookie = await getRefreshLimit(user?.id)
+    setIsLoadingRefreshLimit(false)
 
-  useEffect(() => {
-    getWatchlists()
-  }, [getWatchlists])
+    if (!limitCookie) {
+      toast.error('Something went wrong please refresh the page and try again')
+      return
+    }
+
+    if (limitCookie.refresh_limit <= 0) {
+      toast.warning(
+        'You have used all your free data for the day, please come back tomorrow or upgrade your account'
+      )
+      openModalConvertUser()
+      return
+    }
+
+    await getData({ shouldRefresh: true })
+    await decrementRefreshLimit(user?.id!)
+  }, [
+    decrementRefreshLimit,
+    getData,
+    getRefreshLimit,
+    openModalConvertUser,
+    user?.id,
+    user.is_anonymous,
+  ])
 
   useEffect(() => {
     getData()
-    setCookie(
-      'pathname',
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-    setValue(
-      watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString()
-    )
-  }, [
-    value,
-    watchlists?.filter((id: any) => id.is_default === true)[0]?.id?.toString(),
-  ])
+  }, [])
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col gap-4 pt-4">
+      <div className="flex items-center w-full justify-between">
+        <h2 className="text-2xl font-bold">Daily humblCHANNEL Tickers</h2>
+        <Tooltip color={`default`} content={`Refresh humblCHANNELS`}>
+          <Button
+            isLoading={isLoadingRefreshLimit || loading}
+            id="refresh-watchlist"
+            className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
+            style={{
+              opacity: 1,
+            }}
+            onPress={handleRefreshWatchlist}
+            endContent={
+              <InlineIcon
+                icon={'solar:refresh-circle-line-duotone'}
+                fontSize={28}
+              />
+            }
+          >
+            <div className="hidden lg:block">Refresh</div>
+          </Button>
+        </Tooltip>
+      </div>
       <div
         className={cn(
           'h-full ',
@@ -85,9 +145,12 @@ const TableDashboard = () => {
         )}
       >
         <AgGridReact
-          rowData={portfolio}
+          rowData={tradingView ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
+          noRowsOverlayComponent={() => <div>Watchlist is Empty.</div>}
+          loading={loading}
+          loadingOverlayComponent={() => <Spinner size="lg" />}
         />
       </div>
     </div>

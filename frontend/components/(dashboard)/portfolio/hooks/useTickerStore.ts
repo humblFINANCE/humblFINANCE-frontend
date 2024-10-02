@@ -94,5 +94,8 @@ export const useTickerStore = create<ISymbolState & ISymbolAction>(
     setError: (error: string) => {
       set(() => ({ error }))
     },
+    resetSymbols: () => {
+      set(() => ({ symbols: [] }))
+    },
   })
 )

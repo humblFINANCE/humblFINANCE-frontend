@@ -63,7 +63,7 @@ export default function WatchListModal({
     removeWatchlist,
     updateWatchlist,
     loading,
-    updateDefaultWatchlist,
+    setDefaultWatchlist,
   } = useWatchlist()
 
   const memoizedGetWatchlists = useCallback(() => {
@@ -261,7 +261,7 @@ export default function WatchListModal({
                                   <Button
                                     className="bg-transparent"
                                     isIconOnly
-                                    onPress={() => updateDefaultWatchlist(item.id, true)}
+                                    onPress={() => setDefaultWatchlist(item.id)}
                                   >
                                     <Icon icon="mdi:check" fontSize={20} />
                                   </Button>

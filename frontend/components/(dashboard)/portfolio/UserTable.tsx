@@ -69,6 +69,7 @@ const UserTable = () => {
   const watchlists = useWatchlist((store) => store.watchlists)
   const getWatchlists = useWatchlist((store) => store.getWatchlists)
   const loadingWatchlist = useWatchlist((store) => store.loading)
+  const setDefaultWatchlist = useWatchlist((store) => store.setDefaultWatchlist)
 
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
   const [selectedWatchlist, setSelectedWatchlist] = useState<string>('')
@@ -116,7 +117,7 @@ const UserTable = () => {
   const handleRefreshWatchlist = useCallback(async () => {
     if (user.is_anonymous) {
       toast.warning(
-        "You're account membership is Anonymous please upgrade your account"
+        "You're account membership is Anonymous. Upgrade your account to use this feature"
       )
       openModalConvertUser()
       return
@@ -127,13 +128,13 @@ const UserTable = () => {
     setIsLoadingRefreshLimit(false)
 
     if (!limitCookie) {
-      toast.error('Something went wrong please refresh the page and try again')
+      toast.error('Something went wrong. Please refresh the page and try again')
       return
     }
 
-    if (limitCookie.refresh_limit === 0) {
+    if (limitCookie.refresh_limit <= 0) {
       toast.warning(
-        'You have used all your free data for the day, please come back tomorrow or upgrade your account'
+        'You have used all your free data for the day, please come back tomorrow or upgrade your account. :)'
       )
       openModalConvertUser()
       return
@@ -146,26 +147,27 @@ const UserTable = () => {
   useEffect(() => {
     const fetch = async () => {
       const dataWatchlist = await getWatchlists()
-      setCookie(
-        'pathname',
-        watchlists
-          ?.filter((id: any) => id.is_default === true)[0]
-          ?.id?.toString()
+      const savedWatchlistId = localStorage.getItem('selectedWatchlistId')
+      const defaultWatchlists = dataWatchlist?.filter(
+        (watchlist) => watchlist.is_default === true
       )
 
-      if (dataWatchlist) {
-        let savedValue =
-          localStorage.getItem('selectedWatchlistId') ??
-          dataWatchlist
-            ?.filter((id: any) => id.is_default === true)[0]
-            ?.id?.toString()
+      // If there are multiple default watchlists, select the first one
+      if (!!defaultWatchlists && defaultWatchlists.length > 1) {
+        setDefaultWatchlist(defaultWatchlists[0].id)
+      }
 
-        setSelectedWatchlist(savedValue)
+      if (savedWatchlistId || !!defaultWatchlists) {
+        setSelectedWatchlist(
+          savedWatchlistId
+            ? savedWatchlistId
+            : defaultWatchlists?.[0]?.id.toString() ?? ''
+        )
       }
     }
 
     fetch()
-  }, [])
+  }, [getWatchlists, setDefaultWatchlist])
 
   useEffect(() => {
     getData()
@@ -178,7 +180,9 @@ const UserTable = () => {
           id="select-watchlist"
           aria-label="Select Watchlist"
           placeholder={
-            watchlists.length === 0 ? 'No Watchlist' : 'Select Watchlist'
+            watchlists.length === 0
+              ? 'Please Create a Watchlist'
+              : 'Select Watchlist'
           }
           className="max-w-xs"
           scrollShadowProps={{
@@ -197,7 +201,7 @@ const UserTable = () => {
         <Tooltip color={`default`} content={`Manage Watchlists`}>
           <Button
             isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
-            id="add-watchlist"
+            id="manage-watchlist"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -210,13 +214,13 @@ const UserTable = () => {
               />
             }
           >
-            <div className="hidden lg:block">Add</div>
+            <div className="hidden lg:block">Manage</div>
           </Button>
         </Tooltip>
-        <Tooltip color={`default`} content={`Refresh Watchlist`}>
+        <Tooltip color={`default`} content={`Refresh Data`}>
           <Button
             isLoading={isLoadingRefreshLimit || loading || loadingWatchlist}
-            id="refresh-watchlist"
+            id="refresh-data"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{
               opacity: 1,
@@ -244,7 +248,9 @@ const UserTable = () => {
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           noRowsOverlayComponent={() => (
-            <div>Watchlist is Empty. Please add Symbols.</div>
+            <div className="text-center">
+              Watchlist is Empty 😢. Please add Symbols.
+            </div>
           )}
           loading={loading}
           loadingOverlayComponent={() => <Spinner size="lg" />}

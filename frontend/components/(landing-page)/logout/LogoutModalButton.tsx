@@ -45,6 +45,7 @@ export default function LogoutModalButton({
   }
 
   const handleSignout = async () => {
+    localStorage.removeItem('selectedWatchlistId')
     setLoading(true)
     await signOut(selectedOptionValue)
     setLoading(false)
