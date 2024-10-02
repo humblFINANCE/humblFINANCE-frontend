@@ -4,26 +4,38 @@ const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 
 export const dynamic = 'force-dynamic'
 export async function GET(request: NextRequest) {
-  const params = request.nextUrl.searchParams
-  const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+  try {
+    const params = request.nextUrl.searchParams
+    const url = new URL(FASTAPI_URL + ENDPOINTS.USERTABLE)
+    const headers = new Headers()
+    const requestHeaders = request.headers
 
-  const requestHeaders = request.headers
-  const headers = new Headers()
+    if (requestHeaders.has('cache-control')) {
+      headers.set('cache-control', requestHeaders.get('cache-control')!)
+    }
 
-  if (requestHeaders.has('cache-control')) {
-    headers.set('cache-control', requestHeaders.get('cache-control')!)
-  }
+    if (requestHeaders.has('pragma')) {
+      headers.set('pragma', requestHeaders.get('pragma')!)
+    }
 
-  if (requestHeaders.has('pragma')) {
-    headers.set('pragma', requestHeaders.get('pragma')!)
-  }
-
-  const response = await (
-    await fetch(url + '?' + params.toString(), {
+    const response = await fetch(url + '?' + params.toString(), {
       cache: 'no-store',
       headers,
     })
-  ).json()
 
-  return NextResponse.json({ data: response })
+    const responseHeaders = {
+      'x-fastapi-cache': response.headers.get('x-fastapi-cache') ?? 'MISS',
+    }
+
+    const { response_data } = await response.json()
+    const { data } = response_data
+
+    return NextResponse.json({ data }, { headers: responseHeaders })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
 }
