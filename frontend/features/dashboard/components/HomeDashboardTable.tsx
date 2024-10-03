@@ -38,7 +38,7 @@ const defaultColDef: agGrid.ColDef = {
 
 agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
 
-const TableDashboard = () => {
+const HomeDashboardTable = () => {
   const { theme } = useTheme()
   const { user, openModalConvertUser } = useUser()
 
@@ -172,4 +172,4 @@ const TableDashboard = () => {
   )
 }
 
-export default TableDashboard
+export default HomeDashboardTable

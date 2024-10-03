@@ -2,13 +2,13 @@
 
 import React from 'react'
 import TradingViewWidget from '@/features/dashboard/components/TradingViewWidget'
-import TableDashboard from '@/features/dashboard/components/Table'
+import HomeDashboardTable from '@/features/dashboard/components/HomeDashboardTable'
 
 export function DashboardPage() {
   return (
     <>
       <TradingViewWidget />
-      <TableDashboard />
+      <HomeDashboardTable />
 
       {/* OLD COMPONENTS */}
       {/*// < className="h-full overflow-scroll">*/}
