@@ -42,8 +42,8 @@ const TableDashboard = () => {
   const { theme } = useTheme()
   const { user, openModalConvertUser } = useUser()
 
-  const getTradingSPX = useHumblChannel((store) => store.getTradingSPX)
-  const tradingView = useHumblChannel((store) => store.tradingView)
+  const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
+  const humblChannel = useHumblChannel((store) => store.humblChannel)
   const loading = useHumblChannel((store) => store.loading)
 
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
@@ -85,7 +85,7 @@ const TableDashboard = () => {
       symbols: symbols.join(','),
     }
 
-    await getTradingSPX({ params, shouldRefresh: props?.shouldRefresh })
+    await getHumblChannel({ params, shouldRefresh: props?.shouldRefresh })
   }, [])
 
   const handleRefreshWatchlist = useCallback(async () => {
@@ -160,7 +160,7 @@ const TableDashboard = () => {
         )}
       >
         <AgGridReact
-          rowData={tradingView?.data ?? []}
+          rowData={humblChannel?.data ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           noRowsOverlayComponent={() => <div>Watchlist is Empty.</div>}

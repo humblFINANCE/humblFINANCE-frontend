@@ -6,9 +6,9 @@ import {
 
 export const useHumblChannel = create<IPortfolioState & IPortfolioAction>(
   (set, get) => ({
-    tradingView: null,
+    humblChannel: null,
     loading: false,
-    getTradingSPX: async ({ params, shouldRefresh }) => {
+    getHumblChannel: async ({ params, shouldRefresh }) => {
       try {
         set(() => ({ loading: true }))
 
@@ -31,13 +31,13 @@ export const useHumblChannel = create<IPortfolioState & IPortfolioAction>(
         const { response_data, message, status_code } = await response.json()
 
         if (status_code === 200) {
-          set(() => ({ tradingView: response_data, loading: false }))
+          set(() => ({ humblChannel: response_data, loading: false }))
         } else {
           console.error('Error fetching data:', message)
           set(() => ({ loading: false }))
         }
       } catch (err) {
-        console.error('Error in getTradingSPX:', err)
+        console.error('Error in getHumblChannel:', err)
         set(() => ({ loading: false }))
       }
     },

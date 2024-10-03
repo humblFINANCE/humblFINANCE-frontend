@@ -37,12 +37,12 @@ export interface IHomeHumblChannelParams extends Record<string, string> {
 }
 
 export interface IPortfolioState {
-  tradingView: any | null // or a more specific type if you know the exact structure
+  humblChannel: any | null // or a more specific type if you know the exact structure
   loading: boolean
 }
 
 export interface IPortfolioAction {
-  getTradingSPX: ({
+  getHumblChannel: ({
     params,
     shouldRefresh,
   }: {
