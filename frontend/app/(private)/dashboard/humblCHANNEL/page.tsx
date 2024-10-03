@@ -3,7 +3,10 @@ import HumblChannelPlotly from '@/features/dashboard/humblCHANNEL/components/Hum
 const humblCHANNEL = () => {
   return (
     <div>
-      <h1>humblCHANNEL is being built...it should be ready within 1 week</h1>
+      <h1>
+        humblCHANNEL is being built...it should be ready within 1 week...this is
+        an AAPL chart to show what it will look like
+      </h1>
       <HumblChannelPlotly />
     </div>
   )
