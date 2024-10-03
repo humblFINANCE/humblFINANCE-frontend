@@ -7,6 +7,7 @@ import { InlineIcon } from '@iconify/react'
 import { toast } from 'react-toastify'
 import { useUser } from '@/features/user/hooks/use-user'
 import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
+import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
@@ -18,6 +19,7 @@ export function HumblChannelPlotly() {
   const { user, openModalConvertUser } = useUser()
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
+  const { theme } = useTheme()
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
@@ -119,9 +121,17 @@ export function HumblChannelPlotly() {
               layout={{
                 ...plotLayout,
                 autosize: true,
-                // paper_bgcolor: 'rgba(0,0,0,0)',
-                // plot_bgcolor: 'rgba(0,0,0,0)',
-                // font: { color: 'white' },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: theme === 'dark' ? 'white' : 'black' },
+                xaxis: {
+                  ...plotLayout.xaxis,
+                  color: theme === 'dark' ? 'white' : 'black',
+                },
+                yaxis: {
+                  ...plotLayout.yaxis,
+                  color: theme === 'dark' ? 'white' : 'black',
+                },
               }}
               config={{ responsive: true }}
               style={{ width: '100%', height: '100%' }}
