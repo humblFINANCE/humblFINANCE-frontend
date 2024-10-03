@@ -6,7 +6,7 @@ import { AgGridReact } from '@ag-grid-community/react'
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
-import { useTradingViewSPX } from '@/features/dashboard/hooks/useTradingViewSPX'
+import { useHumblChannel } from '@/features/dashboard/hooks/useHumblChannel'
 import { useUser } from '@/features/user/hooks/use-user'
 import { Button, Tooltip, Spinner } from '@nextui-org/react'
 import { InlineIcon } from '@iconify/react'
@@ -42,9 +42,9 @@ const TableDashboard = () => {
   const { theme } = useTheme()
   const { user, openModalConvertUser } = useUser()
 
-  const getTradingSPX = useTradingViewSPX((store) => store.getTradingSPX)
-  const tradingView = useTradingViewSPX((store) => store.tradingView)
-  const loading = useTradingViewSPX((store) => store.loading)
+  const getTradingSPX = useHumblChannel((store) => store.getTradingSPX)
+  const tradingView = useHumblChannel((store) => store.tradingView)
+  const loading = useHumblChannel((store) => store.loading)
 
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 

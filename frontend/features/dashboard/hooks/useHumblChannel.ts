@@ -4,7 +4,7 @@ import {
   IPortfolioState,
 } from '@/features/dashboard/types/types'
 
-export const useTradingViewSPX = create<IPortfolioState & IPortfolioAction>(
+export const useHumblChannel = create<IPortfolioState & IPortfolioAction>(
   (set, get) => ({
     tradingView: null,
     loading: false,
