@@ -7,6 +7,9 @@ import { InlineIcon } from '@iconify/react'
 import { toast } from 'react-toastify'
 import { useUser } from '@/features/user/hooks/use-user'
 import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
+import dynamic from 'next/dynamic'
+
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
 export function HumblChannelPlotly() {
   const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
@@ -18,7 +21,7 @@ export function HumblChannelPlotly() {
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
-      const symbols = ['AMZN']
+      const symbols = ['AAPL']
       const params = {
         symbols: symbols.join(','),
         chart: 'true',
@@ -71,6 +74,10 @@ export function HumblChannelPlotly() {
     getData()
   }, [getData])
 
+  useEffect(() => {
+    console.log('humblChannel:', humblChannel)
+  }, [humblChannel])
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -79,10 +86,13 @@ export function HumblChannelPlotly() {
     )
   }
 
+  const plotData = humblChannel?.data || []
+  const plotLayout = humblChannel?.layout || { autosize: true }
+
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
       <div className="flex items-center w-full justify-between">
-        <h2 className="text-2xl font-bold">HumblCHANNEL Raw Data</h2>
+        <h2 className="text-2xl font-bold">HumblCHANNEL Chart</h2>
         <Tooltip color="default" content="Refresh HumblCHANNEL">
           <Button
             isLoading={isLoadingRefreshLimit || loading}
@@ -102,9 +112,24 @@ export function HumblChannelPlotly() {
         </Tooltip>
       </div>
       {humblChannel ? (
-        <pre className="overflow-auto h-full">
-          {JSON.stringify(humblChannel, null, 2)}
-        </pre>
+        plotData.length > 0 ? (
+          <div className="flex-grow w-full" style={{ height: '600px' }}>
+            <Plot
+              data={plotData}
+              layout={{
+                ...plotLayout,
+                autosize: true,
+                // paper_bgcolor: 'rgba(0,0,0,0)',
+                // plot_bgcolor: 'rgba(0,0,0,0)',
+                // font: { color: 'white' },
+              }}
+              config={{ responsive: true }}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        ) : (
+          <div>No chart data available</div>
+        )
       ) : (
         <div>No data available</div>
       )}
