@@ -26,10 +26,12 @@ export async function GET(request: NextRequest) {
       'x-fastapi-cache': response.headers.get('x-fastapi-cache') ?? 'MISS',
     }
 
-    const { response_data } = await response.json()
-    const { data } = response_data
+    const { response_data, message, status_code } = await response.json()
 
-    return NextResponse.json({ data }, { headers: responseHeaders })
+    return NextResponse.json(
+      { response_data, message, status_code },
+      { headers: responseHeaders }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(

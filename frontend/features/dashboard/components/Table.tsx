@@ -160,7 +160,7 @@ const TableDashboard = () => {
         )}
       >
         <AgGridReact
-          rowData={tradingView ?? []}
+          rowData={tradingView?.data ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           noRowsOverlayComponent={() => <div>Watchlist is Empty.</div>}
