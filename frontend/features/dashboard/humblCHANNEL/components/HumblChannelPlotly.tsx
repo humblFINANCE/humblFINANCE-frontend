@@ -120,12 +120,15 @@ export function HumblChannelPlotly({
 
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
-      <div className="flex items-center gap-4 w-full bg-gray-800 p-4 rounded-lg">
+      <div className="flex items-center gap-4 w-full bg-gray-800 rounded-lg">
         <div className="flex-grow">
           <Autocomplete
             label="Select Symbol"
             placeholder="Type to search..."
             className="w-full"
+            size="sm"
+            radius="lg"
+            isClearable={true}
             defaultItems={all_symbols}
             isLoading={loadingSymbols}
             selectedKey={selectedSymbol}
@@ -140,21 +143,38 @@ export function HumblChannelPlotly({
             )}
           </Autocomplete>
         </div>
-        <Tooltip color="default" content="Refresh HumblCHANNEL">
+        <Tooltip color="default" content="humblCHANNEL Parameters">
+          <Button
+            id="settings-humblchannel"
+            className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
+            style={{ opacity: 1 }}
+            size="lg"
+            isIconOnly
+            endContent={
+              <InlineIcon
+                icon="solar:settings-line-duotone"
+                className="text-3xl"
+              />
+            }
+          ></Button>
+        </Tooltip>
+        <Tooltip color="default" content="Refresh humblCHANNEL">
           <Button
             id="refresh-humblchannel"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{ opacity: 1 }}
             onPress={handleRefresh}
+            size="lg"
             isLoading={isLoadingRefreshLimit}
+            isIconOnly
             endContent={
               <InlineIcon
                 icon="solar:refresh-circle-line-duotone"
-                fontSize={28}
+                className="text-3xl"
               />
             }
           >
-            <div className="hidden lg:block">Refresh</div>
+            {/* <div className="hidden lg:block">Refresh</div> */}
           </Button>
         </Tooltip>
       </div>
@@ -189,7 +209,7 @@ export function HumblChannelPlotly({
           <div>No chart data available</div>
         )
       ) : (
-        <div>No data available</div>
+        <div>No data available. Please select a symbol.</div>
       )}
     </div>
   )
