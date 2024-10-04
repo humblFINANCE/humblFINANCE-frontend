@@ -2,38 +2,66 @@
 
 import React, { useEffect, useCallback, useState } from 'react'
 import { useHumblChannel } from '@/features/dashboard/hooks/useHumblChannel'
-import { Spinner, Button, Tooltip } from '@nextui-org/react'
-import { InlineIcon } from '@iconify/react'
-import { toast } from 'react-toastify'
-import { useUser } from '@/features/user/hooks/use-user'
-import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
+import {
+  Spinner,
+  Autocomplete,
+  AutocompleteItem,
+  Button,
+  Tooltip,
+} from '@nextui-org/react'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import { useDebouncedCallback } from 'use-debounce'
+import { InlineIcon } from '@iconify/react'
+import { useUser } from '@/features/user/hooks/use-user'
+import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
+import { toast } from 'react-toastify'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
 interface HumblChannelPlotlyProps {
-  symbol: string
+  initialSymbol: string
+  onSymbolChange: (symbol: string) => void
 }
 
-export function HumblChannelPlotly({ symbol }: HumblChannelPlotlyProps) {
+export function HumblChannelPlotly({
+  initialSymbol,
+  onSymbolChange,
+}: HumblChannelPlotlyProps) {
+  const [selectedSymbol, setSelectedSymbol] = useState<string>(initialSymbol)
   const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
   const humblChannel = useHumblChannel((store) => store.humblChannel)
   const loading = useHumblChannel((store) => store.loading)
+  const { theme } = useTheme()
+  const { all_symbols, findSymbols, loading: loadingSymbols } = useTickerStore()
   const { user, openModalConvertUser } = useUser()
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
-  const { theme } = useTheme()
+
+  const debounced = useDebouncedCallback((value) => {
+    findSymbols(value)
+  }, 300)
+
+  const handleSelectionChange = useCallback(
+    (key: React.Key | null) => {
+      if (key) {
+        setSelectedSymbol(key as string)
+        onSymbolChange(key as string)
+      }
+    },
+    [onSymbolChange]
+  )
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
       const params = {
-        symbols: symbol,
+        symbols: selectedSymbol,
         chart: 'true',
       }
       await getHumblChannel({ params, shouldRefresh: props?.shouldRefresh })
     },
-    [getHumblChannel, symbol]
+    [getHumblChannel, selectedSymbol]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -67,21 +95,17 @@ export function HumblChannelPlotly({ symbol }: HumblChannelPlotlyProps) {
     await getData({ shouldRefresh: true })
     await decrementRefreshLimit(user?.id!)
   }, [
-    decrementRefreshLimit,
-    getData,
-    getRefreshLimit,
-    openModalConvertUser,
-    user?.id,
     user.is_anonymous,
+    openModalConvertUser,
+    getRefreshLimit,
+    user?.id,
+    getData,
+    decrementRefreshLimit,
   ])
 
   useEffect(() => {
     getData()
   }, [getData])
-
-  useEffect(() => {
-    console.log('humblChannel:', humblChannel)
-  }, [humblChannel])
 
   if (loading) {
     return (
@@ -96,15 +120,33 @@ export function HumblChannelPlotly({ symbol }: HumblChannelPlotlyProps) {
 
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
-      <div className="flex items-center w-full justify-between">
-        <h2 className="text-2xl font-bold">HumblCHANNEL Chart for {symbol}</h2>
+      <div className="flex items-center gap-4 w-full bg-gray-800 p-4 rounded-lg">
+        <div className="flex-grow">
+          <Autocomplete
+            label="Select Symbol"
+            placeholder="Type to search..."
+            className="w-full"
+            defaultItems={all_symbols}
+            isLoading={loadingSymbols}
+            selectedKey={selectedSymbol}
+            onSelectionChange={handleSelectionChange}
+            onInputChange={debounced}
+            allowsCustomValue={true}
+          >
+            {(item) => (
+              <AutocompleteItem key={item.symbol} textValue={item.symbol}>
+                {item.symbol} : {item.name}
+              </AutocompleteItem>
+            )}
+          </Autocomplete>
+        </div>
         <Tooltip color="default" content="Refresh HumblCHANNEL">
           <Button
-            isLoading={isLoadingRefreshLimit || loading}
             id="refresh-humblchannel"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{ opacity: 1 }}
             onPress={handleRefresh}
+            isLoading={isLoadingRefreshLimit}
             endContent={
               <InlineIcon
                 icon="solar:refresh-circle-line-duotone"
