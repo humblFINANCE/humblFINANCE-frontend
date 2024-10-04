@@ -12,7 +12,11 @@ import dynamic from 'next/dynamic'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
-export function HumblChannelPlotly() {
+interface HumblChannelPlotlyProps {
+  symbol: string
+}
+
+export function HumblChannelPlotly({ symbol }: HumblChannelPlotlyProps) {
   const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
   const humblChannel = useHumblChannel((store) => store.humblChannel)
   const loading = useHumblChannel((store) => store.loading)
@@ -23,14 +27,13 @@ export function HumblChannelPlotly() {
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
-      const symbols = ['AAPL']
       const params = {
-        symbols: symbols.join(','),
+        symbols: symbol,
         chart: 'true',
       }
       await getHumblChannel({ params, shouldRefresh: props?.shouldRefresh })
     },
-    [getHumblChannel]
+    [getHumblChannel, symbol]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -94,7 +97,7 @@ export function HumblChannelPlotly() {
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
       <div className="flex items-center w-full justify-between">
-        <h2 className="text-2xl font-bold">HumblCHANNEL Chart</h2>
+        <h2 className="text-2xl font-bold">HumblCHANNEL Chart for {symbol}</h2>
         <Tooltip color="default" content="Refresh HumblCHANNEL">
           <Button
             isLoading={isLoadingRefreshLimit || loading}
@@ -131,6 +134,9 @@ export function HumblChannelPlotly() {
                 yaxis: {
                   ...plotLayout.yaxis,
                   color: theme === 'dark' ? 'white' : 'black',
+                },
+                title: {
+                  text: ``,
                 },
               }}
               config={{ responsive: true }}
