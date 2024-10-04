@@ -24,7 +24,7 @@ export interface IPortfolio {
   sell_price: number
 }
 
-export interface ITradingView {
+export interface IHomeHumblChannel {
   date: string
   symbol: string
   bottom_price: number
@@ -32,17 +32,17 @@ export interface ITradingView {
   top_price: number
 }
 
-export interface ITradingViewParams extends Record<string, string> {
+export interface IHomeHumblChannelParams extends Record<string, string> {
   chart?: string
 }
 
 export interface IPortfolioState {
-  tradingView: ITradingView[]
+  humblChannel: any | null // or a more specific type if you know the exact structure
   loading: boolean
 }
 
 export interface IPortfolioAction {
-  getTradingSPX: ({
+  getHumblChannel: ({
     params,
     shouldRefresh,
   }: {

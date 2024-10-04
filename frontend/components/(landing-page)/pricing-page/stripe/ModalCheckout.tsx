@@ -6,7 +6,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
   Avatar,
   Autocomplete,
   AutocompleteItem,
@@ -15,26 +14,17 @@ import {
   Divider,
   Spinner,
 } from '@nextui-org/react'
-import PaymentForm from './FormCheckout'
 import countries from './countries'
 import { Icon } from '@iconify/react'
 import { Tier } from '../pricing-types'
-import {
-  CardNumberElement,
-  useStripe,
-  useElements,
-  CardElement,
-} from '@stripe/react-stripe-js'
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js'
 import { useTheme } from 'next-themes'
 import { StripeError } from '@stripe/stripe-js'
 import { createPaymentIntent } from '@/utils/stripe/action'
 import { IPaymentFormValues, usePaymentValidation } from '../hooks/validation'
 import { Controller, SubmitHandler } from 'react-hook-form'
-import { redirect, useRouter } from 'next/navigation'
-import { Router } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
-import { useUser } from '@/features/user/hooks/use-user'
-import { setCookie } from 'cookies-next'
 import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 
 type ModalCheckoutProps = {
@@ -44,8 +34,8 @@ type ModalCheckoutProps = {
   price: number
 }
 
-function generateDailyRefreshCount(tier: Tier) {
-  switch (tier.title) {
+function generateDailyRefreshCount(tier: string) {
+  switch (tier) {
     case 'peon':
       return 1
     case 'premium':
@@ -76,14 +66,7 @@ export default function ModalCheckout({
       <Divider className="flex-1" />
     </div>
   )
-  const [input, setInput] = React.useState<{
-    price: number
-    cardholderName: string
-  }>({
-    price: price,
-    cardholderName: '',
-  })
-  const [paymentType, setPaymentType] = React.useState<string>('')
+
   const [payment, setPayment] = React.useState<{
     status: 'initial' | 'processing' | 'error' | 'succeeded'
   }>({ status: 'initial' })
@@ -97,7 +80,7 @@ export default function ModalCheckout({
       const cardElement = elements.getElement('card')
 
       if (!cardElement) return
-      const user = await supabase.auth.getUser()
+      const { data: userData } = await supabase.auth.getUser()
       setPayment({ status: 'processing' })
 
       const formData = new FormData()
@@ -131,26 +114,17 @@ export default function ModalCheckout({
       }
 
       const membership = tier.title.toLowerCase().replace('humbl', '')
-
-      console.log(membership)
+      const newRefreshLimit = generateDailyRefreshCount(membership)
 
       await supabase
         .from('profiles')
         .update({
           membership,
-          refresh_limit: generateDailyRefreshCount(tier),
+          refresh_limit: newRefreshLimit,
         })
-        .eq('id', user?.data.user?.id)
+        .eq('id', userData.user?.id)
 
-      // setCookie(
-      //   user?.data.user?.id + '_refresh_limit',
-      //   JSON.stringify({
-      //     updated_at: new Date().getDate(),
-      //     refresh_limit: generateDailyRefreshCount(tier),
-      //   })
-      // )
-
-      await getRefreshLimit(user?.data.user?.id!)
+      await getRefreshLimit(userData.user?.id!)
 
       setPayment({ status: 'succeeded' })
       router.push('/dashboard/home')

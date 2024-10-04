@@ -6,7 +6,7 @@ import { AgGridReact } from '@ag-grid-community/react'
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState, useCallback } from 'react'
-import { useTradingViewSPX } from '@/features/dashboard/hooks/useTradingViewSPX'
+import { useHumblChannel } from '@/features/dashboard/hooks/useHumblChannel'
 import { useUser } from '@/features/user/hooks/use-user'
 import { Button, Tooltip, Spinner } from '@nextui-org/react'
 import { InlineIcon } from '@iconify/react'
@@ -15,16 +15,16 @@ import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRef
 
 const colDefs: agGrid.ColDef[] = [
   { field: 'symbol', minWidth: 100 },
-  { field: 'recent_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'bottom_price',
-    headerName: 'Bottom Price',
+    headerName: 'Buy Price',
     flex: 1,
     minWidth: 100,
   },
+  { field: 'recent_price', headerName: 'Recent Price', minWidth: 100 },
   {
     field: 'top_price',
-    headerName: 'Top Price',
+    headerName: 'Sell Price',
     flex: 1,
     minWidth: 100,
   },
@@ -38,13 +38,13 @@ const defaultColDef: agGrid.ColDef = {
 
 agGrid.ModuleRegistry.registerModules([ClientSideRowModelModule])
 
-const TableDashboard = () => {
+const HomeDashboardTable = () => {
   const { theme } = useTheme()
   const { user, openModalConvertUser } = useUser()
 
-  const getTradingSPX = useTradingViewSPX((store) => store.getTradingSPX)
-  const tradingView = useTradingViewSPX((store) => store.tradingView)
-  const loading = useTradingViewSPX((store) => store.loading)
+  const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
+  const humblChannel = useHumblChannel((store) => store.humblChannel)
+  const loading = useHumblChannel((store) => store.loading)
 
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
 
@@ -52,31 +52,46 @@ const TableDashboard = () => {
 
   const getData = useCallback(async (props?: { shouldRefresh?: boolean }) => {
     const symbols = [
-      'AAPL',
-      'AMZN',
-      'MSFT',
-      'META',
-      'GOOGL',
-      'TSLA',
-      'NVDA',
-      '^SPX',
-      '^RUT',
-      '^VIX',
-      'GLD',
-      'UUP',
+      'SPY', // S&P 500 ETF
+      '^VIX', // Volatility Index
+      'IWM', // Russell 2000 ETF
+      'DIA', // Dow Jones Industrial Average ETF
+      'QQQ', // Nasdaq 100 ETF
+      'UUP', // US Dollar Index
+      // 11 Sector ETFs
+      'XLY', // Consumer Discretionary
+      'XLP', // Consumer Staples
+      'XLE', // Energy
+      'XLF', // Financials
+      'XLV', // Health Care
+      'XLI', // Industrials
+      'XLB', // Materials
+      'XLRE', // Real Estate
+      'XLK', // Technology
+      'XLC', // Communication Services
+      'XLU', // Utilities
+      // Additional symbols
+      // 'AAPL',
+      // 'AMZN',
+      // 'MSFT',
+      // 'META',
+      // 'GOOGL',
+      // 'TSLA',
+      // 'NVDA',
+      // 'UUP',
     ]
 
     const params = {
       symbols: symbols.join(','),
     }
 
-    await getTradingSPX({ params, shouldRefresh: props?.shouldRefresh })
+    await getHumblChannel({ params, shouldRefresh: props?.shouldRefresh })
   }, [])
 
   const handleRefreshWatchlist = useCallback(async () => {
     if (user.is_anonymous) {
       toast.warning(
-        "You're account membership is Anonymous please upgrade your account"
+        "You're account membership is Anonymous. Please upgrade your account."
       )
       openModalConvertUser()
       return
@@ -145,7 +160,7 @@ const TableDashboard = () => {
         )}
       >
         <AgGridReact
-          rowData={tradingView ?? []}
+          rowData={humblChannel?.data ?? []}
           columnDefs={colDefs}
           defaultColDef={defaultColDef}
           noRowsOverlayComponent={() => <div>Watchlist is Empty.</div>}
@@ -157,4 +172,4 @@ const TableDashboard = () => {
   )
 }
 
-export default TableDashboard
+export default HomeDashboardTable

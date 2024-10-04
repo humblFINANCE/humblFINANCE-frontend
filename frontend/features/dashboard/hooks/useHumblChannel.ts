@@ -4,11 +4,11 @@ import {
   IPortfolioState,
 } from '@/features/dashboard/types/types'
 
-export const useTradingViewSPX = create<IPortfolioState & IPortfolioAction>(
+export const useHumblChannel = create<IPortfolioState & IPortfolioAction>(
   (set, get) => ({
-    tradingView: [],
+    humblChannel: null,
     loading: false,
-    getTradingSPX: async ({ params, shouldRefresh }) => {
+    getHumblChannel: async ({ params, shouldRefresh }) => {
       try {
         set(() => ({ loading: true }))
 
@@ -19,8 +19,8 @@ export const useTradingViewSPX = create<IPortfolioState & IPortfolioAction>(
           headers.set('Cache-Control', 'no-cache')
           headers.set('Pragma', 'no-cache')
         } else {
-          headers.set('Cache-Control', 'max-age=60') // added 1m cache to prevent Safari caching bug
-          headers.set('Pragma', 'max-age=60') // added 1m cache to prevent Safari caching bug
+          headers.set('Cache-Control', 'max-age=60')
+          headers.set('Pragma', 'max-age=60')
         }
 
         const response = await fetch(
@@ -28,11 +28,16 @@ export const useTradingViewSPX = create<IPortfolioState & IPortfolioAction>(
           { method: 'GET', headers }
         )
 
-        const { data } = await response.json()
+        const { response_data, message, status_code } = await response.json()
 
-        set(() => ({ tradingView: data, loading: false }))
+        if (status_code === 200) {
+          set(() => ({ humblChannel: response_data, loading: false }))
+        } else {
+          console.error('Error fetching data:', message)
+          set(() => ({ loading: false }))
+        }
       } catch (err) {
-        console.log(err)
+        console.error('Error in getHumblChannel:', err)
         set(() => ({ loading: false }))
       }
     },

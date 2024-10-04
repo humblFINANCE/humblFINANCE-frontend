@@ -1,11 +1,10 @@
 import React from 'react'
+import { HumblChannelPage } from '@/features/dashboard/pages/HumblChannelPage'
 
-const humblCHANNEL = () => {
+export default function HumblChannelPageWrapper() {
   return (
-    <div>
-      <h1>humblCHANNEL is being built...it should be ready within 1 week</h1>
+    <div className="container mx-auto p-4">
+      <HumblChannelPage />
     </div>
   )
 }
-
-export default humblCHANNEL

@@ -5,8 +5,9 @@ const FASTAPI_URL = process.env.NEXT_PUBLIC_FASTAPI_URL
 export async function GET(request: NextRequest) {
   try {
     const params = request.nextUrl.searchParams
-    const requestHeaders = request.headers
+    const url = new URL(FASTAPI_URL + ENDPOINTS.MANDELBROT)
     const headers = new Headers()
+    const requestHeaders = request.headers
 
     if (requestHeaders.has('cache-control')) {
       headers.set('cache-control', requestHeaders.get('cache-control')!)
@@ -15,8 +16,6 @@ export async function GET(request: NextRequest) {
     if (requestHeaders.has('pragma')) {
       headers.set('pragma', requestHeaders.get('pragma')!)
     }
-
-    const url = new URL(FASTAPI_URL + ENDPOINTS.MANDELBROT)
 
     const response = await fetch(url + '?' + params.toString(), {
       cache: 'no-store',
@@ -27,10 +26,12 @@ export async function GET(request: NextRequest) {
       'x-fastapi-cache': response.headers.get('x-fastapi-cache') ?? 'MISS',
     }
 
-    const { response_data } = await response.json()
-    const { data } = response_data
+    const { response_data, message, status_code } = await response.json()
 
-    return NextResponse.json({ data }, { headers: responseHeaders })
+    return NextResponse.json(
+      { response_data, message, status_code },
+      { headers: responseHeaders }
+    )
   } catch (error) {
     console.log(error)
     return NextResponse.json(
