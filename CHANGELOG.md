@@ -1,3 +1,22 @@
+## v0.4.1 (2024-10-04)
+
+### 🐛🚑️ Fixes
+
+- **HumblChannelPage**: making a server component
+- refresh limit not updated
+- refresh limit not updated
+- mobile dashboard responsiveness
+- overflowing dashboard
+- mobile dashboard responsiveness
+
+### 📌➕⬇️ ➖⬆️  Dependencies
+
+- **add**: react-plotly
+
+### 🧹 chore
+
+- **update**: updating version files
+
 ## v0.4.0 (2024-10-01)
 
 ### ✨ Features
