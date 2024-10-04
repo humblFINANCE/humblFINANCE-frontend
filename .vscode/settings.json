@@ -27,6 +27,10 @@
     },
     {
       "folderPath": "humblFINANCE-frontend\\frontend\\app\\(landing-page)\\login\\page.tsx\\"
+    },
+    {
+      "folderPath": "humblFINANCE-frontend/frontend/features/",
+      "badge": "✨"
     }
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
