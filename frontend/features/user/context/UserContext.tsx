@@ -6,6 +6,7 @@ import { useDisclosure } from '@nextui-org/react'
 import { createContext, useEffect, useState } from 'react'
 import { UpgradeUserModal } from '../components/UpgradeUserModal'
 import { Profile } from '../types/profile'
+import { initializeOneSignal } from '@/utils/onesignal/init-one-signal'
 
 interface UserContextType {
   user: User
@@ -55,6 +56,7 @@ export function UserProvider({
   })
 
   useEffect(() => {
+    initializeOneSignal(user.id)
     fetchProfile(user.id)
   }, [])
 
