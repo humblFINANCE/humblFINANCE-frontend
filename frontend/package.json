@@ -51,6 +51,7 @@
     "react-hook-form": "^7.52.0",
     "react-icon-cloud": "^4.1.4",
     "react-images-uploading": "^3.1.7",
+    "react-onesignal": "^3.0.1",
     "react-spring": "^9.7.4",
     "react-toastify": "^10.0.5",
     "sharp": "^0.33.5",
