@@ -26,6 +26,7 @@ const useActiveAlertData = () => {
       value,
       created_at,
       updated_at,
+      is_active,
       all_symbols:all_symbols(symbol),
       indicators:indicators(name),
       logic_conditions:logic_conditions(condition),
@@ -71,6 +72,20 @@ const useActiveAlertData = () => {
     setIsLoading(false)
   }
 
+  const toggleAlert = async (id: string, is_active: boolean) => {
+    setIsLoading(true)
+    const { error } = await supabase
+      .from('alerts')
+      .update({ is_active: !is_active })
+      .eq('alert_id', id)
+    if (error) {
+      console.error('Error toggling alert:', error)
+      return setIsLoading(false)
+    }
+    refetch()
+    setIsLoading(false)
+  }
+
   React.useEffect(() => {
     refetch()
   }, [])
@@ -80,6 +95,7 @@ const useActiveAlertData = () => {
     isLoading,
     deleteAlert,
     refetch,
+    toggleAlert,
   }
 }
 
