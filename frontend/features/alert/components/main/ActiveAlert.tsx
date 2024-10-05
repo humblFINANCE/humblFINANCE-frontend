@@ -1,5 +1,5 @@
 'use client'
-import { Spacer, useDisclosure } from '@nextui-org/react'
+import { Checkbox, Spacer, useDisclosure } from '@nextui-org/react'
 import { AgGridReact, CustomCellRendererProps } from 'ag-grid-react'
 import { useTheme } from 'next-themes'
 import React from 'react'
@@ -14,7 +14,8 @@ import ModalDetail from '@/features/alert/components/active-alert/ModalDetail'
 
 function ActiveAlert() {
   const { theme } = useTheme()
-  const { activeAlert, isLoading, deleteAlert, refetch } = useActiveAlertData()
+  const { activeAlert, isLoading, deleteAlert, refetch, toggleAlert } =
+    useActiveAlertData()
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const detailModal = useDisclosure()
   const [selectedId, setSelectedId] = React.useState<any>({})
@@ -33,6 +34,24 @@ function ActiveAlert() {
       flex: 1,
       cellRenderer: (param: CustomCellRendererProps) => {
         return <div>{formatAlert(param.data)}</div>
+      },
+    },
+    {
+      field: 'is_active',
+      headerName: 'Active',
+      minWidth: 100,
+      type: 'rightAligned',
+      cellRenderer: (param: CustomCellRendererProps) => {
+        console.log(param.data.is_active)
+
+        return (
+          <Checkbox
+            isSelected={param.data.is_active}
+            onValueChange={() =>
+              toggleAlert(param.data.alert_id, param.data.is_active)
+            }
+          />
+        )
       },
     },
     {
