@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useCallback, useState } from 'react'
-import { useHumblChannel } from '@/features/dashboard/hooks/useHumblChannel'
+import { useHumblChannel } from '@/features/dashboard/humblCHANNEL/hooks/useHumblChannel'
 import {
   Spinner,
   Autocomplete,
