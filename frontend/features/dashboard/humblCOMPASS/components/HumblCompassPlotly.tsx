@@ -236,7 +236,26 @@ export function HumblCompassPlotly({
                   ...customAnnotations,
                 ],
               }}
-              config={{ responsive: true }}
+              config={{
+                responsive: true,
+                displaylogo: false, // Remove the Plotly logo
+                modeBarButtonsToRemove: [
+                  'autoScale2d',
+                  'lasso2d',
+                  'select2d',
+                  'zoom2d',
+                  'zoomIn2d',
+                  'zoomOut2d',
+                ],
+                modeBarButtonsToAdd: ['pan2d', 'resetScale2d'],
+                toImageButtonOptions: {
+                  format: 'png',
+                  filename: 'humblCOMPASS',
+                  height: 600,
+                  width: 800,
+                  scale: 2, // Increase this for higher resolution
+                },
+              }}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
