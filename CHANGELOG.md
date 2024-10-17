@@ -1,3 +1,21 @@
+## v0.5.0 (2024-10-17)
+
+### ✨ Features
+
+- **humblCOMPASS**: added readbale country names; added plot annotations
+
+### 🐛🚑️ Fixes
+
+- **humblCOMPASS**: remove uneeded plotly modebar buttons
+
+### ♻️ Refactorings
+
+- **humblCHANNEL**: moved resources into features/humblCHANNEL folder
+
+### 🧹 chore
+
+- **version**: update versions
+
 ## v0.4.1 (2024-10-04)
 
 ### 🐛🚑️ Fixes
