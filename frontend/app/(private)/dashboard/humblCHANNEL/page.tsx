@@ -1,5 +1,5 @@
 import React from 'react'
-import { HumblChannelPage } from '@/features/dashboard/pages/HumblChannelPage'
+import { HumblChannelPage } from '@/features/dashboard/humblCHANNEL/pages/HumblChannelPage'
 
 export default function HumblChannelPageWrapper() {
   return (

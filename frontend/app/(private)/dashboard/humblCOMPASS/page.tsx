@@ -1,11 +1,10 @@
 import React from 'react'
+import { HumblCompassPage } from '@/features/dashboard/humblCOMPASS/pages/HumblCompassPage'
 
-const humblCOMPASS = () => {
+export default function HumblCompassPageWrapper() {
   return (
-    <div>
-      <h1>humblCOMPASS is being built...it should be ready within 2 weeks</h1>
+    <div className="container mx-auto p-4">
+      <HumblCompassPage />
     </div>
   )
 }
-
-export default humblCOMPASS
