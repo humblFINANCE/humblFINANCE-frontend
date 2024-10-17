@@ -10,6 +10,7 @@ interface IHumblCompassAction {
   getHumblCompass: (props: {
     country: CompassCountry
     shouldRefresh?: boolean
+    membership?: string
   }) => Promise<void>
 }
 
@@ -17,7 +18,7 @@ export const useHumblCompass = create<IHumblCompassState & IHumblCompassAction>(
   (set) => ({
     humblCompass: null,
     loading: false,
-    getHumblCompass: async ({ country, shouldRefresh }) => {
+    getHumblCompass: async ({ country, shouldRefresh, membership }) => {
       try {
         set(() => ({ loading: true }))
 
@@ -37,6 +38,9 @@ export const useHumblCompass = create<IHumblCompassState & IHumblCompassAction>(
         url.searchParams.append('start_date', '2023-01-01')
         url.searchParams.append('chart', 'true')
         url.searchParams.append('template', 'humbl_dark')
+        if (membership) {
+          url.searchParams.append('membership', membership)
+        }
 
         const response = await fetch(url.toString(), { method: 'GET', headers })
 

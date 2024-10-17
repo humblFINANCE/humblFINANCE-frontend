@@ -61,9 +61,10 @@ export function HumblCompassPlotly({
       await getHumblCompass({
         country: selectedCountry,
         shouldRefresh: props?.shouldRefresh,
+        membership: user.profile?.membership,
       })
     },
-    [getHumblCompass, selectedCountry]
+    [getHumblCompass, selectedCountry, user.profile?.membership]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -98,6 +99,7 @@ export function HumblCompassPlotly({
     await decrementRefreshLimit(user?.id!)
   }, [
     user.is_anonymous,
+    user.profile?.membership,
     openModalConvertUser,
     getRefreshLimit,
     user?.id,
