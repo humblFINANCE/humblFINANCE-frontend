@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useCallback, useState } from 'react'
-import { useHumblChannel } from '@/features/dashboard/humblCHANNEL/hooks/useHumblChannel'
+import React, { useEffect, useCallback, useState, useMemo } from 'react'
+import { useHumblCompass } from '../hooks/useHumblCompass'
 import {
   Spinner,
   Autocomplete,
@@ -11,57 +11,59 @@ import {
 } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
-import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
-import { useDebouncedCallback } from 'use-debounce'
 import { InlineIcon } from '@iconify/react'
 import { useUser } from '@/features/user/hooks/use-user'
 import { useRefreshLimit } from '@/components/(dashboard)/portfolio/hooks/useRefreshLimit'
 import { toast } from 'react-toastify'
+import {
+  COMPASS_COUNTRIES,
+  CompassCountry,
+  getDisplayName,
+  getCountryValue,
+} from '../constants/compass_countries'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
-interface HumblChannelPlotlyProps {
-  initialSymbol: string
-  onSymbolChange: (symbol: string) => void
+interface HumblCompassPlotlyProps {
+  initialCountry: CompassCountry
+  onCountryChange: (country: CompassCountry) => void
 }
 
-export function HumblChannelPlotly({
-  initialSymbol,
-  onSymbolChange,
-}: HumblChannelPlotlyProps) {
-  const [selectedSymbol, setSelectedSymbol] = useState<string>(initialSymbol)
-  const getHumblChannel = useHumblChannel((store) => store.getHumblChannel)
-  const humblChannel = useHumblChannel((store) => store.humblChannel)
-  const loading = useHumblChannel((store) => store.loading)
+export function HumblCompassPlotly({
+  initialCountry,
+  onCountryChange,
+}: HumblCompassPlotlyProps) {
+  const [selectedCountry, setSelectedCountry] =
+    useState<CompassCountry>(initialCountry)
+  const getHumblCompass = useHumblCompass((store) => store.getHumblCompass)
+  const humblCompass = useHumblCompass((store) => store.humblCompass)
+  const loading = useHumblCompass((store) => store.loading)
   const { theme } = useTheme()
-  const { all_symbols, findSymbols, loading: loadingSymbols } = useTickerStore()
   const { user, openModalConvertUser } = useUser()
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
 
-  const debounced = useDebouncedCallback((value) => {
-    findSymbols(value)
-  }, 300)
-
   const handleSelectionChange = useCallback(
     (key: React.Key | null) => {
       if (key) {
-        setSelectedSymbol(key as string)
-        onSymbolChange(key as string)
+        const countryValue = getCountryValue(key as string)
+        if (countryValue) {
+          setSelectedCountry(countryValue)
+          onCountryChange(countryValue)
+        }
       }
     },
-    [onSymbolChange]
+    [onCountryChange]
   )
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
-      const params = {
-        symbols: selectedSymbol,
-        chart: 'true',
-      }
-      await getHumblChannel({ params, shouldRefresh: props?.shouldRefresh })
+      await getHumblCompass({
+        country: selectedCountry,
+        shouldRefresh: props?.shouldRefresh,
+      })
     },
-    [getHumblChannel, selectedSymbol]
+    [getHumblCompass, selectedCountry]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -115,37 +117,70 @@ export function HumblChannelPlotly({
     )
   }
 
-  const plotData = humblChannel?.data || []
-  const plotLayout = humblChannel?.layout || { autosize: true }
+  const plotData = humblCompass?.data || []
+  const plotLayout = humblCompass?.layout || { autosize: true }
+
+  // Add custom annotations
+  const customAnnotations = [
+    {
+      x: (plotLayout.xaxis?.range?.[0] || 0) / 2,
+      y: (plotLayout.yaxis?.range?.[1] || 0) / 2,
+      text: 'humblBOOM',
+      showarrow: false,
+      font: { size: 20, color: 'rgba(144, 238, 144, 0.5)' },
+      opacity: 0.5,
+    },
+    {
+      x: (plotLayout.xaxis?.range?.[1] || 0) / 2,
+      y: (plotLayout.yaxis?.range?.[1] || 0) / 2,
+      text: 'humblBOUNCE',
+      showarrow: false,
+      font: { size: 20, color: 'rgba(173, 216, 230, 0.5)' },
+      opacity: 0.5,
+    },
+    {
+      x: (plotLayout.xaxis?.range?.[1] || 0) / 2,
+      y: (plotLayout.yaxis?.range?.[0] || 0) / 2,
+      text: 'humblBLOAT',
+      showarrow: false,
+      font: { size: 20, color: 'rgba(255, 165, 0, 0.5)' },
+      opacity: 0.5,
+    },
+    {
+      x: (plotLayout.xaxis?.range?.[0] || 0) / 2,
+      y: (plotLayout.yaxis?.range?.[0] || 0) / 2,
+      text: 'humblBUST',
+      showarrow: false,
+      font: { size: 20, color: 'rgba(255, 99, 71, 0.5)' },
+      opacity: 0.5,
+    },
+  ]
 
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
       <div className="flex items-center gap-4 w-full bg-gray-800 rounded-lg">
         <div className="flex-grow">
           <Autocomplete
-            label="Select Symbol"
+            label="Select Country"
             placeholder="Type to search..."
             className="w-full"
             size="sm"
             radius="lg"
             isClearable={true}
-            defaultItems={all_symbols}
-            isLoading={loadingSymbols}
-            selectedKey={selectedSymbol}
+            defaultItems={COMPASS_COUNTRIES}
+            selectedKey={getDisplayName(selectedCountry)}
             onSelectionChange={handleSelectionChange}
-            onInputChange={debounced}
-            allowsCustomValue={true}
           >
             {(item) => (
-              <AutocompleteItem key={item.symbol} textValue={item.symbol}>
-                {item.symbol} : {item.name}
+              <AutocompleteItem key={item.display} textValue={item.display}>
+                {item.display}
               </AutocompleteItem>
             )}
           </Autocomplete>
         </div>
-        <Tooltip color="default" content="humblCHANNEL Parameters">
+        <Tooltip color="default" content="humblCOMPASS Parameters">
           <Button
-            id="settings-humblchannel"
+            id="settings-humblcompass"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{ opacity: 1 }}
             size="lg"
@@ -158,9 +193,9 @@ export function HumblChannelPlotly({
             }
           ></Button>
         </Tooltip>
-        <Tooltip color="default" content="Refresh humblCHANNEL">
+        <Tooltip color="default" content="Refresh humblCOMPASS">
           <Button
-            id="refresh-humblchannel"
+            id="refresh-humblcompass"
             className="bg-clip text-white-500 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 shadow-lg"
             style={{ opacity: 1 }}
             onPress={handleRefresh}
@@ -173,12 +208,10 @@ export function HumblChannelPlotly({
                 className="text-3xl"
               />
             }
-          >
-            {/* <div className="hidden lg:block">Refresh</div> */}
-          </Button>
+          ></Button>
         </Tooltip>
       </div>
-      {humblChannel ? (
+      {humblCompass ? (
         plotData.length > 0 ? (
           <div className="flex-grow w-full" style={{ height: '600px' }}>
             <Plot
@@ -197,11 +230,32 @@ export function HumblChannelPlotly({
                   ...plotLayout.yaxis,
                   color: theme === 'dark' ? 'white' : 'black',
                 },
-                title: {
-                  text: ``,
+                title: {}, // This will remove the title from the plot
+                annotations: [
+                  ...(plotLayout.annotations || []),
+                  ...customAnnotations,
+                ],
+              }}
+              config={{
+                responsive: true,
+                displaylogo: false, // Remove the Plotly logo
+                modeBarButtonsToRemove: [
+                  'autoScale2d',
+                  'lasso2d',
+                  'select2d',
+                  'zoom2d',
+                  'zoomIn2d',
+                  'zoomOut2d',
+                ],
+                modeBarButtonsToAdd: ['pan2d', 'resetScale2d'],
+                toImageButtonOptions: {
+                  format: 'png',
+                  filename: 'humblCOMPASS',
+                  height: 600,
+                  width: 800,
+                  scale: 2, // Increase this for higher resolution
                 },
               }}
-              config={{ responsive: true }}
               style={{ width: '100%', height: '100%' }}
             />
           </div>
@@ -209,10 +263,10 @@ export function HumblChannelPlotly({
           <div>No chart data available</div>
         )
       ) : (
-        <div>No data available. Please select a symbol.</div>
+        <div>No data available. Please select a country.</div>
       )}
     </div>
   )
 }
 
-export default HumblChannelPlotly
+export default HumblCompassPlotly
