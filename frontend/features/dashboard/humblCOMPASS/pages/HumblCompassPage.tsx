@@ -1,8 +1,11 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import HumblCompassPlotly from '../components/HumblCompassPlotly'
-import { CompassCountry, getDisplayName } from '../constants/compass_countries'
+import HumblCompassPlotly from '@/features/dashboard/humblCOMPASS/components/HumblCompassPlotly'
+import {
+  CompassCountry,
+  getDisplayName,
+} from '@/features/dashboard/humblCOMPASS/constants/compass_countries'
 
 export function HumblCompassPage() {
   const [selectedCountry, setSelectedCountry] =

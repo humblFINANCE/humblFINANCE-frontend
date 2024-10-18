@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useCallback, useState, useMemo } from 'react'
-import { useHumblCompass } from '../hooks/useHumblCompass'
+import React, { useEffect, useCallback, useState } from 'react'
+import { useHumblCompass } from '@/features/dashboard/humblCOMPASS/hooks/useHumblCompass'
 import {
   Spinner,
   Autocomplete,
@@ -20,7 +20,7 @@ import {
   CompassCountry,
   getDisplayName,
   getCountryValue,
-} from '../constants/compass_countries'
+} from '@/features/dashboard/humblCOMPASS/constants/compass_countries'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
