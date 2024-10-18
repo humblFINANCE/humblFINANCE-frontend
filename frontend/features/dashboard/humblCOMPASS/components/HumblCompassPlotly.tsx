@@ -39,9 +39,21 @@ export function HumblCompassPlotly({
   const humblCompass = useHumblCompass((store) => store.humblCompass)
   const loading = useHumblCompass((store) => store.loading)
   const { theme } = useTheme()
-  const { user, openModalConvertUser } = useUser()
+  const { user, profile, openModalConvertUser } = useUser()
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
+
+  // Function to get the correct membership
+  const getMembership = useCallback(() => {
+    return user.is_anonymous ? 'anonymous' : profile?.membership
+  }, [user.is_anonymous, profile?.membership])
+
+  // Add console logs here
+  useEffect(() => {
+    console.log('User ID:', user.id)
+    console.log('Membership:', getMembership())
+    console.log('Is Anonymous:', user.is_anonymous)
+  }, [user, profile, getMembership])
 
   const handleSelectionChange = useCallback(
     (key: React.Key | null) => {
@@ -58,13 +70,16 @@ export function HumblCompassPlotly({
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
+      // Add console log here
+      const membership = getMembership()
+      console.log('getData called with membership:', membership)
       await getHumblCompass({
         country: selectedCountry,
         shouldRefresh: props?.shouldRefresh,
-        membership: user.profile?.membership,
+        membership: membership,
       })
     },
-    [getHumblCompass, selectedCountry, user.profile?.membership]
+    [getHumblCompass, selectedCountry, getMembership]
   )
 
   const handleRefresh = useCallback(async () => {
@@ -99,7 +114,6 @@ export function HumblCompassPlotly({
     await decrementRefreshLimit(user?.id!)
   }, [
     user.is_anonymous,
-    user.profile?.membership,
     openModalConvertUser,
     getRefreshLimit,
     user?.id,
