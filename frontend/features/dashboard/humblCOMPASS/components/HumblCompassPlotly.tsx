@@ -8,6 +8,7 @@ import {
   AutocompleteItem,
   Button,
   Tooltip,
+  useDisclosure,
 } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
@@ -21,6 +22,8 @@ import {
   getDisplayName,
   getCountryValue,
 } from '@/features/dashboard/humblCOMPASS/constants/compass_countries'
+import { HumblCompassParameterModal } from './HumblCompassParameterModal'
+import { today, CalendarDate } from '@internationalized/date'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -42,6 +45,13 @@ export function HumblCompassPlotly({
   const { user, profile, openModalConvertUser } = useUser()
   const { decrementRefreshLimit, getRefreshLimit } = useRefreshLimit()
   const [isLoadingRefreshLimit, setIsLoadingRefreshLimit] = useState(false)
+  const defaultStartDate = useCallback(() => {
+    const oneYearAgo = today('UTC').subtract({ years: 1 })
+    return oneYearAgo.toString()
+  }, [])
+
+  const [startDate, setStartDate] = useState(defaultStartDate())
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   // Function to get the correct membership
   const getMembership = useCallback(() => {
@@ -70,16 +80,16 @@ export function HumblCompassPlotly({
 
   const getData = useCallback(
     async (props?: { shouldRefresh?: boolean }) => {
-      // Add console log here
       const membership = getMembership()
       console.log('getData called with membership:', membership)
       await getHumblCompass({
         country: selectedCountry,
         shouldRefresh: props?.shouldRefresh,
         membership: membership,
+        startDate: startDate, // Add this line
       })
     },
-    [getHumblCompass, selectedCountry, getMembership]
+    [getHumblCompass, selectedCountry, getMembership, startDate] // Add startDate to dependencies
   )
 
   const handleRefresh = useCallback(async () => {
@@ -218,13 +228,14 @@ export function HumblCompassPlotly({
             style={{ opacity: 1 }}
             size="lg"
             isIconOnly
+            onPress={onOpen} // Add this line
             endContent={
               <InlineIcon
                 icon="solar:settings-line-duotone"
                 className="text-3xl"
               />
             }
-          ></Button>
+          />
         </Tooltip>
         <Tooltip color="default" content="Refresh humblCOMPASS">
           <Button
@@ -303,6 +314,15 @@ export function HumblCompassPlotly({
       ) : (
         <div>No data available. Please select a country.</div>
       )}
+      <HumblCompassParameterModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onStartDateChange={(date) => {
+          setStartDate(date)
+          getData({ shouldRefresh: true })
+        }}
+        currentStartDate={startDate}
+      />
     </div>
   )
 }

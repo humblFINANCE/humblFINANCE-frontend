@@ -11,6 +11,7 @@ interface IHumblCompassAction {
     country: CompassCountry
     shouldRefresh?: boolean
     membership?: string
+    startDate: string
   }) => Promise<void>
 }
 
@@ -18,7 +19,12 @@ export const useHumblCompass = create<IHumblCompassState & IHumblCompassAction>(
   (set) => ({
     humblCompass: null,
     loading: false,
-    getHumblCompass: async ({ country, shouldRefresh, membership }) => {
+    getHumblCompass: async ({
+      country,
+      shouldRefresh,
+      membership,
+      startDate,
+    }) => {
       try {
         set(() => ({ loading: true }))
 
@@ -35,7 +41,7 @@ export const useHumblCompass = create<IHumblCompassState & IHumblCompassAction>(
 
         const url = new URL('https://api.humblfinance.io/api/v1/humbl-compass')
         url.searchParams.append('country', country)
-        url.searchParams.append('start_date', '2023-01-01')
+        url.searchParams.append('start_date', startDate)
         url.searchParams.append('chart', 'true')
         url.searchParams.append('template', 'humbl_dark')
         if (membership) {
