@@ -158,6 +158,23 @@ export function HumblCompassPlotly({
     },
   ]
 
+  // Determine the color based on the theme
+  const themeColor = theme === 'dark' ? 'white' : 'black'
+
+  // Update the plot data to change line and text colors
+  const updatedPlotData = plotData.map((trace: any) => ({
+    ...trace,
+    line: { ...trace.line, color: themeColor },
+    textfont: { ...trace.textfont, color: themeColor },
+  }))
+
+  // Update the shapes to change their line colors
+  const updatedShapes =
+    plotLayout.shapes?.map((shape: any) => ({
+      ...shape,
+      line: { ...shape.line, color: themeColor },
+    })) || []
+
   return (
     <div className="h-full flex flex-col gap-4 pt-4">
       <div className="flex items-center gap-4 w-full bg-gray-800 rounded-lg">
@@ -217,21 +234,26 @@ export function HumblCompassPlotly({
         plotData.length > 0 ? (
           <div className="flex-grow w-full" style={{ height: '600px' }}>
             <Plot
-              data={plotData}
+              data={updatedPlotData}
               layout={{
                 ...plotLayout,
                 autosize: true,
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
-                font: { color: theme === 'dark' ? 'white' : 'black' },
+                font: { color: themeColor },
                 xaxis: {
                   ...plotLayout.xaxis,
-                  color: theme === 'dark' ? 'white' : 'black',
+                  color: themeColor,
+                  zerolinecolor: themeColor,
+                  gridcolor: 'rgba(0,0,0,0.1)',
                 },
                 yaxis: {
                   ...plotLayout.yaxis,
-                  color: theme === 'dark' ? 'white' : 'black',
+                  color: themeColor,
+                  zerolinecolor: themeColor,
+                  gridcolor: 'rgba(0,0,0,0.1)',
                 },
+                shapes: updatedShapes,
                 title: {}, // This will remove the title from the plot
                 annotations: [
                   ...(plotLayout.annotations || []),
