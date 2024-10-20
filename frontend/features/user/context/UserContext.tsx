@@ -37,6 +37,8 @@ export function UserProvider({
 
     if (Array.isArray(data) && data.length) {
       getRefreshLimit(data[0].id)
+      await initializeOneSignal(data[0].id)
+
       setCtx((prev) => ({
         ...prev,
         isProfileLoaded: true,
@@ -56,7 +58,6 @@ export function UserProvider({
   })
 
   useEffect(() => {
-    initializeOneSignal(user.id)
     fetchProfile(user.id)
   }, [])
 

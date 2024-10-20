@@ -56,8 +56,6 @@ function CreateAlert() {
     findSymbols('A')
   }, [])
 
-  console.log('form', watch())
-
   return (
     <div className="w-full h-full p-4">
       <h2 className="text-3xl ">Create New Alert</h2>
@@ -150,26 +148,23 @@ function CreateAlert() {
               <Select
                 label="Select Value"
                 className="max-w-xs"
-                disabledKeys={[
-                  dataIndicator.find(
-                    (item) => item.indicator_id === +watch('indicator_id')
-                  )?.name || '',
-                ]}
                 {...field}
                 selectedKeys={[field.value || '']}
               >
-                {dataIndicator.length > 0 ? (
-                  dataIndicator.map((indicator) => (
-                    <SelectItem
-                      key={indicator.name}
-                      value={indicator.indicator_id}
-                    >
-                      {formatNoUnderscore(indicator.name)}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key="">No Condition Available</SelectItem>
-                )}
+                {[
+                  {
+                    name: 'Current Price',
+                    value: 'current_price',
+                  },
+                  {
+                    name: 'Yesterday Close',
+                    value: 'yesterday_close',
+                  },
+                ].map((value) => (
+                  <SelectItem key={value.value} value={value.value}>
+                    {value.name}
+                  </SelectItem>
+                ))}
               </Select>
             )}
           />

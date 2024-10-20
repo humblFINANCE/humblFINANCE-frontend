@@ -11,6 +11,9 @@ export const initializeOneSignal = async (uid: string) => {
 
     allowLocalhostAsSecureOrigin: true,
   })
+  console.log('OneSignal initialized')
 
   await OneSignal.login(uid)
+  await OneSignal.Notifications.requestPermission()
+  await OneSignal.Slidedown.promptPush()
 }

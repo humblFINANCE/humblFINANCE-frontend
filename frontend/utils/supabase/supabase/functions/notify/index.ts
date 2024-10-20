@@ -9,12 +9,6 @@ import * as OneSignal from 'https://esm.sh/@onesignal/node-onesignal@1.0.0-beta7
 const _OnesignalAppId_ = Deno.env.get('ONESIGNAL_APP_ID')!
 const _OnesignalUserAuthKey_ = Deno.env.get('USER_AUTH_KEY')!
 const _OnesignalRestApiKey_ = Deno.env.get('ONESIGNAL_REST_API_KEY')!
-const configuration = OneSignal.createConfiguration({
-  userKey: _OnesignalUserAuthKey_,
-  appKey: _OnesignalRestApiKey_,
-})
-
-const onesignal = new OneSignal.DefaultApi(configuration)
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -27,28 +21,49 @@ serve(async (req) => {
     })
   }
   try {
-    const { message, user_id } = await req.json()
+    const body = await req.text()
 
-    // Build OneSignal notification object
-    const notification = new OneSignal.Notification()
-    notification.app_id = _OnesignalAppId_
-    notification.include_external_user_ids = [user_id]
-    notification.contents = {
-      en: message,
-    }
-    const onesignalApiRes = await onesignal.createNotification(notification)
+    console.log(_OnesignalAppId_, _OnesignalUserAuthKey_, _OnesignalRestApiKey_)
 
-    return new Response(
-      JSON.stringify({ onesignalResponse: onesignalApiRes }),
-      {
+    const { message, user_id, title, type } = JSON.parse(body)
+
+    if (type === 'PUSH') {
+      // Build OneSignal notification object
+      const res = await fetch('https://api.onesignal.com/notifications', {
+        body: JSON.stringify({
+          app_id: _OnesignalAppId_,
+          contents: {
+            en: message,
+          },
+          headings: {
+            en: title,
+          },
+          target_channel: 'push',
+          include_external_user_ids: [user_id],
+        }),
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers':
-            'authorization, x-client-info, apikey, content-type',
+          'Authorization': 'Basic ' + _OnesignalRestApiKey_,
         },
-      }
-    )
+      })
+
+      const response = await res.json()
+      console.log(response)
+
+      return new Response(
+        // JSON.stringify({ onesignalResponse: 'success' }),
+        JSON.stringify({ onesignalResponse: response }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers':
+              'authorization, x-client-info, apikey, content-type',
+          },
+        }
+      )
+    }
   } catch (err) {
     console.error('Failed to create OneSignal notification', err)
     return new Response('Server error.', {
