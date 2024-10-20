@@ -1,24 +1,22 @@
+import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
+import {
+  useDataAction,
+  useDataIndicator,
+  useDataLogic,
+} from '@/features/alert/hooks/useDataAlert'
+import useCreateAlert from '@/features/alert/hooks/useFormAlert'
+import { IAlertForm } from '@/features/alert/types/alert'
+import { formatNoUnderscore } from '@/utils/common/formatString'
 import {
   Autocomplete,
   AutocompleteItem,
   Button,
   Select,
   SelectItem,
-  Selection,
   Spacer,
 } from '@nextui-org/react'
-import { IAlertForm } from '@/features/alert/types/alert'
-import { useEffect, useMemo, useState } from 'react'
-import {
-  useDataAction,
-  useDataIndicator,
-  useDataLogic,
-  useDataSymbol,
-} from '@/features/alert/hooks/useDataAlert'
-import useCreateAlert from '@/features/alert/hooks/useFormAlert'
+import { useEffect, useState } from 'react'
 import { Controller } from 'react-hook-form'
-import { useTickerStore } from '@/components/(dashboard)/portfolio/hooks/useTickerStore'
-import { formatNoUnderscore } from '@/utils/common/formatString'
 
 function CreateAlert() {
   const { control, handleSubmit, onSubmit, watch } = useCreateAlert()
@@ -34,6 +32,7 @@ function CreateAlert() {
     logic: '',
     value: 0,
     action: '',
+    alert_type: '',
   } satisfies IAlertForm)
 
   const handleChange = (key: string, value: string) => {
@@ -62,6 +61,24 @@ function CreateAlert() {
       <Spacer y={3} />
       <form className="mt-3">
         <div className="flex gap-4 flex-wrap">
+          <Controller
+            control={control}
+            name="alert_type"
+            render={({ field }) => (
+              <Select
+                label="Alert Type"
+                className="max-w-xs"
+                defaultSelectedKeys={'BUY'}
+                {...field}
+              >
+                {['BUY', 'SELL'].map((indicator) => (
+                  <SelectItem key={indicator} value={indicator}>
+                    {indicator}
+                  </SelectItem>
+                ))}
+              </Select>
+            )}
+          />
           <Controller
             control={control}
             name="symbol_id"
@@ -150,21 +167,17 @@ function CreateAlert() {
                 className="max-w-xs"
                 {...field}
                 selectedKeys={[field.value || '']}
+                disabledKeys={[watch('indicator_id')]}
               >
-                {[
-                  {
-                    name: 'Current Price',
-                    value: 'current_price',
-                  },
-                  {
-                    name: 'Yesterday Close',
-                    value: 'yesterday_close',
-                  },
-                ].map((value) => (
-                  <SelectItem key={value.value} value={value.value}>
-                    {value.name}
-                  </SelectItem>
-                ))}
+                {dataIndicator.length > 0 ? (
+                  dataIndicator.map((indicator) => (
+                    <SelectItem key={indicator.name} value={indicator.name}>
+                      {formatNoUnderscore(indicator.name)}
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem key="">No Condition Available</SelectItem>
+                )}
               </Select>
             )}
           />

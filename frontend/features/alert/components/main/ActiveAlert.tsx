@@ -42,8 +42,6 @@ function ActiveAlert() {
       minWidth: 100,
       type: 'rightAligned',
       cellRenderer: (param: CustomCellRendererProps) => {
-        console.log(param.data.is_active)
-
         return (
           <Checkbox
             isSelected={param.data.is_active}

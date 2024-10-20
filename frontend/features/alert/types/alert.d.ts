@@ -4,6 +4,7 @@ export interface IAlertForm extends Record<string, string | number> {
   logic: string
   action: string
   value: number
+  alert_type: string
 }
 
 export type TAlertSymbol = {

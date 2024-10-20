@@ -17,33 +17,36 @@ export const NotificationsDropdown = () => {
   const supabase = createClient()
   const auth = useUser()
   const [notifications, setNotifications] = useState<any[]>([])
-  const sendNotification = useCallback(async (message: string) => {
-    try {
-      const res = await fetch(
-        // this one should be put in .env
-        'https://loavwylgjranxanmktaa.supabase.co/functions/v1/notify',
-        // 'http://localhost:54321/functions/v1/notify',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            message: message,
-            user_id: auth.user.id,
-            type: 'PUSH', //EMAIL | PUSH | SMS
-            title: 'humblALERTS',
-          }),
-        }
-      )
-      const response = await res.json()
+  const sendNotification = useCallback(
+    async (message: string, title: string, type: string) => {
+      try {
+        const res = await fetch(
+          // this one should be put in .env
+          'https://loavwylgjranxanmktaa.supabase.co/functions/v1/notify',
+          // 'http://localhost:54321/functions/v1/notify',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              message: message,
+              user_id: auth.user.id,
+              type: 'PUSH', //EMAIL | PUSH | SMS
+              title: title,
+            }),
+          }
+        )
+        const response = await res.json()
 
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
+        console.log(response)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    []
+  )
 
   const fetchUnreadNotifications = useCallback(
     async (alert_id?: string) => {
@@ -58,6 +61,7 @@ export const NotificationsDropdown = () => {
               created_at,
               updated_at,
               is_active,
+              alert_type,
               all_symbols:all_symbols(symbol),
               indicators:indicators(name),
               logic_conditions:logic_conditions(condition),
@@ -82,7 +86,11 @@ export const NotificationsDropdown = () => {
         if (alerts.error) {
           return
         }
-        await sendNotification('this is alerts from humbl')
+        await sendNotification(
+          formatAlertNotification(alerts.data[0]),
+          alerts.data[0].alert_type + ' Alert',
+          alerts.data[0].alert_actions[0].actions.name
+        )
       }
 
       if (alerts.error) {
@@ -95,13 +103,12 @@ export const NotificationsDropdown = () => {
         alertHistory.push(
           ...alert.alert_history.map((history) => ({
             id: history.history_id,
-            type: 'Symbol Alert',
+            type: alert.alert_type + ' Alert',
             message: formatAlertNotification(alert),
           }))
         )
       }
 
-      console.log('ALERT HISTORY', alertHistory)
       // TODO - format message as a notification
 
       setNotifications(alertHistory)

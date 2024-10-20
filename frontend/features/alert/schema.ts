@@ -8,6 +8,7 @@ export const alertSchema = z.object({
   logic_id: z.string(),
   value: z.string().min(0),
   action_id: z.string(),
+  alert_type: z.string(),
 })
 
 export type AlertFormData = z.infer<typeof alertSchema>

@@ -5,5 +5,5 @@ export function formatAlert(alert: any) {
 }
 
 export function formatAlertNotification(alert: any) {
-  return `${formatNoUnderscore(alert?.all_symbols?.symbol)}  ${formatNoUnderscore(alert.indicators.name)} is ${formatNoUnderscore(alert.logic_conditions.condition)}  ${formatNoUnderscore(alert.value)}, time to `
+  return `${formatNoUnderscore(alert?.all_symbols?.symbol)}  ${formatNoUnderscore(alert.indicators.name)} is ${formatNoUnderscore(alert.logic_conditions.condition)}  ${formatNoUnderscore(alert.value)}, time to ${alert.alert_type} `
 }

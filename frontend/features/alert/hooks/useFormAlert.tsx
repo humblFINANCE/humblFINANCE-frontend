@@ -32,10 +32,12 @@ const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
       Object.entries(data)
         .map(([key, value]) => [
           key,
-          key === 'user_id' || key === 'value' ? value : +value,
+          ['user_id', 'value', 'alert_type'].includes(key) ? value : +value,
         ])
         .filter(([key, value]) => key !== 'action_id')
     )
+
+    console.log(data, body)
 
     const alertInsert = await supabase.from('alerts').insert([body]).select()
     if (alertInsert.error) {
@@ -58,6 +60,7 @@ const useCreateAlert = (alert_id?: string, onOpenChange?: () => void) => {
       return
     } else {
       reset({
+        alert_type: '',
         action_id: '',
         symbol_id: '',
         indicator_id: '',

@@ -21,6 +21,7 @@ import {
 import { IAlertForm } from '@/features/alert/types/alert'
 import { Controller } from 'react-hook-form'
 import VALUE_TYPE from '@/features/alert/constants/VALUE_TYPE'
+import { formatNoUnderscore } from '@/utils/common/formatString'
 
 interface Props {
   onOpenChange: () => void
@@ -48,6 +49,7 @@ const ModalDetail: React.FC<Props> = ({ isOpen, onOpenChange, data }) => {
     logic: '',
     value: 0,
     action: '',
+    alert_type: '',
   } satisfies IAlertForm)
 
   React.useEffect(() => {
@@ -75,7 +77,7 @@ const ModalDetail: React.FC<Props> = ({ isOpen, onOpenChange, data }) => {
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Delete Alert
+              Detail Alert
             </ModalHeader>
             <ModalBody>
               <form className="mt-3 w-full">
@@ -168,20 +170,26 @@ const ModalDetail: React.FC<Props> = ({ isOpen, onOpenChange, data }) => {
                     control={control}
                     name="value"
                     render={({ field }) => (
-                      <Autocomplete
-                        allowsCustomValue
-                        label="Select Value Type"
+                      <Select
+                        label="Select Value"
                         className="max-w-xs"
-                        defaultItems={VALUE_TYPE}
-                        onInputChange={(value) => field.onChange(value)}
-                        isDisabled={!isEdit}
+                        {...field}
+                        selectedKeys={[field.value || '']}
+                        disabledKeys={[watch('indicator_id')]}
                       >
-                        {(value) => (
-                          <AutocompleteItem key={value.key}>
-                            {value.label}
-                          </AutocompleteItem>
+                        {dataIndicator.length > 0 ? (
+                          dataIndicator.map((indicator) => (
+                            <SelectItem
+                              key={indicator.indicator_id}
+                              value={indicator.indicator_id}
+                            >
+                              {formatNoUnderscore(indicator.name)}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem key="">No Condition Available</SelectItem>
                         )}
-                      </Autocomplete>
+                      </Select>
                     )}
                   />
                   <Controller
