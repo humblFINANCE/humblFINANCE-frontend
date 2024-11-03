@@ -67,7 +67,7 @@ function HistoryAlert() {
       .from('alerts')
       .select(
         `
-              alert_id,
+             alert_id,
               user_id,
               symbol_id,
               indicator_id,
@@ -76,6 +76,7 @@ function HistoryAlert() {
               created_at,
               updated_at,
               is_active,
+              alert_type,
               all_symbols:all_symbols(symbol),
               indicators:indicators(name),
               logic_conditions:logic_conditions(condition),
@@ -97,6 +98,7 @@ function HistoryAlert() {
           id: history.history_id,
           alert: formatAlertNotification(alert),
           fired_at: history.fired_at,
+          // @ts-ignore
           symbol: alert.all_symbols.symbol,
         }))
       )

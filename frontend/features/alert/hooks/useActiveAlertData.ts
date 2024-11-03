@@ -19,6 +19,7 @@ const useActiveAlertData = () => {
       .select(
         `
       alert_id,
+      alert_type,
       user_id,
       symbol_id,
       indicator_id,

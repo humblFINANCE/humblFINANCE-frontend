@@ -116,9 +116,13 @@ function CreateAlert() {
               <Select
                 label="Select Indicator"
                 className="max-w-xs"
-                disabledKeys={['']}
                 {...field}
                 selectedKeys={[field.value || '']}
+                disabledKeys={[
+                  dataIndicator
+                    .filter((i) => i.name === watch('value'))[0]
+                    ?.indicator_id?.toString() || '',
+                ]}
               >
                 {dataIndicator.length > 0 ? (
                   dataIndicator.map((indicator) => (
@@ -167,7 +171,11 @@ function CreateAlert() {
                 className="max-w-xs"
                 {...field}
                 selectedKeys={[field.value || '']}
-                disabledKeys={[watch('indicator_id')]}
+                disabledKeys={[
+                  dataIndicator.filter(
+                    (i) => i.indicator_id === +watch('indicator_id')
+                  )[0]?.name || '',
+                ]}
               >
                 {dataIndicator.length > 0 ? (
                   dataIndicator.map((indicator) => (

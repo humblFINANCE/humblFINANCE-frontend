@@ -89,6 +89,7 @@ export const NotificationsDropdown = () => {
         await sendNotification(
           formatAlertNotification(alerts.data[0]),
           alerts.data[0].alert_type + ' Alert',
+          // @ts-ignore
           alerts.data[0].alert_actions[0].actions.name
         )
       }
